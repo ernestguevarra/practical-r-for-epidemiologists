@@ -206,3 +206,19 @@ A more descriptive title might be "Weight Change BY Considered Suicide".
 
 The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.
 
+We can look at the distribution as histograms:
+
+```{r, eval = TRUE}
+hist(WT[LIFE == 1])
+```
+
+```{r, eval = TRUE}
+hist(WT[LIFE == 2])
+```
+
+and check the assumption of normality using quantile-quantile plots:
+  
+```{r, eval = TRUE}
+qqnorm(WT[LIFE == 1])
+```
+
