@@ -183,16 +183,26 @@ attach(fem)
 
 We can now refer to the columns in the `fem` data.frame without having to specify the name of the data.frame. This time we will produce summary statistics for `WT` by `LIFE`:
 
-```{r, eval}
+```{r, eval = TRUE}
 by(WT, LIFE, summary)
+```
 
 We can view the same data as a box and whisker plot:
-   boxplot(WT ~ LIFE)
+
+```{r, eval = TRUE}
+boxplot(WT ~ LIFE)
+```
+
 We can add axis labels and a title to the graph:
-   boxplot(WT ~ LIFE,
-           xlab = "Life",
-           ylab = "Weight",
-           main = "Weight BY Life")
+
+```{r, eval = TRUE}
+boxplot(WT ~ LIFE,
+        xlab = "Life",
+        ylab = "Weight",
+        main = "Weight BY Life")
+```
+
 A more descriptive title might be "Weight Change BY Considered Suicide".
+
 The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.
 
