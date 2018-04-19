@@ -155,7 +155,7 @@ read.table("c:\\example\\fem.dat", header = TRUE)
 will retrieve the data that is stored in the file named `fem.dat` which is stored in the `example` directory off the root directory of the `C:` drive. The Windows version of `R` also allows you to specify UNIX-style path names (i.e. using the forward slash (`/`) character as a separator in file paths). For example:
 
 ```{r, eval = FALSE}
-read.table("c:/exampmle/fem.dat", header = TRUE)
+read.table("c:/example/fem.dat", header = TRUE)
 ```
 
 Path names may include shortcut characters such as:
