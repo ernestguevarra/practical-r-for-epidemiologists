@@ -629,9 +629,27 @@ for female psychiatric patients.
 
 The columns in the dataset are:
 
-+----------+----------------------------------------------------------------------------------------------------+
-\textbar{} \textbf{ID} \textbar{} Patient ID \textbar{}
-+==========+====================================================================================================+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.09\columnwidth}\raggedright
+\textbf{ID}\strut
+\end{minipage} & \begin{minipage}[b]{0.85\columnwidth}\raggedright
+Patient ID\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.09\columnwidth}\raggedright
+\textbf{AGE}\strut
+\end{minipage} & \begin{minipage}[t]{0.85\columnwidth}\raggedright
+Age in years\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.09\columnwidth}\raggedright
+\textbf{IQ}\strut
+\end{minipage} & \begin{minipage}[t]{0.85\columnwidth}\raggedright
+IQ score\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
 
 AGE Age in years IQ IQ score ANX Anxiety (1=none, 2=mild, 3=moderate,
 4=severe) DEP Depression (1=none, 2=mild, 3=moderate or severe) SLP
