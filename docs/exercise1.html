@@ -125,7 +125,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introducing-r"><i class="fa fa-check"></i><b>1.1</b> Introducing R</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#retrieving-data"><i class="fa fa-check"></i><b>1.2</b> Retrieving data</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>2</b> Getting acquainted with R</a></li>
+<li class="chapter" data-level="2" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>2</b> Getting acquainted with R</a><ul>
+<li class="chapter" data-level="2.1" data-path="exercise1.html"><a href="exercise1.html#summary"><i class="fa fa-check"></i><b>2.1</b> Summary</a></li>
+</ul></li>
 <li class="divider"></li>
 <li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
 
@@ -620,7 +622,123 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
 ## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06</code></pre>
 <p>We use the <code>summary()</code> function here to extract summary information from the output of the <code>lm()</code> function.</p>
+<p>It is often more useful to use <code>lm()</code> to create an object:</p>
+<pre class="sourceCode r" id="cb123"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a></code></pre>
+<p>And use the output in other functions:</p>
+<pre class="sourceCode r" id="cb124"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">summary</span>(fem.lm)</a></code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = WT ~ AGE)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.10678 -0.85922 -0.05453  0.71434  2.70874 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -3.25405    0.85547  -3.804  0.00024 ***
+## AGE          0.10592    0.02261   4.684 8.46e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.128 on 105 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
+## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06</code></pre>
+<pre class="sourceCode r" id="cb126"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2"><span class="kw">abline</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<p>In this case we are passing the intercept and slope information held in the <code>fem.lm</code> object to the <code>abline()</code> function which draws a regression line. The <code>abline()</code> function adds to an existing plot. This means that you need to keep the scatter plot of <code>AGE</code> and <code>WT</code> open before issuing the <code>abline()</code> function call.</p>
+<p>A useful function to apply to the <code>fem.lm</code> object is <code>plot()</code> which produces diagnostic plots of the linear model:</p>
+<pre class="sourceCode r" id="cb127"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-71-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-71-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-71-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-71-4.png" width="672" /></p>
+<p>Objects created by the <code>lm()</code> function (or any of the modelling functions) can use up a lot of memory so we should remove them when we no longer need them:</p>
+<pre class="sourceCode r" id="cb128"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">rm</span>(fem.lm)</a></code></pre>
+<p>It might be interesting to see whether a similar relationship exists between <code>AGE</code> and <code>WT</code> for those who have and have not considered suicide. This can be done using the <code>coplot()</code> function:</p>
+<pre class="sourceCode r" id="cb129"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
+<pre><code>## 
+##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115</code></pre>
+<p>The two plots looks similar. We could also use <code>coplot()</code> to investigate the relationship between <code>AGE</code> and <code>WT</code> for categories of both <code>LIFE</code> and <code>SEX</code>:</p>
+<pre class="sourceCode r" id="cb131"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE) <span class="op">*</span><span class="st"> </span><span class="kw">as.factor</span>(SEX))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<pre><code>## 
+##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115</code></pre>
+<p>although the numbers are too small for this to be useful here.</p>
+<p>We used the <code>as.factor()</code> function with the <code>coplot()</code> function to ensure that <code>R</code> was aware that the <code>LIFE</code>
+and <code>SEX</code> columns hold categorical data.</p>
+<p>We can check the way variables are stored using the <code>data.class()</code> function:</p>
+<pre class="sourceCode r" id="cb133"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">data.class</span>(fem<span class="op">$</span>SEX)</a></code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p>We can ‘apply’ this function to all columns in a data.frame using the <code>sapply()</code> function:</p>
+<pre class="sourceCode r" id="cb135"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw">sapply</span>(fem, data.class)</a></code></pre>
+<pre><code>##        ID       AGE        IQ       ANX       DEP       SLP       SEX 
+## &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; 
+##      LIFE        WT 
+## &quot;numeric&quot; &quot;numeric&quot;</code></pre>
+<p>The <code>sapply()</code> function is part of a group of functions that apply a specified function to data objects:</p>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="70%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Function(s)</strong></th>
+<th><strong>Applies a function to …</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>apply()</code></td>
+<td>rows and columns of matrices, arrays, and tables</td>
+</tr>
+<tr class="even">
+<td><code>lapply()</code></td>
+<td>components of lists and data.frames</td>
+</tr>
+<tr class="odd">
+<td><code>sapply()</code></td>
+<td>components of lists and data.frames</td>
+</tr>
+<tr class="even">
+<td><code>mapply()</code></td>
+<td>components of lists and data.frames</td>
+</tr>
+<tr class="odd">
+<td><code>tapply()</code></td>
+<td>subsets of data</td>
+</tr>
+</tbody>
+</table>
+<p>Related functions are <code>aggregate()</code> which compute summary statistics for subsets of data, <code>by()</code> which applies a function to a data.frame split by factors, and <code>sweep()</code> which applies a function to an array.</p>
+<p>The parameters of most <code>R</code> functions have default values. These are usually the most used and most useful parameter values for each function. The <code>cor.test()</code> function, for example, calculates <em>Pearson’s product moment correlation coefficient</em> by default. This is an appropriate measure for data from a bivariate normal distribution. The <code>DEP</code> and <code>ANX</code> variables contain ordered data. An appropriate measure of correlation between <code>DEP</code> and <code>ANX</code> is <em>Kendall’s tau</em>. This can be obtained using:</p>
+<pre class="sourceCode r" id="cb137"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">cor.test</span>(DEP, ANX, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</a></code></pre>
+<pre><code>## 
+##  Kendall&#39;s rank correlation tau
+## 
+## data:  DEP and ANX
+## z = 5.5606, p-value = 2.689e-08
+## alternative hypothesis: true tau is not equal to 0
+## sample estimates:
+##       tau 
+## 0.4950723</code></pre>
+<p>Before we finish we should save the <code>fem</code> data.frame so that next time we want to use it we will not have to bother with recoding the missing values to the special <code>NA</code> value. This is done with the <code>write.table()</code> function:</p>
+<pre class="sourceCode r" id="cb139"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">write.table</span>(fem, <span class="dt">file =</span> <span class="st">&quot;newfem.dat&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre>
+<p>Everything in <code>R</code> is either a function or an object. Even the command to quit <code>R</code> is a function:</p>
+<pre class="sourceCode r" id="cb140"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>When you call the <code>q()</code> function you will be asked if you want to save the workspace image. If you save the workspace image then all of the objects and functions currently available to you will be saved. These will then be automatically restored the next time you start <code>R</code> in the current working directory.</p>
+<p>For this exercise there is no need to save the workspace image so click the <code>No</code> or <code>Don't Save</code> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">2.1</span> Summary</h2>
+<ul>
+<li><code>R</code> is a functional system. Everything is done by calling functions.</li>
+<li><code>R</code> provides a large set of functions for descriptive statistics, charting, and statistical inference.</li>
+<li>Functions can be chained together so that the output of one function is the input of another function.</li>
+<li><code>R</code> is an object oriented system. We can use functions to create objects that can then be manipulated or passed to other functions for subsequent analysis.</li>
+</ul>
 
+</div>
 </div>
             </section>
 

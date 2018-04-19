@@ -1586,6 +1586,275 @@ Or by using the linear modelling \texttt{lm()} function:
 We use the \texttt{summary()} function here to extract summary
 information from the output of the \texttt{lm()} function.
 
+It is often more useful to use \texttt{lm()} to create an object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fem.lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{AGE)}
+\end{Highlighting}
+\end{Shaded}
+
+And use the output in other functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(fem.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = WT ~ AGE)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.10678 -0.85922 -0.05453  0.71434  2.70874 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -3.25405    0.85547  -3.804  0.00024 ***
+## AGE          0.10592    0.02261   4.684 8.46e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.128 on 105 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
+## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(AGE, WT)}
+\KeywordTok{abline}\NormalTok{(fem.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-70-1.pdf}
+
+In this case we are passing the intercept and slope information held in
+the \texttt{fem.lm} object to the \texttt{abline()} function which draws
+a regression line. The \texttt{abline()} function adds to an existing
+plot. This means that you need to keep the scatter plot of \texttt{AGE}
+and \texttt{WT} open before issuing the \texttt{abline()} function call.
+
+A useful function to apply to the \texttt{fem.lm} object is
+\texttt{plot()} which produces diagnostic plots of the linear model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(fem.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-4.pdf}
+
+Objects created by the \texttt{lm()} function (or any of the modelling
+functions) can use up a lot of memory so we should remove them when we
+no longer need them:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(fem.lm)}
+\end{Highlighting}
+\end{Shaded}
+
+It might be interesting to see whether a similar relationship exists
+between \texttt{AGE} and \texttt{WT} for those who have and have not
+considered suicide. This can be done using the \texttt{coplot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{coplot}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{AGE }\OperatorTok{|}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(LIFE))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-73-1.pdf}
+
+\begin{verbatim}
+## 
+##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115
+\end{verbatim}
+
+The two plots looks similar. We could also use \texttt{coplot()} to
+investigate the relationship between \texttt{AGE} and \texttt{WT} for
+categories of both \texttt{LIFE} and \texttt{SEX}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{coplot}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{AGE }\OperatorTok{|}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(LIFE) }\OperatorTok{*}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(SEX))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1.pdf}
+
+\begin{verbatim}
+## 
+##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115
+\end{verbatim}
+
+although the numbers are too small for this to be useful here.
+
+We used the \texttt{as.factor()} function with the \texttt{coplot()}
+function to ensure that \texttt{R} was aware that the \texttt{LIFE} and
+\texttt{SEX} columns hold categorical data.
+
+We can check the way variables are stored using the
+\texttt{data.class()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data.class}\NormalTok{(fem}\OperatorTok{$}\NormalTok{SEX)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "numeric"
+\end{verbatim}
+
+We can `apply' this function to all columns in a data.frame using the
+\texttt{sapply()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sapply}\NormalTok{(fem, data.class)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        ID       AGE        IQ       ANX       DEP       SLP       SEX 
+## "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" "numeric" 
+##      LIFE        WT 
+## "numeric" "numeric"
+\end{verbatim}
+
+The \texttt{sapply()} function is part of a group of functions that
+apply a specified function to data objects:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.27\columnwidth}\raggedright
+\textbf{Function(s)}\strut
+\end{minipage} & \begin{minipage}[b]{0.67\columnwidth}\raggedright
+\textbf{Applies a function to \ldots{}}\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{apply()}\strut
+\end{minipage} & \begin{minipage}[t]{0.67\columnwidth}\raggedright
+rows and columns of matrices, arrays, and tables\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{lapply()}\strut
+\end{minipage} & \begin{minipage}[t]{0.67\columnwidth}\raggedright
+components of lists and data.frames\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{sapply()}\strut
+\end{minipage} & \begin{minipage}[t]{0.67\columnwidth}\raggedright
+components of lists and data.frames\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{mapply()}\strut
+\end{minipage} & \begin{minipage}[t]{0.67\columnwidth}\raggedright
+components of lists and data.frames\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.27\columnwidth}\raggedright
+\texttt{tapply()}\strut
+\end{minipage} & \begin{minipage}[t]{0.67\columnwidth}\raggedright
+subsets of data\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Related functions are \texttt{aggregate()} which compute summary
+statistics for subsets of data, \texttt{by()} which applies a function
+to a data.frame split by factors, and \texttt{sweep()} which applies a
+function to an array.
+
+The parameters of most \texttt{R} functions have default values. These
+are usually the most used and most useful parameter values for each
+function. The \texttt{cor.test()} function, for example, calculates
+\emph{Pearson's product moment correlation coefficient} by default. This
+is an appropriate measure for data from a bivariate normal distribution.
+The \texttt{DEP} and \texttt{ANX} variables contain ordered data. An
+appropriate measure of correlation between \texttt{DEP} and \texttt{ANX}
+is \emph{Kendall's tau}. This can be obtained using:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor.test}\NormalTok{(DEP, ANX, }\DataTypeTok{method =} \StringTok{"kendall"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Kendall's rank correlation tau
+## 
+## data:  DEP and ANX
+## z = 5.5606, p-value = 2.689e-08
+## alternative hypothesis: true tau is not equal to 0
+## sample estimates:
+##       tau 
+## 0.4950723
+\end{verbatim}
+
+Before we finish we should save the \texttt{fem} data.frame so that next
+time we want to use it we will not have to bother with recoding the
+missing values to the special \texttt{NA} value. This is done with the
+\texttt{write.table()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{write.table}\NormalTok{(fem, }\DataTypeTok{file =} \StringTok{"newfem.dat"}\NormalTok{, }\DataTypeTok{row.names =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Everything in \texttt{R} is either a function or an object. Even the
+command to quit \texttt{R} is a function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{q}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+When you call the \texttt{q()} function you will be asked if you want to
+save the workspace image. If you save the workspace image then all of
+the objects and functions currently available to you will be saved.
+These will then be automatically restored the next time you start
+\texttt{R} in the current working directory.
+
+For this exercise there is no need to save the workspace image so click
+the \texttt{No} or \texttt{Don\textquotesingle{}t\ Save} button (GUI) or
+enter \texttt{n} when prompted to save the workspace image (terminal).
+
+\hypertarget{summary}{%
+\section{Summary}\label{summary}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{R} is a functional system. Everything is done by calling
+  functions.
+\item
+  \texttt{R} provides a large set of functions for descriptive
+  statistics, charting, and statistical inference.
+\item
+  Functions can be chained together so that the output of one function
+  is the input of another function.
+\item
+  \texttt{R} is an object oriented system. We can use functions to
+  create objects that can then be manipulated or passed to other
+  functions for subsequent analysis.
+\end{itemize}
+
 \bibliography{book.bib}
 
 
