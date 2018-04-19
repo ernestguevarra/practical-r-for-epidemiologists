@@ -284,3 +284,141 @@ An alternative, and more general, non-parametric test is:
 kruskal.test(WT ~ LIFE)
 ```
 
+We can use the `table()` function to examine the differences in depression between the two groups:
+
+```{r, eval = TRUE}
+table(DEP, LIFE)
+```
+
+The two distributions look very different from each other. We can test this using a chi-square test on the table:
+   
+```{r, eval = TRUE}
+chisq.test(table(DEP, LIFE))
+```
+
+Note that we passed the output of the `table()` function directly to the `chisq.test()` function. We could have saved the table as an object first and then passed the object to the `chisq.test()` function:
+
+```{r, eval = TRUE}
+tab <- table(DEP, LIFE)
+chisq.test(tab)
+```
+
+The `tab` object contains the output of the `table()` function: 
+
+```{r, eval = TRUE}
+class(tab)
+tab
+```
+
+We can pass this table object to another function. For example:
+
+```{r, eval = TRUE}
+fisher.test(tab)
+```
+
+When we are finished with the tab object we can delete it using the `rm()` function: 
+
+```{r, eval = TRUE}
+rm(tab)
+```
+
+You can see a list of available objects using the `ls()` function: 
+
+```{r, eval = TRUE}
+ls()
+```
+
+This should just show the `fem` object.
+
+We can examine the association between loss of interest in sex and considering suicide in the same way:
+
+```{r, eval = TRUE}
+tab <- table(SEX, LIFE)
+tab
+fisher.test(tab)
+```
+
+Note that with a two-by-two table the `fisher.test()` function produces an estimate of, and confidence intervals for, the odds ratio. Again, we will delete the `tab` object:
+
+```{r, eval = TRUE}
+rm(tab)
+```
+
+We could have performed the Fisher exact test without creating the tab object by passing the output of the `table()` function directly to the `fisher.test()` function:
+
+```{r, eval = TRUE}
+fisher.test(table(SEX, LIFE))
+```
+
+Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.
+
+We can explore the correlation between two variables using the `cor()` function:
+
+```{r, eval = TRUE}
+cor(IQ, WT, use = "pairwise.complete.obs")
+```
+
+or by using a scatter plot:
+
+```{r, eval = TRUE}
+plot(IQ, WT)
+```
+
+and by a formal test:
+
+```{r, eval = TRUE}
+cor.test(IQ, WT)
+```
+
+With some functions you can pass an entire data.frame rather than a list of variables:
+
+```{r, eval = TRUE}
+cor(fem, use = "pairwise.complete.obs")
+pairs(fem)
+```
+
+The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding `cbind()` function:
+
+```{r, eval = TRUE}
+newfem <- cbind(AGE, IQ, WT)
+cor(newfem, use = "pairwise.complete.obs")
+pairs(newfem)
+```
+
+When we have finished with the `newfem` object we can delete it: 
+
+```{r, eval = TRUE}
+rm(newfem)
+```
+
+There was no real need to create the `newfem` object as we could have fed the output of the `cbind()` function directly to the `cor()` or `pairs()` function:
+
+```{r, eval = TRUE}
+cor(cbind(AGE, IQ, WT), use = "pairwise.complete.obs")
+pairs(cbind(AGE, IQ, WT))
+```
+
+It is, however, easier to work with the `newfem` object rather than having to retype the `cbind()` function. This is particularly true if you wanted to continue with an analysis of just the three variables.
+
+The relationship between `AGE` and `WT` can be plotted using the `plot()` function: 
+
+```{r, eval = TRUE}
+plot(AGE, WT)
+```
+
+And tested using the `cor()` and `cor.test()` functions: 
+
+```{r, eval = TRUE}
+cor(AGE, WT, use = "pairwise.complete.obs")
+cor.test(AGE, WT)
+```
+
+Or by using the linear modelling `lm()` function: 
+
+```{r, eval = TRUE}
+summary(lm(WT ~ AGE))
+```
+
+We use the `summary()` function here to extract summary information from the output of the `lm()` function.
+
+
