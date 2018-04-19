@@ -122,7 +122,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introducting-r"><i class="fa fa-check"></i><b>1.1</b> Introducting R</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introducing-r"><i class="fa fa-check"></i><b>1.1</b> Introducing R</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#retrieving-data"><i class="fa fa-check"></i><b>1.2</b> Retrieving data</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>2</b> Getting acquainted with R</a></li>
@@ -296,6 +296,57 @@ called <code>fem</code>.</p>
 ## 9  9  35 -99   3   2   2   1    1 -0.55</code></pre>
 <pre class="sourceCode r" id="cb45"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">fem[<span class="dv">9</span>,<span class="dv">3</span>]</a></code></pre>
 <pre><code>## [1] -99</code></pre>
+<p>There are missing values in the <code>IQ</code> column which are all coded as <strong>-99</strong>. Before proceeding we must set these to
+the special <code>NA</code> value:</p>
+<pre class="sourceCode r" id="cb47"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">fem<span class="op">$</span>IQ[fem<span class="op">$</span>IQ <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre>
+<p>The term inside the square brackets is also an index. This type of index is used to refer to subsets of data held in an object that meet a particular condition. In this case we are instructing <code>R</code> to set the contents of the <code>IQ</code> variable to <code>NA</code> if the contents of the <code>IQ</code> variable is <strong>-99</strong>.</p>
+<p>Check that this has worked:</p>
+<pre class="sourceCode r" id="cb48"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
+<pre><code>##   [1]  94  89  83  99  94  90  94  87  NA  92  92  94  91  86  90  NA  91
+##  [18]  82  86  88  97  96  95  87 103  NA  91  87  91  89  92  84  94  92
+##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91  NA  92  92
+##  [52]  91  91  86  95  91  96 100  99  89  89  98  98 103  91  91  94  91
+##  [69]  85  92  96  90  87  95  95  87  95  88  94  NA  NA  87  92  86  93
+##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
+## [103]  NA  96  97  92  92  98  91  91  89  94  90  96  87  86  89  NA</code></pre>
+<p>We can now compare the groups who have and have not considered suicide. For example:</p>
+<pre class="sourceCode r" id="cb50"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">by</span>(fem<span class="op">$</span>IQ, fem<span class="op">$</span>LIFE, summary)</a></code></pre>
+<p>Look at the help for the <code>by()</code> function:</p>
+<pre class="sourceCode r" id="cb51"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">help</span>(by)</a></code></pre>
+<p>Note that you may use <code>?by</code> as a shortcut for <code>help(by)</code>.</p>
+<p>The <code>by()</code> function applies another function (in this case the <code>summary()</code> function) to a column in a
+data.frame (in this case <code>fem$IQ</code>) split by the value of another variable (in this case <code>fem$LIFE</code>).</p>
+<p>It can be tedious to always have to specify a data.frame each time we want to use a particular variable. We can
+fix this problem by ‘attaching’ the data.frame:</p>
+<pre class="sourceCode r" id="cb52"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">attach</span>(fem)</a></code></pre>
+<p>We can now refer to the columns in the <code>fem</code> data.frame without having to specify the name of the data.frame. This time we will produce summary statistics for <code>WT</code> by <code>LIFE</code>:</p>
+<pre class="sourceCode r" id="cb53"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, summary)</a></code></pre>
+<pre><code>## LIFE: 1
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+## -2.2300 -0.2700  1.0000  0.7867  1.7300  3.7700       4 
+## -------------------------------------------------------- 
+## LIFE: 2
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+## -1.6800 -0.4500  0.6400  0.6404  1.5000  2.9500       7</code></pre>
+<p>We can view the same data as a box and whisker plot:</p>
+<pre class="sourceCode r" id="cb55"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<p>We can add axis labels and a title to the graph:</p>
+<pre class="sourceCode r" id="cb56"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE,</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">        <span class="dt">xlab =</span> <span class="st">&quot;Life&quot;</span>,</a>
+<a class="sourceLine" id="cb56-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Weight&quot;</span>,</a>
+<a class="sourceLine" id="cb56-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Weight BY Life&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>A more descriptive title might be “Weight Change BY Considered Suicide”.</p>
+<p>The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.</p>
+<p>We can look at the distribution as histograms:</p>
+<pre class="sourceCode r" id="cb57"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb58"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>and check the assumption of normality using quantile-quantile plots:</p>
+<pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 
 </div>
             </section>

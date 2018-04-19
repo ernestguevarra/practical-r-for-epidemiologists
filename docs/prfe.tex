@@ -219,8 +219,8 @@
 \hypertarget{chapter1}{%
 \chapter{Introduction}\label{chapter1}}
 
-\hypertarget{introducting-r}{%
-\section{Introducting R}\label{introducting-r}}
+\hypertarget{introducing-r}{%
+\section{Introducing R}\label{introducing-r}}
 
 \texttt{R} is a system for data manipulation, calculation, and graphics.
 It provides:
@@ -823,6 +823,158 @@ third column in the \texttt{fem} data.frame:
 \begin{verbatim}
 ## [1] -99
 \end{verbatim}
+
+There are missing values in the \texttt{IQ} column which are all coded
+as \textbf{-99}. Before proceeding we must set these to the special
+\texttt{NA} value:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fem}\OperatorTok{$}\NormalTok{IQ[fem}\OperatorTok{$}\NormalTok{IQ }\OperatorTok{==}\StringTok{ }\DecValTok{-99}\NormalTok{] <-}\StringTok{ }\OtherTok{NA}
+\end{Highlighting}
+\end{Shaded}
+
+The term inside the square brackets is also an index. This type of index
+is used to refer to subsets of data held in an object that meet a
+particular condition. In this case we are instructing \texttt{R} to set
+the contents of the \texttt{IQ} variable to \texttt{NA} if the contents
+of the \texttt{IQ} variable is \textbf{-99}.
+
+Check that this has worked:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fem}\OperatorTok{$}\NormalTok{IQ}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1]  94  89  83  99  94  90  94  87  NA  92  92  94  91  86  90  NA  91
+##  [18]  82  86  88  97  96  95  87 103  NA  91  87  91  89  92  84  94  92
+##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91  NA  92  92
+##  [52]  91  91  86  95  91  96 100  99  89  89  98  98 103  91  91  94  91
+##  [69]  85  92  96  90  87  95  95  87  95  88  94  NA  NA  87  92  86  93
+##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
+## [103]  NA  96  97  92  92  98  91  91  89  94  90  96  87  86  89  NA
+\end{verbatim}
+
+We can now compare the groups who have and have not considered suicide.
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{by}\NormalTok{(fem}\OperatorTok{$}\NormalTok{IQ, fem}\OperatorTok{$}\NormalTok{LIFE, summary)}
+\end{Highlighting}
+\end{Shaded}
+
+Look at the help for the \texttt{by()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{help}\NormalTok{(by)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that you may use \texttt{?by} as a shortcut for \texttt{help(by)}.
+
+The \texttt{by()} function applies another function (in this case the
+\texttt{summary()} function) to a column in a data.frame (in this case
+\texttt{fem\$IQ}) split by the value of another variable (in this case
+\texttt{fem\$LIFE}).
+
+It can be tedious to always have to specify a data.frame each time we
+want to use a particular variable. We can fix this problem by
+`attaching' the data.frame:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{attach}\NormalTok{(fem)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 3):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+We can now refer to the columns in the \texttt{fem} data.frame without
+having to specify the name of the data.frame. This time we will produce
+summary statistics for \texttt{WT} by \texttt{LIFE}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{by}\NormalTok{(WT, LIFE, summary)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## LIFE: 1
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+## -2.2300 -0.2700  1.0000  0.7867  1.7300  3.7700       4 
+## -------------------------------------------------------- 
+## LIFE: 2
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+## -1.6800 -0.4500  0.6400  0.6404  1.5000  2.9500       7
+\end{verbatim}
+
+We can view the same data as a box and whisker plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-35-1.pdf}
+
+We can add axis labels and a title to the graph:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{boxplot}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE,}
+        \DataTypeTok{xlab =} \StringTok{"Life"}\NormalTok{,}
+        \DataTypeTok{ylab =} \StringTok{"Weight"}\NormalTok{,}
+        \DataTypeTok{main =} \StringTok{"Weight BY Life"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-36-1.pdf}
+
+A more descriptive title might be ``Weight Change BY Considered
+Suicide''.
+
+The groups do not seem to differ much in their medians and the
+distributions appear to be reasonably symmetrical about their medians
+with a similar spread of values.
+
+We can look at the distribution as histograms:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-37-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-38-1.pdf}
+
+and check the assumption of normality using quantile-quantile plots:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-39-1.pdf}
 
 \bibliography{book.bib}
 
