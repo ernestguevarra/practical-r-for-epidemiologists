@@ -180,6 +180,6 @@ All of the data files used in this section are stored in the `/data` directory o
 
 "https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat"
 
-as the `URL` to retrieve the data that is stored in the file named `fem.da`t which is stored in the `/data` directory of this guide's GitLab repository.
+as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `/data` directory of this guide's GitLab repository.
 
 
