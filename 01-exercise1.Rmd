@@ -1,1 +1,73 @@
-# 
+# Getting acquainted with R {#exercise1}
+
+In this exercise we will use `R` to read a dataset and produce some descriptive statistics, produce some charts, and perform some simple statistical inference. The aim of the exercise is for you to become familiar with `R` and some basic `R` functions and objects.
+
+The first thing we will do, after starting `R`, is issue a command to retrieve an example dataset: 
+
+```{r, eval = FALSE}
+fem <- read.table("fem.dat", header = TRUE)
+```
+
+This command illustrates some key things about the way `R` works.
+
+We are instructing `R` to assign (using the `<-` operator) the output of the `read.table()` function to an object
+called `fem`.
+
+The `fem` object will contain the data held in the file `fem.dat` as an `R` data.frame object:
+
+```{r, eval = FALSE}
+class(fem)
+```
+
+You can inspect the contents of the `fem` data.frame (or any other `R` object) just by typing its name: 
+
+```{r, eval = FALSE}
+fem
+```
+
+Note that the `fem` object is built from other objects. These are the named vectors (columns) in the dataset: 
+
+```{r, eval = TRUE}
+names(fem)
+```
+
+The `[1]` displayed before the column names refers to the numbered position of the first name in the output. These positions are known as indexes and can be used to refer to individual items. For example:
+
+```{r, eval = TRUE}
+names(fem)[1]
+```
+
+```{r, eval = TRUE}
+names(fem)[8]
+```
+
+```{r, eval = TRUE}
+names(fem)[2:4]
+```
+
+The data consist of 118 records:
+
+```{r, eval = TRUE}
+nrow(fem)
+```
+
+each with nine variables:
+
+```{r, eval = TRUE}
+ncol(fem)
+```
+
+for female psychiatric patients.
+
+The columns in the dataset are:
+
++----------+----------------------------------------------------------------------------------------------------+
+| **ID**   | Patient ID                                                                                         |
++==========+====================================================================================================+
+
+
+AGE Age in years
+IQ IQ score
+ANX Anxiety (1=none, 2=mild, 3=moderate, 4=severe) DEP Depression (1=none, 2=mild, 3=moderate or severe) SLP Sleeping normally (1=yes, 2=no)
+SEX Lost interest in sex (1=yes, 2=no) LIFE Considered suicide (1=yes, 2=no)
+WT Weight change (kg) in previous 6 months
