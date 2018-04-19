@@ -220,5 +220,67 @@ and check the assumption of normality using quantile-quantile plots:
   
 ```{r, eval = TRUE}
 qqnorm(WT[LIFE == 1])
+qqline(WT[LIFE == 1])
+```
+
+```{r, eval = TRUE}
+qqnorm(WT[LIFE == 2])
+qqline(WT[LIFE == 2])
+```
+
+or by using a formal test:
+
+```{r, eval = TRUE}
+shapiro.test(WT[LIFE == 1])
+```
+
+```{r, eval = TRUE}
+shapiro.test(WT[LIFE == 2])
+```
+
+Remember that we can use the `by()` function to apply a function to a data.frame, including statistical functions such as `shapiro.test()`:
+
+```{r, eval - TRUE}
+by(WT, LIFE, shapiro.test)
+```
+
+We can also test whether the variances differ significantly using *Bartlett’s test* for the homogeneity of variances: 
+
+```{r, eval = TRUE}
+bartlett.test(WT, LIFE)
+```
+
+There is no significant difference between the two variances.
+
+Many functions in `R` have a *formula interface* that may be used to specify multiple variables and the relations between multiple variables. We could have used the formula interface with the `bartlett.test()` function: 
+
+```{r, eval = TRUE}
+bartlett.test(WT ~ LIFE)
+```
+
+Having checked the normality and homogeneity of variance assumptions we can proceed to carry out a `t-test`: 
+
+```{r, eval = TRUE}
+t.test(WT ~ LIFE, var.equal = TRUE)
+```
+
+There is no evidence that the two groups differ in weight change in the previous six months.
+
+We could still have performed a `t-test` if the variances were not homogenous by setting the **var.equal** parameter of the `t.test()` function to **FALSE**: 
+
+```{r, eval = TRUE}
+t.test(WT ~ LIFE, var.equal = FALSE)
+```
+
+or performed a non-parametric test:
+
+```{r, eval = TRUE}
+wilcox.test(WT ~ LIFE)
+```
+
+An alternative, and more general, non-parametric test is:
+
+```{r, eval = TRUE}
+kruskal.test(WT ~ LIFE)
 ```
 
