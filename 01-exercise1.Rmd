@@ -468,7 +468,9 @@ and `SEX` columns hold categorical data.
 
 We can check the way variables are stored using the `data.class()` function:
 
-`data.class(fem$SEX)`
+```{r, eval = TRUE}
+data.class(fem$SEX)
+```
 
 We can ‘apply’ this function to all columns in a data.frame using the `sapply()` function: 
 
@@ -502,13 +504,13 @@ cor.test(DEP, ANX, method = "kendall")
 
 Before we finish we should save the `fem` data.frame so that next time we want to use it we will not have to bother with recoding the missing values to the special `NA` value. This is done with the `write.table()` function:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 write.table(fem, file = "newfem.dat", row.names = FALSE)
 ```
 
 Everything in `R` is either a function or an object. Even the command to quit `R` is a function:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 q()
 ```
 
