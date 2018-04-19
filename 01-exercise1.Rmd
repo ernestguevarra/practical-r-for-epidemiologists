@@ -475,3 +475,50 @@ We can ‘apply’ this function to all columns in a data.frame using the `sappl
 ```{r, eval = TRUE}
 sapply(fem, data.class)
 ```
+
+The `sapply()` function is part of a group of functions that apply a specified function to data objects:
+
++--------------------+--------------------------------------------------+
+| **Function(s)**    | **Applies a function to ...**                    |
++====================+==================================================+
+| `apply()`          | rows and columns of matrices, arrays, and tables |
++--------------------+--------------------------------------------------+
+| `lapply()`         | components of lists and data.frames              |
++--------------------+--------------------------------------------------+
+| `sapply()`         | components of lists and data.frames              |
++--------------------+--------------------------------------------------+
+| `mapply()`         | components of lists and data.frames              |
++--------------------+--------------------------------------------------+
+| `tapply()`         | subsets of data                                  |
++--------------------+--------------------------------------------------+
+
+Related functions are `aggregate()` which compute summary statistics for subsets of data, `by()` which applies a function to a data.frame split by factors, and `sweep()` which applies a function to an array.
+
+The parameters of most `R` functions have default values. These are usually the most used and most useful parameter values for each function. The `cor.test()` function, for example, calculates *Pearson's product moment correlation coefficient* by default. This is an appropriate measure for data from a bivariate normal distribution. The `DEP` and `ANX` variables contain ordered data. An appropriate measure of correlation between `DEP` and `ANX` is *Kendall's tau*. This can be obtained using:
+
+```{r, eval = TRUE}
+cor.test(DEP, ANX, method = "kendall")
+```
+
+Before we finish we should save the `fem` data.frame so that next time we want to use it we will not have to bother with recoding the missing values to the special `NA` value. This is done with the `write.table()` function:
+
+```{r, eval = TRUE}
+write.table(fem, file = "newfem.dat", row.names = FALSE)
+```
+
+Everything in `R` is either a function or an object. Even the command to quit `R` is a function:
+
+```{r, eval = TRUE}
+q()
+```
+
+When you call the `q()` function you will be asked if you want to save the workspace image. If you save the workspace image then all of the objects and functions currently available to you will be saved. These will then be automatically restored the next time you start `R` in the current working directory.
+
+For this exercise there is no need to save the workspace image so click the `No` or `Don't Save` button (GUI) or enter `n` when prompted to save the workspace image (terminal).
+
+## Summary
+
+* `R` is a functional system. Everything is done by calling functions.
+* `R` provides a large set of functions for descriptive statistics, charting, and statistical inference.
+* Functions can be chained together so that the output of one function is the input of another function.
+* `R` is an object oriented system. We can use functions to create objects that can then be manipulated or passed to other functions for subsequent analysis.
