@@ -114,3 +114,31 @@ displays the first ten rows and the second, third and fourth columns of the `fem
 fem[1:10,2:4 ]
 ```
 
+`NA` is a special value meaning *not available* or *missing*.
+
+You can access the contents of a single column by name:
+
+```{r eval = TRUE}
+fem$IQ
+```
+
+```{r eval = TRUE}
+fem$IQ[1:10]
+```
+
+The `$` sign is used to separate the name of the data.frame and the name of the column of interest. Note that `R` is case-sensitive so that `IQ` and `iq` are **_not_** the same.
+
+You can also access rows, columns, and individual cells by specifying row and column positions. For example, the `IQ` column is the third column in the `fem` data.frame:
+
+```{r eval = TRUE}
+fem[ ,3]
+```
+
+```{r eval = TRUE}
+fem[9, ]
+```
+
+```{r eval = TRUE}
+fem[9,3]
+```
+
