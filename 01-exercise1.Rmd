@@ -26,8 +26,12 @@ class(fem)
 
 You can inspect the contents of the `fem` data.frame (or any other `R` object) just by typing its name: 
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 fem
+```
+
+```{r, echo = FALSE, eval = TRUE}
+head(fem)
 ```
 
 Note that the `fem` object is built from other objects. These are the named vectors (columns) in the dataset: 
