@@ -31,6 +31,46 @@
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{natbib}
 \bibliographystyle{apalike}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
@@ -178,6 +218,284 @@
 }
 \hypertarget{chapter1}{%
 \chapter{Introduction}\label{chapter1}}
+
+\hypertarget{introducting-r}{%
+\section{Introducting R}\label{introducting-r}}
+
+\texttt{R} is a system for data manipulation, calculation, and graphics.
+It provides:
+
+\begin{itemize}
+\item
+  Facilities for data handling and storage
+\item
+  A large collection of tools for data analysis
+\item
+  Graphical facilities for data analysis and display
+\item
+  A simple but powerful programming language
+\end{itemize}
+
+\texttt{R} is often described as an environment for working with data.
+This is in contrast to a \emph{package} which is a collection of very
+specific tools. \texttt{R} is not strictly a statistics system but a
+system that provides many classical and modern statistical procedures as
+part of a broader data-analysis tool. This is an important difference
+between \texttt{R} and other statistical systems. In \texttt{R} a
+statistical analysis is usually performed as a series of steps with
+intermediate results being stored in objects. Systems such as
+\texttt{SPSS} and \texttt{SAS} provide copious output from (e.g.) a
+regression analysis whereas \texttt{R} will give minimal output and
+store the results of a fit for subsequent interrogation or use with
+other \texttt{R} functions. This means that \texttt{R} can be tailored
+to produce exactly the analysis and results that you want rather than
+produce an analysis designed to fit all situations.
+
+\texttt{R} is a language based product. This means that you interact
+with \texttt{R} by typing commands such as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+rather than by using menus, dialog boxes, selection lists, and buttons.
+This may seem to be a drawback but it means that the system is
+considerably more flexible than one that relies on menus, buttons, and
+boxes. It also means that every stage of your data management and
+analysis can be recorded and edited and re-run at a later date. It also
+provides an audit trail for quality control purposes.
+
+\texttt{R} is available under UNIX (including Linux), the Macintosh
+operating system OS X, and Microsoft Windows. The method used for
+starting \texttt{R} will vary from system to system. On UNIX systems you
+may need to issue the \texttt{R} command in a terminal session or click
+on an icon or menu option if your system has a windowing system. On
+Macintosh systems \texttt{R} will be available as an application but can
+also be run in a terminal session. On Microsoft Windows systems there
+will usually be an icon on the Start menu or the desktop.
+
+\texttt{R} is an open source system and is available under the \emph{GNU
+general public license} (GPL) which means that it is available for free
+but that there are some restrictions on how you are allowed to
+distribute the system and how you may charge for bespoke data analysis
+solutions written using the \texttt{R} system. Details of the general
+public license are available from
+\url{http://www.gnu.org/copyleft/gpl.html}.
+
+\texttt{R} is available for download from
+\url{http://www.r-project.org/}.
+
+This is also the best place to get extension packages and documentation.
+You may also subscribe to the \texttt{R} mailing lists from this site.
+\texttt{R} is supported through mailing lists. The level of support is
+at least as good as for commercial packages. It is typical to have
+queries answered in a matter of a few hours.
+
+Even though \texttt{R} is a free package it is more powerful than most
+commercial packages. Many of the modern procedures found in commercial
+packages were first developed and tested using \texttt{R} or
+\textbf{S-Plus} (the commercial equivalent of \texttt{R}).
+
+When you start \texttt{R} it will issue a prompt when it expects user
+input. The default prompt is:
+
+\begin{verbatim}
+>
+\end{verbatim}
+
+This is where you type commands that call functions that instruct
+\texttt{R} to (e.g.) read a data file, recode data, produce a table, or
+fit a regression. For example:
+
+\begin{verbatim}
+   > table(SEX, LIFE)
+\end{verbatim}
+
+If a command you type is not complete then the prompt will change to:
+
+\begin{verbatim}
++
+\end{verbatim}
+
+on subsequent lines until the command is complete:
+
+\begin{verbatim}
+> table(
++ SEX, LIFE +)
+\end{verbatim}
+
+The \texttt{\textgreater{}} and \texttt{+} prompts are not shown in the
+example commands in the rest of this material.
+
+The example commands in this material are often broken into shorter
+lines and indented for ease of understanding. The code still works as
+lines are split in places where \texttt{R} knows that a line is not
+complete. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(SEX,}
+\NormalTok{      LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+could be entered on a single line as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+In this example \texttt{R} knows that the command is not complete until
+the brackets are closed. The following example could also be written on
+one line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs <-}
+\StringTok{  }\KeywordTok{coef}\NormalTok{(}\KeywordTok{summary}\NormalTok{(salex.lreg))}
+\end{Highlighting}
+\end{Shaded}
+
+In this case \texttt{R} knows that the \texttt{\textless{}-} operator at
+the end of the first line needs further input.
+
+\texttt{R} maintains a history of previous commands. These can be
+recalled and edited using the up and down arrow keys.
+
+Output that has scrolled off the top of the output / command window can
+be recalled using the window or terminal scroll bars.
+
+Output can be saved using the \texttt{sink()} function with a file name:
+\texttt{sink("results.out")} to start recording output. Use the
+\texttt{sink()} function without a file name to stop recording output:
+\texttt{sink()}
+
+You can also use clipboard functions such as copy and paste to (e.g.)
+copy and then paste selected chunks of output into an editor or word
+processor running alongside \texttt{R}.
+
+All the sample data files used in the exercises in this manual are space
+delimited text files using the general format:
+
+\begin{verbatim}
+   ID AGE IQ
+   1 39 94
+   2 41 89
+   3 42 83
+   4 30 99
+   5 35 94
+   6 44 90
+   7 31 94
+   8 39 87
+\end{verbatim}
+
+\texttt{R} has facilities for working with files in different formats
+including (through the use of extension packages) \textbf{ODBC} (open
+database connectivity) and \textbf{SQL} data sources, \textbf{EpiInfo},
+\textbf{EpiData}, \textbf{Minitab}, \textbf{SPSS}, \textbf{SAS},
+\textbf{S-Plus}, and \textbf{Stata} format files.
+
+\hypertarget{retrieving-data}{%
+\section{Retrieving data}\label{retrieving-data}}
+
+All of the exercises in this manual assume that the necessary data files
+are located in the current working directory. All of the data files that
+you require to follow this material are in a ZIP archive that can be
+downloaded from:
+
+\url{http://www.brixtonhealth.com/prfe/prfe.zip}
+
+A command such as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"data/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+retrieves the data stored in the file named \texttt{fem.dat} which is
+stored in the \texttt{data} folder.
+
+To retrieve data that is stored in files outside a different directory
+you need to specify the full path to the file. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/example/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+will retrieve the data stored in the file named \texttt{fem.dat} stored
+in the \texttt{example} directory under the user's home directory on
+UNIX, Linux, and OS X systems.
+
+\texttt{R} follows many UNIX operating and naming conventions including
+the use of the backslash (\texttt{\textbackslash{}}) character to
+specify special characters in strings (e.g.~using
+\texttt{\textbackslash{}n} to specify a new line in printed output).
+Windows uses the backslash (\texttt{\textbackslash{}}) character to
+separate directory and file names in paths. This means that Windows
+users need to escape any backslashes in file paths using an additional
+backslash character. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{example}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+will retrieve the data that is stored in the file named \texttt{fem.dat}
+which is stored in the \texttt{example} directory off the root directory
+of the \texttt{C:} drive. The Windows version of \texttt{R} also allows
+you to specify UNIX-style path names (i.e.~using the forward slash
+(\texttt{/}) character as a separator in file paths). For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:/exampmle/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Path names may include shortcut characters such as:
+
+\begin{longtable}[]{@{}cl@{}}
+\toprule
+\texttt{.} & The current working directory\tabularnewline
+\texttt{..} & Up one level in the directory tree\tabularnewline
+\texttt{\textasciitilde{}} & The user's home directory (on UNIX-based
+systems)\tabularnewline
+\bottomrule
+\end{longtable}
+
+\texttt{R} also allows you to retrieve files from any location that may
+be represented by a standard \texttt{uniform\ resource\ locator\ (URL)}
+string. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"file://~/example/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+will retrieve the data stored in the file named \texttt{fem.dat} stored
+in the \texttt{example} directory under the users home directory on
+UNIX-based systems.
+
+All of the data files used in this section are stored in the
+\texttt{/data} directory of this guide's GitLab repository
+(\url{https://git.validmeasures.org/datahub/datahubguide/tree/master/data}).
+This means, for example, that you can use the \texttt{read.table()}
+function specifying
+
+``\url{https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat}''
+
+as the \texttt{URL} to retrieve the data that is stored in the file
+named \texttt{fem.da}t which is stored in the \texttt{/data} directory
+of this guide's GitLab repository.
 
 \hypertarget{section}{%
 \chapter{}\label{section}}
