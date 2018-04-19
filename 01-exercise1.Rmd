@@ -1,5 +1,10 @@
 # Getting acquainted with R {#exercise1}
 
+```{r}
+knitr::opts_knit$set(root.dir = "data/")
+getwd()
+```
+
 In this exercise we will use `R` to read a dataset and produce some descriptive statistics, produce some charts, and perform some simple statistical inference. The aim of the exercise is for you to become familiar with `R` and some basic `R` functions and objects.
 
 The first thing we will do, after starting `R`, is issue a command to retrieve an example dataset: 
