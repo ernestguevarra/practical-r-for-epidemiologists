@@ -437,6 +437,189 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  WT by LIFE
 ## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603</code></pre>
+<p>We can use the <code>table()</code> function to examine the differences in depression between the two groups:</p>
+<pre class="sourceCode r" id="cb79"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">table</span>(DEP, LIFE)</a></code></pre>
+<pre><code>##    LIFE
+## DEP  1  2
+##   1  0 26
+##   2 42 24
+##   3 16  1</code></pre>
+<p>The two distributions look very different from each other. We can test this using a chi-square test on the table:</p>
+<pre class="sourceCode r" id="cb81"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(DEP, LIFE))</a></code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  table(DEP, LIFE)
+## X-squared = 43.876, df = 2, p-value = 2.968e-10</code></pre>
+<p>Note that we passed the output of the <code>table()</code> function directly to the <code>chisq.test()</code> function. We could have saved the table as an object first and then passed the object to the <code>chisq.test()</code> function:</p>
+<pre class="sourceCode r" id="cb83"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(DEP, LIFE)</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">chisq.test</span>(tab)</a></code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  tab
+## X-squared = 43.876, df = 2, p-value = 2.968e-10</code></pre>
+<p>The <code>tab</code> object contains the output of the <code>table()</code> function:</p>
+<pre class="sourceCode r" id="cb85"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre>
+<pre><code>## [1] &quot;table&quot;</code></pre>
+<pre class="sourceCode r" id="cb87"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">tab</a></code></pre>
+<pre><code>##    LIFE
+## DEP  1  2
+##   1  0 26
+##   2 42 24
+##   3 16  1</code></pre>
+<p>We can pass this table object to another function. For example:</p>
+<pre class="sourceCode r" id="cb89"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  tab
+## p-value = 1.316e-12
+## alternative hypothesis: two.sided</code></pre>
+<p>When we are finished with the tab object we can delete it using the <code>rm()</code> function:</p>
+<pre class="sourceCode r" id="cb91"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
+<p>You can see a list of available objects using the <code>ls()</code> function:</p>
+<pre class="sourceCode r" id="cb92"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
+<pre><code>## [1] &quot;fem&quot;</code></pre>
+<p>This should just show the <code>fem</code> object.</p>
+<p>We can examine the association between loss of interest in sex and considering suicide in the same way:</p>
+<pre class="sourceCode r" id="cb94"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(SEX, LIFE)</a>
+<a class="sourceLine" id="cb94-2" data-line-number="2">tab</a></code></pre>
+<pre><code>##    LIFE
+## SEX  1  2
+##   1 58 38
+##   2  5 12</code></pre>
+<pre class="sourceCode r" id="cb96"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  tab
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>Note that with a two-by-two table the <code>fisher.test()</code> function produces an estimate of, and confidence intervals for, the odds ratio. Again, we will delete the <code>tab</code> object:</p>
+<pre class="sourceCode r" id="cb98"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
+<p>We could have performed the Fisher exact test without creating the tab object by passing the output of the <code>table()</code> function directly to the <code>fisher.test()</code> function:</p>
+<pre class="sourceCode r" id="cb99"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(SEX, LIFE))</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(SEX, LIFE)
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.</p>
+<p>We can explore the correlation between two variables using the <code>cor()</code> function:</p>
+<pre class="sourceCode r" id="cb101"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">cor</span>(IQ, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
+<pre><code>## [1] -0.2917158</code></pre>
+<p>or by using a scatter plot:</p>
+<pre class="sourceCode r" id="cb103"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">plot</span>(IQ, WT)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p>and by a formal test:</p>
+<pre class="sourceCode r" id="cb104"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">cor.test</span>(IQ, WT)</a></code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  IQ and WT
+## t = -3.0192, df = 98, p-value = 0.003231
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.4616804 -0.1010899
+## sample estimates:
+##        cor 
+## -0.2917158</code></pre>
+<p>With some functions you can pass an entire data.frame rather than a list of variables:</p>
+<pre class="sourceCode r" id="cb106"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">cor</span>(fem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
+<pre><code>##               ID         AGE            IQ         ANX           DEP
+## ID    1.00000000  0.03069077  0.0370598672 -0.02941825 -0.0554147209
+## AGE   0.03069077  1.00000000 -0.4345435680  0.06734300 -0.0387049246
+## IQ    0.03705987 -0.43454357  1.0000000000 -0.02323787 -0.0001307404
+## ANX  -0.02941825  0.06734300 -0.0232378691  1.00000000  0.5437946347
+## DEP  -0.05541472 -0.03870492 -0.0001307404  0.54379463  1.0000000000
+## SLP  -0.07268743  0.02606547  0.0812993104  0.22317875  0.5248724551
+## SEX   0.08999634  0.10609216 -0.0536558660 -0.21062493 -0.3058422258
+## LIFE -0.05604349 -0.10300193 -0.0915396469 -0.34211268 -0.6139017253
+## WT    0.02640131  0.41574411 -0.2917157832  0.11817532  0.0233742465
+##               SLP         SEX        LIFE           WT
+## ID   -0.072687434  0.08999634 -0.05604349  0.026401310
+## AGE   0.026065468  0.10609216 -0.10300193  0.415744109
+## IQ    0.081299310 -0.05365587 -0.09153965 -0.291715783
+## ANX   0.223178752 -0.21062493 -0.34211268  0.118175321
+## DEP   0.524872455 -0.30584223 -0.61390173  0.023374247
+## SLP   1.000000000 -0.29053971 -0.35186578 -0.009259774
+## SEX  -0.290539709  1.00000000  0.22316967 -0.027826514
+## LIFE -0.351865775  0.22316967  1.00000000 -0.058605326
+## WT   -0.009259774 -0.02782651 -0.05860533  1.000000000</code></pre>
+<pre class="sourceCode r" id="cb108"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">pairs</span>(fem)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-62-1.png" width="672" /></p>
+<p>The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding <code>cbind()</code> function:</p>
+<pre class="sourceCode r" id="cb109"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">newfem &lt;-<span class="st"> </span><span class="kw">cbind</span>(AGE, IQ, WT)</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="kw">cor</span>(newfem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
+<pre><code>##            AGE         IQ         WT
+## AGE  1.0000000 -0.4345436  0.4157441
+## IQ  -0.4345436  1.0000000 -0.2917158
+## WT   0.4157441 -0.2917158  1.0000000</code></pre>
+<pre class="sourceCode r" id="cb111"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">pairs</span>(newfem)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<p>When we have finished with the <code>newfem</code> object we can delete it:</p>
+<pre class="sourceCode r" id="cb112"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">rm</span>(newfem)</a></code></pre>
+<p>There was no real need to create the <code>newfem</code> object as we could have fed the output of the <code>cbind()</code> function directly to the <code>cor()</code> or <code>pairs()</code> function:</p>
+<pre class="sourceCode r" id="cb113"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">cbind</span>(AGE, IQ, WT), <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
+<pre><code>##            AGE         IQ         WT
+## AGE  1.0000000 -0.4345436  0.4157441
+## IQ  -0.4345436  1.0000000 -0.2917158
+## WT   0.4157441 -0.2917158  1.0000000</code></pre>
+<pre class="sourceCode r" id="cb115"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">pairs</span>(<span class="kw">cbind</span>(AGE, IQ, WT))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-65-1.png" width="672" /></p>
+<p>It is, however, easier to work with the <code>newfem</code> object rather than having to retype the <code>cbind()</code> function. This is particularly true if you wanted to continue with an analysis of just the three variables.</p>
+<p>The relationship between <code>AGE</code> and <code>WT</code> can be plotted using the <code>plot()</code> function:</p>
+<pre class="sourceCode r" id="cb116"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<p>And tested using the <code>cor()</code> and <code>cor.test()</code> functions:</p>
+<pre class="sourceCode r" id="cb117"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">cor</span>(AGE, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
+<pre><code>## [1] 0.4157441</code></pre>
+<pre class="sourceCode r" id="cb119"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">cor.test</span>(AGE, WT)</a></code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  AGE and WT
+## t = 4.6841, df = 105, p-value = 8.457e-06
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.2452434 0.5612979
+## sample estimates:
+##       cor 
+## 0.4157441</code></pre>
+<p>Or by using the linear modelling <code>lm()</code> function:</p>
+<pre class="sourceCode r" id="cb121"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE))</a></code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = WT ~ AGE)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.10678 -0.85922 -0.05453  0.71434  2.70874 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -3.25405    0.85547  -3.804  0.00024 ***
+## AGE          0.10592    0.02261   4.684 8.46e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.128 on 105 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
+## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06</code></pre>
+<p>We use the <code>summary()</code> function here to extract summary information from the output of the <code>lm()</code> function.</p>
 
 </div>
             </section>

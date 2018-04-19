@@ -494,7 +494,7 @@ function specifying
 ``\url{https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat}''
 
 as the \texttt{URL} to retrieve the data that is stored in the file
-named \texttt{fem.da}t which is stored in the \texttt{/data} directory
+named \texttt{fem.dat} which is stored in the \texttt{/data} directory
 of this guide's GitLab repository.
 
 \hypertarget{exercise1}{%
@@ -1163,6 +1163,428 @@ An alternative, and more general, non-parametric test is:
 ## data:  WT by LIFE
 ## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603
 \end{verbatim}
+
+We can use the \texttt{table()} function to examine the differences in
+depression between the two groups:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(DEP, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    LIFE
+## DEP  1  2
+##   1  0 26
+##   2 42 24
+##   3 16  1
+\end{verbatim}
+
+The two distributions look very different from each other. We can test
+this using a chi-square test on the table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(}\KeywordTok{table}\NormalTok{(DEP, LIFE))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(DEP, LIFE)
+## X-squared = 43.876, df = 2, p-value = 2.968e-10
+\end{verbatim}
+
+Note that we passed the output of the \texttt{table()} function directly
+to the \texttt{chisq.test()} function. We could have saved the table as
+an object first and then passed the object to the \texttt{chisq.test()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(DEP, LIFE)}
+\KeywordTok{chisq.test}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  tab
+## X-squared = 43.876, df = 2, p-value = 2.968e-10
+\end{verbatim}
+
+The \texttt{tab} object contains the output of the \texttt{table()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "table"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    LIFE
+## DEP  1  2
+##   1  0 26
+##   2 42 24
+##   3 16  1
+\end{verbatim}
+
+We can pass this table object to another function. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  tab
+## p-value = 1.316e-12
+## alternative hypothesis: two.sided
+\end{verbatim}
+
+When we are finished with the tab object we can delete it using the
+\texttt{rm()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+You can see a list of available objects using the \texttt{ls()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "fem"
+\end{verbatim}
+
+This should just show the \texttt{fem} object.
+
+We can examine the association between loss of interest in sex and
+considering suicide in the same way:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(SEX, LIFE)}
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    LIFE
+## SEX  1  2
+##   1 58 38
+##   2  5 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  tab
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+Note that with a two-by-two table the \texttt{fisher.test()} function
+produces an estimate of, and confidence intervals for, the odds ratio.
+Again, we will delete the \texttt{tab} object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+We could have performed the Fisher exact test without creating the tab
+object by passing the output of the \texttt{table()} function directly
+to the \texttt{fisher.test()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(}\KeywordTok{table}\NormalTok{(SEX, LIFE))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  table(SEX, LIFE)
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+Choose whichever method you find easiest but remember that it is easy to
+save the results of any function for later use.
+
+We can explore the correlation between two variables using the
+\texttt{cor()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(IQ, WT, }\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.2917158
+\end{verbatim}
+
+or by using a scatter plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(IQ, WT)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-60-1.pdf}
+
+and by a formal test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor.test}\NormalTok{(IQ, WT)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's product-moment correlation
+## 
+## data:  IQ and WT
+## t = -3.0192, df = 98, p-value = 0.003231
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.4616804 -0.1010899
+## sample estimates:
+##        cor 
+## -0.2917158
+\end{verbatim}
+
+With some functions you can pass an entire data.frame rather than a list
+of variables:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(fem, }\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##               ID         AGE            IQ         ANX           DEP
+## ID    1.00000000  0.03069077  0.0370598672 -0.02941825 -0.0554147209
+## AGE   0.03069077  1.00000000 -0.4345435680  0.06734300 -0.0387049246
+## IQ    0.03705987 -0.43454357  1.0000000000 -0.02323787 -0.0001307404
+## ANX  -0.02941825  0.06734300 -0.0232378691  1.00000000  0.5437946347
+## DEP  -0.05541472 -0.03870492 -0.0001307404  0.54379463  1.0000000000
+## SLP  -0.07268743  0.02606547  0.0812993104  0.22317875  0.5248724551
+## SEX   0.08999634  0.10609216 -0.0536558660 -0.21062493 -0.3058422258
+## LIFE -0.05604349 -0.10300193 -0.0915396469 -0.34211268 -0.6139017253
+## WT    0.02640131  0.41574411 -0.2917157832  0.11817532  0.0233742465
+##               SLP         SEX        LIFE           WT
+## ID   -0.072687434  0.08999634 -0.05604349  0.026401310
+## AGE   0.026065468  0.10609216 -0.10300193  0.415744109
+## IQ    0.081299310 -0.05365587 -0.09153965 -0.291715783
+## ANX   0.223178752 -0.21062493 -0.34211268  0.118175321
+## DEP   0.524872455 -0.30584223 -0.61390173  0.023374247
+## SLP   1.000000000 -0.29053971 -0.35186578 -0.009259774
+## SEX  -0.290539709  1.00000000  0.22316967 -0.027826514
+## LIFE -0.351865775  0.22316967  1.00000000 -0.058605326
+## WT   -0.009259774 -0.02782651 -0.05860533  1.000000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pairs}\NormalTok{(fem)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-62-1.pdf}
+
+The output can be a little confusing particularly if it includes
+categorical or record identifying variables. To avoid this we can create
+a new object that contains only the columns we are interested in using
+the column binding \texttt{cbind()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{newfem <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(AGE, IQ, WT)}
+\KeywordTok{cor}\NormalTok{(newfem, }\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            AGE         IQ         WT
+## AGE  1.0000000 -0.4345436  0.4157441
+## IQ  -0.4345436  1.0000000 -0.2917158
+## WT   0.4157441 -0.2917158  1.0000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pairs}\NormalTok{(newfem)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-63-1.pdf}
+
+When we have finished with the \texttt{newfem} object we can delete it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(newfem)}
+\end{Highlighting}
+\end{Shaded}
+
+There was no real need to create the \texttt{newfem} object as we could
+have fed the output of the \texttt{cbind()} function directly to the
+\texttt{cor()} or \texttt{pairs()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(AGE, IQ, WT), }\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            AGE         IQ         WT
+## AGE  1.0000000 -0.4345436  0.4157441
+## IQ  -0.4345436  1.0000000 -0.2917158
+## WT   0.4157441 -0.2917158  1.0000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pairs}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(AGE, IQ, WT))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-65-1.pdf}
+
+It is, however, easier to work with the \texttt{newfem} object rather
+than having to retype the \texttt{cbind()} function. This is
+particularly true if you wanted to continue with an analysis of just the
+three variables.
+
+The relationship between \texttt{AGE} and \texttt{WT} can be plotted
+using the \texttt{plot()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(AGE, WT)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-66-1.pdf}
+
+And tested using the \texttt{cor()} and \texttt{cor.test()} functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(AGE, WT, }\DataTypeTok{use =} \StringTok{"pairwise.complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4157441
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor.test}\NormalTok{(AGE, WT)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pearson's product-moment correlation
+## 
+## data:  AGE and WT
+## t = 4.6841, df = 105, p-value = 8.457e-06
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.2452434 0.5612979
+## sample estimates:
+##       cor 
+## 0.4157441
+\end{verbatim}
+
+Or by using the linear modelling \texttt{lm()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(}\KeywordTok{lm}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{AGE))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = WT ~ AGE)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -3.10678 -0.85922 -0.05453  0.71434  2.70874 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -3.25405    0.85547  -3.804  0.00024 ***
+## AGE          0.10592    0.02261   4.684 8.46e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.128 on 105 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
+## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06
+\end{verbatim}
+
+We use the \texttt{summary()} function here to extract summary
+information from the output of the \texttt{lm()} function.
 
 \bibliography{book.bib}
 
