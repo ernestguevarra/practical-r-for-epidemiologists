@@ -184,10 +184,10 @@ called <code>fem</code>.</p>
 <pre><code>## [1] 9</code></pre>
 <p>for female psychiatric patients.</p>
 <p>The columns in the dataset are:</p>
-<table>
+<table style="width:89%;">
 <colgroup>
-<col width="9%" />
-<col width="90%" />
+<col width="15%" />
+<col width="73%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -204,13 +204,98 @@ called <code>fem</code>.</p>
 <td><strong>IQ</strong></td>
 <td>IQ score</td>
 </tr>
+<tr class="odd">
+<td><strong>ANX</strong></td>
+<td>Anxiety (1=none, 2=mild, 3=moderate, 4=severe)</td>
+</tr>
+<tr class="even">
+<td><strong>DEP</strong></td>
+<td>Depression (1=none, 2=mild, 3=moderate or severe)</td>
+</tr>
+<tr class="odd">
+<td><strong>SLP</strong></td>
+<td>Sleeping normally (1=yes, 2=no)</td>
+</tr>
+<tr class="even">
+<td><strong>SEX</strong></td>
+<td>Lost interest in sex (1=yes, 2=no)</td>
+</tr>
+<tr class="odd">
+<td><strong>LIFE</strong></td>
+<td>Considered suicide (1=yes, 2=no)</td>
+</tr>
+<tr class="even">
+<td><strong>WT</strong></td>
+<td>Weight change (kg) in previous 6 months</td>
+</tr>
 </tbody>
 </table>
-<p>AGE Age in years
-IQ IQ score
-ANX Anxiety (1=none, 2=mild, 3=moderate, 4=severe) DEP Depression (1=none, 2=mild, 3=moderate or severe) SLP Sleeping normally (1=yes, 2=no)
-SEX Lost interest in sex (1=yes, 2=no) LIFE Considered suicide (1=yes, 2=no)
-WT Weight change (kg) in previous 6 months</p>
+<p>The first ten records of the <code>fem</code> data.frame are:</p>
+<pre><code>##    ID AGE  IQ ANX DEP SLP SEX LIFE    WT
+## 1   1  39  94   2   2   2   1    1  2.23
+## 2   2  41  89   2   2   2   1    1  1.00
+## 3   3  42  83   3   3   2   1    1  1.82
+## 4   4  30  99   2   2   2   1    1 -1.18
+## 5   5  35  94   2   1   1   1    2 -0.14
+## 6   6  44  90  NA   1   2   2    2  0.41
+## 7   7  31  94   2   2  NA   1    1 -0.68
+## 8   8  39  87   3   2   2   1    2  1.59
+## 9   9  35 -99   3   2   2   1    1 -0.55
+## 10 10  33  92   2   2   2   1    1  0.36</code></pre>
+<p>You may check this by asking <code>R</code> to display all columns of the first ten records in the <code>fem</code> data.frame:</p>
+<pre class="sourceCode r" id="cb33"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
+<pre><code>##    ID AGE  IQ ANX DEP SLP SEX LIFE    WT
+## 1   1  39  94   2   2   2   1    1  2.23
+## 2   2  41  89   2   2   2   1    1  1.00
+## 3   3  42  83   3   3   2   1    1  1.82
+## 4   4  30  99   2   2   2   1    1 -1.18
+## 5   5  35  94   2   1   1   1    2 -0.14
+## 6   6  44  90  NA   1   2   2    2  0.41
+## 7   7  31  94   2   2  NA   1    1 -0.68
+## 8   8  39  87   3   2   2   1    2  1.59
+## 9   9  35 -99   3   2   2   1    1 -0.55
+## 10 10  33  92   2   2   2   1    1  0.36</code></pre>
+<p>The space after the comma is optional. You can think of it as a <em>placeholder</em> for where you would specify the indexes for columns you wanted to display. For example:</p>
+<pre class="sourceCode r" id="cb35"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre>
+<p>displays the first ten rows and the second, third and fourth columns of the <code>fem</code> data.frame:</p>
+<pre><code>##    AGE  IQ ANX
+## 1   39  94   2
+## 2   41  89   2
+## 3   42  83   3
+## 4   30  99   2
+## 5   35  94   2
+## 6   44  90  NA
+## 7   31  94   2
+## 8   39  87   3
+## 9   35 -99   3
+## 10  33  92   2</code></pre>
+<p><code>NA</code> is a special value meaning <em>not available</em> or <em>missing</em>.</p>
+<p>You can access the contents of a single column by name:</p>
+<pre class="sourceCode r" id="cb37"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
+<pre><code>##   [1]  94  89  83  99  94  90  94  87 -99  92  92  94  91  86  90 -99  91
+##  [18]  82  86  88  97  96  95  87 103 -99  91  87  91  89  92  84  94  92
+##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91 -99  92  92
+##  [52]  91  91  86  95  91  96 100  99  89  89  98  98 103  91  91  94  91
+##  [69]  85  92  96  90  87  95  95  87  95  88  94 -99 -99  87  92  86  93
+##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
+## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
+<pre class="sourceCode r" id="cb39"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">fem<span class="op">$</span>IQ[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre>
+<pre><code>##  [1]  94  89  83  99  94  90  94  87 -99  92</code></pre>
+<p>The <code>$</code> sign is used to separate the name of the data.frame and the name of the column of interest. Note that <code>R</code> is case-sensitive so that <code>IQ</code> and <code>iq</code> are <strong><em>not</em></strong> the same.</p>
+<p>You can also access rows, columns, and individual cells by specifying row and column positions. For example, the <code>IQ</code> column is the third column in the <code>fem</code> data.frame:</p>
+<pre class="sourceCode r" id="cb41"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">fem[ ,<span class="dv">3</span>]</a></code></pre>
+<pre><code>##   [1]  94  89  83  99  94  90  94  87 -99  92  92  94  91  86  90 -99  91
+##  [18]  82  86  88  97  96  95  87 103 -99  91  87  91  89  92  84  94  92
+##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91 -99  92  92
+##  [52]  91  91  86  95  91  96 100  99  89  89  98  98 103  91  91  94  91
+##  [69]  85  92  96  90  87  95  95  87  95  88  94 -99 -99  87  92  86  93
+##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
+## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
+<pre class="sourceCode r" id="cb43"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fem[<span class="dv">9</span>, ]</a></code></pre>
+<pre><code>##   ID AGE  IQ ANX DEP SLP SEX LIFE    WT
+## 9  9  35 -99   3   2   2   1    1 -0.55</code></pre>
+<pre class="sourceCode r" id="cb45"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">fem[<span class="dv">9</span>,<span class="dv">3</span>]</a></code></pre>
+<pre><code>## [1] -99</code></pre>
 
 </div>
             </section>
