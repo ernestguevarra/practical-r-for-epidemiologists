@@ -118,11 +118,11 @@ fem[1:10,2:4 ]
 
 You can access the contents of a single column by name:
 
-```{r eval = TRUE}
+```{r, eval = TRUE}
 fem$IQ
 ```
 
-```{r eval = TRUE}
+```{r, eval = TRUE}
 fem$IQ[1:10]
 ```
 
@@ -130,15 +130,69 @@ The `$` sign is used to separate the name of the data.frame and the name of the 
 
 You can also access rows, columns, and individual cells by specifying row and column positions. For example, the `IQ` column is the third column in the `fem` data.frame:
 
-```{r eval = TRUE}
+```{r, eval = TRUE}
 fem[ ,3]
 ```
 
-```{r eval = TRUE}
+```{r, eval = TRUE}
 fem[9, ]
 ```
 
-```{r eval = TRUE}
+```{r, eval = TRUE}
 fem[9,3]
 ```
+
+There are missing values in the `IQ` column which are all coded as **-99**. Before proceeding we must set these to
+the special `NA` value:
+
+```{r, eval = TRUE}
+fem$IQ[fem$IQ == -99] <- NA
+```
+
+The term inside the square brackets is also an index. This type of index is used to refer to subsets of data held in an object that meet a particular condition. In this case we are instructing `R` to set the contents of the `IQ` variable to `NA` if the contents of the `IQ` variable is **-99**.
+
+Check that this has worked:
+
+```{r, eval = TRUE}
+fem$IQ
+```
+
+We can now compare the groups who have and have not considered suicide. For example:
+
+```{r, eval = FALSE}
+by(fem$IQ, fem$LIFE, summary)
+```
+
+Look at the help for the `by()` function:
+
+```{r, eval = FALSE}
+help(by)
+```
+
+Note that you may use `?by` as a shortcut for `help(by)`.
+
+The `by()` function applies another function (in this case the `summary()` function) to a column in a
+data.frame (in this case `fem$IQ`) split by the value of another variable (in this case `fem$LIFE`).
+
+It can be tedious to always have to specify a data.frame each time we want to use a particular variable. We can
+fix this problem by ‘attaching’ the data.frame:
+
+```{r, eval = TRUE}
+attach(fem)
+```
+
+We can now refer to the columns in the `fem` data.frame without having to specify the name of the data.frame. This time we will produce summary statistics for `WT` by `LIFE`:
+
+```{r, eval}
+by(WT, LIFE, summary)
+
+We can view the same data as a box and whisker plot:
+   boxplot(WT ~ LIFE)
+We can add axis labels and a title to the graph:
+   boxplot(WT ~ LIFE,
+           xlab = "Life",
+           ylab = "Weight",
+           main = "Weight BY Life")
+A more descriptive title might be "Weight Change BY Considered Suicide".
+The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.
 
