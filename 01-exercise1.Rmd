@@ -70,17 +70,47 @@ for female psychiatric patients.
 
 The columns in the dataset are:
 
-+----------+----------------------------------------------------------------------------------------------------+
-| **ID**   | Patient ID                                                                                         |
-+==========+====================================================================================================+
-| **AGE**  | Age in years                                                                                       |
-+----------+----------------------------------------------------------------------------------------------------+
-| **IQ**   | IQ score                                                                                           |
-+----------+----------------------------------------------------------------------------------------------------+
++----------+----------------------------------------------------+
+| **ID**   | Patient ID                                         |
++==========+====================================================+
+| **AGE**  | Age in years                                       |
++----------+----------------------------------------------------+
+| **IQ**   | IQ score                                           |
++----------+----------------------------------------------------+
+| **ANX**  | Anxiety (1=none, 2=mild, 3=moderate, 4=severe)     |
++----------+----------------------------------------------------+
+| **DEP**  | Depression (1=none, 2=mild, 3=moderate or severe)  |
++----------+----------------------------------------------------+
+| **SLP**  | Sleeping normally (1=yes, 2=no)                    |
++----------+----------------------------------------------------+
+| **SEX**  | Lost interest in sex (1=yes, 2=no)                 |
++----------+----------------------------------------------------+
+| **LIFE** | Considered suicide (1=yes, 2=no)                   |
++----------+----------------------------------------------------+
+| **WT**   | Weight change (kg) in previous 6 months            |
++----------+----------------------------------------------------+
 
+The first ten records of the `fem` data.frame are:
 
-AGE Age in years
-IQ IQ score
-ANX Anxiety (1=none, 2=mild, 3=moderate, 4=severe) DEP Depression (1=none, 2=mild, 3=moderate or severe) SLP Sleeping normally (1=yes, 2=no)
-SEX Lost interest in sex (1=yes, 2=no) LIFE Considered suicide (1=yes, 2=no)
-WT Weight change (kg) in previous 6 months
+```{r, echo = FALSE, eval = TRUE}
+fem[1:10, ]
+```
+
+You may check this by asking `R` to display all columns of the first ten records in the `fem` data.frame:
+
+```{r, eval = TRUE}
+fem[1:10, ]
+```
+
+The space after the comma is optional. You can think of it as a *placeholder* for where you would specify the indexes for columns you wanted to display. For example:
+
+```{r, eval = FALSE}
+fem[1:10,2:4]
+```
+
+displays the first ten rows and the second, third and fourth columns of the `fem` data.frame:
+
+```{r echo = FALSE, eval = TRUE}
+fem[1:10,2:4 ]
+```
+
