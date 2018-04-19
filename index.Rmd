@@ -14,7 +14,7 @@ description: "This guide is intended as a practical introduction to using the R 
 
 
 
-## Introducting R
+## Introducing R
 
 `R` is a system for data manipulation, calculation, and graphics. It provides:
 
