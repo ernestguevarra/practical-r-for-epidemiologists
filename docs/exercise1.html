@@ -345,8 +345,98 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <pre class="sourceCode r" id="cb58"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>and check the assumption of normality using quantile-quantile plots:</p>
-<pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
+<pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb60"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p>or by using a formal test:</p>
+<pre class="sourceCode r" id="cb61"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  WT[LIFE == 1]
+## W = 0.98038, p-value = 0.4336</code></pre>
+<pre class="sourceCode r" id="cb63"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  WT[LIFE == 2]
+## W = 0.97155, p-value = 0.3292</code></pre>
+<p>Remember that we can use the <code>by()</code> function to apply a function to a data.frame, including statistical functions such as <code>shapiro.test()</code>:</p>
+<pre class="sourceCode r" id="cb65"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, shapiro.test)</a></code></pre>
+<pre><code>## LIFE: 1
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  dd[x, ]
+## W = 0.98038, p-value = 0.4336
+## 
+## -------------------------------------------------------- 
+## LIFE: 2
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  dd[x, ]
+## W = 0.97155, p-value = 0.3292</code></pre>
+<p>We can also test whether the variances differ significantly using <em>Bartlett’s test</em> for the homogeneity of variances:</p>
+<pre class="sourceCode r" id="cb67"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT, LIFE)</a></code></pre>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  WT and LIFE
+## Bartlett&#39;s K-squared = 0.32408, df = 1, p-value = 0.5692</code></pre>
+<p>There is no significant difference between the two variances.</p>
+<p>Many functions in <code>R</code> have a <em>formula interface</em> that may be used to specify multiple variables and the relations between multiple variables. We could have used the formula interface with the <code>bartlett.test()</code> function:</p>
+<pre class="sourceCode r" id="cb69"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  WT by LIFE
+## Bartlett&#39;s K-squared = 0.32408, df = 1, p-value = 0.5692</code></pre>
+<p>Having checked the normality and homogeneity of variance assumptions we can proceed to carry out a <code>t-test</code>:</p>
+<pre class="sourceCode r" id="cb71"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.59869, df = 104, p-value = 0.5507
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3382365  0.6307902
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444</code></pre>
+<p>There is no evidence that the two groups differ in weight change in the previous six months.</p>
+<p>We could still have performed a <code>t-test</code> if the variances were not homogenous by setting the <strong>var.equal</strong> parameter of the <code>t.test()</code> function to <strong>FALSE</strong>:</p>
+<pre class="sourceCode r" id="cb73"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a></code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.60608, df = 98.866, p-value = 0.5459
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3326225  0.6251763
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444</code></pre>
+<p>or performed a non-parametric test:</p>
+<pre class="sourceCode r" id="cb75"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">wilcox.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  WT by LIFE
+## W = 1488, p-value = 0.4622
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>An alternative, and more general, non-parametric test is:</p>
+<pre class="sourceCode r" id="cb77"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">kruskal.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  WT by LIFE
+## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603</code></pre>
 
 </div>
             </section>

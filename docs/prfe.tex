@@ -971,10 +971,198 @@ and check the assumption of normality using quantile-quantile plots:
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{qqnorm}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{])}
+\KeywordTok{qqline}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qqnorm}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
+\KeywordTok{qqline}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+or by using a formal test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{shapiro.test}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  WT[LIFE == 1]
+## W = 0.98038, p-value = 0.4336
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{shapiro.test}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  WT[LIFE == 2]
+## W = 0.97155, p-value = 0.3292
+\end{verbatim}
+
+Remember that we can use the \texttt{by()} function to apply a function
+to a data.frame, including statistical functions such as
+\texttt{shapiro.test()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{by}\NormalTok{(WT, LIFE, shapiro.test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## LIFE: 1
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  dd[x, ]
+## W = 0.98038, p-value = 0.4336
+## 
+## -------------------------------------------------------- 
+## LIFE: 2
+## 
+##  Shapiro-Wilk normality test
+## 
+## data:  dd[x, ]
+## W = 0.97155, p-value = 0.3292
+\end{verbatim}
+
+We can also test whether the variances differ significantly using
+\emph{Bartlett's test} for the homogeneity of variances:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{bartlett.test}\NormalTok{(WT, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  WT and LIFE
+## Bartlett's K-squared = 0.32408, df = 1, p-value = 0.5692
+\end{verbatim}
+
+There is no significant difference between the two variances.
+
+Many functions in \texttt{R} have a \emph{formula interface} that may be
+used to specify multiple variables and the relations between multiple
+variables. We could have used the formula interface with the
+\texttt{bartlett.test()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{bartlett.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  WT by LIFE
+## Bartlett's K-squared = 0.32408, df = 1, p-value = 0.5692
+\end{verbatim}
+
+Having checked the normality and homogeneity of variance assumptions we
+can proceed to carry out a \texttt{t-test}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE, }\DataTypeTok{var.equal =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.59869, df = 104, p-value = 0.5507
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3382365  0.6307902
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444
+\end{verbatim}
+
+There is no evidence that the two groups differ in weight change in the
+previous six months.
+
+We could still have performed a \texttt{t-test} if the variances were
+not homogenous by setting the \textbf{var.equal} parameter of the
+\texttt{t.test()} function to \textbf{FALSE}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE, }\DataTypeTok{var.equal =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.60608, df = 98.866, p-value = 0.5459
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3326225  0.6251763
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444
+\end{verbatim}
+
+or performed a non-parametric test:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{wilcox.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  WT by LIFE
+## W = 1488, p-value = 0.4622
+## alternative hypothesis: true location shift is not equal to 0
+\end{verbatim}
+
+An alternative, and more general, non-parametric test is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{kruskal.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  WT by LIFE
+## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603
+\end{verbatim}
 
 \bibliography{book.bib}
 
