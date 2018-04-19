@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Practical R for Epidemiologists</title>
+  <meta name="description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book.">
+  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Practical R for Epidemiologists" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical R for Epidemiologists" />
+  
+  <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
+  
+
+<meta name="author" content="Mark Myatt">
+
+
+<meta name="date" content="2018-04-19">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="index.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; }
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre, code { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; color: initial; }
+}
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.fl { color: #0000cf; } /* Float */
+code span.ch { color: #4e9a06; } /* Char */
+code span.st { color: #4e9a06; } /* String */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.ot { color: #8f5902; } /* Other */
+code span.al { color: #ef2929; } /* Alert */
+code span.fu { color: #000000; } /* Function */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #000000; } /* Constant */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #000000; } /* Variable */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.ex { } /* Extension */
+code span.at { color: #c4a000; } /* Attribute */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Practical R for Epidemiologists</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#introducting-r"><i class="fa fa-check"></i><b>1.1</b> Introducting R</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#retrieving-data"><i class="fa fa-check"></i><b>1.2</b> Retrieving data</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>2</b> Getting acquainted with R</a></li>
+<li class="divider"></li>
+<li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical R for Epidemiologists</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="exercise1" class="section level1">
+<h1><span class="header-section-number">2</span> Getting acquainted with R</h1>
+<p>In this exercise we will use <code>R</code> to read a dataset and produce some descriptive statistics, produce some charts, and perform some simple statistical inference. The aim of the exercise is for you to become familiar with <code>R</code> and some basic <code>R</code> functions and objects.</p>
+<p>The first thing we will do, after starting <code>R</code>, is issue a command to retrieve an example dataset:</p>
+<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p>This command illustrates some key things about the way <code>R</code> works.</p>
+<p>We are instructing <code>R</code> to assign (using the <code>&lt;-</code> operator) the output of the <code>read.table()</code> function to an object
+called <code>fem</code>.</p>
+<p>The <code>fem</code> object will contain the data held in the file <code>fem.dat</code> as an <code>R</code> data.frame object:</p>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">class</span>(fem)</a></code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<p>You can inspect the contents of the <code>fem</code> data.frame (or any other <code>R</code> object) just by typing its name:</p>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">fem</a></code></pre>
+<pre><code>##      ID AGE  IQ ANX DEP SLP SEX LIFE    WT
+## 1     1  39  94   2   2   2   1    1  2.23
+## 2     2  41  89   2   2   2   1    1  1.00
+## 3     3  42  83   3   3   2   1    1  1.82
+## 4     4  30  99   2   2   2   1    1 -1.18
+## 5     5  35  94   2   1   1   1    2 -0.14
+## 6     6  44  90  NA   1   2   2    2  0.41
+## 7     7  31  94   2   2  NA   1    1 -0.68
+## 8     8  39  87   3   2   2   1    2  1.59
+## 9     9  35 -99   3   2   2   1    1 -0.55
+## 10   10  33  92   2   2   2   1    1  0.36
+## 11   11  38  92   2   1   1   2    2 -0.86
+## 12   12  31  94   2   2   2  NA    2  2.50
+## 13   13  40  91   3   2   2   1    2  1.23
+## 14   14  44  86   2   2   2   1    1  2.00
+## 15   15  43  90   3   2   2   1    1  1.45
+## 16   16  32 -99   1   1   1   1    2 -0.68
+## 17   17  32  91   1   2   2  NA    2 -0.86
+## 18   18  43  82   4   3   2   1    1  3.77
+## 19   19  46  86   3   2   2   1    1  1.64
+## 20   20  30  88   2   2   2   1    2  0.64
+## 21   21  34  97   3   3  NA   1    1    NA
+## 22   22  37  96   3   2   2   1    2    NA
+## 23   23  35  95   2   1   2   1    2 -0.45
+## 24   24  45  87   2   2   2   1    1  2.95
+## 25   25  35 103   2   2   2   1    2 -0.95
+## 26   26  31 -99   2   2   2   1    2 -0.18
+## 27   27  32  91   2   2   2   1    2 -0.86
+## 28   28  44  87   2   2   2   1    1  1.68
+## 29   29  40  91   3   3   2   1    1  2.05
+## 30   30  42  89   3   3   2   1    1  1.91
+## 31   31  36  92   3  NA   2   1    1    NA
+## 32   32  42  84   3   3   2   1    1  0.77
+## 33   33  46  94   2  NA   2   1    1  2.18
+## 34   34  41  92   2   1   2   1    2  0.77
+## 35   35  30  96  NA   2   2   1    1 -1.36
+## 36   36  39  96   2   2   2   2    2  0.36
+## 37   37  40  86   2   3   2   1    1  0.68
+## 38   38  42  92   3   2   2   1    2  0.59
+## 39   39  35 102   2   2   2   1    1  1.36
+## 40   40  31  82   2   2   2   1    2  0.45
+## 41   41  33  92   3   3   2   1    1  0.68
+## 42   42  43  90  NA  NA   2   1    1  1.55
+## 43   43  37  92   2   1   1   2    2    NA
+## 44   44  32  88   4   2   2   1    2    NA
+## 45   45  34  98   2   2   2   1   NA  0.27
+## 46   46  34  93   3   2   2   1    1  0.27
+## 47   47  42  90   2   1   1   1    2  1.50
+## 48   48  41  91   2   1   1   2    2  2.18
+## 49   49  31 -99   3   1   2   1    2 -1.00
+## 50   50  32  92   3   2   2   1    1  0.45
+## 51   51  29  92   2   2   2   2    1 -0.55
+## 52   52  41  91   2   2   2   1    1  1.82
+## 53   53  39  91   2   2   2   1    1  2.68
+## 54   54  41  86   2   1   1   1    2  0.09
+## 55   55  34  95   2   1   1   1    2  1.59
+## 56   56  39  91   1   1   2   2    2  1.32
+## 57   57  35  96   3   2   2   2    2 -0.27
+## 58   58  31 100   2   2   2   1    1 -0.27
+## 59   59  32  99   4   3   2   1    1 -1.14
+## 60   60  41  89   2   1   2   2    2  1.45
+## 61   61  41  89   3   2   2   1    1  0.95
+## 62   62  44  98   3   2   2   1    1  1.73
+## 63   63  35  98   2   2   2   1    2 -1.09
+## 64   64  41 103   2   2   2   1    1 -0.36
+## 65   65  41  91   3   1   2   1    2  2.64
+## 66   66  42  91   4   3  NA  NA    1  1.14
+## 67   67  33  94   2   2   2   1    2 -0.82
+## 68   68  41  91   2   1   2   1    2  1.95
+## 69   69  43  85   2   2   2   2    2    NA
+## 70   70  37  92   1   1   2   1    2  0.45
+## 71   71  36  96   3   3   2   1    1  1.59
+## 72   72  44  90   2  NA   2   1    1  1.50
+## 73   73  42  87   2   2   2   2    1 -0.32
+## 74   74  31  95   2   3   2   1    1 -0.73
+## 75   75  29  95   3   3   2   1    1 -0.09
+## 76   76  32  87   1   1   2   1    2 -1.68
+## 77   77  35  95   2   2   2   1    1  1.73
+## 78   78  42  88   1   1   1   1    2 -0.45
+## 79   79  32  94   2   2   2   1    2  2.14
+## 80   80  39 -99   3   2   2   1    1 -2.23
+## 81   81  34 -99   3  NA   2   1    2    NA
+## 82   82  34  87   3   3   2   1    2  1.00
+## 83   83  42  92   1   1   2   2    2  2.27
+## 84   84  43  86   2   3   2   1    1  0.18
+## 85   85  31  93  NA   2   2   1    1 -1.91
+## 86   86  31  92   2   2   2   1    2 -0.50
+## 87   87  36 106   2   2   2   2    1 -0.45
+## 88   88  37  93   2   2   2   1    1  1.91
+## 89   89  43  95   2   2   2   1    2  1.09
+## 90   90  32  95   3   2   2   1    1  2.23
+## 91   91  32  92  NA  NA  NA   1    1  1.36
+## 92   92  32  98   2   2   2   1    1 -0.14
+## 93   93  43  92   2   2   2   1    1  0.55
+## 94   94  41  88   2   2   2   1    2  1.18
+## 95   95  43  85   1   1   2   1    2  0.86
+## 96   96  39  92   2   2   2   1    2  1.59
+## 97   97  41  84   2   2   2   1    1 -0.27
+## 98   98  41  92   2   1   2   1    2  0.64
+## 99   99  32  91   2   2   2   1    1  2.59
+## 100 100  44  86   3   2   2   1    1  2.09
+## 101 101  42  92   3   2   2   1    2    NA
+## 102 102  39  89   2   2   2   1    2  0.91
+## 103 103  45 -99   2   2   2   1    1  0.27
+## 104 104  39  96   3  NA   2   1    1    NA
+## 105 105  31  97   2  NA  NA  NA    1  1.27
+## 106 106  34  92   3   2   2   1    1 -0.95
+## 107 107  41  92   2   2   2   1    1 -1.14
+## 108 108  33  98   3   2   2   1    1  1.14
+## 109 109  34  91   2   1   1   1    2  2.59
+## 110 100  42  91   3   3   2   1    1  1.09
+## 111 111  40  89   3   1   1   2    2  0.68
+## 112 112  35  94   3   3   2   1    1  0.77
+## 113 113  41  90   3   2   2   1    1  1.14
+## 114 114  32  96   2   1   1   1    2    NA
+## 115 115  39  87   2   2   2   2    1    NA
+## 116 116  41  86   3   2   1   2    1 -0.45
+## 117 117  33  89   1   1   1   2    2  2.95
+## 118 118  42 -99   3   2   2   1    1  2.23</code></pre>
+<p>Note that the <code>fem</code> object is built from other objects. These are the named vectors (columns) in the dataset:</p>
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">names</span>(fem)</a></code></pre>
+<pre><code>## [1] &quot;ID&quot;   &quot;AGE&quot;  &quot;IQ&quot;   &quot;ANX&quot;  &quot;DEP&quot;  &quot;SLP&quot;  &quot;SEX&quot;  &quot;LIFE&quot; &quot;WT&quot;</code></pre>
+<p>The <code>[1]</code> displayed before the column names refers to the numbered position of the first name in the output. These positions are known as indexes and can be used to refer to individual items. For example:</p>
+<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">1</span>]</a></code></pre>
+<pre><code>## [1] &quot;ID&quot;</code></pre>
+<pre class="sourceCode r" id="cb24"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">8</span>]</a></code></pre>
+<pre><code>## [1] &quot;LIFE&quot;</code></pre>
+<pre class="sourceCode r" id="cb26"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre>
+<pre><code>## [1] &quot;AGE&quot; &quot;IQ&quot;  &quot;ANX&quot;</code></pre>
+<p>The data consist of 118 records:</p>
+<pre class="sourceCode r" id="cb28"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">nrow</span>(fem)</a></code></pre>
+<pre><code>## [1] 118</code></pre>
+<p>each with nine variables:</p>
+<pre class="sourceCode r" id="cb30"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">ncol</span>(fem)</a></code></pre>
+<pre><code>## [1] 9</code></pre>
+<p>for female psychiatric patients.</p>
+<p>The columns in the dataset are:</p>
+<p>+———-+—————————————————————————————————-+
+| <strong>ID</strong> | Patient ID |
++==========+====================================================================================================+</p>
+<p>AGE Age in years
+IQ IQ score
+ANX Anxiety (1=none, 2=mild, 3=moderate, 4=severe) DEP Depression (1=none, 2=mild, 3=moderate or severe) SLP Sleeping normally (1=yes, 2=no)
+SEX Lost interest in sex (1=yes, 2=no) LIFE Considered suicide (1=yes, 2=no)
+WT Weight change (kg) in previous 6 months</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["prfe.pdf", "prfe.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
