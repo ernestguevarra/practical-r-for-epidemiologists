@@ -132,3 +132,77 @@ Which returns a risk ratio of
 ```
 
 This is a tedious calculation to have to type in every time you need to calculate a risk ratio from a two-by-two table. It would be better to have a function that calculates and displays the risk ratio automatically. Fortunately, `R` allows us to do just that.
+
+The `function()` function allows us to create new functions in `R`:
+
+```{r, eval = FALSE}
+tab2by2 <- function(exposure, outcome) {}
+```
+
+This creates an empty function called `tab2by2` that expects two parameters called `exposure` and `outcome`. We could type the whole function in at the `R` command prompt but it is easier to use a text editor:
+
+```{r, eval = FALSE}
+fix(tab2by2)
+```
+
+This will start an editor with the empty `tab2by2()` function already loaded. We can now edit this function to make it do something useful:
+
+```{r, eval = FALSE}
+function(exposure, outcome)
+  {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  print(tab)
+  print(rr) 
+  }
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2 <- function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  print(tab)
+  print(rr) 
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+Before proceeding we should examine the `tab2by2()` function to make sure we understand what the function will do:
+
+    The first line defines `tab2by2` as a function that expects to be given two parameters which are called `exposure` and      `outcome`.
+
+    The body of the function (i.e. the work of the function) is enclosed within curly brackets (`{}`).
+
+    The first line of the body of the function creates a table object (`tab`) using the variables specified when
+    the `tab2by2()` function is called (these are the parameters `exposure` and `outcome`).
+
+    The next line creates four new objects (called `a`, `b`, `c`, and `d`) which contain the values of the four cells
+    in the two-by-two table.
+
+    The following line calculates the risk ratio using the objects `a`, `b`, `c`, and `d` and stores the result of the
+    calculation in an object called `rr`.
+
+    The final two lines print the contents of the `tab` and `rr` objects. 
+
+Let's try the `tab2by2()` function with our test data:
+
+```{r, eval = TRUE}
+tab2by2(HAM, ILL)
+```
+
+The `tab2by2()` function displays a table of `HAM` by `ILL` followed by the risk ratio calculated from the data in the table.
+
+Try producing another table:
+
+```{r, eval = TRUE}
+tab2by2(PASTA, ILL)
+```
+
