@@ -2326,6 +2326,113 @@ calculate a risk ratio from a two-by-two table. It would be better to
 have a function that calculates and displays the risk ratio
 automatically. Fortunately, \texttt{R} allows us to do just that.
 
+The \texttt{function()} function allows us to create new functions in
+\texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab2by2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{tab2by2} that expects two
+parameters called \texttt{exposure} and \texttt{outcome}. We could type
+the whole function in at the \texttt{R} command prompt but it is easier
+to use a text editor:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(tab2by2)}
+\end{Highlighting}
+\end{Shaded}
+
+This will start an editor with the empty \texttt{tab2by2()} function
+already loaded. We can now edit this function to make it do something
+useful:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(exposure, outcome)}
+\NormalTok{  \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(exposure, outcome)}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  b <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  c <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  d <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  rr <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b)) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+  \KeywordTok{print}\NormalTok{(tab)}
+  \KeywordTok{print}\NormalTok{(rr) }
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor. Before proceeding we should examine the
+\texttt{tab2by2()} function to make sure we understand what the function
+will do:
+
+\begin{itemize}
+\item
+  The first line defines \texttt{tab2by2} as a function that expects to
+  be given two parameters which are called \texttt{exposure} and
+  \texttt{outcome}.
+\item
+  The body of the function (i.e.~the work of the function) is enclosed
+  within curly brackets (\texttt{\{\}}).
+\item
+  The first line of the body of the function creates a table object
+  (\texttt{tab}) using the variables specified when the
+  \texttt{tab2by2()} function is called (these are the parameters
+  \texttt{exposure} and \texttt{outcome}).
+\item
+  The next line creates four new objects (called \texttt{a}, \texttt{b},
+  \texttt{c}, and \texttt{d}) which contain the values of the four cells
+  in the two-by-two table.
+\item
+  The following line calculates the risk ratio using the objects
+  \texttt{a}, \texttt{b}, \texttt{c}, and \texttt{d} and stores the
+  result of the calculation in an object called \texttt{rr}.
+\item
+  The final two lines print the contents of the \texttt{tab} and
+  \texttt{rr} objects.
+\end{itemize}
+
+Let's try the \texttt{tab2by2()} function with our test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(HAM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1 46 17
+##        2  5  9
+## [1] 2.044444
+\end{verbatim}
+
+The \texttt{tab2by2()} function displays a table of \texttt{HAM} by
+\texttt{ILL} followed by the risk ratio calculated from the data in the
+table.
+
+Try producing another table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(PASTA, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1 25  3
+##        2 26 23
+## [1] 1.682692
+\end{verbatim}
+
 \bibliography{book.bib}
 
 

@@ -440,6 +440,47 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>Which returns a risk ratio of</p>
 <pre><code>## [1] 2.044444</code></pre>
 <p>This is a tedious calculation to have to type in every time you need to calculate a risk ratio from a two-by-two table. It would be better to have a function that calculates and displays the risk ratio automatically. Fortunately, <code>R</code> allows us to do just that.</p>
+<p>The <code>function()</code> function allows us to create new functions in <code>R</code>:</p>
+<pre class="sourceCode r" id="cb166"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">tab2by2 &lt;-<span class="st"> </span><span class="cf">function</span>(exposure, outcome) {}</a></code></pre>
+<p>This creates an empty function called <code>tab2by2</code> that expects two parameters called <code>exposure</code> and <code>outcome</code>. We could type the whole function in at the <code>R</code> command prompt but it is easier to use a text editor:</p>
+<pre class="sourceCode r" id="cb167"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre>
+<p>This will start an editor with the empty <code>tab2by2()</code> function already loaded. We can now edit this function to make it do something useful:</p>
+<pre class="sourceCode r" id="cb168"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome)</a>
+<a class="sourceLine" id="cb168-2" data-line-number="2">  {</a>
+<a class="sourceLine" id="cb168-3" data-line-number="3">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
+<a class="sourceLine" id="cb168-4" data-line-number="4">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb168-5" data-line-number="5">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb168-6" data-line-number="6">  c &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb168-7" data-line-number="7">  d &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb168-8" data-line-number="8">  rr &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b)) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d))</a>
+<a class="sourceLine" id="cb168-9" data-line-number="9">  <span class="kw">print</span>(tab)</a>
+<a class="sourceLine" id="cb168-10" data-line-number="10">  <span class="kw">print</span>(rr) </a>
+<a class="sourceLine" id="cb168-11" data-line-number="11">  }</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
+Before proceeding we should examine the <code>tab2by2()</code> function to make sure we understand what the function will do:</p>
+<ul>
+<li><p>The first line defines <code>tab2by2</code> as a function that expects to be given two parameters which are called <code>exposure</code> and <code>outcome</code>.</p></li>
+<li><p>The body of the function (i.e. the work of the function) is enclosed within curly brackets (<code>{}</code>).</p></li>
+<li><p>The first line of the body of the function creates a table object (<code>tab</code>) using the variables specified when the <code>tab2by2()</code> function is called (these are the parameters <code>exposure</code> and <code>outcome</code>).</p></li>
+<li><p>The next line creates four new objects (called <code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code>) which contain the values of the four cells in the two-by-two table.</p></li>
+<li><p>The following line calculates the risk ratio using the objects <code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code> and stores the result of the calculation in an object called <code>rr</code>.</p></li>
+<li><p>The final two lines print the contents of the <code>tab</code> and <code>rr</code> objects.</p></li>
+</ul>
+<p>Let’s try the <code>tab2by2()</code> function with our test data:</p>
+<pre class="sourceCode r" id="cb169"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre>
+<pre><code>##         outcome
+## exposure  1  2
+##        1 46 17
+##        2  5  9
+## [1] 2.044444</code></pre>
+<p>The <code>tab2by2()</code> function displays a table of <code>HAM</code> by <code>ILL</code> followed by the risk ratio calculated from the data in the table.</p>
+<p>Try producing another table:</p>
+<pre class="sourceCode r" id="cb171"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre>
+<pre><code>##         outcome
+## exposure  1  2
+##        1 25  3
+##        2 26 23
+## [1] 1.682692</code></pre>
 
 </div>
             </section>
