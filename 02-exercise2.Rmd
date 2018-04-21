@@ -3,3 +3,67 @@
 In this exercise we will explore how to manipulate `R` objects and how to write functions that can manipulate and extract data and information from `R` objects and produce useful analyses.
 
 Before we go any further we should start `R` and retrieve a dataset:
+
+```{r, eval = TRUE}
+salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
+```
+
+Missing values are coded as 9 throughout this dataset so we can use the `na.strings` parameter of the `read.table()` function to replace all 9’s with the special `NA` code when we retrieve the dataset. Check that this works by examining the `salex` data.frame:
+
+```{r, eval = TRUE}
+salex
+names(salex)
+```
+
+This data comes from a food-borne outbreak. On Saturday 17th October 1992, eighty-two people attended a buffet meal at a sports club. Within fourteen to twenty-four hours, fifty-one of the participants developed diarrhoea, with nausea, vomiting, abdominal pain and fever.
+
+The columns in the dataset are as follows:
+
++---------------+----------------------+
+| **ILL**       | Ill or not-ill       |
++---------------+----------------------+
+| **HAM**       | Baked ham            |
++---------------+----------------------+
+| **BEEF**      | Roast beef           |
++---------------+----------------------+
+| **EGGS**      | Eggs                 |
++---------------+----------------------+
+| **MUSHROOM**  | Mushroom flan        |
++---------------+----------------------+
+| **PEPPER**    | Pepper flan          |
++---------------+----------------------+
+| **PORKPIE**   | Pork pie             |
++---------------+----------------------+
+| **PASTA**     | Pasta salad          |
++---------------+----------------------+
+| **RICE**      | Rice salad           |
++---------------+----------------------+
+| **LETTUCE**   | Lettuce              |
++---------------+----------------------+
+| **TOMATO**    | Tomato salad         |
++---------------+----------------------+
+| **COLESLAW**  | Coleslaw             |
++---------------+----------------------+
+| **CRISPS**    | Crisps               |
++---------------+----------------------+
+| **PEACHCAKE** | Peach cake           |
++---------------+----------------------+
+| **CHOCOLATE** | Chocolate cake       |
++---------------+----------------------+
+| **FRUIT**     | Tropical fruit salad |
++---------------+----------------------+
+| **TRIFLE**    | Trifle               |
++---------------+----------------------+
+| **ALMONDS**   | Almonds              |
++---------------+----------------------+
+
+Data is available for seventy-seven of the eighty-two people who attended the sports club buffet. All of the variables are coded 1=yes, 2=no.
+
+We can use the `attach()` function to make it easier to access our data: 
+
+```{r, eval = TRUE}
+attach(salex)
+```
+
+The two-by-two table is a basic epidemiological tool. In analysing data from a food-borne outbreak collected as a retrospective cohort study, for example, we would tabulate each exposure (suspect foodstuffs) against the outcome (illness) and calculate risk ratios and confidence intervals. `R` has no explicit function to calculate risk ratios from two-by-two tables but we can easily write one ourselves.
+
