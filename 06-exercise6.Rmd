@@ -1,0 +1,1 @@
+# Making your own objects behave like R objects {#exercise6}
