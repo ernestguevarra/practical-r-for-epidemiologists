@@ -1,6 +1,6 @@
 # Getting acquainted with R {#exercise1}
 
-```{r "setup", include = FALSE}
+```{r "setup1", include = FALSE}
 require("knitr")
 opts_knit$set(root.dir = "data/")
 ```
