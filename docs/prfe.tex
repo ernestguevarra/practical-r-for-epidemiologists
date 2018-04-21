@@ -3194,6 +3194,634 @@ when prompted to save the workspace image (terminal).
 \hypertarget{exercise3}{%
 \chapter{Logistic regression and stratified analysis}\label{exercise3}}
 
+In this exercise we will explore how \texttt{R} handles generalised
+linear models using the example of logistic regression. We will continue
+using the \texttt{salex} dataset. Start \texttt{R} and retrieve the
+\texttt{salex} dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"salex.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"9"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+When we analysed this data using two-by-two tables and examining the
+risk ratio and 95\% confidence interval associated with each exposure we
+found many significant positive associations:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.20\columnwidth}\raggedright
+\textbf{Variable}\strut
+\end{minipage} & \begin{minipage}[b]{0.14\columnwidth}\raggedright
+\textbf{RR}\strut
+\end{minipage} & \begin{minipage}[b]{0.27\columnwidth}\raggedright
+\textbf{95\% CI}\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+EGGS\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+2.61\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.55, 4.38\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+MUSHROOM\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.41\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.03, 1.93\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+PEPPER\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.74\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.27, 2.38\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+PASTA\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.68\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.26, 2.26\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+RICE\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.72\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.25, 2.34\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+LETTUCE\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+2.01\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.49, 2.73\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+COLESLAW\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.89\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.37, 2.64\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+CHOCOLATE\strut
+\end{minipage} & \begin{minipage}[t]{0.14\columnwidth}\raggedright
+1.39\strut
+\end{minipage} & \begin{minipage}[t]{0.27\columnwidth}\raggedright
+1.05, 1.87\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Some of these associations may be due to \emph{confounding} in the data.
+We can use logistic regression to help us identify independent
+associations.
+
+Logistic regression requires the dependent variable to be either 0 or 1.
+In order to perform a logistic regression we must first recode the
+\texttt{ILL} variable so that 0=no and 1=yes:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(salex}\OperatorTok{$}\NormalTok{ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  1  2 
+## 51 26
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex}\OperatorTok{$}\NormalTok{ILL[salex}\OperatorTok{$}\NormalTok{ILL }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
+\KeywordTok{table}\NormalTok{(salex}\OperatorTok{$}\NormalTok{ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  0  1 
+## 26 51
+\end{verbatim}
+
+We could work with our data as it is but if we wanted to calculate odds
+ratios and confidence intervals we would calculate their reciprocals
+(i.e.~odds ratios for non-exposure rather than for exposure). This is
+because of the way the data has been coded (1=yes, 2=no).
+
+In order to calculate meaningful odds ratios the exposure variables
+should also be coded 0=no, 1=yes. The actual codes used are not
+important as long as the value used for `exposed' is one greater than
+the value used for `not exposed'.
+
+We could issue a series of commands similar to the one we have just used
+to recode the \texttt{ILL} variable. This is both tedious and
+unnecessary as the structure of the dataset (i.e.~all variables are
+coded identically) allows us to recode all variables with a single
+command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"salex.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"9"}\NormalTok{)}
+\NormalTok{salex[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1   1   1    1    1        1      1       2     2    2       2      2
+## 2   1   1    1    1        2      2       1     2    2       2      1
+## 3   1   1    1    1        1      1       1     1    1       1      2
+## 4   1   1    1    1        2      2       2     2    2       1      1
+## 5   1   1    1    1        1      1       1     1    1       1      1
+##   COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1        2      2         2         2     2      2       2
+## 2        2      2         2         2     2      2       2
+## 3        2      1         2         1     2      2       2
+## 4        2      2         2         1     2      2       2
+## 5        1      2         2         1     2      1       2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex <-}\StringTok{ }\DecValTok{2} \OperatorTok{-}\StringTok{ }\NormalTok{salex}
+\NormalTok{salex[}\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1   1   1    1    1        1      1       0     0    0       0      0
+## 2   1   1    1    1        0      0       1     0    0       0      1
+## 3   1   1    1    1        1      1       1     1    1       1      0
+## 4   1   1    1    1        0      0       0     0    0       1      1
+## 5   1   1    1    1        1      1       1     1    1       1      1
+##   COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1        0      0         0         0     0      0       0
+## 2        0      0         0         0     0      0       0
+## 3        0      1         0         1     0      0       0
+## 4        0      0         0         1     0      0       0
+## 5        1      0         0         1     0      1       0
+\end{verbatim}
+
+\textbf{\emph{WARNING}} : The \texttt{attach()} function works with a
+copy of the data.frame rather than the original data.frame. Commands
+that manipulate variables in a data.frame may not work as expected if
+the data.frame has been attached using the \texttt{attach()} function.
+
+It is better to manipulate data \textbf{\emph{before}} attaching a
+data.frame. The \texttt{detach()} function may be used to remove an
+attachment prior to any data manipulation.
+
+Many \texttt{R} users avoid using the \texttt{attach()} function
+altogether.
+
+We can now use the generalised linear model \texttt{glm()} function to
+specify the logistic regression model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ ILL }\OperatorTok{~}\StringTok{ }\NormalTok{EGGS }\OperatorTok{+}\StringTok{ }\NormalTok{MUSHROOM }\OperatorTok{+}\StringTok{ }\NormalTok{PEPPER }\OperatorTok{+}\StringTok{ }\NormalTok{PASTA }\OperatorTok{+}
+\StringTok{                  }\NormalTok{RICE }\OperatorTok{+}\StringTok{ }\NormalTok{LETTUCE }\OperatorTok{+}\StringTok{ }\NormalTok{COLESLAW }\OperatorTok{+}\StringTok{ }\NormalTok{CHOCOLATE,}
+                  \DataTypeTok{family =} \KeywordTok{binomial}\NormalTok{(logit), }\DataTypeTok{data =}\NormalTok{ salex)}
+\end{Highlighting}
+\end{Shaded}
+
+The method used by the \texttt{glm()} function is defined by the
+\texttt{family} parameter. Here we specify \texttt{binomial} errors and
+a \texttt{logit} (logistic) linking function.
+
+We have saved the output of the \texttt{glm()} function in the
+\texttt{salex.lreg} object. We can examine some basic information about
+the specified model using the \texttt{summary()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
+##     LETTUCE + COLESLAW + CHOCOLATE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.92036  -0.49869   0.06877   0.40906   2.07182  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(>|z|)   
+## (Intercept) -2.021864   0.676606  -2.988  0.00281 **
+## EGGS         3.579366   1.267870   2.823  0.00476 **
+## MUSHROOM    -3.584345   1.728999  -2.073  0.03817 * 
+## PEPPER       2.348074   1.428177   1.644  0.10015   
+## PASTA        1.774818   1.162762   1.526  0.12692   
+## RICE         0.114180   1.193840   0.096  0.92381   
+## LETTUCE      3.401828   1.234060   2.757  0.00584 **
+## COLESLAW     0.763857   1.024373   0.746  0.45586   
+## CHOCOLATE    0.009782   1.314683   0.007  0.99406   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 91.246  on 69  degrees of freedom
+## Residual deviance: 41.260  on 61  degrees of freedom
+##   (7 observations deleted due to missingness)
+## AIC: 59.26
+## 
+## Number of Fisher Scoring iterations: 7
+\end{verbatim}
+
+We will use \emph{backwards elimination} to remove non-significant
+variables from the logistic regression model. Remember that previous
+commands can be recalled and edited using the up and down arrow keys --
+they do not need to be typed out in full each time.
+
+\texttt{CHOCOLATE} is the least significant variable in the model so we
+will remove this variable from the model. Storing the output of the
+\texttt{glm()} function is useful as it allows us to use the
+\texttt{update()} function to add, remove, or modify variables without
+having to describe the model in full:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{update}\NormalTok{(salex.lreg, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{CHOCOLATE)}
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
+##     LETTUCE + COLESLAW, family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.92561  -0.49859   0.07555   0.38723   2.07200  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)  -2.0223     0.6623  -3.053  0.00226 **
+## EGGS          3.5890     1.2188   2.945  0.00323 **
+## MUSHROOM     -3.5992     1.6885  -2.132  0.03305 * 
+## PEPPER        2.3544     1.4275   1.649  0.09910 . 
+## PASTA         1.7770     1.1215   1.585  0.11308   
+## RICE          0.1170     1.1388   0.103  0.91819   
+## LETTUCE       3.4109     1.2316   2.770  0.00561 **
+## COLESLAW      0.7630     1.0224   0.746  0.45547   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.122  on 70  degrees of freedom
+## Residual deviance: 41.273  on 63  degrees of freedom
+##   (6 observations deleted due to missingness)
+## AIC: 57.273
+## 
+## Number of Fisher Scoring iterations: 7
+\end{verbatim}
+
+\texttt{RICE} is now the least significant variable in the model so we
+will remove this variable from the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{update}\NormalTok{(salex.lreg, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{RICE)}
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE + 
+##     COLESLAW, family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8877  -0.4999   0.0786   0.3897   2.0697  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)  -2.0169     0.6600  -3.056  0.00224 **
+## EGGS          3.6142     1.1944   3.026  0.00248 **
+## MUSHROOM     -3.5508     1.6134  -2.201  0.02774 * 
+## PEPPER        2.3002     1.3200   1.743  0.08141 . 
+## PASTA         1.8230     1.0280   1.773  0.07617 . 
+## LETTUCE       3.4199     1.2273   2.787  0.00533 **
+## COLESLAW      0.7611     1.0203   0.746  0.45571   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.122  on 70  degrees of freedom
+## Residual deviance: 41.283  on 64  degrees of freedom
+##   (6 observations deleted due to missingness)
+## AIC: 55.283
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\texttt{COLESLAW} is now the least significant variable in the model so
+we will remove this variable from the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{update}\NormalTok{(salex.lreg, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{COLESLAW)}
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE, 
+##     family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.98481  -0.50486   0.08871   0.36910   2.06065  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)  -1.9957     0.6545  -3.049  0.00230 **
+## EGGS          3.8152     1.1640   3.278  0.00105 **
+## MUSHROOM     -3.4008     1.5922  -2.136  0.03269 * 
+## PEPPER        2.3520     1.3269   1.773  0.07631 . 
+## PASTA         1.9706     0.9922   1.986  0.04701 * 
+## LETTUCE       3.4786     1.2246   2.841  0.00450 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.982  on 71  degrees of freedom
+## Residual deviance: 41.895  on 66  degrees of freedom
+##   (5 observations deleted due to missingness)
+## AIC: 53.895
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\texttt{PEPPER} is now the least significant variable in the model so we
+will remove this variable from the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{update}\NormalTok{(salex.lreg, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{PEPPER)}
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PASTA + LETTUCE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0920  -0.5360   0.1109   0.4876   2.0056  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  -1.8676     0.6128  -3.048 0.002306 ** 
+## EGGS          3.7094     1.0682   3.473 0.000515 ***
+## MUSHROOM     -1.6165     1.0829  -1.493 0.135524    
+## PASTA         1.8440     0.9193   2.006 0.044864 *  
+## LETTUCE       3.2458     1.1698   2.775 0.005527 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 94.659  on 73  degrees of freedom
+## Residual deviance: 45.578  on 69  degrees of freedom
+##   (3 observations deleted due to missingness)
+## AIC: 55.578
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\texttt{MUSHROOM} is now the least significant variable in the model so
+we will remove this variable from the model:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{update}\NormalTok{(salex.lreg, . }\OperatorTok{~}\StringTok{ }\NormalTok{. }\OperatorTok{-}\StringTok{ }\NormalTok{MUSHROOM)}
+\KeywordTok{summary}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ILL ~ EGGS + PASTA + LETTUCE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.2024  -0.5108   0.2038   0.4304   2.0501  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  -1.9710     0.6146  -3.207  0.00134 ** 
+## EGGS          2.6391     0.7334   3.599  0.00032 ***
+## PASTA         1.6646     0.8376   1.987  0.04689 *  
+## LETTUCE       3.1956     1.1516   2.775  0.00552 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 97.648  on 75  degrees of freedom
+## Residual deviance: 50.529  on 72  degrees of freedom
+##   (1 observation deleted due to missingness)
+## AIC: 58.529
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+There are now no non-significant variables in the model.
+
+Unfortunately \texttt{R} does not present information on the model
+coefficients in terms of odds ratios and confidence intervals but we can
+write a function to calculate them for us.
+
+The first step in doing this is to realise that the \texttt{salex.lreg}
+object contains essential information about the fitted model. To
+calculate odds ratios and confidence intervals we need the regression
+coefficients and their standard errors. Both:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(salex.lreg)}\OperatorTok{$}\NormalTok{coefficients}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error   z value     Pr(>|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320
+\end{verbatim}
+
+and:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{coef}\NormalTok{(}\KeywordTok{summary}\NormalTok{(salex.lreg))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error   z value     Pr(>|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320
+\end{verbatim}
+
+extract the data that we require. The preferred method is to use the
+\texttt{coef()} function. This is because some fitted models may return
+coefficients in a more complicated manner than (e.g.) those created by
+the \texttt{glm()} function. The \texttt{coef()} function provides a
+standard way of extracting this data from all classes of fitted objects.
+
+We can store the \texttt{coefficients} data in a separate object to make
+it easier to work with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs <-}\StringTok{ }\KeywordTok{coef}\NormalTok{(}\KeywordTok{summary}\NormalTok{(salex.lreg))}
+\NormalTok{salex.lreg.coeffs}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error   z value     Pr(>|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320
+\end{verbatim}
+
+We can extract information from this object by addressing each piece of
+information by its row and column position in the object. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.639115
+\end{verbatim}
+
+Is the regression coefficient for \texttt{EGGS}, and:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs[}\DecValTok{3}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.837597
+\end{verbatim}
+
+is the standard error of the regression coefficient for \texttt{PASTA}.
+Similarly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs[ ,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)        EGGS       PASTA     LETTUCE 
+##   -1.970967    2.639115    1.664581    3.195594
+\end{verbatim}
+
+Returns the regression coefficients for all of the variables in the
+model, and:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex.lreg.coeffs[ ,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (Intercept)        EGGS       PASTA     LETTUCE 
+##   0.6145691   0.7333899   0.8375970   1.1516159
+\end{verbatim}
+
+Returns the standard errors of the regression coefficients.
+
+The table below shows the indices that address each cell in the table of
+regression coefficients:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{matrix}\NormalTok{(salex.lreg.coeffs, }\DataTypeTok{nrow =} \DecValTok{4}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           [,1]      [,2]      [,3]         [,4]
+## [1,] -1.970967 0.6145691 -3.207071 0.0013409398
+## [2,]  2.639115 0.7333899  3.598515 0.0003200388
+## [3,]  1.664581 0.8375970  1.987330 0.0468858898
+## [4,]  3.195594 1.1516159  2.774879 0.0055222320
+\end{verbatim}
+
+We can use this information to calculate odds ratio sand 95\% confidence
+intervals:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{or <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(salex.lreg.coeffs[ ,}\DecValTok{1}\NormalTok{])}
+\NormalTok{lci <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(salex.lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{salex.lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\NormalTok{uci <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(salex.lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{salex.lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+and make a single object that contains all of the required information:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lreg.or <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(or, lci, uci)}
+\NormalTok{lreg.or}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                     or       lci         uci
+## (Intercept)  0.1393221 0.0417723   0.4646777
+## EGGS        14.0008053 3.3256684  58.9423019
+## PASTA        5.2834608 1.0231552  27.2832114
+## LETTUCE     24.4246856 2.5559581 233.4018193
+\end{verbatim}
+
 \hypertarget{exercise4}{%
 \chapter{Analysing some data with R}\label{exercise4}}
 

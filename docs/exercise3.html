@@ -161,6 +161,364 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise3" class="section level1">
 <h1><span class="header-section-number">4</span> Logistic regression and stratified analysis</h1>
+<p>In this exercise we will explore how <code>R</code> handles generalised linear models using the example of logistic regression. We will continue using the <code>salex</code> dataset. Start <code>R</code> and retrieve the <code>salex</code> dataset:</p>
+<pre class="sourceCode r" id="cb233"><code class="sourceCode r"><a class="sourceLine" id="cb233-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a></code></pre>
+<p>When we analysed this data using two-by-two tables and examining the risk ratio and 95% confidence interval associated with each exposure we found many significant positive associations:</p>
+<table style="width:67%;">
+<colgroup>
+<col width="22%" />
+<col width="15%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Variable</strong></th>
+<th><strong>RR</strong></th>
+<th><strong>95% CI</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>EGGS</td>
+<td>2.61</td>
+<td>1.55, 4.38</td>
+</tr>
+<tr class="even">
+<td>MUSHROOM</td>
+<td>1.41</td>
+<td>1.03, 1.93</td>
+</tr>
+<tr class="odd">
+<td>PEPPER</td>
+<td>1.74</td>
+<td>1.27, 2.38</td>
+</tr>
+<tr class="even">
+<td>PASTA</td>
+<td>1.68</td>
+<td>1.26, 2.26</td>
+</tr>
+<tr class="odd">
+<td>RICE</td>
+<td>1.72</td>
+<td>1.25, 2.34</td>
+</tr>
+<tr class="even">
+<td>LETTUCE</td>
+<td>2.01</td>
+<td>1.49, 2.73</td>
+</tr>
+<tr class="odd">
+<td>COLESLAW</td>
+<td>1.89</td>
+<td>1.37, 2.64</td>
+</tr>
+<tr class="even">
+<td>CHOCOLATE</td>
+<td>1.39</td>
+<td>1.05, 1.87</td>
+</tr>
+</tbody>
+</table>
+<p>Some of these associations may be due to <em>confounding</em> in the data. We can use logistic regression to help us identify independent associations.</p>
+<p>Logistic regression requires the dependent variable to be either 0 or 1. In order to perform a logistic regression we must first recode the <code>ILL</code> variable so that 0=no and 1=yes:</p>
+<pre class="sourceCode r" id="cb234"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a></code></pre>
+<pre><code>## 
+##  1  2 
+## 51 26</code></pre>
+<pre class="sourceCode r" id="cb236"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1">salex<span class="op">$</span>ILL[salex<span class="op">$</span>ILL <span class="op">==</span><span class="st"> </span><span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb236-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a></code></pre>
+<pre><code>## 
+##  0  1 
+## 26 51</code></pre>
+<p>We could work with our data as it is but if we wanted to calculate odds ratios and confidence intervals we would calculate their reciprocals (i.e. odds ratios for non-exposure rather than for exposure). This is because of the way the data has been coded (1=yes, 2=no).</p>
+<p>In order to calculate meaningful odds ratios the exposure variables should also be coded 0=no, 1=yes. The actual codes used are not important as long as the value used for ‘exposed’ is one greater than the value used for ‘not exposed’.</p>
+<p>We could issue a series of commands similar to the one we have just used to recode the <code>ILL</code> variable. This is both tedious and unnecessary as the structure of the dataset (i.e. all variables are coded identically) allows us to recode all variables with a single command:</p>
+<pre class="sourceCode r" id="cb238"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
+<a class="sourceLine" id="cb238-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre>
+<pre><code>##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1   1   1    1    1        1      1       2     2    2       2      2
+## 2   1   1    1    1        2      2       1     2    2       2      1
+## 3   1   1    1    1        1      1       1     1    1       1      2
+## 4   1   1    1    1        2      2       2     2    2       1      1
+## 5   1   1    1    1        1      1       1     1    1       1      1
+##   COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1        2      2         2         2     2      2       2
+## 2        2      2         2         2     2      2       2
+## 3        2      1         2         1     2      2       2
+## 4        2      2         2         1     2      2       2
+## 5        1      2         2         1     2      1       2</code></pre>
+<pre class="sourceCode r" id="cb240"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>salex</a>
+<a class="sourceLine" id="cb240-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre>
+<pre><code>##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1   1   1    1    1        1      1       0     0    0       0      0
+## 2   1   1    1    1        0      0       1     0    0       0      1
+## 3   1   1    1    1        1      1       1     1    1       1      0
+## 4   1   1    1    1        0      0       0     0    0       1      1
+## 5   1   1    1    1        1      1       1     1    1       1      1
+##   COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1        0      0         0         0     0      0       0
+## 2        0      0         0         0     0      0       0
+## 3        0      1         0         1     0      0       0
+## 4        0      0         0         1     0      0       0
+## 5        1      0         0         1     0      1       0</code></pre>
+<p><strong><em>WARNING</em></strong> : The <code>attach()</code> function works with a copy of the data.frame rather than the original data.frame. Commands that manipulate variables in a data.frame may not work as expected if the data.frame has been attached using the <code>attach()</code> function.</p>
+<p>It is better to manipulate data <strong><em>before</em></strong> attaching a data.frame. The <code>detach()</code> function may be used to remove an attachment prior to any data manipulation.</p>
+<p>Many <code>R</code> users avoid using the <code>attach()</code> function altogether.</p>
+<p>We can now use the generalised linear model <code>glm()</code> function to specify the logistic regression model:</p>
+<pre class="sourceCode r" id="cb242"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>EGGS <span class="op">+</span><span class="st"> </span>MUSHROOM <span class="op">+</span><span class="st"> </span>PEPPER <span class="op">+</span><span class="st"> </span>PASTA <span class="op">+</span></a>
+<a class="sourceLine" id="cb242-2" data-line-number="2"><span class="st">                  </span>RICE <span class="op">+</span><span class="st"> </span>LETTUCE <span class="op">+</span><span class="st"> </span>COLESLAW <span class="op">+</span><span class="st"> </span>CHOCOLATE,</a>
+<a class="sourceLine" id="cb242-3" data-line-number="3">                  <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> salex)</a></code></pre>
+<p>The method used by the <code>glm()</code> function is defined by the <code>family</code> parameter. Here we specify <code>binomial</code> errors and a <code>logit</code> (logistic) linking function.</p>
+<p>We have saved the output of the <code>glm()</code> function in the <code>salex.lreg</code> object. We can examine some basic information about the specified model using the <code>summary()</code> function:</p>
+<pre class="sourceCode r" id="cb243"><code class="sourceCode r"><a class="sourceLine" id="cb243-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
+##     LETTUCE + COLESLAW + CHOCOLATE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.92036  -0.49869   0.06877   0.40906   2.07182  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept) -2.021864   0.676606  -2.988  0.00281 **
+## EGGS         3.579366   1.267870   2.823  0.00476 **
+## MUSHROOM    -3.584345   1.728999  -2.073  0.03817 * 
+## PEPPER       2.348074   1.428177   1.644  0.10015   
+## PASTA        1.774818   1.162762   1.526  0.12692   
+## RICE         0.114180   1.193840   0.096  0.92381   
+## LETTUCE      3.401828   1.234060   2.757  0.00584 **
+## COLESLAW     0.763857   1.024373   0.746  0.45586   
+## CHOCOLATE    0.009782   1.314683   0.007  0.99406   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 91.246  on 69  degrees of freedom
+## Residual deviance: 41.260  on 61  degrees of freedom
+##   (7 observations deleted due to missingness)
+## AIC: 59.26
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p>We will use <em>backwards elimination</em> to remove non-significant variables from the logistic regression model. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.</p>
+<p><code>CHOCOLATE</code> is the least significant variable in the model so we will remove this variable from the model. Storing the output of the <code>glm()</code> function is useful as it allows us to use the <code>update()</code> function to add, remove, or modify variables without having to describe the model in full:</p>
+<pre class="sourceCode r" id="cb245"><code class="sourceCode r"><a class="sourceLine" id="cb245-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>CHOCOLATE)</a>
+<a class="sourceLine" id="cb245-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
+##     LETTUCE + COLESLAW, family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.92561  -0.49859   0.07555   0.38723   2.07200  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -2.0223     0.6623  -3.053  0.00226 **
+## EGGS          3.5890     1.2188   2.945  0.00323 **
+## MUSHROOM     -3.5992     1.6885  -2.132  0.03305 * 
+## PEPPER        2.3544     1.4275   1.649  0.09910 . 
+## PASTA         1.7770     1.1215   1.585  0.11308   
+## RICE          0.1170     1.1388   0.103  0.91819   
+## LETTUCE       3.4109     1.2316   2.770  0.00561 **
+## COLESLAW      0.7630     1.0224   0.746  0.45547   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.122  on 70  degrees of freedom
+## Residual deviance: 41.273  on 63  degrees of freedom
+##   (6 observations deleted due to missingness)
+## AIC: 57.273
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<p><code>RICE</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
+<pre class="sourceCode r" id="cb247"><code class="sourceCode r"><a class="sourceLine" id="cb247-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>RICE)</a>
+<a class="sourceLine" id="cb247-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE + 
+##     COLESLAW, family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8877  -0.4999   0.0786   0.3897   2.0697  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -2.0169     0.6600  -3.056  0.00224 **
+## EGGS          3.6142     1.1944   3.026  0.00248 **
+## MUSHROOM     -3.5508     1.6134  -2.201  0.02774 * 
+## PEPPER        2.3002     1.3200   1.743  0.08141 . 
+## PASTA         1.8230     1.0280   1.773  0.07617 . 
+## LETTUCE       3.4199     1.2273   2.787  0.00533 **
+## COLESLAW      0.7611     1.0203   0.746  0.45571   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.122  on 70  degrees of freedom
+## Residual deviance: 41.283  on 64  degrees of freedom
+##   (6 observations deleted due to missingness)
+## AIC: 55.283
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p><code>COLESLAW</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
+<pre class="sourceCode r" id="cb249"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>COLESLAW)</a>
+<a class="sourceLine" id="cb249-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE, 
+##     family = binomial(logit), data = salex)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.98481  -0.50486   0.08871   0.36910   2.06065  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -1.9957     0.6545  -3.049  0.00230 **
+## EGGS          3.8152     1.1640   3.278  0.00105 **
+## MUSHROOM     -3.4008     1.5922  -2.136  0.03269 * 
+## PEPPER        2.3520     1.3269   1.773  0.07631 . 
+## PASTA         1.9706     0.9922   1.986  0.04701 * 
+## LETTUCE       3.4786     1.2246   2.841  0.00450 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 92.982  on 71  degrees of freedom
+## Residual deviance: 41.895  on 66  degrees of freedom
+##   (5 observations deleted due to missingness)
+## AIC: 53.895
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p><code>PEPPER</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
+<pre class="sourceCode r" id="cb251"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>PEPPER)</a>
+<a class="sourceLine" id="cb251-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + MUSHROOM + PASTA + LETTUCE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0920  -0.5360   0.1109   0.4876   2.0056  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -1.8676     0.6128  -3.048 0.002306 ** 
+## EGGS          3.7094     1.0682   3.473 0.000515 ***
+## MUSHROOM     -1.6165     1.0829  -1.493 0.135524    
+## PASTA         1.8440     0.9193   2.006 0.044864 *  
+## LETTUCE       3.2458     1.1698   2.775 0.005527 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 94.659  on 73  degrees of freedom
+## Residual deviance: 45.578  on 69  degrees of freedom
+##   (3 observations deleted due to missingness)
+## AIC: 55.578
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p><code>MUSHROOM</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
+<pre class="sourceCode r" id="cb253"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>MUSHROOM)</a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ EGGS + PASTA + LETTUCE, family = binomial(logit), 
+##     data = salex)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.2024  -0.5108   0.2038   0.4304   2.0501  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -1.9710     0.6146  -3.207  0.00134 ** 
+## EGGS          2.6391     0.7334   3.599  0.00032 ***
+## PASTA         1.6646     0.8376   1.987  0.04689 *  
+## LETTUCE       3.1956     1.1516   2.775  0.00552 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 97.648  on 75  degrees of freedom
+## Residual deviance: 50.529  on 72  degrees of freedom
+##   (1 observation deleted due to missingness)
+## AIC: 58.529
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>There are now no non-significant variables in the model.</p>
+<p>Unfortunately <code>R</code> does not present information on the model coefficients in terms of odds ratios and confidence intervals but we can write a function to calculate them for us.</p>
+<p>The first step in doing this is to realise that the <code>salex.lreg</code> object contains essential information about the fitted model. To calculate odds ratios and confidence intervals we need the regression coefficients and their standard errors. Both:</p>
+<pre class="sourceCode r" id="cb255"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)<span class="op">$</span>coefficients</a></code></pre>
+<pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p>and:</p>
+<pre class="sourceCode r" id="cb257"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a></code></pre>
+<pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p>extract the data that we require. The preferred method is to use the <code>coef()</code> function. This is because some fitted models may return coefficients in a more complicated manner than (e.g.) those created by the <code>glm()</code> function. The <code>coef()</code> function provides a standard way of extracting this data from all classes of fitted objects.</p>
+<p>We can store the <code>coefficients</code> data in a separate object to make it easier to work with:</p>
+<pre class="sourceCode r" id="cb259"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" data-line-number="1">salex.lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a>
+<a class="sourceLine" id="cb259-2" data-line-number="2">salex.lreg.coeffs</a></code></pre>
+<pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
+## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
+## EGGS         2.639115  0.7333899  3.598515 0.0003200388
+## PASTA        1.664581  0.8375970  1.987330 0.0468858898
+## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p>We can extract information from this object by addressing each piece of information by its row and column position in the object. For example:</p>
+<pre class="sourceCode r" id="cb261"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">2</span>,<span class="dv">1</span>]</a></code></pre>
+<pre><code>## [1] 2.639115</code></pre>
+<p>Is the regression coefficient for <code>EGGS</code>, and:</p>
+<pre class="sourceCode r" id="cb263"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">3</span>,<span class="dv">2</span>]</a></code></pre>
+<pre><code>## [1] 0.837597</code></pre>
+<p>is the standard error of the regression coefficient for <code>PASTA</code>. Similarly:</p>
+<pre class="sourceCode r" id="cb265"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">1</span>]</a></code></pre>
+<pre><code>## (Intercept)        EGGS       PASTA     LETTUCE 
+##   -1.970967    2.639115    1.664581    3.195594</code></pre>
+<p>Returns the regression coefficients for all of the variables in the model, and:</p>
+<pre class="sourceCode r" id="cb267"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">2</span>]</a></code></pre>
+<pre><code>## (Intercept)        EGGS       PASTA     LETTUCE 
+##   0.6145691   0.7333899   0.8375970   1.1516159</code></pre>
+<p>Returns the standard errors of the regression coefficients.</p>
+<p>The table below shows the indices that address each cell in the table of regression coefficients:</p>
+<pre class="sourceCode r" id="cb269"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">matrix</span>(salex.lreg.coeffs, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>)</a></code></pre>
+<pre><code>##           [,1]      [,2]      [,3]         [,4]
+## [1,] -1.970967 0.6145691 -3.207071 0.0013409398
+## [2,]  2.639115 0.7333899  3.598515 0.0003200388
+## [3,]  1.664581 0.8375970  1.987330 0.0468858898
+## [4,]  3.195594 1.1516159  2.774879 0.0055222320</code></pre>
+<p>We can use this information to calculate odds ratio sand 95% confidence intervals:</p>
+<pre class="sourceCode r" id="cb271"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb271-2" data-line-number="2">lci &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>salex.lreg.coeffs[ ,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb271-3" data-line-number="3">uci &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>salex.lreg.coeffs[ ,<span class="dv">2</span>])</a></code></pre>
+<p>and make a single object that contains all of the required information:</p>
+<pre class="sourceCode r" id="cb272"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="kw">cbind</span>(or, lci, uci)</a>
+<a class="sourceLine" id="cb272-2" data-line-number="2">lreg.or</a></code></pre>
+<pre><code>##                     or       lci         uci
+## (Intercept)  0.1393221 0.0417723   0.4646777
+## EGGS        14.0008053 3.3256684  58.9423019
+## PASTA        5.2834608 1.0231552  27.2832114
+## LETTUCE     24.4246856 2.5559581 233.4018193</code></pre>
 
 </div>
             </section>
