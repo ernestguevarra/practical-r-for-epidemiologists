@@ -249,3 +249,262 @@ The `tab2by2()` function is very limited. It only displays a table and calculate
 fix(tab2by2)
 ```
 
+We can now edit this function to calculate and display a 95% confidence interval for the risk ratio.
+
+```{r, eval = FALSE}
+function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  print(tab)
+  print(rr)
+  print(lci.rr)
+  print(uci.rr)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2 <- function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  print(tab)
+  print(rr)
+  print(lci.rr)
+  print(uci.rr)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. We should test our revised function:
+
+```{r, eval = FALSE}
+tab2by2(EGGS, ILL)
+```
+
+which produces the following output:
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2(EGGS, ILL)
+```
+
+The function works but the output could be improved. Use the `fix()` function to edit the `tab2by2()` function:
+
+```{r, eval = FALSE}
+function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  print(tab)
+  cat("\nRR :", rr,
+      "\n95% CI :", lci.rr, uci.rr, "\n")
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2 <- function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  print(tab)
+  cat("\nRR :", rr,
+      "\n95% CI :", lci.rr, uci.rr, "\n")
+}
+```
+
+Once you have made the changes shown above, save the file and quit the editor.
+
+Now we can test our function again:
+
+```{r, eval = FALSE}
+tab2by2(EGGS, ILL)
+```
+
+Which produces the following output:
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2(EGGS, ILL)
+```
+
+The `tab2by2()` function displays output but does not behave like a standard `R` function in the sense that you cannot save the results of the `tab2by2()` function into an object:
+
+```{r, eval = TRUE}
+test2by2 <- tab2by2(EGGS, ILL)
+```
+
+displays output but does not save anything in the `test2by2` object: 
+
+```{r, eval = TRUE}
+test2by2
+```
+
+The returned value (`NULL`) means that `test2by2` is an empty object. We will not worry about this at the moment as the `tab2by2()` function is good-enough for our current purposes. In Exercise 6 we will explore how to make our own functions behave like standard `R` functions.
+
+We will now add the calculation of the odds ratio and its 95% confidence interval to the `tab2by2()` function using the `fix()` function.
+
+There are two ways of doing this. We could either calculate the odds ratio from the table and use (e.g.) the method of Woolf to calculate the confidence interval:
+
+```{r, eval = FALSE}
+or <- (a / b) / (c / d)
+se.log.or <- sqrt(1 / a + 1 / b + 1 / c + 1 / d)
+lci.or <- exp(log(or) - 1.96 * se.log.or)
+uci.or <- exp(log(or) + 1.96 * se.log.or)
+cat("\nOR     :", or,
+    "\n95% CI :", lci.or, uci.or, "\n")
+```
+
+or use the output of the `fisher.test()` function:
+
+```{r, eval = FALSE}
+ft <- fisher.test(tab)
+cat("\nOR     :", ft$estimate,
+    "\n95% CI :", ft$conf.int, "\n")
+```
+
+Note that we can refer to components of a function's output using the same syntax as when we refer to columns in a data.frame (e.g. `ft$estimate` to examine the estimate of the odds ratio from the `fisher.test()` function stored in the object `ft`).
+
+The names of elements in the output of a standard function such as `fisher.test()` can be found in the documentation or the help system. For example:
+
+```{r, eval = TRUE}
+help(fisher.test)
+```
+
+Output elements are listed under the `Value` heading.
+
+Revise the `tab2by2()` function to include the calculation of the odds ratio and the 95% confidence interval. The revised function will look something like this:
+
+```{r, eval = FALSE}
+function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  or <- (a / b) / (c / d)
+  se.log.or <- sqrt(1 / a + 1 / b + 1 / c + 1 / d)
+  lci.or <- exp(log(or) - 1.96 * se.log.or)
+  uci.or <- exp(log(or) + 1.96 * se.log.or)
+  ft <- fisher.test(tab)
+  cat("\n")
+  print(tab)
+  
+  cat("\nRelative Risk     :", rr,
+      "\n95% CI            :", lci.rr, uci.rr, "\n")
+  
+  cat("\nSample Odds Ratio :", or,
+      "\n95% CI            :", lci.or, uci.or, "\n")
+
+  cat("\nMLE Odds Ratio    :", ft$estimate,
+      "\n95% CI             :",  ft$conf.int, "\n\n")
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tab2by2 <- function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d)) 
+  lci.rr <- exp(log(rr) - 1.96 * se.log.rr)
+  uci.rr <- exp(log(rr) + 1.96 * se.log.rr)
+  or <- (a / b) / (c / d)
+  se.log.or <- sqrt(1 / a + 1 / b + 1 / c + 1 / d)
+  lci.or <- exp(log(or) - 1.96 * se.log.or)
+  uci.or <- exp(log(or) + 1.96 * se.log.or)
+  ft <- fisher.test(tab)
+  cat("\n")
+  print(tab)
+  
+  cat("\nRelative Risk     :", rr,
+      "\n95% CI            :", lci.rr, uci.rr, "\n")
+  
+  cat("\nSample Odds Ratio :", or,
+      "\n95% CI            :", lci.or, uci.or, "\n")
+
+  cat("\nMLE Odds Ratio    :", ft$estimate,
+      "\n95% CI             :",  ft$conf.int, "\n\n")
+}
+```
+
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+Test the `tab2by2()` function when you have added the calculation of the odds ratio and its 95% confidence interval.
+
+Now that we have a function that will calculate risk ratios and odds ratios with confidence intervals from a two- by-two table we can use it to analyse the `salex` data:
+
+```{r, eval = TRUE}
+tab2by2(HAM, ILL)
+tab2by2(BEEF, ILL)
+tab2by2(EGGS, ILL)
+tab2by2(MUSHROOM, ILL)
+tab2by2(PEPPER, ILL)
+tab2by2(PORKPIE, ILL)
+tab2by2(PASTA, ILL)
+tab2by2(RICE, ILL)
+tab2by2(LETTUCE, ILL)
+tab2by2(TOMATO, ILL)
+tab2by2(COLESLAW, ILL)
+tab2by2(CRISPS, ILL)
+tab2by2(PEACHCAKE, ILL)
+tab2by2(CHOCOLATE, ILL)
+tab2by2(FRUIT, ILL)
+tab2by2(TRIFLE, ILL)
+tab2by2(ALMONDS, ILL)
+```
+
+Make a note of any positive associations (i.e. with a risk ratio > 1 with a 95% confidence intervals that does not include one). We will use these for the next exercise when we will use logistic regression to analyse this data.
+
+Save the `tab2by2()` function:
+
+```{r, eval = FALSE}
+save(tab2by2, file = "tab2by2.r")
+```
+
+We can now quit `R`: 
+
+```{r, eval = FALSE}
+q()
+```
+
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter **n** when prompted to save the workspace image (terminal).
+
+## Summary
+
+* `R` objects contain information that can be examined and manipulated.
+* `R` can be extended by writing new functions.
+* New functions can perform simple or complex data analysis.
+* New functions can be composed of parts of existing function.
+* New functions can be saved and used in subsequent `R` sessions.
+* Objects defined within functions are local to that function and only exist while that function is being used. This means that you can re-use meaningful names within functions without them interfering with each other.
+
