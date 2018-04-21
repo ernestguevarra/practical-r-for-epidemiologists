@@ -1,5 +1,10 @@
 # Manipulating objects and creating new functions {#exercise2}
 
+```{r "setup2", include = FALSE}
+require("knitr")
+opts_knit$set(root.dir = "data/")
+```
+
 In this exercise we will explore how to manipulate `R` objects and how to write functions that can manipulate and extract data and information from `R` objects and produce useful analyses.
 
 Before we go any further we should start `R` and retrieve a dataset:
