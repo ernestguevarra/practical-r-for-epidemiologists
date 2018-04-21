@@ -125,7 +125,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2018-04-20}
+    \date{2018-04-21}
 
 \usepackage{booktabs}
 \usepackage{color}
@@ -893,7 +893,7 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 3):
+## The following objects are masked from fem (pos = 4):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -1865,6 +1865,466 @@ information from \texttt{R} objects and produce useful analyses.
 
 Before we go any further we should start \texttt{R} and retrieve a
 dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"salex.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"9"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Missing values are coded as 9 throughout this dataset so we can use the
+\texttt{na.strings} parameter of the \texttt{read.table()} function to
+replace all 9's with the special \texttt{NA} code when we retrieve the
+dataset. Check that this works by examining the \texttt{salex}
+data.frame:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{salex}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1    1   1    1    1        1      1       2     2    2       2      2
+## 2    1   1    1    1        2      2       1     2    2       2      1
+## 3    1   1    1    1        1      1       1     1    1       1      2
+## 4    1   1    1    1        2      2       2     2    2       1      1
+## 5    1   1    1    1        1      1       1     1    1       1      1
+## 6    1   1    1    1        2      2       2     2    2       2      1
+## 7    1   1    1    1        1      1       1     2    2       2      2
+## 8    1   1    2    1        1      1       2     1    1       1      2
+## 9    1   1    1    1        2      1       1     2    1       2      2
+## 10   1   1    1    1        2      1       1     1    1       1      1
+## 11   1   2    2    1        1      1       2     2    2       1      1
+## 12   1   1    1    1        2      2       2     2    2       2      2
+## 13   2   2    1    2        2      2       1     2    2       2      1
+## 14   1   1    1    1        2      2       2     1    1       2      1
+## 15   1   1    1    1        1      1       2     1    1       2      2
+## 16   1   1    1    1        1      1       1     2    2       2      2
+## 17   1   1    1    1        1      1       1     1    1       1      1
+## 18   2   1    1    2        2      2       2     2    2       2      2
+## 19   2   1    1    1        1      2       2     1    1       2      1
+## 20   2   1    1    2        2      2       2     2    2       2      2
+## 21   2   2    2    2        2      2       2     2    2       2      2
+## 22   1   1    1    1        2      2       2     2    2       1      1
+## 23   1   2    1    2        2      2       2     1    1       2      1
+## 24   1   1    1    1        2      1       2     1    1       2      2
+## 25   1   1    1    2        1      1       1     1    1       1      1
+## 26   1   1    2    1        1      1       2     2    2       1      1
+## 27   1   1    1    1        2      2       1     2    1       1      1
+## 28   1   1    1    1        1      1       2     1    1       2      2
+## 29   1   2    1    1        1     NA       2     1    1       1      1
+## 30   1   1    1    2        2      2       1     2    2       2      2
+## 31   1   1    1    1        1      2       2     1    1       2      2
+## 32   1   1    1    1        1      2      NA     2    1       1      1
+## 33   1   1    1    1        2      2       2     1    2       2      2
+## 34   1   1    1    1        1      2       2     2    2       1      1
+## 35   1   1    1    1        1      1       1     1    2       2      1
+## 36   2   2    1    2        2      2       2     2    2       2      2
+## 37   1   1    1    1        1      1       2     1    1       1      1
+## 38   1   1    1    2        2      2       1     1    1       1      2
+## 39   1   1    1    1        1      1       1     2    2       1      2
+## 40   1   1    1    1        1      1       1     2    2       1      1
+## 41   1   1    1    2        2      1       2     1    1       1      1
+## 42   1   1    1    2        2      2       2     2    2       2      2
+## 43   1   1    1    1        1      1       2     1    1       1      1
+## 44   1   2    1    2        2      2       1     2    2       1      2
+## 45   1   1    1    1        1      2       2     2    1       1      1
+## 46   1   1    1    2        2      2       2     1    1       1      1
+## 47   1   1    1    1        2      2       2     2    1       1      2
+## 48   1   1    1    1        1     NA       1     1    1       2      2
+## 49   1   1    1    1        2      1       2     2    1       1      1
+## 50   1   2    1    1        2      2       2     1    2       2      1
+## 51   2   2    1    2        2      2       2     2    2       2      2
+## 52   2   1    1    2        2      2       2     1    2       2      1
+## 53   2   1    1    2        2      2       1     2    2       2      1
+## 54   2   1    1    2        1      2       1     2    2       2      1
+## 55   2   1    1    1        1      1       2     2    1       2      2
+## 56   2   1    1    2        2      2       2     2    2       2      1
+## 57   2   1    1    1        1      1       1     2    2       2      2
+## 58   2   1    1    1        2      2       1     2    1       2      2
+## 59   2   1    1    2        2      2       2     2    2       2      2
+## 60   2   2    2    2        2      2       1     2    2       2      2
+## 61   2   1    1    2        2      2       1     2    2       2      2
+## 62   2   1    2    2        2      2       2     2    2       1      1
+## 63   1   1    1    1        1      1       2     2    2       2      1
+## 64   2   1    1    2        2      2       2     2    2       2      2
+## 65   2   1    1    1        1      2       1     2    1       2      2
+## 66   2   2    1    2        2      2       2     2    2       2      2
+## 67   2   2    1    2        2      2       2     2    2       2      2
+## 68   2   1    1    2        1      1       1     1    2       2      1
+## 69   2   2    1    2        2      2       2     2    2       2      2
+## 70   2   2    1    2        2      2       2     2    2       2      2
+## 71   1   1    2    2        2      2       1     2    1       2      2
+## 72   2   1    2    1       NA     NA       2     2    2       2      1
+## 73   1   1    1    1        2      2       1     2    2       2      2
+## 74   1   1    2    1       NA     NA       2     1    1       1      1
+## 75   1   1    2    2        2      1       2     1    2       1      1
+## 76   1   1    1    1        2      2       1     1    2       2      2
+## 77   1   1    1   NA       NA     NA       1     2    1       1      1
+##    COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1         2      2         2         2     2      2       2
+## 2         2      2         2         2     2      2       2
+## 3         2      1         2         1     2      2       2
+## 4         2      2         2         1     2      2       2
+## 5         1      2         2         1     2      1       2
+## 6         1      1         2         1     2      2       2
+## 7         1      1         1         2     2      2       2
+## 8         1      1         2         2     2      1       2
+## 9         2      2         2         2     2      1       2
+## 10        1      1         2         2     2      1       1
+## 11        2      2         2         2     2      2      NA
+## 12        2      1         2         1     2      2       2
+## 13        2      1         2         2     1      2      NA
+## 14        1      1         2         2     2      1       2
+## 15        1      1         2         2     2      1       1
+## 16        1      2         2         2     2      2       2
+## 17        1      2         2         2     2      2       2
+## 18        2      2         2         2     2      2       2
+## 19        1      1         2         2     1      2       2
+## 20        2      2         2         1     2      2       2
+## 21        2      2         2         2     2      2       2
+## 22        2      1         2         1     2      2       2
+## 23        1      2         2         2     2      2      NA
+## 24        1      1         2         2     2      1       2
+## 25        1      2         2         2     2      1      NA
+## 26        1      2         2         2     2      1       2
+## 27        1      1         1         1     2      1       2
+## 28        2      1         2         2     2      2      NA
+## 29        1      1         2         2     2      2      NA
+## 30        2      2         2         2     2      2       2
+## 31        2      2         2         2     2      2       2
+## 32        2      2         2         2     2      2       2
+## 33        1      2         2         2     2      2       2
+## 34        1      2         2         2     2      1       2
+## 35        1      2         2         2     2      1       2
+## 36        2      2         2         2     2      2      NA
+## 37        1      1         2         1     2      1       2
+## 38        2      2         2         2     2      2       2
+## 39        2      2         2         1     2      2       2
+## 40        1      2         2         2     2      2       2
+## 41        1      1         2         2    NA      1      NA
+## 42        2      2         2         2     2      2      NA
+## 43        1      1         2         2     2      2      NA
+## 44        2      2         2         2     2      2       2
+## 45        1      2         2         2     2      1       2
+## 46        1      2         2         2     2      1       2
+## 47        2      2         2        NA     2      1       2
+## 48        2      1         2         2     2      2       2
+## 49        1      1         2         2     2      1       2
+## 50       NA      2         2         1     2      1       1
+## 51        2      2         2         2     2      2      NA
+## 52        2      2         2         1     2      2       1
+## 53        2      2         2         2     1      2       2
+## 54        2      2         2         2     2      2       2
+## 55        2      1         2         2     2      2       2
+## 56        2      2         2         2     1      2       2
+## 57        1      2         2         2     2      2       1
+## 58        2      1         1         2     2      2       2
+## 59        2      1         1         2     2      1       2
+## 60        2      2         2         2     2      2       2
+## 61        2      1         2         2     2      1       1
+## 62        2      1         2         2     2      2       2
+## 63        1      2         2         1     1      2       2
+## 64        2      2         2         2     2      2       2
+## 65        1      1         2         2     2      1       2
+## 66        2      2         2         2     2      1      NA
+## 67        2      1         2         2     2      2       2
+## 68        2      2         2         2     2      2       2
+## 69        2      1         2         2     2      2       2
+## 70        2      2         2         2     2      2       2
+## 71        2      2         2         2     2      2       2
+## 72        2      2         2         2     2      1       2
+## 73        2      2         2         2     2      2       2
+## 74        1      1         2         1     2      2       2
+## 75        1      1         2         2     2      2      NA
+## 76        2      2         2         2     2      2      NA
+## 77        1      1         2         2     2      2       2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(salex)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "ILL"       "HAM"       "BEEF"      "EGGS"      "MUSHROOM" 
+##  [6] "PEPPER"    "PORKPIE"   "PASTA"     "RICE"      "LETTUCE"  
+## [11] "TOMATO"    "COLESLAW"  "CRISPS"    "PEACHCAKE" "CHOCOLATE"
+## [16] "FRUIT"     "TRIFLE"    "ALMONDS"
+\end{verbatim}
+
+This data comes from a food-borne outbreak. On Saturday 17th October
+1992, eighty-two people attended a buffet meal at a sports club. Within
+fourteen to twenty-four hours, fifty-one of the participants developed
+diarrhoea, with nausea, vomiting, abdominal pain and fever.
+
+The columns in the dataset are as follows:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{ILL}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Ill or not-ill\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{HAM}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Baked ham\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{BEEF}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Roast beef\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{EGGS}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Eggs\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{MUSHROOM}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Mushroom flan\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{PEPPER}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Pepper flan\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{PORKPIE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Pork pie\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{PASTA}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Pasta salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{RICE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Rice salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{LETTUCE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Lettuce\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{TOMATO}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Tomato salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{COLESLAW}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Coleslaw\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CRISPS}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Crisps\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{PEACHCAKE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Peach cake\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CHOCOLATE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Chocolate cake\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{FRUIT}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Tropical fruit salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{TRIFLE}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Trifle\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{ALMONDS}\strut
+\end{minipage} & \begin{minipage}[t]{0.30\columnwidth}\raggedright
+Almonds\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Data is available for seventy-seven of the eighty-two people who
+attended the sports club buffet. All of the variables are coded 1=yes,
+2=no.
+
+We can use the \texttt{attach()} function to make it easier to access
+our data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{attach}\NormalTok{(salex)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from salex (pos = 4):
+## 
+##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
+##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
+##     RICE, TOMATO, TRIFLE
+\end{verbatim}
+
+The two-by-two table is a basic epidemiological tool. In analysing data
+from a food-borne outbreak collected as a retrospective cohort study,
+for example, we would tabulate each exposure (suspect foodstuffs)
+against the outcome (illness) and calculate risk ratios and confidence
+intervals. \texttt{R} has no explicit function to calculate risk ratios
+from two-by-two tables but we can easily write one ourselves.
+
+The first step in writing such a function would be to create the
+two-by-two table. This can be done with the \texttt{table()} function.
+We will use a table of \texttt{HAM} by \texttt{ILL} as an illustration:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(HAM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+This command produces the following output:
+
+\begin{verbatim}
+##    ILL
+## HAM  1  2
+##   1 46 17
+##   2  5  9
+\end{verbatim}
+
+We can manipulate the output directly but it is easier if we instruct
+\texttt{R} to save the output of the \texttt{table()} function in an
+object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(HAM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{tab} object contains the output of the \texttt{table()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    ILL
+## HAM  1  2
+##   1 46 17
+##   2  5  9
+\end{verbatim}
+
+As it is stored in an object we can examine its contents on an item by
+item basis.
+
+The \texttt{tab} object is an object of class \texttt{table}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "table"
+\end{verbatim}
+
+We can extract data from a table object by using indices or row and
+column co-ordinates:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 46
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 17
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5
+\end{verbatim}
+
+The numbers in the square brackets refer to the \textbf{\emph{position}}
+(as row and column co-ordinates) of the data item in the table
+\textbf{\emph{not}} the \textbf{\emph{values}} of the variables. We can
+extract data using the values of the row and column variables by
+enclosing the index values in double quotes (``). For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\StringTok{"1"}\NormalTok{,}\StringTok{"1"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 46
+\end{verbatim}
+
+The two methods of extracting data may be combined. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\StringTok{"1"}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 46
+\end{verbatim}
+
+We can calculate a risk ratio using the extracted data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}\OperatorTok{/}\NormalTok{(tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}\OperatorTok{+}\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]))}\OperatorTok{/}\NormalTok{(tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}\OperatorTok{/}\NormalTok{(tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}\OperatorTok{+}\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+Which returns a risk ratio of
+
+\begin{verbatim}
+## [1] 2.044444
+\end{verbatim}
+
+This is a tedious calculation to have to type in every time you need to
+calculate a risk ratio from a two-by-two table. It would be better to
+have a function that calculates and displays the risk ratio
+automatically. Fortunately, \texttt{R} allows us to do just that.
 
 \bibliography{book.bib}
 
