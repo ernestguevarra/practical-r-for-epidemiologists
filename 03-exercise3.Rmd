@@ -1,0 +1,2 @@
+# Logistic regression and stratified analysis {#exercise3}
+
