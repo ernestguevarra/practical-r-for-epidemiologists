@@ -1,1 +1,6 @@
 # Analysing some data with R {#exercise4}
+
+```{r "setup4", include = FALSE}
+require("knitr")
+opts_knit$set(root.dir = "data/")
+```
