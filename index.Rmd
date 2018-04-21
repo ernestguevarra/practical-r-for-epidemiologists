@@ -7,6 +7,9 @@ documentclass: book
 bibliography: [book.bib]
 biblio-style: apalike
 link-citations: yes
+url: http://guevarra.io/prfe
+github-repo: "ernestguevarra/prfe"
+cover-image: "images/bookcover.jpg"
 description: "This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book."
 ---
 
