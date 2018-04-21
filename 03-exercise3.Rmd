@@ -1,2 +1,183 @@
 # Logistic regression and stratified analysis {#exercise3}
 
+In this exercise we will explore how `R` handles generalised linear models using the example of logistic regression. We will continue using the `salex` dataset. Start `R` and retrieve the `salex` dataset:
+
+```{r, eval = TRUE}
+salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
+```
+
+When we analysed this data using two-by-two tables and examining the risk ratio and 95% confidence interval associated with each exposure we found many significant positive associations:
+
++---------------+----------+--------------------+
+| **Variable**  | **RR**   | **95% CI**         |
++===============+==========+====================+
+| EGGS          | 2.61     | 1.55, 4.38         |
++---------------+----------+--------------------+
+| MUSHROOM      | 1.41     | 1.03, 1.93         |
++---------------+----------+--------------------+
+| PEPPER        | 1.74     | 1.27, 2.38         |
++---------------+----------+--------------------+
+| PASTA         | 1.68     | 1.26, 2.26         |
++---------------+----------+--------------------+
+| RICE          | 1.72     | 1.25, 2.34         |
++---------------+----------+--------------------+
+| LETTUCE       | 2.01     | 1.49, 2.73         |
++---------------+----------+--------------------+
+| COLESLAW      | 1.89     | 1.37, 2.64         |
++---------------+----------+--------------------+
+| CHOCOLATE     | 1.39     | 1.05, 1.87         |
++---------------+----------+--------------------+
+
+Some of these associations may be due to *confounding* in the data. We can use logistic regression to help us identify independent associations.
+
+Logistic regression requires the dependent variable to be either 0 or 1. In order to perform a logistic regression we must first recode the `ILL` variable so that 0=no and 1=yes:
+
+```{r, eval = TRUE}
+table(salex$ILL)
+salex$ILL[salex$ILL == 2] <- 0
+table(salex$ILL)
+```
+
+We could work with our data as it is but if we wanted to calculate odds ratios and confidence intervals we would calculate their reciprocals (i.e. odds ratios for non-exposure rather than for exposure). This is because of the way the data has been coded (1=yes, 2=no).
+
+In order to calculate meaningful odds ratios the exposure variables should also be coded 0=no, 1=yes. The actual codes used are not important as long as the value used for ‘exposed’ is one greater than the value used for ‘not exposed’.
+
+We could issue a series of commands similar to the one we have just used to recode the `ILL` variable. This is both tedious and unnecessary as the structure of the dataset (i.e. all variables are coded identically) allows us to recode all variables with a single command:
+
+```{r, eval = TRUE}
+salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
+salex[1:5, ]
+salex <- 2 - salex
+salex[1:5, ]
+```
+
+***WARNING*** : The `attach()` function works with a copy of the data.frame rather than the original data.frame. Commands that manipulate variables in a data.frame may not work as expected if the data.frame has been attached using the `attach()` function.
+
+It is better to manipulate data **_before_** attaching a data.frame. The `detach()` function may be used to remove an attachment prior to any data manipulation.
+
+Many `R` users avoid using the `attach()` function altogether.
+
+We can now use the generalised linear model `glm()` function to specify the logistic regression model:
+
+```{r, eval = TRUE}
+salex.lreg <- glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA +
+                  RICE + LETTUCE + COLESLAW + CHOCOLATE,
+                  family = binomial(logit), data = salex)
+```
+
+The method used by the `glm()` function is defined by the `family` parameter. Here we specify `binomial` errors and a `logit` (logistic) linking function.
+
+We have saved the output of the `glm()` function in the `salex.lreg` object. We can examine some basic information about the specified model using the `summary()` function:
+
+```{r, eval = TRUE}
+summary(salex.lreg)
+```
+
+We will use *backwards elimination* to remove non-significant variables from the logistic regression model. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.
+
+`CHOCOLATE` is the least significant variable in the model so we will remove this variable from the model. Storing the output of the `glm()` function is useful as it allows us to use the `update()` function to add, remove, or modify variables without having to describe the model in full:
+
+```{r, eval = TRUE}
+salex.lreg <- update(salex.lreg, . ~ . - CHOCOLATE)
+summary(salex.lreg)
+```
+
+`RICE` is now the least significant variable in the model so we will remove this variable from the model: 
+
+```{r, eval = TRUE}
+salex.lreg <- update(salex.lreg, . ~ . - RICE)
+summary(salex.lreg)
+```
+
+`COLESLAW` is now the least significant variable in the model so we will remove this variable from the model: 
+
+```{r, eval = TRUE}
+salex.lreg <- update(salex.lreg, . ~ . - COLESLAW)
+summary(salex.lreg)
+```
+
+`PEPPER` is now the least significant variable in the model so we will remove this variable from the model: 
+
+```{r, eval = TRUE}
+salex.lreg <- update(salex.lreg, . ~ . - PEPPER)
+summary(salex.lreg)
+```
+
+`MUSHROOM` is now the least significant variable in the model so we will remove this variable from the model: 
+
+```{r, eval = TRUE}
+salex.lreg <- update(salex.lreg, . ~ . - MUSHROOM)
+summary(salex.lreg)
+```
+
+There are now no non-significant variables in the model.
+
+Unfortunately `R` does not present information on the model coefficients in terms of odds ratios and confidence intervals but we can write a function to calculate them for us.
+
+The first step in doing this is to realise that the `salex.lreg` object contains essential information about the fitted model. To calculate odds ratios and confidence intervals we need the regression coefficients and their standard errors. Both:
+
+```{r, eval = TRUE}
+summary(salex.lreg)$coefficients
+```
+
+and:
+
+```{r, eval = TRUE}
+coef(summary(salex.lreg))
+```
+
+extract the data that we require. The preferred method is to use the `coef()` function. This is because some fitted models may return coefficients in a more complicated manner than (e.g.) those created by the `glm()` function. The `coef()` function provides a standard way of extracting this data from all classes of fitted objects.
+
+We can store the `coefficients` data in a separate object to make it easier to work with: 
+
+```{r, eval = TRUE}
+salex.lreg.coeffs <- coef(summary(salex.lreg))
+salex.lreg.coeffs
+```
+
+We can extract information from this object by addressing each piece of information by its row and column position in the object. For example:
+
+```{r, eval = TRUE}
+salex.lreg.coeffs[2,1]
+```
+
+Is the regression coefficient for `EGGS`, and: 
+
+```{r, eval = TRUE}
+salex.lreg.coeffs[3,2]
+```
+
+is the standard error of the regression coefficient for `PASTA`. Similarly: 
+
+```{r, eval = TRUE}
+salex.lreg.coeffs[ ,1]
+```
+
+Returns the regression coefficients for all of the variables in the model, and:
+
+```{r, eval = TRUE}
+salex.lreg.coeffs[ ,2]
+```
+
+Returns the standard errors of the regression coefficients.
+
+The table below shows the indices that address each cell in the table of regression coefficients:
+
+```{r, eval = TRUE}
+matrix(salex.lreg.coeffs, nrow = 4, ncol = 4)
+```
+
+We can use this information to calculate odds ratio sand 95% confidence intervals:
+
+```{r, eval = TRUE}
+or <- exp(salex.lreg.coeffs[ ,1])
+lci <- exp(salex.lreg.coeffs[ ,1] - 1.96 * salex.lreg.coeffs[ ,2])
+uci <- exp(salex.lreg.coeffs[ ,1] + 1.96 * salex.lreg.coeffs[ ,2])
+```
+
+and make a single object that contains all of the required information:
+
+```{r, eval = TRUE}
+lreg.or <- cbind(or, lci, uci)
+lreg.or
+```
