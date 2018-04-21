@@ -253,13 +253,13 @@ lreg.or(salex.lreg, digits = 4)
 
 Before we continue, it is probably a good idea to save this function for later use:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 save(lreg.or, file = "lregor.r")
 ```
 
 Which can be reloaded whenever it is needed:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 load("lregor.r")
 ```
 
