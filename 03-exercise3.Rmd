@@ -1,5 +1,10 @@
 # Logistic regression and stratified analysis {#exercise3}
 
+```{r "setup3", include = FALSE}
+require("knitr")
+opts_knit$set(root.dir = "data/")
+```
+
 In this exercise we will explore how `R` handles generalised linear models using the example of logistic regression. We will continue using the `salex` dataset. Start `R` and retrieve the `salex` dataset:
 
 ```{r, eval = TRUE}
@@ -181,3 +186,202 @@ and make a single object that contains all of the required information:
 lreg.or <- cbind(or, lci, uci)
 lreg.or
 ```
+
+We seldom need to report estimates and confidence intervals to more than two decimal places. We can use the `round()` function to remove the excess digits:
+
+```{r, eval = TRUE}
+round(lreg.or, digits = 2)
+```
+
+We have now gone through all the necessary calculations step-by-step but it would be nice to have a function that did it all for us that we could use whenever we needed to.
+
+First we will create a template for the function:
+
+```{r, eval = FALSE}
+lreg.or <- function(model, digits = 2) {}
+```
+
+and then use the `fix()` function to edit the `lreg.or()` function:
+
+```{r, eval = FALSE}
+fix(lreg.or)
+```
+
+We can now edit this function to add a calculation of odds ratios and 95% confidence intervals:
+
+```{r, eval = FALSE}
+function(model, digits = 2) {
+  lreg.coeffs <- coef(summary(model))
+  OR <- exp(lreg.coeffs[ ,1])
+  LCI <- exp(lreg.coeffs[ ,1] - 1.96 * lreg.coeffs[ ,2])
+  UCI <- exp(lreg.coeffs[ ,1] + 1.96 * lreg.coeffs[ ,2])
+  lreg.or <- round(cbind(OR, LCI, UCI), digits = digits)
+  lreg.or
+}
+```
+
+```{r, eval = TRUE}
+lreg.or <- function(model, digits = 2) {
+  lreg.coeffs <- coef(summary(model))
+  OR <- exp(lreg.coeffs[ ,1])
+  LCI <- exp(lreg.coeffs[ ,1] - 1.96 * lreg.coeffs[ ,2])
+  UCI <- exp(lreg.coeffs[ ,1] + 1.96 * lreg.coeffs[ ,2])
+  lreg.or <- round(cbind(OR, LCI, UCI), digits = digits)
+  lreg.or
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+We can test our function:
+
+```{r, eval = FALSE}
+lreg.or(salex.lreg)
+```
+
+Which produces the following output:
+
+```{r, eval = TRUE}
+lreg.or(salex.lreg)
+```
+
+The `digits` parameter of the `lreg.or()` function, which has `digits = 2` as its default value, allows us to specify the precision with which the estimates and their confidence intervals are reported:
+
+```{r, eval = TRUE}
+lreg.or(salex.lreg, digits = 4)
+```
+
+Before we continue, it is probably a good idea to save this function for later use:
+
+```{r, eval = TRUE}
+save(lreg.or, file = "lregor.r")
+```
+
+Which can be reloaded whenever it is needed:
+
+```{r, eval = TRUE}
+load("lregor.r")
+```
+
+An alternative to using logistic regression with data that contains associations that may be due to confounding is to use stratified analysis (i.e. *Mantel-Haenszel* techniques). With several potential confounders, a stratified analysis results in the analysis of many tables which can be difficult to interpret. For example, four potential confounders, each with two levels would produce sixteen tables. In such situations, logistic regression might be a better approach. In order to illustrate Mantel-Haenszel techniques in `R` we will work with a simpler dataset.
+
+On Saturday, 21st April 1990, a luncheon was held in the home of Jean Bateman. There was a total of forty-five guests which included thirty-five members of the Department of Epidemiology and Population Sciences at the London School of Hygiene and Tropical Medicine. On Sunday morning, 22nd April 1990, Jean awoke with symptoms of gastrointestinal illness; her husband awoke with similar symptoms. The possibility of an outbreak related to the luncheon was strengthened when several of the guests telephoned Jean on Sunday and reported illness. On Monday, 23rd April 1990, there was an unusually large number of department members absent from work and reporting illness. Data from this outbreak is stored in the file `bateman.dat`.
+
+The variables in the file `bateman.dat` are:
+
++---------------+---------------------------------+
+| **ILL**       | Ill?                            |
++---------------+---------------------------------+
+| **CHEESE**    | Cheddar cheese                  |
++---------------+---------------------------------+
+| **CRABDIP**   | Crab dip                        |
++---------------+---------------------------------+
+| **CRISPS**    | Crisps                          |
++---------------+---------------------------------+
+| **BREAD**     | French bread                    |
++---------------+---------------------------------+
+| **CHICKEN**   | Chicken (roasted, served warm)  |
++---------------+---------------------------------+
+| **RICE**      | Rice (boiled, served warm)      |
++---------------+---------------------------------+
+| **CAESAR**    | Caesar salad                    |
++---------------+---------------------------------+
+| **TOMATO**    | Tomato salad                    |
++---------------+---------------------------------+
+| **ICECREAM**  | Vanilla ice-cream               |
++---------------+---------------------------------+
+| **CAKE**      | Chocolate cake                  |
++---------------+---------------------------------+
+| **JUICE**     | Orange juice                    |
++---------------+---------------------------------+
+| **WINE**      | White wine                      |
++---------------+---------------------------------+
+| **COFFEE**    | Coffee                          |
++---------------+---------------------------------+
+
+Data is available for all forty-five guests at the luncheon. All of the variables are coded 1=yes, 2=no. Retrieve and attach the `bateman` dataset in `R`:
+
+```{r, eval = TRUE}
+bateman <- read.table("bateman.dat", header = TRUE)
+bateman
+attach(bateman)
+```
+
+We will use our `tab2by2()` function to analyse this data. Retrieve this function: 
+
+```{r, eval = FALSE}
+load("tab2by2.r")
+```
+
+Use the `tab2by2()` function to analyse the data:
+   
+```{r, eval = TRUE}
+tab2by2(CHEESE, ILL)
+tab2by2(CRABDIP, ILL)
+tab2by2(CRISPS, ILL)
+tab2by2(BREAD, ILL)
+tab2by2(CHICKEN, ILL)
+tab2by2(RICE, ILL)
+tab2by2(CAESAR, ILL)
+tab2by2(TOMATO, ILL)
+tab2by2(ICECREAM, ILL)
+tab2by2(CAKE, ILL)
+tab2by2(JUICE, ILL)
+tab2by2(WINE, ILL)
+tab2by2(COFFEE, ILL)
+```
+
+Two variables (`CAESAR` and `TOMATO`) are associated with `ILL`. 
+
+These two variables are also associated with each other:
+
+```{r, eval = TRUE}
+tab2by2(CAESAR, TOMATO)
+chisq.test(table(CAESAR, TOMATO))
+fisher.test(table(CAESAR, TOMATO))
+```
+
+This suggests the potential for one of these associations to be due to confounding. We can perform a simple stratified analysis using the `table()` function:
+
+```{r, eval = TRUE}
+table(CAESAR, ILL, TOMATO)
+table(TOMATO, ILL, CAESAR)
+```
+
+It would be useful to calculate odds ratios for each stratum. We can define a simple function to calculate an odds ratio from a two-by-two table:
+
+```{r, eval = TRUE}
+or <- function(x) {(x[1,1] / x[1,2]) / (x[2,1] / x[2,2])}
+```
+
+We can use `apply()` to apply the `or()` function to the two-by-two table in each stratum:
+
+```{r, eval = TRUE}
+tabC <- table(CAESAR, ILL, TOMATO)
+apply(tabC, 3, or)
+tabT <- table(TOMATO, ILL, CAESAR)
+apply(tabT, 3, or)
+```
+
+The 3 instructs the `apply()` function to apply the `or()` function to the third dimension of the table objects (i.e. levels of the potential confounder in `tabC` and `tabT`).
+
+The `mantelhaen.test()` function performs the stratified analysis: 
+
+```{r, eval = TRUE}
+mantelhaen.test(tabC)
+mantelhaen.test(tabT)
+```
+
+It is likely that `CAESAR` salad was a vehicle of food-poisoning, and that `TOMATO` salad was not a vehicle of food-poisoning. Many of those at the luncheon ate both `CAESAR` salad and `TOMATO` salad. `CAESAR` confounded the relationship between `TOMATO` and `ILL`. This resulted in a spurious association between `TOMATO` and `ILL`.
+
+It only makes sense to calculate a common odds ratio in the absence of interaction. We can check for interaction ‘by eye’ by examining and comparing the odds ratios for each stratum as we did above.
+
+There does appear to be an interaction between `CAESAR`, `WINE`, and `ILL`: 
+
+```{r, eval = TRUE}
+tabW <- table(CAESAR, ILL, WINE)
+apply(tabW, 3, or)
+```
+
+*Woolf's test* for interaction (also known as *Woolf's test for the homogeneity of odds ratios*) provides a formal test for interaction.
+
