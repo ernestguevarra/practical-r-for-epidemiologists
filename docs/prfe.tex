@@ -2433,6 +2433,789 @@ Try producing another table:
 ## [1] 1.682692
 \end{verbatim}
 
+Have a look at the \texttt{R} objects available to you:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "fem"     "salex"   "tab"     "tab2by2"
+\end{verbatim}
+
+Note that there are no \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d},
+or \texttt{rr} objects.
+
+Examine the \texttt{tab} object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    ILL
+## HAM  1  2
+##   1 46 17
+##   2  5  9
+\end{verbatim}
+
+This is the table of \texttt{HAM} by \texttt{ILL} that you created
+earlier \textbf{\emph{not}} the table of \texttt{PASTA} by \texttt{ILL}
+that was created by the \texttt{tab2by2()} function.
+
+The \texttt{tab}, \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}, and
+\texttt{rr} objects in the \texttt{tab2by2()} function are local to that
+function and do not change anything outside of that function. This means
+that the \texttt{tab} object inside the function is independent of any
+object of the same name outside of the function.
+
+When a function completes its work, all of the objects that are local to
+that function are automatically removed. This is useful as it means that
+you can use object names inside functions that will not interfere with
+objects of the same name that are stored elsewhere. It also means that
+you do not clutter up the \texttt{R} workspace with temporary objects.
+
+Just to prove that \texttt{tab} in the \texttt{tab2by2()} function
+exists only in the \texttt{tab2by2()} function we can delete the tab
+object from the \texttt{R} workspace:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rm}\NormalTok{(tab)}
+\end{Highlighting}
+\end{Shaded}
+
+Now try another call to the \texttt{tab2by2()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(FRUIT, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1  1  4
+##        2 49 22
+## [1] 0.2897959
+\end{verbatim}
+
+Now list the \texttt{R} objects available to you:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ls}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "fem"     "salex"   "tab2by2"
+\end{verbatim}
+
+Note that there are no \texttt{tab}, \texttt{a}, \texttt{b}, \texttt{c},
+\texttt{d}, or \texttt{rr} objects.
+
+The \texttt{tab2by2()} function is very limited. It only displays a
+table and calculates and displays a simple ratio. A more useful function
+would also calculate and display a confidence interval for the risk
+ratio. This is what we will do now. Use the \texttt{fix()} function to
+edit the \texttt{tab2by2()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(tab2by2)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now edit this function to calculate and display a 95\% confidence
+interval for the risk ratio.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(exposure, outcome)}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  b <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  c <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  d <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  rr <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b)) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+\NormalTok{  se.log.rr <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((b }\OperatorTok{/}\StringTok{ }\NormalTok{a) }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{+}\StringTok{ }\NormalTok{(d }\OperatorTok{/}\StringTok{ }\NormalTok{c) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d)) }
+\NormalTok{  lci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  uci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+  \KeywordTok{print}\NormalTok{(tab)}
+  \KeywordTok{print}\NormalTok{(rr)}
+  \KeywordTok{print}\NormalTok{(lci.rr)}
+  \KeywordTok{print}\NormalTok{(uci.rr)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor. We should test our revised function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+which produces the following output:
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## [1] 2.608696
+## [1] 1.553564
+## [1] 4.38044
+\end{verbatim}
+
+The function works but the output could be improved. Use the
+\texttt{fix()} function to edit the \texttt{tab2by2()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(exposure, outcome)}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  b <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  c <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  d <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  rr <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b)) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+\NormalTok{  se.log.rr <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((b }\OperatorTok{/}\StringTok{ }\NormalTok{a) }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{+}\StringTok{ }\NormalTok{(d }\OperatorTok{/}\StringTok{ }\NormalTok{c) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d)) }
+\NormalTok{  lci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  uci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+  \KeywordTok{print}\NormalTok{(tab)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{RR :"}\NormalTok{, rr,}
+      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI :"}\NormalTok{, lci.rr, uci.rr, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, save the file and quit the
+editor.
+
+Now we can test our function again:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+Which produces the following output:
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## RR : 2.608696 
+## 95% CI : 1.553564 4.38044
+\end{verbatim}
+
+The \texttt{tab2by2()} function displays output but does not behave like
+a standard \texttt{R} function in the sense that you cannot save the
+results of the \texttt{tab2by2()} function into an object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test2by2 <-}\StringTok{ }\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## RR : 2.608696 
+## 95% CI : 1.553564 4.38044
+\end{verbatim}
+
+displays output but does not save anything in the \texttt{test2by2}
+object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{test2by2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+The returned value (\texttt{NULL}) means that \texttt{test2by2} is an
+empty object. We will not worry about this at the moment as the
+\texttt{tab2by2()} function is good-enough for our current purposes. In
+Exercise 6 we will explore how to make our own functions behave like
+standard \texttt{R} functions.
+
+We will now add the calculation of the odds ratio and its 95\%
+confidence interval to the \texttt{tab2by2()} function using the
+\texttt{fix()} function.
+
+There are two ways of doing this. We could either calculate the odds
+ratio from the table and use (e.g.) the method of Woolf to calculate the
+confidence interval:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{or <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{d)}
+\NormalTok{se.log.or <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{a }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{b }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{c }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{d)}
+\NormalTok{lci.or <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(or) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.or)}
+\NormalTok{uci.or <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(or) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.or)}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{OR     :"}\NormalTok{, or,}
+    \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI :"}\NormalTok{, lci.or, uci.or, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+or use the output of the \texttt{fisher.test()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ft <-}\StringTok{ }\KeywordTok{fisher.test}\NormalTok{(tab)}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{OR     :"}\NormalTok{, ft}\OperatorTok{$}\NormalTok{estimate,}
+    \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI :"}\NormalTok{, ft}\OperatorTok{$}\NormalTok{conf.int, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that we can refer to components of a function's output using the
+same syntax as when we refer to columns in a data.frame (e.g.
+\texttt{ft\$estimate} to examine the estimate of the odds ratio from the
+\texttt{fisher.test()} function stored in the object \texttt{ft}).
+
+The names of elements in the output of a standard function such as
+\texttt{fisher.test()} can be found in the documentation or the help
+system. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{help}\NormalTok{(fisher.test)}
+\end{Highlighting}
+\end{Shaded}
+
+Output elements are listed under the \texttt{Value} heading.
+
+Revise the \texttt{tab2by2()} function to include the calculation of the
+odds ratio and the 95\% confidence interval. The revised function will
+look something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(exposure, outcome)}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  b <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  c <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  d <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  rr <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b)) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+\NormalTok{  se.log.rr <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((b }\OperatorTok{/}\StringTok{ }\NormalTok{a) }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{+}\StringTok{ }\NormalTok{(d }\OperatorTok{/}\StringTok{ }\NormalTok{c) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d)) }
+\NormalTok{  lci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  uci.rr <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  or <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{d)}
+\NormalTok{  se.log.or <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{a }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{b }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{c }\OperatorTok{+}\StringTok{ }\DecValTok{1} \OperatorTok{/}\StringTok{ }\NormalTok{d)}
+\NormalTok{  lci.or <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(or) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.or)}
+\NormalTok{  uci.or <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(or) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.or)}
+\NormalTok{  ft <-}\StringTok{ }\KeywordTok{fisher.test}\NormalTok{(tab)}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \KeywordTok{print}\NormalTok{(tab)}
+  
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Relative Risk     :"}\NormalTok{, rr,}
+      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI            :"}\NormalTok{, lci.rr, uci.rr, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{Sample Odds Ratio :"}\NormalTok{, or,}
+      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI            :"}\NormalTok{, lci.or, uci.or, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{MLE Odds Ratio    :"}\NormalTok{, ft}\OperatorTok{$}\NormalTok{estimate,}
+      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI             :"}\NormalTok{,  ft}\OperatorTok{$}\NormalTok{conf.int, }\StringTok{"}\CharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Test the \texttt{tab2by2()} function when you have added the calculation
+of the odds ratio and its 95\% confidence interval.
+
+Now that we have a function that will calculate risk ratios and odds
+ratios with confidence intervals from a two- by-two table we can use it
+to analyse the \texttt{salex} data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(HAM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 46 17
+##        2  5  9
+## 
+## Relative Risk     : 2.044444 
+## 95% CI            : 0.9964841 4.194501 
+## 
+## Sample Odds Ratio : 4.870588 
+## 95% CI            : 1.428423 16.60756 
+## 
+## MLE Odds Ratio    : 4.75649 
+## 95% CI             : 1.22777 20.82921
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(BEEF, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 45 22
+##        2  6  4
+## 
+## Relative Risk     : 1.119403 
+## 95% CI            : 0.6568821 1.907592 
+## 
+## Sample Odds Ratio : 1.363636 
+## 95% CI            : 0.3485746 5.334594 
+## 
+## MLE Odds Ratio    : 1.357903 
+## 95% CI             : 0.2547114 6.428414
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## Relative Risk     : 2.608696 
+## 95% CI            : 1.553564 4.38044 
+## 
+## Sample Odds Ratio : 13.33333 
+## 95% CI            : 4.240168 41.92706 
+## 
+## MLE Odds Ratio    : 12.74512 
+## 95% CI             : 3.762787 50.05419
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(MUSHROOM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 24  6
+##        2 25 19
+## 
+## Relative Risk     : 1.408 
+## 95% CI            : 1.028944 1.926697 
+## 
+## Sample Odds Ratio : 3.04 
+## 95% CI            : 1.037274 8.909506 
+## 
+## MLE Odds Ratio    : 2.995207 
+## 95% CI             : 0.9421008 10.7953
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(PEPPER, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 24  3
+##        2 23 22
+## 
+## Relative Risk     : 1.73913 
+## 95% CI            : 1.26876 2.383882 
+## 
+## Sample Odds Ratio : 7.652174 
+## 95% CI            : 2.013718 29.07844 
+## 
+## MLE Odds Ratio    : 7.448216 
+## 95% CI             : 1.861728 44.12015
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(PORKPIE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 21  9
+##        2 29 17
+## 
+## Relative Risk     : 1.110345 
+## 95% CI            : 0.8044752 1.532509 
+## 
+## Sample Odds Ratio : 1.367816 
+## 95% CI            : 0.5113158 3.659032 
+## 
+## MLE Odds Ratio    : 1.362228 
+## 95% CI             : 0.4636016 4.190667
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(PASTA, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 25  3
+##        2 26 23
+## 
+## Relative Risk     : 1.682692 
+## 95% CI            : 1.255392 2.255433 
+## 
+## Sample Odds Ratio : 7.371795 
+## 95% CI            : 1.964371 27.66451 
+## 
+## MLE Odds Ratio    : 7.195422 
+## 95% CI             : 1.829867 42.07488
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(RICE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 28  4
+##        2 23 22
+## 
+## Relative Risk     : 1.711957 
+## 95% CI            : 1.250197 2.344268 
+## 
+## Sample Odds Ratio : 6.695652 
+## 95% CI            : 2.017327 22.22335 
+## 
+## MLE Odds Ratio    : 6.532868 
+## 95% CI             : 1.852297 29.84928
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(LETTUCE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 28  1
+##        2 23 25
+## 
+## Relative Risk     : 2.014993 
+## 95% CI            : 1.488481 2.727744 
+## 
+## Sample Odds Ratio : 30.43478 
+## 95% CI            : 3.826938 242.041 
+## 
+## MLE Odds Ratio    : 29.32825 
+## 95% CI             : 4.161299 1284.306
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(TOMATO, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 29  9
+##        2 22 17
+## 
+## Relative Risk     : 1.352871 
+## 95% CI            : 0.974698 1.877771 
+## 
+## Sample Odds Ratio : 2.489899 
+## 95% CI            : 0.9347213 6.632562 
+## 
+## MLE Odds Ratio    : 2.459981 
+## 95% CI             : 0.8467562 7.558026
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(COLESLAW, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 29  3
+##        2 21 23
+## 
+## Relative Risk     : 1.89881 
+## 95% CI            : 1.366876 2.63775 
+## 
+## Sample Odds Ratio : 10.5873 
+## 95% CI            : 2.806364 39.9417 
+## 
+## MLE Odds Ratio    : 10.26269 
+## 95% CI             : 2.600771 60.35431
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CRISPS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 21 10
+##        2 30 16
+## 
+## Relative Risk     : 1.03871 
+## 95% CI            : 0.7529065 1.433004 
+## 
+## Sample Odds Ratio : 1.12 
+## 95% CI            : 0.4258139 2.945888 
+## 
+## MLE Odds Ratio    : 1.118358 
+## 95% CI             : 0.3858206 3.340535
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(PEACHCAKE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1  2  2
+##        2 49 24
+## 
+## Relative Risk     : 0.744898 
+## 95% CI            : 0.27594 2.010846 
+## 
+## Sample Odds Ratio : 0.4897959 
+## 95% CI            : 0.06497947 3.691936 
+## 
+## MLE Odds Ratio    : 0.4947099 
+## 95% CI             : 0.03393887 7.209143
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CHOCOLATE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 12  2
+##        2 38 24
+## 
+## Relative Risk     : 1.398496 
+## 95% CI            : 1.045064 1.871456 
+## 
+## Sample Odds Ratio : 3.789474 
+## 95% CI            : 0.7791326 18.43089 
+## 
+## MLE Odds Ratio    : 3.733535 
+## 95% CI             : 0.7318646 37.28268
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(FRUIT, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1  1  4
+##        2 49 22
+## 
+## Relative Risk     : 0.2897959 
+## 95% CI            : 0.04985828 1.684408 
+## 
+## Sample Odds Ratio : 0.1122449 
+## 95% CI            : 0.01185022 1.06318 
+## 
+## MLE Odds Ratio    : 0.1157141 
+## 95% CI             : 0.002240848 1.256134
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(TRIFLE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 19  5
+##        2 32 21
+## 
+## Relative Risk     : 1.311198 
+## 95% CI            : 0.9718621 1.769016 
+## 
+## Sample Odds Ratio : 2.49375 
+## 95% CI            : 0.8067804 7.708156 
+## 
+## MLE Odds Ratio    : 2.465794 
+## 95% CI             : 0.7363311 9.778463
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(ALMONDS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1  3  3
+##        2 38 19
+## 
+## Relative Risk     : 0.75 
+## 95% CI            : 0.3300089 1.7045 
+## 
+## Sample Odds Ratio : 0.5 
+## 95% CI            : 0.09203498 2.716358 
+## 
+## MLE Odds Ratio    : 0.505905 
+## 95% CI             : 0.06170211 4.141891
+\end{verbatim}
+
+Make a note of any positive associations (i.e.~with a risk ratio
+\textgreater{} 1 with a 95\% confidence intervals that does not include
+one). We will use these for the next exercise when we will use logistic
+regression to analyse this data.
+
+Save the \texttt{tab2by2()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{save}\NormalTok{(tab2by2, }\DataTypeTok{file =} \StringTok{"tab2by2.r"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now quit \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{q}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+For this exercise there is no need to save the workspace image so click
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \textbf{n}
+when prompted to save the workspace image (terminal).
+
+\hypertarget{summary-1}{%
+\section{Summary}\label{summary-1}}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{R} objects contain information that can be examined and
+  manipulated.
+\item
+  \texttt{R} can be extended by writing new functions.
+\item
+  New functions can perform simple or complex data analysis.
+\item
+  New functions can be composed of parts of existing function.
+\item
+  New functions can be saved and used in subsequent \texttt{R} sessions.
+\item
+  Objects defined within functions are local to that function and only
+  exist while that function is being used. This means that you can
+  re-use meaningful names within functions without them interfering with
+  each other.
+\end{itemize}
+
+\hypertarget{exercise3}{%
+\chapter{Logistic regression and stratified analysis}\label{exercise3}}
+
+\hypertarget{exercise4}{%
+\chapter{Analysing some data with R}\label{exercise4}}
+
+\hypertarget{exercise5}{%
+\chapter{Extending R with packages}\label{exercise5}}
+
+\hypertarget{exercise6}{%
+\chapter{Making your own objects behave like R
+objects}\label{exercise6}}
+
+\hypertarget{exercise7}{%
+\chapter{Writing your own graphical functions}\label{exercise7}}
+
+\hypertarget{exercise8}{%
+\chapter{More graphical functions}\label{exercise8}}
+
+\hypertarget{exercise9}{%
+\chapter{Computer intensive methods}\label{exercise9}}
+
+\hypertarget{whatnow}{%
+\chapter{What now?}\label{whatnow}}
+
 \bibliography{book.bib}
 
 

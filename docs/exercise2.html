@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="exercise1.html">
-
+<link rel="next" href="exercise3.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -128,7 +128,17 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="2" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>2</b> Getting acquainted with R</a><ul>
 <li class="chapter" data-level="2.1" data-path="exercise1.html"><a href="exercise1.html#summary"><i class="fa fa-check"></i><b>2.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="exercise2.html"><a href="exercise2.html"><i class="fa fa-check"></i><b>3</b> Manipulating objects and creating new functions</a></li>
+<li class="chapter" data-level="3" data-path="exercise2.html"><a href="exercise2.html"><i class="fa fa-check"></i><b>3</b> Manipulating objects and creating new functions</a><ul>
+<li class="chapter" data-level="3.1" data-path="exercise2.html"><a href="exercise2.html#summary-1"><i class="fa fa-check"></i><b>3.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>4</b> Logistic regression and stratified analysis</a></li>
+<li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a></li>
+<li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a></li>
+<li class="chapter" data-level="7" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>7</b> Making your own objects behave like R objects</a></li>
+<li class="chapter" data-level="8" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>8</b> Writing your own graphical functions</a></li>
+<li class="chapter" data-level="9" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>9</b> More graphical functions</a></li>
+<li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a></li>
+<li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
 <li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
 
@@ -481,15 +491,427 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ##        1 25  3
 ##        2 26 23
 ## [1] 1.682692</code></pre>
+<p>Have a look at the <code>R</code> objects available to you:</p>
+<pre class="sourceCode r" id="cb173"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
+<pre><code>## [1] &quot;fem&quot;     &quot;salex&quot;   &quot;tab&quot;     &quot;tab2by2&quot;</code></pre>
+<p>Note that there are no <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, or <code>rr</code> objects.</p>
+<p>Examine the <code>tab</code> object:</p>
+<pre class="sourceCode r" id="cb175"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">tab</a></code></pre>
+<pre><code>##    ILL
+## HAM  1  2
+##   1 46 17
+##   2  5  9</code></pre>
+<p>This is the table of <code>HAM</code> by <code>ILL</code> that you created earlier <strong><em>not</em></strong> the table of <code>PASTA</code> by <code>ILL</code> that was created by the <code>tab2by2()</code> function.</p>
+<p>The <code>tab</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, and <code>rr</code> objects in the <code>tab2by2()</code> function are local to that function and do not change anything outside of that function. This means that the <code>tab</code> object inside the function is independent of any object of the same name outside of the function.</p>
+<p>When a function completes its work, all of the objects that are local to that function are automatically removed. This is useful as it means that you can use object names inside functions that will not interfere with objects of the same name that are stored elsewhere. It also means that you do not clutter up the <code>R</code> workspace with temporary objects.</p>
+<p>Just to prove that <code>tab</code> in the <code>tab2by2()</code> function exists only in the <code>tab2by2()</code> function we can delete the tab object from the <code>R</code> workspace:</p>
+<pre class="sourceCode r" id="cb177"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
+<p>Now try another call to the <code>tab2by2()</code> function:</p>
+<pre class="sourceCode r" id="cb178"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre>
+<pre><code>##         outcome
+## exposure  1  2
+##        1  1  4
+##        2 49 22
+## [1] 0.2897959</code></pre>
+<p>Now list the <code>R</code> objects available to you:</p>
+<pre class="sourceCode r" id="cb180"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
+<pre><code>## [1] &quot;fem&quot;     &quot;salex&quot;   &quot;tab2by2&quot;</code></pre>
+<p>Note that there are no <code>tab</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, or <code>rr</code> objects.</p>
+<p>The <code>tab2by2()</code> function is very limited. It only displays a table and calculates and displays a simple ratio. A more useful function would also calculate and display a confidence interval for the risk ratio. This is what we will do now. Use the <code>fix()</code> function to edit the <code>tab2by2()</code> function:</p>
+<pre class="sourceCode r" id="cb182"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre>
+<p>We can now edit this function to calculate and display a 95% confidence interval for the risk ratio.</p>
+<pre class="sourceCode r" id="cb183"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<a class="sourceLine" id="cb183-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
+<a class="sourceLine" id="cb183-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb183-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb183-5" data-line-number="5">  c &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb183-6" data-line-number="6">  d &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb183-7" data-line-number="7">  rr &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b)) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d))</a>
+<a class="sourceLine" id="cb183-8" data-line-number="8">  se.log.rr &lt;-<span class="st"> </span><span class="kw">sqrt</span>((b <span class="op">/</span><span class="st"> </span>a) <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">+</span><span class="st"> </span>(d <span class="op">/</span><span class="st"> </span>c) <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d)) </a>
+<a class="sourceLine" id="cb183-9" data-line-number="9">  lci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb183-10" data-line-number="10">  uci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb183-11" data-line-number="11">  <span class="kw">print</span>(tab)</a>
+<a class="sourceLine" id="cb183-12" data-line-number="12">  <span class="kw">print</span>(rr)</a>
+<a class="sourceLine" id="cb183-13" data-line-number="13">  <span class="kw">print</span>(lci.rr)</a>
+<a class="sourceLine" id="cb183-14" data-line-number="14">  <span class="kw">print</span>(uci.rr)</a>
+<a class="sourceLine" id="cb183-15" data-line-number="15">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor. We should test our revised function:</p>
+<pre class="sourceCode r" id="cb184"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
+<p>which produces the following output:</p>
+<pre><code>##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## [1] 2.608696
+## [1] 1.553564
+## [1] 4.38044</code></pre>
+<p>The function works but the output could be improved. Use the <code>fix()</code> function to edit the <code>tab2by2()</code> function:</p>
+<pre class="sourceCode r" id="cb186"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<a class="sourceLine" id="cb186-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
+<a class="sourceLine" id="cb186-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb186-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb186-5" data-line-number="5">  c &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb186-6" data-line-number="6">  d &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb186-7" data-line-number="7">  rr &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b)) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d))</a>
+<a class="sourceLine" id="cb186-8" data-line-number="8">  se.log.rr &lt;-<span class="st"> </span><span class="kw">sqrt</span>((b <span class="op">/</span><span class="st"> </span>a) <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">+</span><span class="st"> </span>(d <span class="op">/</span><span class="st"> </span>c) <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d)) </a>
+<a class="sourceLine" id="cb186-9" data-line-number="9">  lci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb186-10" data-line-number="10">  uci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb186-11" data-line-number="11">  <span class="kw">print</span>(tab)</a>
+<a class="sourceLine" id="cb186-12" data-line-number="12">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">RR :&quot;</span>, rr,</a>
+<a class="sourceLine" id="cb186-13" data-line-number="13">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, lci.rr, uci.rr, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb186-14" data-line-number="14">}</a></code></pre>
+<p>Once you have made the changes shown above, save the file and quit the editor.</p>
+<p>Now we can test our function again:</p>
+<pre class="sourceCode r" id="cb187"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
+<p>Which produces the following output:</p>
+<pre><code>##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## RR : 2.608696 
+## 95% CI : 1.553564 4.38044</code></pre>
+<p>The <code>tab2by2()</code> function displays output but does not behave like a standard <code>R</code> function in the sense that you cannot save the results of the <code>tab2by2()</code> function into an object:</p>
+<pre class="sourceCode r" id="cb189"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">test2by2 &lt;-<span class="st"> </span><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
+<pre><code>##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## RR : 2.608696 
+## 95% CI : 1.553564 4.38044</code></pre>
+<p>displays output but does not save anything in the <code>test2by2</code> object:</p>
+<pre class="sourceCode r" id="cb191"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">test2by2</a></code></pre>
+<pre><code>## NULL</code></pre>
+<p>The returned value (<code>NULL</code>) means that <code>test2by2</code> is an empty object. We will not worry about this at the moment as the <code>tab2by2()</code> function is good-enough for our current purposes. In Exercise 6 we will explore how to make our own functions behave like standard <code>R</code> functions.</p>
+<p>We will now add the calculation of the odds ratio and its 95% confidence interval to the <code>tab2by2()</code> function using the <code>fix()</code> function.</p>
+<p>There are two ways of doing this. We could either calculate the odds ratio from the table and use (e.g.) the method of Woolf to calculate the confidence interval:</p>
+<pre class="sourceCode r" id="cb193"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">or &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>d)</a>
+<a class="sourceLine" id="cb193-2" data-line-number="2">se.log.or &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>c <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>d)</a>
+<a class="sourceLine" id="cb193-3" data-line-number="3">lci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
+<a class="sourceLine" id="cb193-4" data-line-number="4">uci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
+<a class="sourceLine" id="cb193-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">OR     :&quot;</span>, or,</a>
+<a class="sourceLine" id="cb193-6" data-line-number="6">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, lci.or, uci.or, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre>
+<p>or use the output of the <code>fisher.test()</code> function:</p>
+<pre class="sourceCode r" id="cb194"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(tab)</a>
+<a class="sourceLine" id="cb194-2" data-line-number="2"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">OR     :&quot;</span>, ft<span class="op">$</span>estimate,</a>
+<a class="sourceLine" id="cb194-3" data-line-number="3">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, ft<span class="op">$</span>conf.int, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre>
+<p>Note that we can refer to components of a function’s output using the same syntax as when we refer to columns in a data.frame (e.g. <code>ft$estimate</code> to examine the estimate of the odds ratio from the <code>fisher.test()</code> function stored in the object <code>ft</code>).</p>
+<p>The names of elements in the output of a standard function such as <code>fisher.test()</code> can be found in the documentation or the help system. For example:</p>
+<pre class="sourceCode r" id="cb195"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">help</span>(fisher.test)</a></code></pre>
+<p>Output elements are listed under the <code>Value</code> heading.</p>
+<p>Revise the <code>tab2by2()</code> function to include the calculation of the odds ratio and the 95% confidence interval. The revised function will look something like this:</p>
+<pre class="sourceCode r" id="cb196"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<a class="sourceLine" id="cb196-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
+<a class="sourceLine" id="cb196-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb196-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb196-5" data-line-number="5">  c &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb196-6" data-line-number="6">  d &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb196-7" data-line-number="7">  rr &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b)) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d))</a>
+<a class="sourceLine" id="cb196-8" data-line-number="8">  se.log.rr &lt;-<span class="st"> </span><span class="kw">sqrt</span>((b <span class="op">/</span><span class="st"> </span>a) <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">+</span><span class="st"> </span>(d <span class="op">/</span><span class="st"> </span>c) <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d)) </a>
+<a class="sourceLine" id="cb196-9" data-line-number="9">  lci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb196-10" data-line-number="10">  uci.rr &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(rr) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.rr)</a>
+<a class="sourceLine" id="cb196-11" data-line-number="11">  or &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>d)</a>
+<a class="sourceLine" id="cb196-12" data-line-number="12">  se.log.or &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>c <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>d)</a>
+<a class="sourceLine" id="cb196-13" data-line-number="13">  lci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
+<a class="sourceLine" id="cb196-14" data-line-number="14">  uci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
+<a class="sourceLine" id="cb196-15" data-line-number="15">  ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(tab)</a>
+<a class="sourceLine" id="cb196-16" data-line-number="16">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb196-17" data-line-number="17">  <span class="kw">print</span>(tab)</a>
+<a class="sourceLine" id="cb196-18" data-line-number="18">  </a>
+<a class="sourceLine" id="cb196-19" data-line-number="19">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Relative Risk     :&quot;</span>, rr,</a>
+<a class="sourceLine" id="cb196-20" data-line-number="20">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI            :&quot;</span>, lci.rr, uci.rr, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb196-21" data-line-number="21">  </a>
+<a class="sourceLine" id="cb196-22" data-line-number="22">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Sample Odds Ratio :&quot;</span>, or,</a>
+<a class="sourceLine" id="cb196-23" data-line-number="23">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI            :&quot;</span>, lci.or, uci.or, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb196-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb196-25" data-line-number="25">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">MLE Odds Ratio    :&quot;</span>, ft<span class="op">$</span>estimate,</a>
+<a class="sourceLine" id="cb196-26" data-line-number="26">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI             :&quot;</span>,  ft<span class="op">$</span>conf.int, <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb196-27" data-line-number="27">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>Test the <code>tab2by2()</code> function when you have added the calculation of the odds ratio and its 95% confidence interval.</p>
+<p>Now that we have a function that will calculate risk ratios and odds ratios with confidence intervals from a two- by-two table we can use it to analyse the <code>salex</code> data:</p>
+<pre class="sourceCode r" id="cb197"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 46 17
+##        2  5  9
+## 
+## Relative Risk     : 2.044444 
+## 95% CI            : 0.9964841 4.194501 
+## 
+## Sample Odds Ratio : 4.870588 
+## 95% CI            : 1.428423 16.60756 
+## 
+## MLE Odds Ratio    : 4.75649 
+## 95% CI             : 1.22777 20.82921</code></pre>
+<pre class="sourceCode r" id="cb199"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">tab2by2</span>(BEEF, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 45 22
+##        2  6  4
+## 
+## Relative Risk     : 1.119403 
+## 95% CI            : 0.6568821 1.907592 
+## 
+## Sample Odds Ratio : 1.363636 
+## 95% CI            : 0.3485746 5.334594 
+## 
+## MLE Odds Ratio    : 1.357903 
+## 95% CI             : 0.2547114 6.428414</code></pre>
+<pre class="sourceCode r" id="cb201"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 40  6
+##        2 10 20
+## 
+## Relative Risk     : 2.608696 
+## 95% CI            : 1.553564 4.38044 
+## 
+## Sample Odds Ratio : 13.33333 
+## 95% CI            : 4.240168 41.92706 
+## 
+## MLE Odds Ratio    : 12.74512 
+## 95% CI             : 3.762787 50.05419</code></pre>
+<pre class="sourceCode r" id="cb203"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">tab2by2</span>(MUSHROOM, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 24  6
+##        2 25 19
+## 
+## Relative Risk     : 1.408 
+## 95% CI            : 1.028944 1.926697 
+## 
+## Sample Odds Ratio : 3.04 
+## 95% CI            : 1.037274 8.909506 
+## 
+## MLE Odds Ratio    : 2.995207 
+## 95% CI             : 0.9421008 10.7953</code></pre>
+<pre class="sourceCode r" id="cb205"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">tab2by2</span>(PEPPER, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 24  3
+##        2 23 22
+## 
+## Relative Risk     : 1.73913 
+## 95% CI            : 1.26876 2.383882 
+## 
+## Sample Odds Ratio : 7.652174 
+## 95% CI            : 2.013718 29.07844 
+## 
+## MLE Odds Ratio    : 7.448216 
+## 95% CI             : 1.861728 44.12015</code></pre>
+<pre class="sourceCode r" id="cb207"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">tab2by2</span>(PORKPIE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 21  9
+##        2 29 17
+## 
+## Relative Risk     : 1.110345 
+## 95% CI            : 0.8044752 1.532509 
+## 
+## Sample Odds Ratio : 1.367816 
+## 95% CI            : 0.5113158 3.659032 
+## 
+## MLE Odds Ratio    : 1.362228 
+## 95% CI             : 0.4636016 4.190667</code></pre>
+<pre class="sourceCode r" id="cb209"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 25  3
+##        2 26 23
+## 
+## Relative Risk     : 1.682692 
+## 95% CI            : 1.255392 2.255433 
+## 
+## Sample Odds Ratio : 7.371795 
+## 95% CI            : 1.964371 27.66451 
+## 
+## MLE Odds Ratio    : 7.195422 
+## 95% CI             : 1.829867 42.07488</code></pre>
+<pre class="sourceCode r" id="cb211"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 28  4
+##        2 23 22
+## 
+## Relative Risk     : 1.711957 
+## 95% CI            : 1.250197 2.344268 
+## 
+## Sample Odds Ratio : 6.695652 
+## 95% CI            : 2.017327 22.22335 
+## 
+## MLE Odds Ratio    : 6.532868 
+## 95% CI             : 1.852297 29.84928</code></pre>
+<pre class="sourceCode r" id="cb213"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">tab2by2</span>(LETTUCE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 28  1
+##        2 23 25
+## 
+## Relative Risk     : 2.014993 
+## 95% CI            : 1.488481 2.727744 
+## 
+## Sample Odds Ratio : 30.43478 
+## 95% CI            : 3.826938 242.041 
+## 
+## MLE Odds Ratio    : 29.32825 
+## 95% CI             : 4.161299 1284.306</code></pre>
+<pre class="sourceCode r" id="cb215"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 29  9
+##        2 22 17
+## 
+## Relative Risk     : 1.352871 
+## 95% CI            : 0.974698 1.877771 
+## 
+## Sample Odds Ratio : 2.489899 
+## 95% CI            : 0.9347213 6.632562 
+## 
+## MLE Odds Ratio    : 2.459981 
+## 95% CI             : 0.8467562 7.558026</code></pre>
+<pre class="sourceCode r" id="cb217"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw">tab2by2</span>(COLESLAW, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 29  3
+##        2 21 23
+## 
+## Relative Risk     : 1.89881 
+## 95% CI            : 1.366876 2.63775 
+## 
+## Sample Odds Ratio : 10.5873 
+## 95% CI            : 2.806364 39.9417 
+## 
+## MLE Odds Ratio    : 10.26269 
+## 95% CI             : 2.600771 60.35431</code></pre>
+<pre class="sourceCode r" id="cb219"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 21 10
+##        2 30 16
+## 
+## Relative Risk     : 1.03871 
+## 95% CI            : 0.7529065 1.433004 
+## 
+## Sample Odds Ratio : 1.12 
+## 95% CI            : 0.4258139 2.945888 
+## 
+## MLE Odds Ratio    : 1.118358 
+## 95% CI             : 0.3858206 3.340535</code></pre>
+<pre class="sourceCode r" id="cb221"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">tab2by2</span>(PEACHCAKE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1  2  2
+##        2 49 24
+## 
+## Relative Risk     : 0.744898 
+## 95% CI            : 0.27594 2.010846 
+## 
+## Sample Odds Ratio : 0.4897959 
+## 95% CI            : 0.06497947 3.691936 
+## 
+## MLE Odds Ratio    : 0.4947099 
+## 95% CI             : 0.03393887 7.209143</code></pre>
+<pre class="sourceCode r" id="cb223"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">tab2by2</span>(CHOCOLATE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 12  2
+##        2 38 24
+## 
+## Relative Risk     : 1.398496 
+## 95% CI            : 1.045064 1.871456 
+## 
+## Sample Odds Ratio : 3.789474 
+## 95% CI            : 0.7791326 18.43089 
+## 
+## MLE Odds Ratio    : 3.733535 
+## 95% CI             : 0.7318646 37.28268</code></pre>
+<pre class="sourceCode r" id="cb225"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1  1  4
+##        2 49 22
+## 
+## Relative Risk     : 0.2897959 
+## 95% CI            : 0.04985828 1.684408 
+## 
+## Sample Odds Ratio : 0.1122449 
+## 95% CI            : 0.01185022 1.06318 
+## 
+## MLE Odds Ratio    : 0.1157141 
+## 95% CI             : 0.002240848 1.256134</code></pre>
+<pre class="sourceCode r" id="cb227"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="kw">tab2by2</span>(TRIFLE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 19  5
+##        2 32 21
+## 
+## Relative Risk     : 1.311198 
+## 95% CI            : 0.9718621 1.769016 
+## 
+## Sample Odds Ratio : 2.49375 
+## 95% CI            : 0.8067804 7.708156 
+## 
+## MLE Odds Ratio    : 2.465794 
+## 95% CI             : 0.7363311 9.778463</code></pre>
+<pre class="sourceCode r" id="cb229"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="kw">tab2by2</span>(ALMONDS, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1  3  3
+##        2 38 19
+## 
+## Relative Risk     : 0.75 
+## 95% CI            : 0.3300089 1.7045 
+## 
+## Sample Odds Ratio : 0.5 
+## 95% CI            : 0.09203498 2.716358 
+## 
+## MLE Odds Ratio    : 0.505905 
+## 95% CI             : 0.06170211 4.141891</code></pre>
+<p>Make a note of any positive associations (i.e. with a risk ratio &gt; 1 with a 95% confidence intervals that does not include one). We will use these for the next exercise when we will use logistic regression to analyse this data.</p>
+<p>Save the <code>tab2by2()</code> function:</p>
+<pre class="sourceCode r" id="cb231"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">save</span>(tab2by2, <span class="dt">file =</span> <span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre>
+<p>We can now quit <code>R</code>:</p>
+<pre class="sourceCode r" id="cb232"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <strong>n</strong> when prompted to save the workspace image (terminal).</p>
+<div id="summary-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Summary</h2>
+<ul>
+<li><code>R</code> objects contain information that can be examined and manipulated.</li>
+<li><code>R</code> can be extended by writing new functions.</li>
+<li>New functions can perform simple or complex data analysis.</li>
+<li>New functions can be composed of parts of existing function.</li>
+<li>New functions can be saved and used in subsequent <code>R</code> sessions.</li>
+<li>Objects defined within functions are local to that function and only exist while that function is being used. This means that you can re-use meaningful names within functions without them interfering with each other.</li>
+</ul>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="exercise1.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="exercise1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercise3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
