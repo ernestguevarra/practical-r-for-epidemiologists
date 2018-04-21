@@ -203,3 +203,49 @@ Try producing another table:
 tab2by2(PASTA, ILL)
 ```
 
+Have a look at the `R` objects available to you: 
+
+```{r, eval = TRUE}
+ls()
+```
+
+Note that there are no `a`, `b`, `c`, `d`, or `rr` objects. 
+
+Examine the `tab` object:
+
+```{r, eval = TRUE}
+tab
+```
+
+This is the table of `HAM` by `ILL` that you created earlier **_not_** the table of `PASTA` by `ILL` that was created by the `tab2by2()` function.
+
+The `tab`, `a`, `b`, `c`, `d`, and `rr` objects in the `tab2by2()` function are local to that function and do not change anything outside of that function. This means that the `tab` object inside the function is independent of any object of the same name outside of the function.
+
+When a function completes its work, all of the objects that are local to that function are automatically removed. This is useful as it means that you can use object names inside functions that will not interfere with objects of the same name that are stored elsewhere. It also means that you do not clutter up the `R` workspace with temporary objects.
+
+Just to prove that `tab` in the `tab2by2()` function exists only in the `tab2by2()` function we can delete the tab object from the `R` workspace:
+
+```{r, eval = TRUE}
+rm(tab)
+```
+
+Now try another call to the `tab2by2()` function: 
+
+```{r, eval = TRUE}
+tab2by2(FRUIT, ILL)
+```
+
+Now list the `R` objects available to you: 
+
+```{r, eval = TRUE}
+ls()
+```
+
+Note that there are no `tab`, `a`, `b`, `c`, `d`, or `rr` objects.
+
+The `tab2by2()` function is very limited. It only displays a table and calculates and displays a simple ratio. A more useful function would also calculate and display a confidence interval for the risk ratio. This is what we will do now. Use the `fix()` function to edit the `tab2by2()` function:
+
+```{r, eval = FALSE}
+fix(tab2by2)
+```
+
