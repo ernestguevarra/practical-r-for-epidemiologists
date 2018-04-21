@@ -519,6 +519,531 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## EGGS        14.0008053 3.3256684  58.9423019
 ## PASTA        5.2834608 1.0231552  27.2832114
 ## LETTUCE     24.4246856 2.5559581 233.4018193</code></pre>
+<p>We seldom need to report estimates and confidence intervals to more than two decimal places. We can use the <code>round()</code> function to remove the excess digits:</p>
+<pre class="sourceCode r" id="cb274"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="kw">round</span>(lreg.or, <span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre>
+<pre><code>##                or  lci    uci
+## (Intercept)  0.14 0.04   0.46
+## EGGS        14.00 3.33  58.94
+## PASTA        5.28 1.02  27.28
+## LETTUCE     24.42 2.56 233.40</code></pre>
+<p>We have now gone through all the necessary calculations step-by-step but it would be nice to have a function that did it all for us that we could use whenever we needed to.</p>
+<p>First we will create a template for the function:</p>
+<pre class="sourceCode r" id="cb276"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {}</a></code></pre>
+<p>and then use the <code>fix()</code> function to edit the <code>lreg.or()</code> function:</p>
+<pre class="sourceCode r" id="cb277"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">fix</span>(lreg.or)</a></code></pre>
+<p>We can now edit this function to add a calculation of odds ratios and 95% confidence intervals:</p>
+<pre class="sourceCode r" id="cb278"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb278-2" data-line-number="2">  lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(model))</a>
+<a class="sourceLine" id="cb278-3" data-line-number="3">  OR &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb278-4" data-line-number="4">  LCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb278-5" data-line-number="5">  UCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb278-6" data-line-number="6">  lreg.or &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(OR, LCI, UCI), <span class="dt">digits =</span> digits)</a>
+<a class="sourceLine" id="cb278-7" data-line-number="7">  lreg.or</a>
+<a class="sourceLine" id="cb278-8" data-line-number="8">}</a></code></pre>
+<pre class="sourceCode r" id="cb279"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {</a>
+<a class="sourceLine" id="cb279-2" data-line-number="2">  lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(model))</a>
+<a class="sourceLine" id="cb279-3" data-line-number="3">  OR &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb279-4" data-line-number="4">  LCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb279-5" data-line-number="5">  UCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb279-6" data-line-number="6">  lreg.or &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(OR, LCI, UCI), <span class="dt">digits =</span> digits)</a>
+<a class="sourceLine" id="cb279-7" data-line-number="7">  lreg.or</a>
+<a class="sourceLine" id="cb279-8" data-line-number="8">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We can test our function:</p>
+<pre class="sourceCode r" id="cb280"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre>
+<p>Which produces the following output:</p>
+<pre class="sourceCode r" id="cb281"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre>
+<pre><code>##                OR  LCI    UCI
+## (Intercept)  0.14 0.04   0.46
+## EGGS        14.00 3.33  58.94
+## PASTA        5.28 1.02  27.28
+## LETTUCE     24.42 2.56 233.40</code></pre>
+<p>The <code>digits</code> parameter of the <code>lreg.or()</code> function, which has <code>digits = 2</code> as its default value, allows us to specify the precision with which the estimates and their confidence intervals are reported:</p>
+<pre class="sourceCode r" id="cb283"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg, <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre>
+<pre><code>##                  OR    LCI      UCI
+## (Intercept)  0.1393 0.0418   0.4647
+## EGGS        14.0008 3.3257  58.9423
+## PASTA        5.2835 1.0232  27.2832
+## LETTUCE     24.4247 2.5560 233.4018</code></pre>
+<p>Before we continue, it is probably a good idea to save this function for later use:</p>
+<pre class="sourceCode r" id="cb285"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="kw">save</span>(lreg.or, <span class="dt">file =</span> <span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p>Which can be reloaded whenever it is needed:</p>
+<pre class="sourceCode r" id="cb286"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p>An alternative to using logistic regression with data that contains associations that may be due to confounding is to use stratified analysis (i.e. <em>Mantel-Haenszel</em> techniques). With several potential confounders, a stratified analysis results in the analysis of many tables which can be difficult to interpret. For example, four potential confounders, each with two levels would produce sixteen tables. In such situations, logistic regression might be a better approach. In order to illustrate Mantel-Haenszel techniques in <code>R</code> we will work with a simpler dataset.</p>
+<p>On Saturday, 21st April 1990, a luncheon was held in the home of Jean Bateman. There was a total of forty-five guests which included thirty-five members of the Department of Epidemiology and Population Sciences at the London School of Hygiene and Tropical Medicine. On Sunday morning, 22nd April 1990, Jean awoke with symptoms of gastrointestinal illness; her husband awoke with similar symptoms. The possibility of an outbreak related to the luncheon was strengthened when several of the guests telephoned Jean on Sunday and reported illness. On Monday, 23rd April 1990, there was an unusually large number of department members absent from work and reporting illness. Data from this outbreak is stored in the file <code>bateman.dat</code>.</p>
+<p>The variables in the file <code>bateman.dat</code> are:</p>
+<table style="width:69%;">
+<colgroup>
+<col width="22%" />
+<col width="47%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>ILL</strong></td>
+<td>Ill?</td>
+</tr>
+<tr class="even">
+<td><strong>CHEESE</strong></td>
+<td>Cheddar cheese</td>
+</tr>
+<tr class="odd">
+<td><strong>CRABDIP</strong></td>
+<td>Crab dip</td>
+</tr>
+<tr class="even">
+<td><strong>CRISPS</strong></td>
+<td>Crisps</td>
+</tr>
+<tr class="odd">
+<td><strong>BREAD</strong></td>
+<td>French bread</td>
+</tr>
+<tr class="even">
+<td><strong>CHICKEN</strong></td>
+<td>Chicken (roasted, served warm)</td>
+</tr>
+<tr class="odd">
+<td><strong>RICE</strong></td>
+<td>Rice (boiled, served warm)</td>
+</tr>
+<tr class="even">
+<td><strong>CAESAR</strong></td>
+<td>Caesar salad</td>
+</tr>
+<tr class="odd">
+<td><strong>TOMATO</strong></td>
+<td>Tomato salad</td>
+</tr>
+<tr class="even">
+<td><strong>ICECREAM</strong></td>
+<td>Vanilla ice-cream</td>
+</tr>
+<tr class="odd">
+<td><strong>CAKE</strong></td>
+<td>Chocolate cake</td>
+</tr>
+<tr class="even">
+<td><strong>JUICE</strong></td>
+<td>Orange juice</td>
+</tr>
+<tr class="odd">
+<td><strong>WINE</strong></td>
+<td>White wine</td>
+</tr>
+<tr class="even">
+<td><strong>COFFEE</strong></td>
+<td>Coffee</td>
+</tr>
+</tbody>
+</table>
+<p>Data is available for all forty-five guests at the luncheon. All of the variables are coded 1=yes, 2=no. Retrieve and attach the <code>bateman</code> dataset in <code>R</code>:</p>
+<pre class="sourceCode r" id="cb287"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" data-line-number="1">bateman &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;bateman.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb287-2" data-line-number="2">bateman</a></code></pre>
+<pre><code>##    ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM
+## 1    1      1       1      1     2       1    1      1      1        1
+## 2    2      1       1      1     2       1    2      2      2        1
+## 3    1      2       2      1     2       1    2      1      2        1
+## 4    1      1       2      1     1       1    2      1      2        1
+## 5    1      1       1      1     2       1    1      1      1        2
+## 6    1      1       1      1     1       1    2      1      1        2
+## 7    1      2       1      1     2       1    1      1      1        1
+## 8    2      1       1      1     2       1    1      2      1        1
+## 9    2      1       1      1     2       1    1      2      1        1
+## 10   2      2       1      1     2       1    2      2      2        1
+## 11   1      1       2      1     1       1    1      1      1        1
+## 12   1      1       1      1     1       1    1      1      1        1
+## 13   2      2       1      1     2       1    1      2      2        1
+## 14   1      2       1      1     1       1    1      1      1        1
+## 15   1      1       1      1     2       2    1      1      1        2
+## 16   1      2       2      2     2       1    1      1      1        1
+## 17   2      1       2      1     1       1    1      2      2        1
+## 18   1      2       1      1     2       1    1      1      1        1
+## 19   1      1       2      2     1       1    1      2      1        1
+## 20   2      2       2      2     2       2    2      2      2        2
+## 21   2      1       2      2     1       2    1      1      2        2
+## 22   2      2       2      2     2       2    2      2      2        1
+## 23   2      2       2      2     2       2    2      2      2        1
+## 24   1      2       1      1     2       1    1      1      2        1
+## 25   1      1       2      2     1       1    1      1      1        1
+## 26   2      2       1      1     1       1    1      2      2        2
+## 27   2      2       1      1     1       1    1      2      2        2
+## 28   1      2       1      2     2       1    1      2      2        1
+## 29   1      1       2      2     1       1    1      2      2        1
+## 30   1      2       1      1     2       1    1      1      1        1
+## 31   1      2       1      1     2       1    1      1      1        1
+## 32   1      1       2      2     2       1    1      1      1        2
+## 33   2      1       2      1     1       1    1      1      1        1
+## 34   1      2       1      1     2       1    1      1      1        2
+## 35   1      1       2      1     2       1    1      1      1        2
+## 36   2      1       2      1     1       2    1      1      1        2
+## 37   1      2       1      1     2       1    1      1      1        1
+## 38   1      1       2      2     2       1    2      1      1        1
+## 39   2      2       1      1     1       1    1      1      1        2
+## 40   1      1       1      1     2       1    2      1      1        2
+## 41   2      2       1      1     1       1    2      1      1        2
+## 42   1      1       2      2     1       2    2      1      1        1
+## 43   1      2       1      1     2       1    2      1      1        2
+## 44   1      2       1      1     2       2    1      1      1        2
+## 45   1      2       1      1     2       2    1      1      1        1
+##    CAKE JUICE WINE COFFEE
+## 1     1     1    1      1
+## 2     1     1    1      2
+## 3     1     2    1      2
+## 4     1     2    1      2
+## 5     1     1    1      1
+## 6     1     1    2      2
+## 7     1     2    1      1
+## 8     1     2    1      1
+## 9     1     2    1      1
+## 10    2     1    2      1
+## 11    1     1    1      2
+## 12    1     2    1      1
+## 13    1     2    1      1
+## 14    2     2    1      1
+## 15    1     1    1      1
+## 16    1     2    1      2
+## 17    2     2    1      2
+## 18    1     2    1      1
+## 19    1     2    1      1
+## 20    1     2    2      1
+## 21    2     2    1      1
+## 22    1     2    1      2
+## 23    1     2    1      2
+## 24    2     2    1      1
+## 25    2     2    1      1
+## 26    1     1    1      1
+## 27    1     1    1      1
+## 28    2     1    2      1
+## 29    1     1    2      1
+## 30    1     2    2      1
+## 31    2     2    2      1
+## 32    1     2    2      1
+## 33    1     2    2      1
+## 34    1     2    1      2
+## 35    1     2    1      1
+## 36    2     2    1      1
+## 37    2     2    1      2
+## 38    1     2    1      2
+## 39    1     1    2      2
+## 40    1     2    1      1
+## 41    2     2    1      1
+## 42    2     2    1      2
+## 43    1     2    1      2
+## 44    1     2    1      2
+## 45    1     1    2      2</code></pre>
+<pre class="sourceCode r" id="cb289"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="kw">attach</span>(bateman)</a></code></pre>
+<pre><code>## The following objects are masked from salex:
+## 
+##     CRISPS, ILL, RICE, TOMATO</code></pre>
+<p>We will use our <code>tab2by2()</code> function to analyse this data. Retrieve this function:</p>
+<pre class="sourceCode r" id="cb291"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre>
+<p>Use the <code>tab2by2()</code> function to analyse the data:</p>
+<pre class="sourceCode r" id="cb292"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="kw">tab2by2</span>(CHEESE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 15  7
+##        2 14  9
+## 
+## Relative Risk     : 1.12013 
+## 95% CI            : 0.7253229 1.729838 
+## 
+## Sample Odds Ratio : 1.377551 
+## 95% CI            : 0.4037553 4.699992 
+## 
+## MLE Odds Ratio    : 1.367743 
+## 95% CI             : 0.3427732 5.649399</code></pre>
+<pre class="sourceCode r" id="cb294"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="kw">tab2by2</span>(CRABDIP, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 18  9
+##        2 11  7
+## 
+## Relative Risk     : 1.090909 
+## 95% CI            : 0.6921784 1.719329 
+## 
+## Sample Odds Ratio : 1.272727 
+## 95% CI            : 0.3682028 4.3993 
+## 
+## MLE Odds Ratio    : 1.265848 
+## 95% CI             : 0.3042941 5.188297</code></pre>
+<pre class="sourceCode r" id="cb296"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 21 12
+##        2  8  4
+## 
+## Relative Risk     : 0.9545455 
+## 95% CI            : 0.5930168 1.536478 
+## 
+## Sample Odds Ratio : 0.875 
+## 95% CI            : 0.2170373 3.527619 
+## 
+## MLE Odds Ratio    : 0.8775841 
+## 95% CI             : 0.1587568 4.184763</code></pre>
+<pre class="sourceCode r" id="cb298"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="kw">tab2by2</span>(BREAD, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1  9  8
+##        2 20  8
+## 
+## Relative Risk     : 0.7411765 
+## 95% CI            : 0.4469843 1.228997 
+## 
+## Sample Odds Ratio : 0.45 
+## 95% CI            : 0.1280647 1.581232 
+## 
+## MLE Odds Ratio    : 0.4584416 
+## 95% CI             : 0.1072622 1.897017</code></pre>
+<pre class="sourceCode r" id="cb300"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="kw">tab2by2</span>(CHICKEN, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 25 11
+##        2  4  5
+## 
+## Relative Risk     : 1.5625 
+## 95% CI            : 0.7293337 3.347448 
+## 
+## Sample Odds Ratio : 2.840909 
+## 95% CI            : 0.637796 12.65415 
+## 
+## MLE Odds Ratio    : 2.76979 
+## 95% CI             : 0.4912167 16.93409</code></pre>
+<pre class="sourceCode r" id="cb302"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 22 10
+##        2  7  6
+## 
+## Relative Risk     : 1.276786 
+## 95% CI            : 0.7330759 2.223756 
+## 
+## Sample Odds Ratio : 1.885714 
+## 95% CI            : 0.5027038 7.073586 
+## 
+## MLE Odds Ratio    : 1.85813 
+## 95% CI             : 0.4026256 8.531602</code></pre>
+<pre class="sourceCode r" id="cb304"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 26  5
+##        2  3 11
+## 
+## Relative Risk     : 3.913978 
+## 95% CI            : 1.418617 10.7987 
+## 
+## Sample Odds Ratio : 19.06667 
+## 95% CI            : 3.866585 94.02038 
+## 
+## MLE Odds Ratio    : 17.33517 
+## 95% CI             : 3.179027 133.7994</code></pre>
+<pre class="sourceCode r" id="cb306"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 24  6
+##        2  5 10
+## 
+## Relative Risk     : 2.4 
+## 95% CI            : 1.14769 5.018775 
+## 
+## Sample Odds Ratio : 8 
+## 95% CI            : 1.97785 32.35836 
+## 
+## MLE Odds Ratio    : 7.553116 
+## 95% CI             : 1.642249 41.02567</code></pre>
+<pre class="sourceCode r" id="cb308"><code class="sourceCode r"><a class="sourceLine" id="cb308-1" data-line-number="1"><span class="kw">tab2by2</span>(ICECREAM, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 20  9
+##        2  9  7
+## 
+## Relative Risk     : 1.226054 
+## 95% CI            : 0.7463643 2.01404 
+## 
+## Sample Odds Ratio : 1.728395 
+## 95% CI            : 0.4889138 6.110177 
+## 
+## MLE Odds Ratio    : 1.7069 
+## 95% CI             : 0.4021245 7.255001</code></pre>
+<pre class="sourceCode r" id="cb310"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="kw">tab2by2</span>(CAKE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 22 11
+##        2  7  5
+## 
+## Relative Risk     : 1.142857 
+## 95% CI            : 0.6689315 1.95255 
+## 
+## Sample Odds Ratio : 1.428571 
+## 95% CI            : 0.3678242 5.548347 
+## 
+## MLE Odds Ratio    : 1.416945 
+## 95% CI             : 0.2847257 6.685098</code></pre>
+<pre class="sourceCode r" id="cb312"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="kw">tab2by2</span>(JUICE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1  8  5
+##        2 21 11
+## 
+## Relative Risk     : 0.9377289 
+## 95% CI            : 0.5701453 1.542301 
+## 
+## Sample Odds Ratio : 0.8380952 
+## 95% CI            : 0.2206785 3.182927 
+## 
+## MLE Odds Ratio    : 0.8414367 
+## 95% CI             : 0.185464 4.101313</code></pre>
+<pre class="sourceCode r" id="cb314"><code class="sourceCode r"><a class="sourceLine" id="cb314-1" data-line-number="1"><span class="kw">tab2by2</span>(WINE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 22 12
+##        2  7  4
+## 
+## Relative Risk     : 1.016807 
+## 95% CI            : 0.6099343 1.695094 
+## 
+## Sample Odds Ratio : 1.047619 
+## 95% CI            : 0.2543383 4.315141 
+## 
+## MLE Odds Ratio    : 1.046515 
+## 95% CI             : 0.1855742 5.186546</code></pre>
+<pre class="sourceCode r" id="cb316"><code class="sourceCode r"><a class="sourceLine" id="cb316-1" data-line-number="1"><span class="kw">tab2by2</span>(COFFEE, ILL)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 17 11
+##        2 12  5
+## 
+## Relative Risk     : 0.860119 
+## 95% CI            : 0.5607997 1.319196 
+## 
+## Sample Odds Ratio : 0.6439394 
+## 95% CI            : 0.1772875 2.338901 
+## 
+## MLE Odds Ratio    : 0.6502015 
+## 95% CI             : 0.1388979 2.729586</code></pre>
+<p>Two variables (<code>CAESAR</code> and <code>TOMATO</code>) are associated with <code>ILL</code>.</p>
+<p>These two variables are also associated with each other:</p>
+<pre class="sourceCode r" id="cb318"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, TOMATO)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure  1  2
+##        1 27  4
+##        2  3 11
+## 
+## Relative Risk     : 4.064516 
+## 95% CI            : 1.477162 11.1838 
+## 
+## Sample Odds Ratio : 24.75 
+## 95% CI            : 4.738936 129.2616 
+## 
+## MLE Odds Ratio    : 22.10962 
+## 95% CI             : 3.850174 183.4671</code></pre>
+<pre class="sourceCode r" id="cb320"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre>
+<pre><code>## Warning in chisq.test(table(CAESAR, TOMATO)): Chi-squared approximation may
+## be incorrect</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  table(CAESAR, TOMATO)
+## X-squared = 15.877, df = 1, p-value = 6.759e-05</code></pre>
+<pre class="sourceCode r" id="cb323"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(CAESAR, TOMATO)
+## p-value = 3.442e-05
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##    3.850174 183.467108
+## sample estimates:
+## odds ratio 
+##   22.10962</code></pre>
+<p>This suggests the potential for one of these associations to be due to confounding. We can perform a simple stratified analysis using the <code>table()</code> function:</p>
+<pre class="sourceCode r" id="cb325"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a></code></pre>
+<pre><code>## , , TOMATO = 1
+## 
+##       ILL
+## CAESAR  1  2
+##      1 23  4
+##      2  1  2
+## 
+## , , TOMATO = 2
+## 
+##       ILL
+## CAESAR  1  2
+##      1  3  1
+##      2  2  9</code></pre>
+<pre class="sourceCode r" id="cb327"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a></code></pre>
+<pre><code>## , , CAESAR = 1
+## 
+##       ILL
+## TOMATO  1  2
+##      1 23  4
+##      2  3  1
+## 
+## , , CAESAR = 2
+## 
+##       ILL
+## TOMATO  1  2
+##      1  1  2
+##      2  2  9</code></pre>
+<p>It would be useful to calculate odds ratios for each stratum. We can define a simple function to calculate an odds ratio from a two-by-two table:</p>
+<pre class="sourceCode r" id="cb329"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="cf">function</span>(x) {(x[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">1</span>,<span class="dv">2</span>]) <span class="op">/</span><span class="st"> </span>(x[<span class="dv">2</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">2</span>,<span class="dv">2</span>])}</a></code></pre>
+<p>We can use <code>apply()</code> to apply the <code>or()</code> function to the two-by-two table in each stratum:</p>
+<pre class="sourceCode r" id="cb330"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1">tabC &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a>
+<a class="sourceLine" id="cb330-2" data-line-number="2"><span class="kw">apply</span>(tabC, <span class="dv">3</span>, or)</a></code></pre>
+<pre><code>##    1    2 
+## 11.5 13.5</code></pre>
+<pre class="sourceCode r" id="cb332"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1">tabT &lt;-<span class="st"> </span><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a>
+<a class="sourceLine" id="cb332-2" data-line-number="2"><span class="kw">apply</span>(tabT, <span class="dv">3</span>, or)</a></code></pre>
+<pre><code>##        1        2 
+## 1.916667 2.250000</code></pre>
+<p>The 3 instructs the <code>apply()</code> function to apply the <code>or()</code> function to the third dimension of the table objects (i.e. levels of the potential confounder in <code>tabC</code> and <code>tabT</code>).</p>
+<p>The <code>mantelhaen.test()</code> function performs the stratified analysis:</p>
+<pre class="sourceCode r" id="cb334"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabC)</a></code></pre>
+<pre><code>## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  tabC
+## Mantel-Haenszel X-squared = 5.752, df = 1, p-value = 0.01647
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.878994 83.156212
+## sample estimates:
+## common odds ratio 
+##              12.5</code></pre>
+<pre class="sourceCode r" id="cb336"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabT)</a></code></pre>
+<pre><code>## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  tabT
+## Mantel-Haenszel X-squared = 0.049144, df = 1, p-value = 0.8246
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   0.3156862 13.4192331
+## sample estimates:
+## common odds ratio 
+##          2.058219</code></pre>
+<p>It is likely that <code>CAESAR</code> salad was a vehicle of food-poisoning, and that <code>TOMATO</code> salad was not a vehicle of food-poisoning. Many of those at the luncheon ate both <code>CAESAR</code> salad and <code>TOMATO</code> salad. <code>CAESAR</code> confounded the relationship between <code>TOMATO</code> and <code>ILL</code>. This resulted in a spurious association between <code>TOMATO</code> and <code>ILL</code>.</p>
+<p>It only makes sense to calculate a common odds ratio in the absence of interaction. We can check for interaction ‘by eye’ by examining and comparing the odds ratios for each stratum as we did above.</p>
+<p>There does appear to be an interaction between <code>CAESAR</code>, <code>WINE</code>, and <code>ILL</code>:</p>
+<pre class="sourceCode r" id="cb338"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" data-line-number="1">tabW &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, WINE)</a>
+<a class="sourceLine" id="cb338-2" data-line-number="2"><span class="kw">apply</span>(tabW, <span class="dv">3</span>, or)</a></code></pre>
+<pre><code>##    1    2 
+## 63.0  2.5</code></pre>
+<p><em>Woolf’s test</em> for interaction (also known as <em>Woolf’s test for the homogeneity of odds ratios</em>) provides a formal test for interaction.</p>
 
 </div>
             </section>

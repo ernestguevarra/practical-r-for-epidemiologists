@@ -893,7 +893,7 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 4):
+## The following objects are masked from fem (pos = 5):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -2172,7 +2172,13 @@ our data:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 4):
+## The following objects are masked from bateman:
+## 
+##     CRISPS, ILL, RICE, TOMATO
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from salex (pos = 5):
 ## 
 ##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
 ##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
@@ -3821,6 +3827,906 @@ and make a single object that contains all of the required information:
 ## PASTA        5.2834608 1.0231552  27.2832114
 ## LETTUCE     24.4246856 2.5559581 233.4018193
 \end{verbatim}
+
+We seldom need to report estimates and confidence intervals to more than
+two decimal places. We can use the \texttt{round()} function to remove
+the excess digits:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{round}\NormalTok{(lreg.or, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                or  lci    uci
+## (Intercept)  0.14 0.04   0.46
+## EGGS        14.00 3.33  58.94
+## PASTA        5.28 1.02  27.28
+## LETTUCE     24.42 2.56 233.40
+\end{verbatim}
+
+We have now gone through all the necessary calculations step-by-step but
+it would be nice to have a function that did it all for us that we could
+use whenever we needed to.
+
+First we will create a template for the function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lreg.or <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(model, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+and then use the \texttt{fix()} function to edit the \texttt{lreg.or()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(lreg.or)}
+\end{Highlighting}
+\end{Shaded}
+
+We can now edit this function to add a calculation of odds ratios and
+95\% confidence intervals:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(model, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{) \{}
+\NormalTok{  lreg.coeffs <-}\StringTok{ }\KeywordTok{coef}\NormalTok{(}\KeywordTok{summary}\NormalTok{(model))}
+\NormalTok{  OR <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{])}
+\NormalTok{  LCI <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  UCI <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  lreg.or <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(OR, LCI, UCI), }\DataTypeTok{digits =}\NormalTok{ digits)}
+\NormalTok{  lreg.or}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lreg.or <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(model, }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{) \{}
+\NormalTok{  lreg.coeffs <-}\StringTok{ }\KeywordTok{coef}\NormalTok{(}\KeywordTok{summary}\NormalTok{(model))}
+\NormalTok{  OR <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{])}
+\NormalTok{  LCI <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  UCI <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(lreg.coeffs[ ,}\DecValTok{1}\NormalTok{] }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{lreg.coeffs[ ,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  lreg.or <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(OR, LCI, UCI), }\DataTypeTok{digits =}\NormalTok{ digits)}
+\NormalTok{  lreg.or}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+We can test our function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lreg.or}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+Which produces the following output:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lreg.or}\NormalTok{(salex.lreg)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                OR  LCI    UCI
+## (Intercept)  0.14 0.04   0.46
+## EGGS        14.00 3.33  58.94
+## PASTA        5.28 1.02  27.28
+## LETTUCE     24.42 2.56 233.40
+\end{verbatim}
+
+The \texttt{digits} parameter of the \texttt{lreg.or()} function, which
+has \texttt{digits\ =\ 2} as its default value, allows us to specify the
+precision with which the estimates and their confidence intervals are
+reported:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{lreg.or}\NormalTok{(salex.lreg, }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  OR    LCI      UCI
+## (Intercept)  0.1393 0.0418   0.4647
+## EGGS        14.0008 3.3257  58.9423
+## PASTA        5.2835 1.0232  27.2832
+## LETTUCE     24.4247 2.5560 233.4018
+\end{verbatim}
+
+Before we continue, it is probably a good idea to save this function for
+later use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{save}\NormalTok{(lreg.or, }\DataTypeTok{file =} \StringTok{"lregor.r"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Which can be reloaded whenever it is needed:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{load}\NormalTok{(}\StringTok{"lregor.r"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+An alternative to using logistic regression with data that contains
+associations that may be due to confounding is to use stratified
+analysis (i.e. \emph{Mantel-Haenszel} techniques). With several
+potential confounders, a stratified analysis results in the analysis of
+many tables which can be difficult to interpret. For example, four
+potential confounders, each with two levels would produce sixteen
+tables. In such situations, logistic regression might be a better
+approach. In order to illustrate Mantel-Haenszel techniques in
+\texttt{R} we will work with a simpler dataset.
+
+On Saturday, 21st April 1990, a luncheon was held in the home of Jean
+Bateman. There was a total of forty-five guests which included
+thirty-five members of the Department of Epidemiology and Population
+Sciences at the London School of Hygiene and Tropical Medicine. On
+Sunday morning, 22nd April 1990, Jean awoke with symptoms of
+gastrointestinal illness; her husband awoke with similar symptoms. The
+possibility of an outbreak related to the luncheon was strengthened when
+several of the guests telephoned Jean on Sunday and reported illness. On
+Monday, 23rd April 1990, there was an unusually large number of
+department members absent from work and reporting illness. Data from
+this outbreak is stored in the file \texttt{bateman.dat}.
+
+The variables in the file \texttt{bateman.dat} are:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{ILL}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Ill?\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CHEESE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Cheddar cheese\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CRABDIP}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Crab dip\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CRISPS}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Crisps\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{BREAD}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+French bread\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CHICKEN}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Chicken (roasted, served warm)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{RICE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Rice (boiled, served warm)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CAESAR}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Caesar salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{TOMATO}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Tomato salad\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{ICECREAM}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Vanilla ice-cream\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{CAKE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Chocolate cake\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{JUICE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Orange juice\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{WINE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+White wine\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{COFFEE}\strut
+\end{minipage} & \begin{minipage}[t]{0.44\columnwidth}\raggedright
+Coffee\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Data is available for all forty-five guests at the luncheon. All of the
+variables are coded 1=yes, 2=no. Retrieve and attach the
+\texttt{bateman} dataset in \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bateman <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"bateman.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{bateman}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM
+## 1    1      1       1      1     2       1    1      1      1        1
+## 2    2      1       1      1     2       1    2      2      2        1
+## 3    1      2       2      1     2       1    2      1      2        1
+## 4    1      1       2      1     1       1    2      1      2        1
+## 5    1      1       1      1     2       1    1      1      1        2
+## 6    1      1       1      1     1       1    2      1      1        2
+## 7    1      2       1      1     2       1    1      1      1        1
+## 8    2      1       1      1     2       1    1      2      1        1
+## 9    2      1       1      1     2       1    1      2      1        1
+## 10   2      2       1      1     2       1    2      2      2        1
+## 11   1      1       2      1     1       1    1      1      1        1
+## 12   1      1       1      1     1       1    1      1      1        1
+## 13   2      2       1      1     2       1    1      2      2        1
+## 14   1      2       1      1     1       1    1      1      1        1
+## 15   1      1       1      1     2       2    1      1      1        2
+## 16   1      2       2      2     2       1    1      1      1        1
+## 17   2      1       2      1     1       1    1      2      2        1
+## 18   1      2       1      1     2       1    1      1      1        1
+## 19   1      1       2      2     1       1    1      2      1        1
+## 20   2      2       2      2     2       2    2      2      2        2
+## 21   2      1       2      2     1       2    1      1      2        2
+## 22   2      2       2      2     2       2    2      2      2        1
+## 23   2      2       2      2     2       2    2      2      2        1
+## 24   1      2       1      1     2       1    1      1      2        1
+## 25   1      1       2      2     1       1    1      1      1        1
+## 26   2      2       1      1     1       1    1      2      2        2
+## 27   2      2       1      1     1       1    1      2      2        2
+## 28   1      2       1      2     2       1    1      2      2        1
+## 29   1      1       2      2     1       1    1      2      2        1
+## 30   1      2       1      1     2       1    1      1      1        1
+## 31   1      2       1      1     2       1    1      1      1        1
+## 32   1      1       2      2     2       1    1      1      1        2
+## 33   2      1       2      1     1       1    1      1      1        1
+## 34   1      2       1      1     2       1    1      1      1        2
+## 35   1      1       2      1     2       1    1      1      1        2
+## 36   2      1       2      1     1       2    1      1      1        2
+## 37   1      2       1      1     2       1    1      1      1        1
+## 38   1      1       2      2     2       1    2      1      1        1
+## 39   2      2       1      1     1       1    1      1      1        2
+## 40   1      1       1      1     2       1    2      1      1        2
+## 41   2      2       1      1     1       1    2      1      1        2
+## 42   1      1       2      2     1       2    2      1      1        1
+## 43   1      2       1      1     2       1    2      1      1        2
+## 44   1      2       1      1     2       2    1      1      1        2
+## 45   1      2       1      1     2       2    1      1      1        1
+##    CAKE JUICE WINE COFFEE
+## 1     1     1    1      1
+## 2     1     1    1      2
+## 3     1     2    1      2
+## 4     1     2    1      2
+## 5     1     1    1      1
+## 6     1     1    2      2
+## 7     1     2    1      1
+## 8     1     2    1      1
+## 9     1     2    1      1
+## 10    2     1    2      1
+## 11    1     1    1      2
+## 12    1     2    1      1
+## 13    1     2    1      1
+## 14    2     2    1      1
+## 15    1     1    1      1
+## 16    1     2    1      2
+## 17    2     2    1      2
+## 18    1     2    1      1
+## 19    1     2    1      1
+## 20    1     2    2      1
+## 21    2     2    1      1
+## 22    1     2    1      2
+## 23    1     2    1      2
+## 24    2     2    1      1
+## 25    2     2    1      1
+## 26    1     1    1      1
+## 27    1     1    1      1
+## 28    2     1    2      1
+## 29    1     1    2      1
+## 30    1     2    2      1
+## 31    2     2    2      1
+## 32    1     2    2      1
+## 33    1     2    2      1
+## 34    1     2    1      2
+## 35    1     2    1      1
+## 36    2     2    1      1
+## 37    2     2    1      2
+## 38    1     2    1      2
+## 39    1     1    2      2
+## 40    1     2    1      1
+## 41    2     2    1      1
+## 42    2     2    1      2
+## 43    1     2    1      2
+## 44    1     2    1      2
+## 45    1     1    2      2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{attach}\NormalTok{(bateman)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from salex (pos = 3):
+## 
+##     CRISPS, ILL, RICE, TOMATO
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from bateman (pos = 5):
+## 
+##     BREAD, CAESAR, CAKE, CHEESE, CHICKEN, COFFEE, CRABDIP, CRISPS,
+##     ICECREAM, ILL, JUICE, RICE, TOMATO, WINE
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from salex (pos = 6):
+## 
+##     CRISPS, ILL, RICE, TOMATO
+\end{verbatim}
+
+We will use our \texttt{tab2by2()} function to analyse this data.
+Retrieve this function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{load}\NormalTok{(}\StringTok{"tab2by2.r"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Use the \texttt{tab2by2()} function to analyse the data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CHEESE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 15  7
+##        2 14  9
+## 
+## Relative Risk     : 1.12013 
+## 95% CI            : 0.7253229 1.729838 
+## 
+## Sample Odds Ratio : 1.377551 
+## 95% CI            : 0.4037553 4.699992 
+## 
+## MLE Odds Ratio    : 1.367743 
+## 95% CI             : 0.3427732 5.649399
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CRABDIP, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 18  9
+##        2 11  7
+## 
+## Relative Risk     : 1.090909 
+## 95% CI            : 0.6921784 1.719329 
+## 
+## Sample Odds Ratio : 1.272727 
+## 95% CI            : 0.3682028 4.3993 
+## 
+## MLE Odds Ratio    : 1.265848 
+## 95% CI             : 0.3042941 5.188297
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CRISPS, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 21 12
+##        2  8  4
+## 
+## Relative Risk     : 0.9545455 
+## 95% CI            : 0.5930168 1.536478 
+## 
+## Sample Odds Ratio : 0.875 
+## 95% CI            : 0.2170373 3.527619 
+## 
+## MLE Odds Ratio    : 0.8775841 
+## 95% CI             : 0.1587568 4.184763
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(BREAD, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1  9  8
+##        2 20  8
+## 
+## Relative Risk     : 0.7411765 
+## 95% CI            : 0.4469843 1.228997 
+## 
+## Sample Odds Ratio : 0.45 
+## 95% CI            : 0.1280647 1.581232 
+## 
+## MLE Odds Ratio    : 0.4584416 
+## 95% CI             : 0.1072622 1.897017
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CHICKEN, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 25 11
+##        2  4  5
+## 
+## Relative Risk     : 1.5625 
+## 95% CI            : 0.7293337 3.347448 
+## 
+## Sample Odds Ratio : 2.840909 
+## 95% CI            : 0.637796 12.65415 
+## 
+## MLE Odds Ratio    : 2.76979 
+## 95% CI             : 0.4912167 16.93409
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(RICE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 22 10
+##        2  7  6
+## 
+## Relative Risk     : 1.276786 
+## 95% CI            : 0.7330759 2.223756 
+## 
+## Sample Odds Ratio : 1.885714 
+## 95% CI            : 0.5027038 7.073586 
+## 
+## MLE Odds Ratio    : 1.85813 
+## 95% CI             : 0.4026256 8.531602
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CAESAR, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 26  5
+##        2  3 11
+## 
+## Relative Risk     : 3.913978 
+## 95% CI            : 1.418617 10.7987 
+## 
+## Sample Odds Ratio : 19.06667 
+## 95% CI            : 3.866585 94.02038 
+## 
+## MLE Odds Ratio    : 17.33517 
+## 95% CI             : 3.179027 133.7994
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(TOMATO, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 24  6
+##        2  5 10
+## 
+## Relative Risk     : 2.4 
+## 95% CI            : 1.14769 5.018775 
+## 
+## Sample Odds Ratio : 8 
+## 95% CI            : 1.97785 32.35836 
+## 
+## MLE Odds Ratio    : 7.553116 
+## 95% CI             : 1.642249 41.02567
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(ICECREAM, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 20  9
+##        2  9  7
+## 
+## Relative Risk     : 1.226054 
+## 95% CI            : 0.7463643 2.01404 
+## 
+## Sample Odds Ratio : 1.728395 
+## 95% CI            : 0.4889138 6.110177 
+## 
+## MLE Odds Ratio    : 1.7069 
+## 95% CI             : 0.4021245 7.255001
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CAKE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 22 11
+##        2  7  5
+## 
+## Relative Risk     : 1.142857 
+## 95% CI            : 0.6689315 1.95255 
+## 
+## Sample Odds Ratio : 1.428571 
+## 95% CI            : 0.3678242 5.548347 
+## 
+## MLE Odds Ratio    : 1.416945 
+## 95% CI             : 0.2847257 6.685098
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(JUICE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1  8  5
+##        2 21 11
+## 
+## Relative Risk     : 0.9377289 
+## 95% CI            : 0.5701453 1.542301 
+## 
+## Sample Odds Ratio : 0.8380952 
+## 95% CI            : 0.2206785 3.182927 
+## 
+## MLE Odds Ratio    : 0.8414367 
+## 95% CI             : 0.185464 4.101313
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(WINE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 22 12
+##        2  7  4
+## 
+## Relative Risk     : 1.016807 
+## 95% CI            : 0.6099343 1.695094 
+## 
+## Sample Odds Ratio : 1.047619 
+## 95% CI            : 0.2543383 4.315141 
+## 
+## MLE Odds Ratio    : 1.046515 
+## 95% CI             : 0.1855742 5.186546
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(COFFEE, ILL)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 17 11
+##        2 12  5
+## 
+## Relative Risk     : 0.860119 
+## 95% CI            : 0.5607997 1.319196 
+## 
+## Sample Odds Ratio : 0.6439394 
+## 95% CI            : 0.1772875 2.338901 
+## 
+## MLE Odds Ratio    : 0.6502015 
+## 95% CI             : 0.1388979 2.729586
+\end{verbatim}
+
+Two variables (\texttt{CAESAR} and \texttt{TOMATO}) are associated with
+\texttt{ILL}.
+
+These two variables are also associated with each other:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CAESAR, TOMATO)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure  1  2
+##        1 27  4
+##        2  3 11
+## 
+## Relative Risk     : 4.064516 
+## 95% CI            : 1.477162 11.1838 
+## 
+## Sample Odds Ratio : 24.75 
+## 95% CI            : 4.738936 129.2616 
+## 
+## MLE Odds Ratio    : 22.10962 
+## 95% CI             : 3.850174 183.4671
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{chisq.test}\NormalTok{(}\KeywordTok{table}\NormalTok{(CAESAR, TOMATO))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in chisq.test(table(CAESAR, TOMATO)): Chi-squared approximation may
+## be incorrect
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test with Yates' continuity correction
+## 
+## data:  table(CAESAR, TOMATO)
+## X-squared = 15.877, df = 1, p-value = 6.759e-05
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(}\KeywordTok{table}\NormalTok{(CAESAR, TOMATO))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  table(CAESAR, TOMATO)
+## p-value = 3.442e-05
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##    3.850174 183.467108
+## sample estimates:
+## odds ratio 
+##   22.10962
+\end{verbatim}
+
+This suggests the potential for one of these associations to be due to
+confounding. We can perform a simple stratified analysis using the
+\texttt{table()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(CAESAR, ILL, TOMATO)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## , , TOMATO = 1
+## 
+##       ILL
+## CAESAR  1  2
+##      1 23  4
+##      2  1  2
+## 
+## , , TOMATO = 2
+## 
+##       ILL
+## CAESAR  1  2
+##      1  3  1
+##      2  2  9
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(TOMATO, ILL, CAESAR)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## , , CAESAR = 1
+## 
+##       ILL
+## TOMATO  1  2
+##      1 23  4
+##      2  3  1
+## 
+## , , CAESAR = 2
+## 
+##       ILL
+## TOMATO  1  2
+##      1  1  2
+##      2  2  9
+\end{verbatim}
+
+It would be useful to calculate odds ratios for each stratum. We can
+define a simple function to calculate an odds ratio from a two-by-two
+table:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{or <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) \{(x[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OperatorTok{/}\StringTok{ }\NormalTok{x[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]) }\OperatorTok{/}\StringTok{ }\NormalTok{(x[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OperatorTok{/}\StringTok{ }\NormalTok{x[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{])\}}
+\end{Highlighting}
+\end{Shaded}
+
+We can use \texttt{apply()} to apply the \texttt{or()} function to the
+two-by-two table in each stratum:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabC <-}\StringTok{ }\KeywordTok{table}\NormalTok{(CAESAR, ILL, TOMATO)}
+\KeywordTok{apply}\NormalTok{(tabC, }\DecValTok{3}\NormalTok{, or)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    1    2 
+## 11.5 13.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabT <-}\StringTok{ }\KeywordTok{table}\NormalTok{(TOMATO, ILL, CAESAR)}
+\KeywordTok{apply}\NormalTok{(tabT, }\DecValTok{3}\NormalTok{, or)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1        2 
+## 1.916667 2.250000
+\end{verbatim}
+
+The 3 instructs the \texttt{apply()} function to apply the \texttt{or()}
+function to the third dimension of the table objects (i.e.~levels of the
+potential confounder in \texttt{tabC} and \texttt{tabT}).
+
+The \texttt{mantelhaen.test()} function performs the stratified
+analysis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mantelhaen.test}\NormalTok{(tabC)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  tabC
+## Mantel-Haenszel X-squared = 5.752, df = 1, p-value = 0.01647
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.878994 83.156212
+## sample estimates:
+## common odds ratio 
+##              12.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mantelhaen.test}\NormalTok{(tabT)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  tabT
+## Mantel-Haenszel X-squared = 0.049144, df = 1, p-value = 0.8246
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   0.3156862 13.4192331
+## sample estimates:
+## common odds ratio 
+##          2.058219
+\end{verbatim}
+
+It is likely that \texttt{CAESAR} salad was a vehicle of food-poisoning,
+and that \texttt{TOMATO} salad was not a vehicle of food-poisoning. Many
+of those at the luncheon ate both \texttt{CAESAR} salad and
+\texttt{TOMATO} salad. \texttt{CAESAR} confounded the relationship
+between \texttt{TOMATO} and \texttt{ILL}. This resulted in a spurious
+association between \texttt{TOMATO} and \texttt{ILL}.
+
+It only makes sense to calculate a common odds ratio in the absence of
+interaction. We can check for interaction `by eye' by examining and
+comparing the odds ratios for each stratum as we did above.
+
+There does appear to be an interaction between \texttt{CAESAR},
+\texttt{WINE}, and \texttt{ILL}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tabW <-}\StringTok{ }\KeywordTok{table}\NormalTok{(CAESAR, ILL, WINE)}
+\KeywordTok{apply}\NormalTok{(tabW, }\DecValTok{3}\NormalTok{, or)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    1    2 
+## 63.0  2.5
+\end{verbatim}
+
+\emph{Woolf's test} for interaction (also known as \emph{Woolf's test
+for the homogeneity of odds ratios}) provides a formal test for
+interaction.
 
 \hypertarget{exercise4}{%
 \chapter{Analysing some data with R}\label{exercise4}}
