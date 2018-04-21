@@ -177,20 +177,17 @@ tab2by2 <- function(exposure, outcome) {
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 Before proceeding we should examine the `tab2by2()` function to make sure we understand what the function will do:
 
-    The first line defines `tab2by2` as a function that expects to be given two parameters which are called `exposure` and      `outcome`.
+* The first line defines `tab2by2` as a function that expects to be given two parameters which are called `exposure` and `outcome`.
 
-    The body of the function (i.e. the work of the function) is enclosed within curly brackets (`{}`).
+* The body of the function (i.e. the work of the function) is enclosed within curly brackets (`{}`).
 
-    The first line of the body of the function creates a table object (`tab`) using the variables specified when
-    the `tab2by2()` function is called (these are the parameters `exposure` and `outcome`).
+* The first line of the body of the function creates a table object (`tab`) using the variables specified when the `tab2by2()` function is called (these are the parameters `exposure` and `outcome`).
 
-    The next line creates four new objects (called `a`, `b`, `c`, and `d`) which contain the values of the four cells
-    in the two-by-two table.
+* The next line creates four new objects (called `a`, `b`, `c`, and `d`) which contain the values of the four cells in the two-by-two table.
 
-    The following line calculates the risk ratio using the objects `a`, `b`, `c`, and `d` and stores the result of the
-    calculation in an object called `rr`.
+* The following line calculates the risk ratio using the objects `a`, `b`, `c`, and `d` and stores the result of the calculation in an object called `rr`.
 
-    The final two lines print the contents of the `tab` and `rr` objects. 
+* The final two lines print the contents of the `tab` and `rr` objects. 
 
 Let's try the `tab2by2()` function with our test data:
 
