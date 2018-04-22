@@ -352,6 +352,92 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## MLE Odds Ratio    : 1.089351 
 ## 95% CI             : 0.4006202 3.263814</code></pre>
 <p>Note that our <code>tab2by2()</code> function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the <code>exposure</code> and <code>outcome</code> variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the <code>gudhiv</code> dataset.</p>
+<p>We can produce risk ratio estimates for variables in the <code>gudhiv</code> data using the <code>tab2by2()</code> function and a
+simple transformation of the <code>exposure</code> and <code>outcome</code> variables. For example:</p>
+<pre class="sourceCode r" id="cb409"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1"><span class="kw">tab2by2</span>(<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>GUD, <span class="dv">2</span> <span class="op">-</span><span class="st"> </span>HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   1   2
+##        1   9  72
+##        2  12 339
+## 
+## Relative Risk     : 3.25 
+## 95% CI            : 1.417411 7.451965 
+## 
+## Sample Odds Ratio : 3.53125 
+## 95% CI            : 1.434372 8.693509 
+## 
+## MLE Odds Ratio    : 3.517408 
+## 95% CI             : 1.258556 9.491924</code></pre>
+<p>The odds ratio estimates returned by the <code>tab2by2()</code> function, with or without this transformation, are correct. The <code>GUD</code> and <code>TRAVOUT</code> variables are associated with <code>HIV</code>.</p>
+<p><code>PARTNERS</code> is a continuous variable and we should examine its distribution before doing anything with it:</p>
+<pre class="sourceCode r" id="cb411"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a>
+<a class="sourceLine" id="cb411-2" data-line-number="2"><span class="kw">hist</span>(PARTNERS)</a></code></pre>
+<pre><code>## PARTNERS
+##   1   2   3   4   5   6   7   8   9 
+##  61 129 133  71  25   6   6   2   2</code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-202-1.png" width="672" /></p>
+<p>The distribution of <code>PARTNERS</code> is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the <code>HIV</code> variable and perform a non-parametric test:</p>
+<pre class="sourceCode r" id="cb413"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1"><span class="kw">by</span>(PARTNERS, HIV, summary)</a>
+<a class="sourceLine" id="cb413-2" data-line-number="2"><span class="kw">kruskal.test</span>(PARTNERS <span class="op">~</span><span class="st"> </span>HIV)</a></code></pre>
+<pre><code>## HIV: 0
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    2.00    3.00    2.72    3.00    8.00 
+## -------------------------------------------------------- 
+## HIV: 1
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   1.000   4.000   5.000   5.381   7.000   9.000</code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  PARTNERS by HIV
+## Kruskal-Wallis chi-squared = 32.036, df = 1, p-value = 1.514e-08</code></pre>
+<p>An alternative way of looking at the data is as a tabulation:</p>
+<pre class="sourceCode r" id="cb416"><code class="sourceCode r"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<pre><code>##         HIV
+## PARTNERS   0   1
+##        1  60   1
+##        2 128   1
+##        3 131   2
+##        4  68   3
+##        5  21   4
+##        6   3   3
+##        7   2   4
+##        8   1   1
+##        9   0   2</code></pre>
+<p>You can use the <code>plot()</code> function to represent this table graphically:</p>
+<pre class="sourceCode r" id="cb418"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-206-1.png" width="672" /></p>
+<p>There appears to be an association between the number of sexual <code>PARTNERS</code> in the previous twelve months and positive <code>HIV</code> serology. The proportion with positive <code>HIV</code> serology increases as the number of sexual partners increases:</p>
+<pre class="sourceCode r" id="cb419"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a></code></pre>
+<pre><code>##         HIV
+## PARTNERS           0           1
+##        1  98.3606557   1.6393443
+##        2  99.2248062   0.7751938
+##        3  98.4962406   1.5037594
+##        4  95.7746479   4.2253521
+##        5  84.0000000  16.0000000
+##        6  50.0000000  50.0000000
+##        7  33.3333333  66.6666667
+##        8  50.0000000  50.0000000
+##        9   0.0000000 100.0000000</code></pre>
+<p>The <strong>‘1’</strong> instructs the <code>prop.table()</code> function to calculate row proportions. You can also use the <code>plot()</code> function to represent this table graphically:</p>
+<pre class="sourceCode r" id="cb421"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-208-1.png" width="672" /></p>
+<p>The <em>chi-square test for trend</em> is an appropriate test to perform on this data. The <code>prop.trend.test()</code> function that performs the <em>chi-square test for trend</em> requires you to specify the <em>number of events</em> and the <em>number of trials</em>. In this table:</p>
+<pre class="sourceCode r" id="cb422"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<pre><code>##         HIV
+## PARTNERS   0   1
+##        1  60   1
+##        2 128   1
+##        3 131   2
+##        4  68   3
+##        5  21   4
+##        6   3   3
+##        7   2   4
+##        8   1   1
+##        9   0   2</code></pre>
+<p>The <em>number of events</em> in each row is in the second column (labelled <strong>1</strong>) and the <em>number of trials</em> is the total number of cases in each row of the table.</p>
 
 </div>
             </section>
