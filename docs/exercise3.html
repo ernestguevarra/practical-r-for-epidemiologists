@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt">
 
 
-<meta name="date" content="2018-04-21">
+<meta name="date" content="2018-04-22">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1044,6 +1044,217 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>##    1    2 
 ## 63.0  2.5</code></pre>
 <p><em>Woolf’s test</em> for interaction (also known as <em>Woolf’s test for the homogeneity of odds ratios</em>) provides a formal test for interaction.</p>
+<p><code>R</code> does not provide a function to perform <em>Woolf’s test</em> for the homogeneity of odds ratios but it is possible to write a function to perform this test.</p>
+<p>First we will create a template for the function:</p>
+<pre class="sourceCode r" id="cb340"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" data-line-number="1">woolf.test &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre>
+<p>And then use the <code>fix()</code> function to edit the <code>woolf.test()</code> function:</p>
+<pre class="sourceCode r" id="cb341"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">fix</span>(woolf.test)</a></code></pre>
+<p>We can now edit this function to make it do something useful:</p>
+<pre class="sourceCode r" id="cb342"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb342-2" data-line-number="2">  x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb342-3" data-line-number="3">  k &lt;-<span class="st"> </span><span class="kw">dim</span>(x)[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb342-4" data-line-number="4">  or &lt;-<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">3</span>, <span class="cf">function</span>(x)</a>
+<a class="sourceLine" id="cb342-5" data-line-number="5">              {(x[<span class="dv">1</span>, <span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">1</span>, <span class="dv">2</span>]) <span class="op">/</span><span class="st"> </span>(x[<span class="dv">2</span>, <span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">2</span>, <span class="dv">2</span>])})</a>
+<a class="sourceLine" id="cb342-6" data-line-number="6">  w &lt;-<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">3</span>, <span class="cf">function</span>(x) {<span class="dv">1</span> <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>x)})</a>
+<a class="sourceLine" id="cb342-7" data-line-number="7">  chi.sq &lt;-<span class="st"> </span><span class="kw">sum</span>(w <span class="op">*</span><span class="st"> </span>(<span class="kw">log</span>(or) <span class="op">-</span><span class="st"> </span><span class="kw">weighted.mean</span>(<span class="kw">log</span>(or), w))<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb342-8" data-line-number="8">  p &lt;-<span class="st"> </span><span class="kw">pchisq</span>(chi.sq, <span class="dt">df =</span> k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb342-9" data-line-number="9">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Woolf&#39;s X2 :&quot;</span>, chi.sq,</a>
+<a class="sourceLine" id="cb342-10" data-line-number="10">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">p-value    :&quot;</span>, p, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb342-11" data-line-number="11">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
+We can use the <code>woolf.test()</code> function to test for a three-way interaction between <code>CAESAR</code>, <code>WINE</code>, and <code>ILL</code>:</p>
+<pre class="sourceCode r" id="cb343"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">woolf.test</span>(tabW)</a></code></pre>
+<p>Which returns:</p>
+<pre class="sourceCode r" id="cb344"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" data-line-number="1"><span class="kw">woolf.test</span>(tabW)</a></code></pre>
+<pre><code>## 
+## Woolf&#39;s X2 : 3.319492 
+## p-value    : 0.06846297</code></pre>
+<p>Which is weak evidence of an interaction.</p>
+<p>We should test for interaction between <code>CAESAR</code>, <code>TOMATO</code>, and <code>ILL</code> before accepting the results reported by
+the <code>mantelhaen.test()</code> function:</p>
+<pre class="sourceCode r" id="cb346"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1"><span class="kw">woolf.test</span>(tabC)</a></code></pre>
+<pre><code>## 
+## Woolf&#39;s X2 : 0.0001233783 
+## p-value    : 0.9911376</code></pre>
+<p>We can repeat this analysis using logistic regression.</p>
+<p>We need to change the coding of the variables to 0 and 1 before specifying the model:</p>
+<pre class="sourceCode r" id="cb348"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="kw">detach</span>(bateman)</a>
+<a class="sourceLine" id="cb348-2" data-line-number="2">bateman &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>bateman</a>
+<a class="sourceLine" id="cb348-3" data-line-number="3">bateman</a>
+<a class="sourceLine" id="cb348-4" data-line-number="4">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>TOMATO,</a>
+<a class="sourceLine" id="cb348-5" data-line-number="5">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
+<a class="sourceLine" id="cb348-6" data-line-number="6"><span class="kw">summary</span>(bateman.lreg)</a>
+<a class="sourceLine" id="cb348-7" data-line-number="7">bateman.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(bateman.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>TOMATO)</a>
+<a class="sourceLine" id="cb348-8" data-line-number="8"><span class="kw">summary</span>(bateman.lreg)</a></code></pre>
+<pre><code>##    ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM
+## 1    1      1       1      1     0       1    1      1      1        1
+## 2    0      1       1      1     0       1    0      0      0        1
+## 3    1      0       0      1     0       1    0      1      0        1
+## 4    1      1       0      1     1       1    0      1      0        1
+## 5    1      1       1      1     0       1    1      1      1        0
+## 6    1      1       1      1     1       1    0      1      1        0
+## 7    1      0       1      1     0       1    1      1      1        1
+## 8    0      1       1      1     0       1    1      0      1        1
+## 9    0      1       1      1     0       1    1      0      1        1
+## 10   0      0       1      1     0       1    0      0      0        1
+## 11   1      1       0      1     1       1    1      1      1        1
+## 12   1      1       1      1     1       1    1      1      1        1
+## 13   0      0       1      1     0       1    1      0      0        1
+## 14   1      0       1      1     1       1    1      1      1        1
+## 15   1      1       1      1     0       0    1      1      1        0
+## 16   1      0       0      0     0       1    1      1      1        1
+## 17   0      1       0      1     1       1    1      0      0        1
+## 18   1      0       1      1     0       1    1      1      1        1
+## 19   1      1       0      0     1       1    1      0      1        1
+## 20   0      0       0      0     0       0    0      0      0        0
+## 21   0      1       0      0     1       0    1      1      0        0
+## 22   0      0       0      0     0       0    0      0      0        1
+## 23   0      0       0      0     0       0    0      0      0        1
+## 24   1      0       1      1     0       1    1      1      0        1
+## 25   1      1       0      0     1       1    1      1      1        1
+## 26   0      0       1      1     1       1    1      0      0        0
+## 27   0      0       1      1     1       1    1      0      0        0
+## 28   1      0       1      0     0       1    1      0      0        1
+## 29   1      1       0      0     1       1    1      0      0        1
+## 30   1      0       1      1     0       1    1      1      1        1
+## 31   1      0       1      1     0       1    1      1      1        1
+## 32   1      1       0      0     0       1    1      1      1        0
+## 33   0      1       0      1     1       1    1      1      1        1
+## 34   1      0       1      1     0       1    1      1      1        0
+## 35   1      1       0      1     0       1    1      1      1        0
+## 36   0      1       0      1     1       0    1      1      1        0
+## 37   1      0       1      1     0       1    1      1      1        1
+## 38   1      1       0      0     0       1    0      1      1        1
+## 39   0      0       1      1     1       1    1      1      1        0
+## 40   1      1       1      1     0       1    0      1      1        0
+## 41   0      0       1      1     1       1    0      1      1        0
+## 42   1      1       0      0     1       0    0      1      1        1
+## 43   1      0       1      1     0       1    0      1      1        0
+## 44   1      0       1      1     0       0    1      1      1        0
+## 45   1      0       1      1     0       0    1      1      1        1
+##    CAKE JUICE WINE COFFEE
+## 1     1     1    1      1
+## 2     1     1    1      0
+## 3     1     0    1      0
+## 4     1     0    1      0
+## 5     1     1    1      1
+## 6     1     1    0      0
+## 7     1     0    1      1
+## 8     1     0    1      1
+## 9     1     0    1      1
+## 10    0     1    0      1
+## 11    1     1    1      0
+## 12    1     0    1      1
+## 13    1     0    1      1
+## 14    0     0    1      1
+## 15    1     1    1      1
+## 16    1     0    1      0
+## 17    0     0    1      0
+## 18    1     0    1      1
+## 19    1     0    1      1
+## 20    1     0    0      1
+## 21    0     0    1      1
+## 22    1     0    1      0
+## 23    1     0    1      0
+## 24    0     0    1      1
+## 25    0     0    1      1
+## 26    1     1    1      1
+## 27    1     1    1      1
+## 28    0     1    0      1
+## 29    1     1    0      1
+## 30    1     0    0      1
+## 31    0     0    0      1
+## 32    1     0    0      1
+## 33    1     0    0      1
+## 34    1     0    1      0
+## 35    1     0    1      1
+## 36    0     0    1      1
+## 37    0     0    1      0
+## 38    1     0    1      0
+## 39    1     1    0      0
+## 40    1     0    1      1
+## 41    0     0    1      1
+## 42    0     0    1      0
+## 43    1     0    1      0
+## 44    1     0    1      0
+## 45    1     1    0      0</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ CAESAR + TOMATO, family = binomial(logit), 
+##     data = bateman)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -1.960  -0.641   0.563   0.563   1.835  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)  -1.4780     0.7101  -2.082  0.03739 * 
+## CAESAR        2.5202     0.9653   2.611  0.00904 **
+## TOMATO        0.7197     0.9552   0.753  0.45116   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 58.574  on 44  degrees of freedom
+## Residual deviance: 41.408  on 42  degrees of freedom
+## AIC: 47.408
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ CAESAR, family = binomial(logit), data = bateman)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.9103  -0.6945   0.5931   0.5931   1.7552  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -1.2993     0.6513  -1.995 0.046066 *  
+## CAESAR        2.9479     0.8141   3.621 0.000293 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 58.574  on 44  degrees of freedom
+## Residual deviance: 41.940  on 43  degrees of freedom
+## AIC: 45.94
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Interactions are specified using the multiply (__*__) symbol in the model formula:</p>
+<pre class="sourceCode r" id="cb352"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" data-line-number="1">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>WINE <span class="op">+</span><span class="st"> </span>CAESAR <span class="op">*</span><span class="st"> </span>WINE,</a>
+<a class="sourceLine" id="cb352-2" data-line-number="2">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
+<a class="sourceLine" id="cb352-3" data-line-number="3"><span class="kw">summary</span>(bateman.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = ILL ~ CAESAR + WINE + CAESAR * WINE, family = binomial(logit), 
+##     data = bateman)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.0393  -0.4590   0.5168   0.5168   2.1460  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept) -1.092e-15  1.000e+00   0.000   1.0000  
+## CAESAR       9.163e-01  1.304e+00   0.703   0.4822  
+## WINE        -2.197e+00  1.453e+00  -1.512   0.1305  
+## CAESAR:WINE  3.227e+00  1.787e+00   1.806   0.0709 .
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 58.574  on 44  degrees of freedom
+## Residual deviance: 38.508  on 41  degrees of freedom
+## AIC: 46.508
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p>Before we continue, it is probably a good idea to save the <code>woolf.test()</code> function for later use:</p>
+<pre class="sourceCode r" id="cb354"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="kw">save</span>(woolf.test, <span class="dt">file =</span> <span class="st">&quot;woolf.r&quot;</span>)</a></code></pre>
 
 </div>
             </section>
