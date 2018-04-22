@@ -139,7 +139,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a><ul>
 <li class="chapter" data-level="5.1" data-path="exercise4.html"><a href="exercise4.html#summary-3"><i class="fa fa-check"></i><b>5.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a></li>
+<li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a><ul>
+<li class="chapter" data-level="6.1" data-path="exercise5.html"><a href="exercise5.html#summary-4"><i class="fa fa-check"></i><b>6.1</b> Summary</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>7</b> Making your own objects behave like R objects</a></li>
 <li class="chapter" data-level="8" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>8</b> Writing your own graphical functions</a></li>
 <li class="chapter" data-level="9" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>9</b> More graphical functions</a></li>
@@ -254,7 +256,42 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p>The <code>plot()</code> function with a <code>survfit</code> object displays the survival curves:</p>
 <pre class="sourceCode r" id="cb450"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
+<p>We can make it easier to distinguish between the two lines by specifying a width for each line using thelwd
+parameter of the <code>plot()</code> function:</p>
+<pre class="sourceCode r" id="cb451"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>, <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-229-1.png" width="672" /></p>
+<p>It would also be useful to add a legend:</p>
+<pre class="sourceCode r" id="cb452"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">125</span>, <span class="dv">1</span>, <span class="kw">names</span>(ca.surv<span class="op">$</span>strata), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-231-1.png" width="672" /></p>
+<p>If there is only one survival curve to plot then plotting a <code>survfit</code> object will plot the survival curve with 95% confidence limits. You can specify that confidence limits should be plotted when there is more than one survival curve but the results can be disappointing:</p>
+<pre class="sourceCode r" id="cb453"><code class="sourceCode r"><a class="sourceLine" id="cb453-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-232-1.png" width="672" /></p>
+<p>Plots can be improved by specifying different colours for each curve:</p>
+<pre class="sourceCode r" id="cb454"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-233-1.png" width="672" /></p>
+<p>We can perform a formal test of the two survival times using the <code>survdiff()</code> function:</p>
+<pre class="sourceCode r" id="cb455"><code class="sourceCode r"><a class="sourceLine" id="cb455-1" data-line-number="1"><span class="kw">survdiff</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre>
+<pre><code>## Call:
+## survdiff(formula = response ~ group)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## group=1 22       14     21.1      2.38      6.26
+## group=2 24       22     14.9      3.36      6.26
+## 
+##  Chisq= 6.3  on 1 degrees of freedom, p= 0.0123</code></pre>
+<p>We can now quit <code>R</code>:</p>
+<pre class="sourceCode r" id="cb457"><code class="sourceCode r"><a class="sourceLine" id="cb457-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
+<div id="summary-4" class="section level2">
+<h2><span class="header-section-number">6.1</span> Summary</h2>
+<ul>
+<li><p><code>R</code> can be extended by adding additional packages. Some packages are included with the standard <code>R</code> installation but many others are available and may be downloaded from the Internet.</p></li>
+<li><p>You can find a list of add-in packages at the <code>R</code> website: <a href="http://www.r-project.org/" class="uri">http://www.r-project.org/</a></p></li>
+<li><p>Packages may also be downloaded and installed from this site using the <code>install.packages()</code> function or from the <strong>Packages</strong> or <strong>Packages &amp; Data</strong> menu if you are using a GUI version of <code>R</code>.</p></li>
+<li><p>Packages are loaded into <code>R</code> as they are needed using the <code>library()</code> function. You can use the <code>search()</code> function to display a list of loaded packages and attached data.frames.</p></li>
+</ul>
 
+</div>
 </div>
             </section>
 

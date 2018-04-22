@@ -1921,8 +1921,8 @@ These will then be automatically restored the next time you start
 \texttt{R} in the current working directory.
 
 For this exercise there is no need to save the workspace image so click
-the \texttt{No} or \texttt{Don\textquotesingle{}t\ Save} button (GUI) or
-enter \texttt{n} when prompted to save the workspace image (terminal).
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
+when prompted to save the workspace image (terminal).
 
 \hypertarget{summary}{%
 \section{Summary}\label{summary}}
@@ -3254,14 +3254,13 @@ We can now quit \texttt{R}:
 \end{Shaded}
 
 For this exercise there is no need to save the workspace image so click
-the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \textbf{n}
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
 when prompted to save the workspace image (terminal).
 
 \hypertarget{summary-1}{%
 \section{Summary}\label{summary-1}}
 
 \begin{itemize}
-\tightlist
 \item
   \texttt{R} objects contain information that can be examined and
   manipulated.
@@ -5721,8 +5720,8 @@ We can now quit \texttt{R}:
 \end{Shaded}
 
 For this exercise there is no need to save the workspace image so click
-the \textbf{No} or \textbf{Don't Save} button (GUI) or enter n when
-prompted to save the workspace image (terminal).
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
+when prompted to save the workspace image (terminal).
 
 \hypertarget{summary-2}{%
 \section{Summary}\label{summary-2}}
@@ -7065,6 +7064,107 @@ survival curves:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-228-1.pdf}
+
+We can make it easier to distinguish between the two lines by specifying
+a width for each line using thelwd parameter of the \texttt{plot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(ca.surv, }\DataTypeTok{xlab =} \StringTok{"Months"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Survival"}\NormalTok{, }\DataTypeTok{lwd =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-229-1.pdf}
+
+It would also be useful to add a legend:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{legend}\NormalTok{(}\DecValTok{125}\NormalTok{, }\DecValTok{1}\NormalTok{, }\KeywordTok{names}\NormalTok{(ca.surv}\OperatorTok{$}\NormalTok{strata), }\DataTypeTok{lwd =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-231-1.pdf}
+
+If there is only one survival curve to plot then plotting a
+\texttt{survfit} object will plot the survival curve with 95\%
+confidence limits. You can specify that confidence limits should be
+plotted when there is more than one survival curve but the results can
+be disappointing:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(ca.surv, }\DataTypeTok{conf.int =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-232-1.pdf}
+
+Plots can be improved by specifying different colours for each curve:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(ca.surv, }\DataTypeTok{conf.int =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"darkgreen"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-233-1.pdf}
+
+We can perform a formal test of the two survival times using the
+\texttt{survdiff()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{survdiff}\NormalTok{(response }\OperatorTok{~}\StringTok{ }\NormalTok{group)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call:
+## survdiff(formula = response ~ group)
+## 
+##          N Observed Expected (O-E)^2/E (O-E)^2/V
+## group=1 22       14     21.1      2.38      6.26
+## group=2 24       22     14.9      3.36      6.26
+## 
+##  Chisq= 6.3  on 1 degrees of freedom, p= 0.0123
+\end{verbatim}
+
+We can now quit \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{q}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+For this exercise there is no need to save the workspace image so click
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
+when prompted to save the workspace image (terminal).
+
+\hypertarget{summary-4}{%
+\section{Summary}\label{summary-4}}
+
+\begin{itemize}
+\item
+  \texttt{R} can be extended by adding additional packages. Some
+  packages are included with the standard \texttt{R} installation but
+  many others are available and may be downloaded from the Internet.
+\item
+  You can find a list of add-in packages at the \texttt{R} website:
+  \url{http://www.r-project.org/}
+\item
+  Packages may also be downloaded and installed from this site using the
+  \texttt{install.packages()} function or from the \textbf{Packages} or
+  \textbf{Packages \& Data} menu if you are using a GUI version of
+  \texttt{R}.
+\item
+  Packages are loaded into \texttt{R} as they are needed using the
+  \texttt{library()} function. You can use the \texttt{search()}
+  function to display a list of loaded packages and attached
+  data.frames.
+\end{itemize}
 
 \hypertarget{exercise6}{%
 \chapter{Making your own objects behave like R
