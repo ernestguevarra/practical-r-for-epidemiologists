@@ -381,7 +381,7 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <pre><code>## PARTNERS
 ##   1   2   3   4   5   6   7   8   9 
 ##  61 129 133  71  25   6   6   2   2</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-202-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-206-1.png" width="672" /></p>
 <p>The distribution of <code>PARTNERS</code> is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the <code>HIV</code> variable and perform a non-parametric test:</p>
 <pre class="sourceCode r" id="cb413"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1"><span class="kw">by</span>(PARTNERS, HIV, summary)</a>
 <a class="sourceLine" id="cb413-2" data-line-number="2"><span class="kw">kruskal.test</span>(PARTNERS <span class="op">~</span><span class="st"> </span>HIV)</a></code></pre>
@@ -412,7 +412,7 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        9   0   2</code></pre>
 <p>You can use the <code>plot()</code> function to represent this table graphically:</p>
 <pre class="sourceCode r" id="cb418"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-206-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-210-1.png" width="672" /></p>
 <p>There appears to be an association between the number of sexual <code>PARTNERS</code> in the previous twelve months and positive <code>HIV</code> serology. The proportion with positive <code>HIV</code> serology increases as the number of sexual partners increases:</p>
 <pre class="sourceCode r" id="cb419"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a></code></pre>
 <pre><code>##         HIV
@@ -428,7 +428,7 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        9   0.0000000 100.0000000</code></pre>
 <p>The <strong>‘1’</strong> instructs the <code>prop.table()</code> function to calculate row proportions. You can also use the <code>plot()</code> function to represent this table graphically:</p>
 <pre class="sourceCode r" id="cb421"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-208-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-212-1.png" width="672" /></p>
 <p>The <em>chi-square test for trend</em> is an appropriate test to perform on this data. The <code>prop.trend.test()</code> function that performs the <em>chi-square test for trend</em> requires you to specify the <em>number of events</em> and the <em>number of trials</em>. In this table:</p>
 <pre class="sourceCode r" id="cb422"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
 <pre><code>##         HIV

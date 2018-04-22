@@ -388,30 +388,38 @@ packages were first developed and tested using \texttt{R} or
 When you start \texttt{R} it will issue a prompt when it expects user
 input. The default prompt is:
 
-\begin{verbatim}
->
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}
+\end{Highlighting}
+\end{Shaded}
 
 This is where you type commands that call functions that instruct
 \texttt{R} to (e.g.) read a data file, recode data, produce a table, or
 fit a regression. For example:
 
-\begin{verbatim}
-   > table(SEX, LIFE)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{table}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
 
 If a command you type is not complete then the prompt will change to:
 
-\begin{verbatim}
-+
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{+}
+\end{Highlighting}
+\end{Shaded}
 
 on subsequent lines until the command is complete:
 
-\begin{verbatim}
-> table(
-+ SEX, LIFE +)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{table}\NormalTok{(}
+\OperatorTok{+}\StringTok{ }\NormalTok{SEX, LIFE }\OperatorTok{+}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 The \texttt{\textgreater{}} and \texttt{+} prompts are not shown in the
 example commands in the rest of this material.
@@ -505,20 +513,20 @@ A command such as:
 \end{Shaded}
 
 retrieves the data stored in the file named \texttt{fem.dat} which is
-stored in the \texttt{data} folder.
+stored in the current working directory.
 
 To retrieve data that is stored in files outside a different directory
 you need to specify the full path to the file. For example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/example/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"~/prfe/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 will retrieve the data stored in the file named \texttt{fem.dat} stored
-in the \texttt{example} directory under the user's home directory on
-UNIX, Linux, and OS X systems.
+in the \texttt{prfe} directory under the user's home directory on UNIX,
+Linux, and OS X systems.
 
 \texttt{R} follows many UNIX operating and naming conventions including
 the use of the backslash (\texttt{\textbackslash{}}) character to
@@ -531,19 +539,19 @@ backslash character. For example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{example}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{prfe}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 will retrieve the data that is stored in the file named \texttt{fem.dat}
-which is stored in the \texttt{example} directory off the root directory
-of the \texttt{C:} drive. The Windows version of \texttt{R} also allows
-you to specify UNIX-style path names (i.e.~using the forward slash
+which is stored in the \texttt{prfe} directory off the root directory of
+the \texttt{C:} drive. The Windows version of \texttt{R} also allows you
+to specify UNIX-style path names (i.e.~using the forward slash
 (\texttt{/}) character as a separator in file paths). For example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:/example/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"c:/prfe/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -564,24 +572,22 @@ string. For example:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{read.table}\NormalTok{(}\StringTok{"file://~/example/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{read.table}\NormalTok{(}\StringTok{"file://~/prfe/fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 will retrieve the data stored in the file named \texttt{fem.dat} stored
-in the \texttt{example} directory under the users home directory on
+in the \texttt{prfe} directory under the users home directory on
 UNIX-based systems.
 
 All of the data files used in this section are stored in the
-\texttt{/data} directory of this guide's GitLab repository
-(\url{https://git.validmeasures.org/datahub/datahubguide/tree/master/data}).
-This means, for example, that you can use the \texttt{read.table()}
-function specifying
+\texttt{/prfe} directory Brixton Health's website. This means, for
+example, that you can use the \texttt{read.table()} function specifying
 
-``\url{https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat}''
+``\url{http://www.brixtonhealth.com/prfe/fem.dat}''
 
 as the \texttt{URL} to retrieve the data that is stored in the file
-named \texttt{fem.dat} which is stored in the \texttt{/data} directory
+named \texttt{fem.dat} which is stored in the \texttt{/prfe} directory
 of this guide's GitLab repository.
 
 \hypertarget{exercise1}{%
@@ -1019,7 +1025,7 @@ We can view the same data as a box and whisker plot:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-35-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-39-1.pdf}
 
 We can add axis labels and a title to the graph:
 
@@ -1032,7 +1038,7 @@ We can add axis labels and a title to the graph:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-36-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-40-1.pdf}
 
 A more descriptive title might be ``Weight Change BY Considered
 Suicide''.
@@ -1049,7 +1055,7 @@ We can look at the distribution as histograms:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-41-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1057,7 +1063,7 @@ We can look at the distribution as histograms:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-42-1.pdf}
 
 and check the assumption of normality using quantile-quantile plots:
 
@@ -1068,7 +1074,7 @@ and check the assumption of normality using quantile-quantile plots:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-39-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-43-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1077,7 +1083,7 @@ and check the assumption of normality using quantile-quantile plots:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-40-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-44-1.pdf}
 
 or by using a formal test:
 
@@ -1474,7 +1480,7 @@ or by using a scatter plot:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-60-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-64-1.pdf}
 
 and by a formal test:
 
@@ -1536,7 +1542,7 @@ of variables:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-62-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-66-1.pdf}
 
 The output can be a little confusing particularly if it includes
 categorical or record identifying variables. To avoid this we can create
@@ -1563,7 +1569,7 @@ the column binding \texttt{cbind()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-63-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-67-1.pdf}
 
 When we have finished with the \texttt{newfem} object we can delete it:
 
@@ -1596,7 +1602,7 @@ have fed the output of the \texttt{cbind()} function directly to the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-65-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-69-1.pdf}
 
 It is, however, easier to work with the \texttt{newfem} object rather
 than having to retype the \texttt{cbind()} function. This is
@@ -1612,7 +1618,7 @@ using the \texttt{plot()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-66-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-70-1.pdf}
 
 And tested using the \texttt{cor()} and \texttt{cor.test()} functions:
 
@@ -1724,7 +1730,7 @@ And use the output in other functions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-70-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1.pdf}
 
 In this case we are passing the intercept and slope information held in
 the \texttt{fem.lm} object to the \texttt{abline()} function which draws
@@ -1741,10 +1747,10 @@ A useful function to apply to the \texttt{fem.lm} object is
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-4.pdf}
 
 Objects created by the \texttt{lm()} function (or any of the modelling
 functions) can use up a lot of memory so we should remove them when we
@@ -1767,7 +1773,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-73-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-77-1.pdf}
 
 \begin{verbatim}
 ## 
@@ -1784,7 +1790,7 @@ categories of both \texttt{LIFE} and \texttt{SEX}:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-78-1.pdf}
 
 \begin{verbatim}
 ## 
@@ -6106,7 +6112,7 @@ distribution before doing anything with it:
 ##  61 129 133  71  25   6   6   2   2
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-202-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-206-1.pdf}
 
 The distribution of \texttt{PARTNERS} is severely non-normal. Instead of
 attempting to transform the variable we will produce summary statistics
@@ -6169,7 +6175,7 @@ graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-206-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-210-1.pdf}
 
 There appears to be an association between the number of sexual
 \texttt{PARTNERS} in the previous twelve months and positive
@@ -6206,7 +6212,7 @@ to represent this table graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-208-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-212-1.pdf}
 
 The \emph{chi-square test for trend} is an appropriate test to perform
 on this data. The \texttt{prop.trend.test()} function that performs the
@@ -7067,7 +7073,7 @@ survival curves:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-228-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-232-1.pdf}
 
 We can make it easier to distinguish between the two lines by specifying
 a width for each line using thelwd parameter of the \texttt{plot()}
@@ -7079,7 +7085,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-229-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-233-1.pdf}
 
 It would also be useful to add a legend:
 
@@ -7089,7 +7095,7 @@ It would also be useful to add a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-231-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-235-1.pdf}
 
 If there is only one survival curve to plot then plotting a
 \texttt{survfit} object will plot the survival curve with 95\%
@@ -7103,7 +7109,7 @@ be disappointing:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-232-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-236-1.pdf}
 
 Plots can be improved by specifying different colours for each curve:
 
@@ -7113,7 +7119,7 @@ Plots can be improved by specifying different colours for each curve:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-233-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-237-1.pdf}
 
 We can perform a formal test of the two survival times using the
 \texttt{survdiff()} function:

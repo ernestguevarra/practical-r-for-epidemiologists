@@ -186,14 +186,14 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>This is also the best place to get extension packages and documentation. You may also subscribe to the <code>R</code> mailing lists from this site. <code>R</code> is supported through mailing lists. The level of support is at least as good as for commercial packages. It is typical to have queries answered in a matter of a few hours.</p>
 <p>Even though <code>R</code> is a free package it is more powerful than most commercial packages. Many of the modern procedures found in commercial packages were first developed and tested using <code>R</code> or <strong>S-Plus</strong> (the commercial equivalent of <code>R</code>).</p>
 <p>When you start <code>R</code> it will issue a prompt when it expects user input. The default prompt is:</p>
-<pre><code>&gt;</code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="op">&gt;</span></a></code></pre>
 <p>This is where you type commands that call functions that instruct <code>R</code> to (e.g.) read a data file, recode data, produce a table, or fit a regression. For example:</p>
-<pre><code>   &gt; table(SEX, LIFE)</code></pre>
+<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">table</span>(SEX, LIFE)</a></code></pre>
 <p>If a command you type is not complete then the prompt will change to:</p>
-<pre><code>+</code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="op">+</span></a></code></pre>
 <p>on subsequent lines until the command is complete:</p>
-<pre><code>&gt; table(
-+ SEX, LIFE +)</code></pre>
+<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="op">&gt;</span><span class="st"> </span><span class="kw">table</span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="op">+</span><span class="st"> </span>SEX, LIFE <span class="op">+</span>)</a></code></pre>
 <p>The <code>&gt;</code> and <code>+</code> prompts are not shown in the example commands in the rest of this material.</p>
 <p>The example commands in this material are often broken into shorter lines and indented for ease of understanding. The code still works as lines are split in places where <code>R</code> knows that a line is not complete. For example:</p>
 <pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">table</span>(SEX,</a>
@@ -228,14 +228,14 @@ All of the data files that you require to follow this material are in a ZIP arch
 <p><a href="http://www.brixtonhealth.com/prfe/prfe.zip" class="uri">http://www.brixtonhealth.com/prfe/prfe.zip</a></p>
 <p>A command such as:</p>
 <pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;data/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p>retrieves the data stored in the file named <code>fem.dat</code> which is stored in the <code>data</code> folder.</p>
+<p>retrieves the data stored in the file named <code>fem.dat</code> which is stored in the current working directory.</p>
 <p>To retrieve data that is stored in files outside a different directory you need to specify the full path to the file. For example:</p>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>example</code> directory under the user’s home directory on UNIX, Linux, and OS X systems.</p>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;~/prfe/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>prfe</code> directory under the user’s home directory on UNIX, Linux, and OS X systems.</p>
 <p><code>R</code> follows many UNIX operating and naming conventions including the use of the backslash (<code>\</code>) character to specify special characters in strings (e.g. using <code>\n</code> to specify a new line in printed output). Windows uses the backslash (<code>\</code>) character to separate directory and file names in paths. This means that Windows users need to escape any backslashes in file paths using an additional backslash character. For example:</p>
-<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:</span><span class="ch">\\</span><span class="st">example</span><span class="ch">\\</span><span class="st">fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p>will retrieve the data that is stored in the file named <code>fem.dat</code> which is stored in the <code>example</code> directory off the root directory of the <code>C:</code> drive. The Windows version of <code>R</code> also allows you to specify UNIX-style path names (i.e. using the forward slash (<code>/</code>) character as a separator in file paths). For example:</p>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:</span><span class="ch">\\</span><span class="st">prfe</span><span class="ch">\\</span><span class="st">fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p>will retrieve the data that is stored in the file named <code>fem.dat</code> which is stored in the <code>prfe</code> directory off the root directory of the <code>C:</code> drive. The Windows version of <code>R</code> also allows you to specify UNIX-style path names (i.e. using the forward slash (<code>/</code>) character as a separator in file paths). For example:</p>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:/prfe/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>Path names may include shortcut characters such as:
 <br/></p>
 <table>
@@ -256,11 +256,11 @@ All of the data files that you require to follow this material are in a ZIP arch
 </table>
 <p><br/></p>
 <p><code>R</code> also allows you to retrieve files from any location that may be represented by a standard <code>uniform resource locator (URL)</code> string. For example:</p>
-<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;file://~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>example</code> directory under the users home directory on UNIX-based systems.</p>
-<p>All of the data files used in this section are stored in the <code>/data</code> directory of this guide’s GitLab repository (<a href="https://git.validmeasures.org/datahub/datahubguide/tree/master/data" class="uri">https://git.validmeasures.org/datahub/datahubguide/tree/master/data</a>). This means, for example, that you can use the <code>read.table()</code> function specifying</p>
-<p>“<a href="https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat" class="uri">https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat</a>”</p>
-<p>as the <code>URL</code> to retrieve the data that is stored in the file named <code>fem.dat</code> which is stored in the <code>/data</code> directory of this guide’s GitLab repository.</p>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;file://~/prfe/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>prfe</code> directory under the users home directory on UNIX-based systems.</p>
+<p>All of the data files used in this section are stored in the <code>/prfe</code> directory Brixton Health’s website. This means, for example, that you can use the <code>read.table()</code> function specifying</p>
+<p>“<a href="http://www.brixtonhealth.com/prfe/fem.dat" class="uri">http://www.brixtonhealth.com/prfe/fem.dat</a>”</p>
+<p>as the <code>URL</code> to retrieve the data that is stored in the file named <code>fem.dat</code> which is stored in the <code>/prfe</code> directory of this guide’s GitLab repository.</p>
 
 </div>
 </div>
