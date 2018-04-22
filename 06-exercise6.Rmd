@@ -1,2 +1,77 @@
 # Making your own objects behave like R objects {#exercise6}
 
+In the previous exercises we concentrated on writing functions that take some input data, analyse it, and display the results of the analysis. The standard `R` functions we have used all do this. The `fisher.test()` function, for example, takes a `table` object (or the names of two variables) as input and calculates and displays the p- value for *Fisher's exact test* and the odds ratio and associated confidence interval for two-by-two tables:
+
+```{r, eval = TRUE}
+fem <- read.table("fem.dat", header = TRUE)
+attach(fem)
+fisher.test(SEX, LIFE)
+```
+
+The results of the `fisher.test()` function may also be saved for later use: 
+
+```{r, eval = TRUE}
+ft <- fisher.test(SEX, LIFE)
+ft
+```
+
+The `fisher.test()` function returns an object of the class `htest`: 
+
+```{r, eval = TRUE}
+class(ft)
+```
+
+which is a list containing the output of the `fisher.test()` function. Each item of output is stored as a different named item in the list:
+
+```{r, eval = FALSE}
+names(ft)
+str(ft)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+names(ft)
+str(ft)
+```
+
+Each of these items can be referred to by name:
+
+```{r, eval = FALSE}
+ft$estimate
+ft$conf.int
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ft$estimate
+ft$conf.int
+```
+
+When you display the output of the `fisher.test()` function either by calling the function directly: 
+
+```{r, eval = TRUE}
+fisher.test(SEX, LIFE)
+```
+
+or by typing the name of an object created using the `fisher.test()` function: 
+
+```{r, eval = TRUE}
+ft
+```
+
+The `print()` function takes over and formatted output is produced. The `print()` function knows about `htest` class objects and produces output of the correct format for that class of object. This means that any function that produces an `htest` object (or any other standard `R` object) does not need to include `R` commands to produce formatted output.
+
+All hypothesis testing functions supplied with `R` produce objects of the htest class and use the `print()` function to produce formatted output. For example:
+
+```{r, eval = FALSE}
+tt <- t.test(WT ~ LIFE)
+class(tt)
+tt
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tt <- t.test(WT ~ LIFE)
+class(tt)
+tt
+```
+
+You can use this feature of `R` in your own functions. We will explore this by writing a function to test the null hypothesis that the *variance to mean ratio* of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.
+
