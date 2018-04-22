@@ -642,9 +642,47 @@ nrow(tsstamp)
 
 There are fourteen (14) matched sets of cases and controls:
 
-``{r, eval = TRUE}
+```{r, eval = TRUE}
 length(unique(tsstamp$ID))
 ```
 
+Each matched set of cases and controls consists of one case and one or more controls:
 
+```{r, eval = TRUE}
+table(tsstamp$ID, tsstamp$CASE)
+```
+
+The *McNemar's chi-squared test* is not useful for this data as it is limited to the special case of one-to-one matching.
+
+Analysing this data using a simple tabulation such as:
+
+```{r, eval = TRUE}
+fisher.test(table(tsstamp$RBTAMP, tsstamp$CASE))
+```
+
+ignores the matched nature of the data and is, therefore, also not useful for this data.
+
+The matched nature of the data may be accounted by stratifying on the variable that identifies the matched sets
+of cases and controls (i.e. the `ID` variable) using the `mantelhaen.test()` function: 
+
+```{r, eval = TRUE}
+mantelhaen.test(table(tsstamp$RBTAMP, tsstamp$CASE, tsstamp$ID))
+```
+
+Analysis of several risk factors or adjustment for confounding variables not matched for in the design of a matched case-control study cannot be performed using tabulation-based procedures such as the `McNemar's chi- squared test` and Mantel-Haenszel procedures. In these situations a special form of logistic regression, called `conditional logistic regression`, should be used.
+
+We can now quit `R`: 
+
+```{r, eval = FALSE}
+q()
+```
+
+
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter n when prompted to save the workspace image (terminal).
+
+## Summary
+
+* `R` provides functions for many kinds of complex statistical analysis. We have looked at using the generalised linear model `glm()` function to perform logistic regression. We have looked ar the `mantelhaen.test()` function to perform stratified analyses and the `mantelhaen.test()` and `mcnemar.test()` functions to analyse data from matched case-control studies.
+
+* `R` can be extended by writing new functions. New functions can perform simple or complex data analysis. New functions can be composed of parts of existing function. New functions can be saved and used in subsequent `R` sessions. By building your own functions you can use `R` to build your own statistical analysis system.
 
