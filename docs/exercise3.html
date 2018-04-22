@@ -131,7 +131,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="3" data-path="exercise2.html"><a href="exercise2.html"><i class="fa fa-check"></i><b>3</b> Manipulating objects and creating new functions</a><ul>
 <li class="chapter" data-level="3.1" data-path="exercise2.html"><a href="exercise2.html#summary-1"><i class="fa fa-check"></i><b>3.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>4</b> Logistic regression and stratified analysis</a></li>
+<li class="chapter" data-level="4" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>4</b> Logistic regression and stratified analysis</a><ul>
+<li class="chapter" data-level="4.1" data-path="exercise3.html"><a href="exercise3.html#matched-data"><i class="fa fa-check"></i><b>4.1</b> Matched data</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a></li>
 <li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a></li>
 <li class="chapter" data-level="7" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>7</b> Making your own objects behave like R objects</a></li>
@@ -1255,7 +1257,246 @@ the <code>mantelhaen.test()</code> function:</p>
 ## Number of Fisher Scoring iterations: 4</code></pre>
 <p>Before we continue, it is probably a good idea to save the <code>woolf.test()</code> function for later use:</p>
 <pre class="sourceCode r" id="cb354"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="kw">save</span>(woolf.test, <span class="dt">file =</span> <span class="st">&quot;woolf.r&quot;</span>)</a></code></pre>
+<div id="matched-data" class="section level2">
+<h2><span class="header-section-number">4.1</span> Matched data</h2>
+<p><em>Matching</em> is another way to control for the effects of potential confounding variables. Matching is usually performed during data-collection as part of the design of a study.</p>
+<p>In a matched case-control studies, each case is matched with one or more controls which are chosen to have the same values over a set of potential confounding variables.
+In order to illustrate how matched data may be analysed using tabulation and stratification in <code>R</code> we will start with the simple case of one-to-one matching (i.e. each case has a single matched control):</p>
+<pre class="sourceCode r" id="cb355"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1">octe &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;octe.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb355-2" data-line-number="2">octe[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
+<pre><code>##    ID CASE OC
+## 1   1    1  1
+## 2   1    2  1
+## 3   2    1  1
+## 4   2    2  1
+## 5   3    1  1
+## 6   3    2  1
+## 7   4    1  1
+## 8   4    2  1
+## 9   5    1  1
+## 10  5    2  1</code></pre>
+<p>This data is from a matched case-control study investigating the association between oral contraceptive use and thromboembolism. The cases are 175 women aged between 15 and 44 years admitted to hospital for thromboembolism and discharged alive. The controls are female patients admitted for conditions believed to be unrelated to oral contraceptive use. Cases and controls were matched on age, ethnic group, marital status, parity, income, place of residence, and date of hospitalisation. The variables in the dataset are:</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="79%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>ID</strong></td>
+<td>Identifier for the matched sets of cases and controls</td>
+</tr>
+<tr class="even">
+<td><strong>CASE</strong></td>
+<td>Case (1) or control (2)</td>
+</tr>
+<tr class="odd">
+<td><strong>OC</strong></td>
+<td>Used oral contraceptives in the previous month (1=yes, 2=no)</td>
+</tr>
+</tbody>
+</table>
+<p>The dataset consists of 350 records:</p>
+<pre class="sourceCode r" id="cb357"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="kw">nrow</span>(octe)</a></code></pre>
+<pre><code>## [1] 350</code></pre>
+<p>There are 175 matched sets of cases and controls:</p>
+<pre class="sourceCode r" id="cb359"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(octe<span class="op">$</span>ID))</a></code></pre>
+<pre><code>## [1] 175</code></pre>
+<p>In each matched set of cases and controls there is one case and one control:</p>
+<pre class="sourceCode r" id="cb361"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="kw">table</span>(octe<span class="op">$</span>ID, octe<span class="op">$</span>CASE)</a></code></pre>
+<pre><code>##      
+##       1 2
+##   1   1 1
+##   2   1 1
+##   3   1 1
+##   4   1 1
+##   5   1 1
+##   6   1 1
+##   7   1 1
+##   8   1 1
+##   9   1 1
+##   10  1 1
+##   11  1 1
+##   12  1 1
+##   13  1 1
+##   14  1 1
+##   15  1 1
+##   16  1 1
+##   17  1 1
+##   18  1 1
+##   19  1 1
+##   20  1 1
+##   21  1 1
+##   22  1 1
+##   23  1 1
+##   24  1 1
+##   25  1 1
+##   26  1 1
+##   27  1 1
+##   28  1 1
+##   29  1 1
+##   30  1 1
+##   31  1 1
+##   32  1 1
+##   33  1 1
+##   34  1 1
+##   35  1 1
+##   36  1 1
+##   37  1 1
+##   38  1 1
+##   39  1 1
+##   40  1 1
+##   41  1 1
+##   42  1 1
+##   43  1 1
+##   44  1 1
+##   45  1 1
+##   46  1 1
+##   47  1 1
+##   48  1 1
+##   49  1 1
+##   50  1 1
+##   51  1 1
+##   52  1 1
+##   53  1 1
+##   54  1 1
+##   55  1 1
+##   56  1 1
+##   57  1 1
+##   58  1 1
+##   59  1 1
+##   60  1 1
+##   61  1 1
+##   62  1 1
+##   63  1 1
+##   64  1 1
+##   65  1 1
+##   66  1 1
+##   67  1 1
+##   68  1 1
+##   69  1 1
+##   70  1 1
+##   71  1 1
+##   72  1 1
+##   73  1 1
+##   74  1 1
+##   75  1 1
+##   76  1 1
+##   77  1 1
+##   78  1 1
+##   79  1 1
+##   80  1 1
+##   81  1 1
+##   82  1 1
+##   83  1 1
+##   84  1 1
+##   85  1 1
+##   86  1 1
+##   87  1 1
+##   88  1 1
+##   89  1 1
+##   90  1 1
+##   91  1 1
+##   92  1 1
+##   93  1 1
+##   94  1 1
+##   95  1 1
+##   96  1 1
+##   97  1 1
+##   98  1 1
+##   99  1 1
+##   100 1 1
+##   101 1 1
+##   102 1 1
+##   103 1 1
+##   104 1 1
+##   105 1 1
+##   106 1 1
+##   107 1 1
+##   108 1 1
+##   109 1 1
+##   110 1 1
+##   111 1 1
+##   112 1 1
+##   113 1 1
+##   114 1 1
+##   115 1 1
+##   116 1 1
+##   117 1 1
+##   118 1 1
+##   119 1 1
+##   120 1 1
+##   121 1 1
+##   122 1 1
+##   123 1 1
+##   124 1 1
+##   125 1 1
+##   126 1 1
+##   127 1 1
+##   128 1 1
+##   129 1 1
+##   130 1 1
+##   131 1 1
+##   132 1 1
+##   133 1 1
+##   134 1 1
+##   135 1 1
+##   136 1 1
+##   137 1 1
+##   138 1 1
+##   139 1 1
+##   140 1 1
+##   141 1 1
+##   142 1 1
+##   143 1 1
+##   144 1 1
+##   145 1 1
+##   146 1 1
+##   147 1 1
+##   148 1 1
+##   149 1 1
+##   150 1 1
+##   151 1 1
+##   152 1 1
+##   153 1 1
+##   154 1 1
+##   155 1 1
+##   156 1 1
+##   157 1 1
+##   158 1 1
+##   159 1 1
+##   160 1 1
+##   161 1 1
+##   162 1 1
+##   163 1 1
+##   164 1 1
+##   165 1 1
+##   166 1 1
+##   167 1 1
+##   168 1 1
+##   169 1 1
+##   170 1 1
+##   171 1 1
+##   172 1 1
+##   173 1 1
+##   174 1 1
+##   175 1 1</code></pre>
+<p>This data may be analysed using <em>McNemar’s chi-squared test</em> which use the number of discordant (i.e. relative to exposure) pairs of matched cases and controls.</p>
+<p>To find the number of discordant pairs we need to split the dataset into cases and controls:</p>
+<pre class="sourceCode r" id="cb363"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb363-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
+<p>Sorting these two datasets (i.e. <code>octe.cases</code> and <code>octe.controls</code>) by the <code>ID</code> variable simplifies the analysis:</p>
+<pre class="sourceCode r" id="cb364"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span>octe.cases[<span class="kw">order</span>(octe.cases<span class="op">$</span>ID), ]</a>
+<a class="sourceLine" id="cb364-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span>octe.controls[<span class="kw">order</span>(octe.controls<span class="op">$</span>ID), ]</a></code></pre>
+<p>Since the two datasets (i.e. <code>octe.cases</code> and <code>octe.controls</code>) are now sorted by the <code>ID</code> variable we can use the <code>table()</code> function to retrieve the number if concordant and discordant pairs and store them in a table object:</p>
+<pre class="sourceCode r" id="cb365"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(octe.cases<span class="op">$</span>OC, octe.controls<span class="op">$</span>OC)</a>
+<a class="sourceLine" id="cb365-2" data-line-number="2">tab</a></code></pre>
+<pre><code>##    
+##      1  2
+##   1 10 57
+##   2 13 95</code></pre>
 
+</div>
 </div>
             </section>
 
