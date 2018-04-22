@@ -385,3 +385,110 @@ apply(tabW, 3, or)
 
 *Woolf's test* for interaction (also known as *Woolf's test for the homogeneity of odds ratios*) provides a formal test for interaction.
 
+`R` does not provide a function to perform *Woolf's test* for the homogeneity of odds ratios but it is possible to write a function to perform this test.
+
+First we will create a template for the function:
+
+```{r, eval = FALSE}
+woolf.test <- function(x) {}
+```
+
+And then use the `fix()` function to edit the `woolf.test()` function: 
+
+```{r, eval = FALSE}
+fix(woolf.test)
+```
+
+We can now edit this function to make it do something useful:
+
+```{r, eval = FALSE}
+function(x) {
+  x <- x + 0.5
+  k <- dim(x)[3]
+  or <- apply(x, 3, function(x)
+              {(x[1, 1] / x[1, 2]) / (x[2, 1] / x[2, 2])})
+  w <- apply(x, 3, function(x) {1 / sum(1 / x)})
+  chi.sq <- sum(w * (log(or) - weighted.mean(log(or), w))^2)
+  p <- pchisq(chi.sq, df = k - 1, lower.tail = FALSE)
+  cat("\nWoolf's X2 :", chi.sq,
+      "\np-value    :", p, "\n")
+}
+
+```{r, echo = FALSE, eval = TRUE}
+woolf.test <- function(x) {
+  x <- x + 0.5
+  k <- dim(x)[3]
+  or <- apply(x, 3, function(x)
+              {(x[1, 1] / x[1, 2]) / (x[2, 1] / x[2, 2])})
+  w <- apply(x, 3, function(x) {1 / sum(1 / x)})
+  chi.sq <- sum(w * (log(or) - weighted.mean(log(or), w))^2)
+  p <- pchisq(chi.sq, df = k - 1, lower.tail = FALSE)
+  cat("\nWoolf's X2 :", chi.sq,
+      "\np-value    :", p, "\n")
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+We can use the `woolf.test()` function to test for a three-way interaction between `CAESAR`, `WINE`, and `ILL`:
+
+```{r, eval = FALSE}
+woolf.test(tabW)
+```
+
+Which returns:
+
+```{r, eval = TRUE}
+woolf.test(tabW)
+```
+
+Which is weak evidence of an interaction.
+
+We should test for interaction between `CAESAR`, `TOMATO`, and `ILL` before accepting the results reported by
+the `mantelhaen.test()` function: 
+
+```{r, eval = TRUE}
+woolf.test(tabC)
+```
+
+We can repeat this analysis using logistic regression.
+
+We need to change the coding of the variables to 0 and 1 before specifying the model:
+
+```{r, eval = FALSE}
+detach(bateman)
+bateman <- 2 - bateman
+bateman
+bateman.lreg <- glm(formula = ILL ~ CAESAR + TOMATO,
+                    family = binomial(logit), data = bateman)
+summary(bateman.lreg)
+bateman.lreg <- update(bateman.lreg, . ~ . - TOMATO)
+summary(bateman.lreg)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+detach(bateman)
+bateman <- 2 - bateman
+bateman
+bateman.lreg <- glm(formula = ILL ~ CAESAR + TOMATO,
+                    family = binomial(logit), data = bateman)
+summary(bateman.lreg)
+bateman.lreg <- update(bateman.lreg, . ~ . - TOMATO)
+summary(bateman.lreg)
+```
+
+Interactions are specified using the multiply (__*__) symbol in the model formula:
+
+```{r, eval = TRUE}
+bateman.lreg <- glm(formula = ILL ~ CAESAR + WINE + CAESAR * WINE,
+                    family = binomial(logit), data = bateman)
+summary(bateman.lreg)
+```
+
+Before we continue, it is probably a good idea to save the `woolf.test()` function for later use: 
+
+```{r, eval = FALSE}
+save(woolf.test, file = "woolf.r")
+```
+
+
+
