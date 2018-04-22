@@ -133,6 +133,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 </ul></li>
 <li class="chapter" data-level="4" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>4</b> Logistic regression and stratified analysis</a><ul>
 <li class="chapter" data-level="4.1" data-path="exercise3.html"><a href="exercise3.html#matched-data"><i class="fa fa-check"></i><b>4.1</b> Matched data</a></li>
+<li class="chapter" data-level="4.2" data-path="exercise3.html"><a href="exercise3.html#summary-2"><i class="fa fa-check"></i><b>4.2</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a></li>
 <li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a></li>
@@ -1609,9 +1610,66 @@ In order to illustrate how matched data may be analysed using tabulation and str
 <pre class="sourceCode r" id="cb379"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="kw">nrow</span>(tsstamp)</a></code></pre>
 <pre><code>## [1] 43</code></pre>
 <p>There are fourteen (14) matched sets of cases and controls:</p>
-<p>``{r, eval = TRUE}
-length(unique(tsstamp$ID))
-```</p>
+<pre class="sourceCode r" id="cb381"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(tsstamp<span class="op">$</span>ID))</a></code></pre>
+<pre><code>## [1] 14</code></pre>
+<p>Each matched set of cases and controls consists of one case and one or more controls:</p>
+<pre class="sourceCode r" id="cb383"><code class="sourceCode r"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="kw">table</span>(tsstamp<span class="op">$</span>ID, tsstamp<span class="op">$</span>CASE)</a></code></pre>
+<pre><code>##     
+##      1 2
+##   1  1 2
+##   2  1 3
+##   3  1 2
+##   4  1 1
+##   5  1 2
+##   6  1 1
+##   7  1 2
+##   8  1 2
+##   9  1 3
+##   10 1 2
+##   11 1 2
+##   12 1 3
+##   13 1 2
+##   14 1 2</code></pre>
+<p>The <em>McNemar’s chi-squared test</em> is not useful for this data as it is limited to the special case of one-to-one matching.</p>
+<p>Analysing this data using a simple tabulation such as:</p>
+<pre class="sourceCode r" id="cb385"><code class="sourceCode r"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE))</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  table(tsstamp$RBTAMP, tsstamp$CASE)
+## p-value = 0.007805
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.542686 53.734756
+## sample estimates:
+## odds ratio 
+##   7.709932</code></pre>
+<p>ignores the matched nature of the data and is, therefore, also not useful for this data.</p>
+<p>The matched nature of the data may be accounted by stratifying on the variable that identifies the matched sets
+of cases and controls (i.e. the <code>ID</code> variable) using the <code>mantelhaen.test()</code> function:</p>
+<pre class="sourceCode r" id="cb387"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE, tsstamp<span class="op">$</span>ID))</a></code></pre>
+<pre><code>## 
+##  Mantel-Haenszel chi-squared test with continuity correction
+## 
+## data:  table(tsstamp$RBTAMP, tsstamp$CASE, tsstamp$ID)
+## Mantel-Haenszel X-squared = 5.9384, df = 1, p-value = 0.01481
+## alternative hypothesis: true common odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.589505 43.191463
+## sample estimates:
+## common odds ratio 
+##          8.285714</code></pre>
+<p>Analysis of several risk factors or adjustment for confounding variables not matched for in the design of a matched case-control study cannot be performed using tabulation-based procedures such as the <code>McNemar's chi- squared test</code> and Mantel-Haenszel procedures. In these situations a special form of logistic regression, called <code>conditional logistic regression</code>, should be used.</p>
+<p>We can now quit <code>R</code>:</p>
+<pre class="sourceCode r" id="cb389"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter n when prompted to save the workspace image (terminal).</p>
+</div>
+<div id="summary-2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Summary</h2>
+<ul>
+<li><p><code>R</code> provides functions for many kinds of complex statistical analysis. We have looked at using the generalised linear model <code>glm()</code> function to perform logistic regression. We have looked ar the <code>mantelhaen.test()</code> function to perform stratified analyses and the <code>mantelhaen.test()</code> and <code>mcnemar.test()</code> functions to analyse data from matched case-control studies.</p></li>
+<li><p><code>R</code> can be extended by writing new functions. New functions can perform simple or complex data analysis. New functions can be composed of parts of existing function. New functions can be saved and used in subsequent <code>R</code> sessions. By building your own functions you can use <code>R</code> to build your own statistical analysis system.</p></li>
+</ul>
 
 </div>
 </div>
