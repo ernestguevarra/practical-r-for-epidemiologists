@@ -167,6 +167,93 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise5" class="section level1">
 <h1><span class="header-section-number">6</span> Extending R with packages</h1>
+<p><code>R</code> has no built-in functions for survival analysis but, because it is an extensible system, survival analysis is
+available as an add-in package. You can find a list of add-in packages at the <code>R</code> website.</p>
+<p><a href="http://www.r-project.org/" class="uri">http://www.r-project.org/</a></p>
+<p>Add-in packages are installed from the Internet. There are a series of <code>R</code> functions that enable you to download and install add-in packages.</p>
+<p>The <code>survival</code> package adds functions to <code>R</code> that enable it to analyse survival data. This package may be downloaded and installed using <code>install.packages(&quot;survival&quot;)</code> or from the <code>Packages</code> or <code>Packages &amp; Data</code> menu if you are using a GUI version of <code>R</code>.</p>
+<p>Packages are loaded into <code>R</code> as they are needed using the <code>library()</code> function. Start <code>R</code> and load the <code>survival</code> package:</p>
+<pre class="sourceCode r" id="cb442"><code class="sourceCode r"><a class="sourceLine" id="cb442-1" data-line-number="1"><span class="kw">library</span>(survival)</a></code></pre>
+<p>Before we go any further we should retrieve a dataset:</p>
+<pre class="sourceCode r" id="cb443"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1">ca &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ca.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb443-2" data-line-number="2"><span class="kw">attach</span>(ca)</a></code></pre>
+<p>The columns in this dataset on the survival of cancer patients in two different treatment groups are as follows:</p>
+<table style="width:79%;">
+<colgroup>
+<col width="22%" />
+<col width="56%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>time</strong></td>
+<td>Survival or censoring time (months)</td>
+</tr>
+<tr class="even">
+<td><strong>status</strong></td>
+<td>Censoring status (1=dead, 0=censored)</td>
+</tr>
+<tr class="odd">
+<td><strong>group</strong></td>
+<td>Treatment group (1 / 2)</td>
+</tr>
+</tbody>
+</table>
+<p>We next need to create a <code>survival</code> object from the <code>time</code> and <code>status</code> variables using the <code>Surv()</code> function:</p>
+<pre class="sourceCode r" id="cb444"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" data-line-number="1">response &lt;-<span class="st"> </span><span class="kw">Surv</span>(time, status)</a></code></pre>
+<p>We can then specify the model for the survival analysis. In this case we state that survival (<code>response</code>) is dependent upon the treatment <code>group</code>:</p>
+<pre class="sourceCode r" id="cb445"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1">ca.surv &lt;-<span class="st"> </span><span class="kw">survfit</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre>
+<p>The <code>summary()</code> function applied to a <code>survfit</code> object lists the survival probabilities at each time point with 95% confidence intervals:</p>
+<pre class="sourceCode r" id="cb446"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1"><span class="kw">summary</span>(ca.surv)</a></code></pre>
+<pre><code>## Call: survfit(formula = response ~ group)
+## 
+##                 group=1 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##     8     22       1    0.955  0.0444       0.8714        1.000
+##     9     21       1    0.909  0.0613       0.7966        1.000
+##    13     19       1    0.861  0.0744       0.7270        1.000
+##    14     17       1    0.811  0.0856       0.6591        0.997
+##    18     16       1    0.760  0.0940       0.5963        0.968
+##    19     15       1    0.709  0.1005       0.5373        0.936
+##    21     14       1    0.659  0.1053       0.4814        0.901
+##    23     13       1    0.608  0.1087       0.4282        0.863
+##    30     10       1    0.547  0.1136       0.3643        0.822
+##    31      9       1    0.486  0.1161       0.3046        0.776
+##    32      8       1    0.426  0.1164       0.2489        0.727
+##    34      7       1    0.365  0.1146       0.1971        0.675
+##    48      5       1    0.292  0.1125       0.1371        0.621
+##    56      3       1    0.195  0.1092       0.0647        0.585
+## 
+##                 group=2 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##     4     24       1   0.9583  0.0408      0.88163        1.000
+##     5     23       2   0.8750  0.0675      0.75221        1.000
+##     6     21       1   0.8333  0.0761      0.69681        0.997
+##     7     20       1   0.7917  0.0829      0.64478        0.972
+##     8     19       2   0.7083  0.0928      0.54795        0.916
+##     9     17       1   0.6667  0.0962      0.50240        0.885
+##    11     16       1   0.6250  0.0988      0.45845        0.852
+##    12     15       1   0.5833  0.1006      0.41598        0.818
+##    21     12       1   0.5347  0.1033      0.36614        0.781
+##    23     11       1   0.4861  0.1047      0.31866        0.742
+##    27     10       1   0.4375  0.1049      0.27340        0.700
+##    28      9       1   0.3889  0.1039      0.23032        0.657
+##    30      8       1   0.3403  0.1017      0.18945        0.611
+##    32      7       1   0.2917  0.0981      0.15088        0.564
+##    33      6       1   0.2431  0.0930      0.11481        0.515
+##    37      5       1   0.1944  0.0862      0.08157        0.464
+##    41      4       2   0.0972  0.0650      0.02624        0.360
+##    43      2       1   0.0486  0.0473      0.00722        0.327
+##    45      1       1   0.0000     NaN           NA           NA</code></pre>
+<p>Printing the <code>ca.surv</code> object provides another view of the results:</p>
+<pre class="sourceCode r" id="cb448"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1">ca.surv</a></code></pre>
+<pre><code>## Call: survfit(formula = response ~ group)
+## 
+##          n events median 0.95LCL 0.95UCL
+## group=1 22     14     31      21      NA
+## group=2 24     22     23      11      37</code></pre>
+<p>The <code>plot()</code> function with a <code>survfit</code> object displays the survival curves:</p>
+<pre class="sourceCode r" id="cb450"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-228-1.png" width="672" /></p>
 
 </div>
             </section>
