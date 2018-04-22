@@ -33,25 +33,25 @@ Even though `R` is a free package it is more powerful than most commercial packa
 
 When you start `R` it will issue a prompt when it expects user input. The default prompt is:
 
-```
+```{r, eval = FALSE}
 >
 ```
 
 This is where you type commands that call functions that instruct `R` to (e.g.) read a data file, recode data, produce a table, or fit a regression. For example:
 
-```
-   > table(SEX, LIFE)
+```{r, eval = FALSE}
+> table(SEX, LIFE)
 ```
 
 If a command you type is not complete then the prompt will change to:
 
-```
+```{r, eval = FALSE}
 +
 ```
 
 on subsequent lines until the command is complete:
 
-```
+```{r, eval = FALSE}
 > table(
 + SEX, LIFE +)
 ```
@@ -120,26 +120,26 @@ A command such as:
 read.table("data/fem.dat", header = TRUE)
 ```
 
-retrieves the data stored in the file named `fem.dat` which is stored in the `data` folder.
+retrieves the data stored in the file named `fem.dat` which is stored in the current working directory.
 
 To retrieve data that is stored in files outside a different directory you need to specify the full path to the file. For example:
 
 ```{r, eval = FALSE}
-read.table("~/example/fem.dat", header = TRUE)
+read.table("~/prfe/fem.dat", header = TRUE)
 ```
 
-will retrieve the data stored in the file named `fem.dat` stored in the `example` directory under the user’s home directory on UNIX, Linux, and OS X systems.
+will retrieve the data stored in the file named `fem.dat` stored in the `prfe` directory under the user’s home directory on UNIX, Linux, and OS X systems.
 
 `R` follows many UNIX operating and naming conventions including the use of the backslash (`\`) character to specify special characters in strings (e.g. using `\n` to specify a new line in printed output). Windows uses the backslash (`\`) character to separate directory and file names in paths. This means that Windows users need to escape any backslashes in file paths using an additional backslash character. For example:
 
 ```{r, eval = FALSE}
-read.table("c:\\example\\fem.dat", header = TRUE)
+read.table("c:\\prfe\\fem.dat", header = TRUE)
 ```
 
-will retrieve the data that is stored in the file named `fem.dat` which is stored in the `example` directory off the root directory of the `C:` drive. The Windows version of `R` also allows you to specify UNIX-style path names (i.e. using the forward slash (`/`) character as a separator in file paths). For example:
+will retrieve the data that is stored in the file named `fem.dat` which is stored in the `prfe` directory off the root directory of the `C:` drive. The Windows version of `R` also allows you to specify UNIX-style path names (i.e. using the forward slash (`/`) character as a separator in file paths). For example:
 
 ```{r, eval = FALSE}
-read.table("c:/example/fem.dat", header = TRUE)
+read.table("c:/prfe/fem.dat", header = TRUE)
 ```
 
 Path names may include shortcut characters such as:
@@ -155,13 +155,13 @@ Path names may include shortcut characters such as:
 `R` also allows you to retrieve files from any location that may be represented by a standard `uniform resource locator (URL)` string. For example:
 
 ```{r, eval = FALSE}
-read.table("file://~/example/fem.dat", header = TRUE)
+read.table("file://~/prfe/fem.dat", header = TRUE)
 ```
 
-will retrieve the data stored in the file named `fem.dat` stored in the `example` directory under the users home directory on UNIX-based systems.
+will retrieve the data stored in the file named `fem.dat` stored in the `prfe` directory under the users home directory on UNIX-based systems.
 
-All of the data files used in this section are stored in the `/data` directory of this guide's GitLab repository (https://git.validmeasures.org/datahub/datahubguide/tree/master/data). This means, for example, that you can use the `read.table()` function specifying 
+All of the data files used in this section are stored in the `/prfe` directory Brixton Health’s website. This means, for example, that you can use the `read.table()` function specifying 
 
-"https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat"
+"http://www.brixtonhealth.com/prfe/fem.dat"
 
-as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `/data` directory of this guide's GitLab repository.
+as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `/prfe` directory of this guide's GitLab repository.
