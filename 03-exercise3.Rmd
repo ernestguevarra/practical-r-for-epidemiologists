@@ -553,4 +553,98 @@ tab <- table(octe.cases$OC, octe.controls$OC)
 tab
 ```
 
+This table object (i.e. `tab`) can then be passed to the `mcnemar.test()` function: 
+
+```{r, eval = TRUE}
+mcnemar.test(tab)
+```
+
+The `mcnemar.test()` function does not provide an estimate of the odds ratio. This is the ratio of the discordant pairs:
+
+```{r, eval = FALSE}
+r <- tab[1,2]
+s <- tab[2,1]
+rdp <- r / s
+rdp
+```
+
+```{r, echo = FALSE, eval = TRUE}
+r <- tab[1,2]
+s <- tab[2,1]
+rdp <- r / s
+rdp
+```
+
+A confidence interval can also be calculated:
+
+```{r, eval = FALSE}
+ci.p <- binom.test(r, r + s)$conf.int
+ci.rdp <- ci.p / (1 - ci.p)
+ci.rdp
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ci.p <- binom.test(r, r + s)$conf.int
+ci.rdp <- ci.p / (1 - ci.p)
+ci.rdp
+```
+
+This provides a 95% confidence interval. Other (e.g. 99%) confidence intervals can be produced by specifying appropriate values for the `conf.level` parameter of the `binom.test()` function:
+
+```{r, eval = FALSE}
+ci.p <- binom.test(r, r + s, conf.level = 0.99)$conf.int
+ci.rdp <- ci.p / (1 - ci.p)
+ci.rdp
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ci.p <- binom.test(r, r + s, conf.level = 0.99)$conf.int
+ci.rdp <- ci.p / (1 - ci.p)
+ci.rdp
+```
+
+An alternative way of analysing this data is to use the `mantelhaen.test()` function: 
+
+```{r, eval = FALSE}
+tab <- table(octe$OC, octe$CASE, octe$ID)
+mantelhaen.test(tab)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+tab <- table(octe$OC, octe$CASE, octe$ID)
+mantelhaen.test(tab)
+```
+
+The Mantel-Haenszel approach is preferred because it can be used with data from matched case-control studies that match more than one control to each case. Multiple matching is useful when the condition being studied is rare or at the early stages of an outbreak (i.e. when cases are hard to find and controls are easy to find).
+
+We will now work with some data where each case has one or more controls:
+
+```{r, eval = TRUE}
+tsstamp <- read.table("tsstamp.dat", header = TRUE)
+tsstamp
+```
+
+This data is from a matched case-control study investigating the association between the use of different brands of tampon and toxic shock syndrome undertaken during an outbreak. Only a subset of the original dataset is used here. The variables in the dataset are:
+
++---------------+------------------------------------------------------------+
+| **ID**        | Identifier for the matched sets of cases and controls      |
++---------------+------------------------------------------------------------+
+| **CASE**      | Case (1) or control (2)                                    |
++---------------+------------------------------------------------------------+
+| **RBTAMP**    | Used Rely brand tampons (1=yes, 2=no)                      |
++---------------+------------------------------------------------------------+
+
+The dataset consists of forty-three (43) records:
+
+```{r, eval = TRUE}
+nrow(tsstamp)
+```
+
+There are fourteen (14) matched sets of cases and controls:
+
+``{r, eval = TRUE}
+length(unique(tsstamp$ID))
+```
+
+
 
