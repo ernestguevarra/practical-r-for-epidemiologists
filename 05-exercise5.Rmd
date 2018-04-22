@@ -1,1 +1,63 @@
 # Extending R with packages {#exercise5}
+
+`R` has no built-in functions for survival analysis but, because it is an extensible system, survival analysis is
+available as an add-in package. You can find a list of add-in packages at the `R` website. 
+
+http://www.r-project.org/
+
+Add-in packages are installed from the Internet. There are a series of `R` functions that enable you to download and install add-in packages.
+
+The `survival` package adds functions to `R` that enable it to analyse survival data. This package may be downloaded and installed using `install.packages("survival")` or from the `Packages` or `Packages & Data` menu if you are using a GUI version of `R`.
+
+Packages are loaded into `R` as they are needed using the `library()` function. Start `R` and load the `survival` package:
+
+```{r, eval = TRUE}
+library(survival)
+```
+
+Before we go any further we should retrieve a dataset:
+
+```{r, eval = TRUE}
+ca <- read.table("ca.dat", header = TRUE)
+attach(ca)
+```
+
+The columns in this dataset on the survival of cancer patients in two different treatment groups are as follows:
+
++---------------+----------------------------------------+
+| **time**      | Survival or censoring time (months)    |
++---------------+----------------------------------------+
+| **status**    | Censoring status (1=dead, 0=censored)  |
++---------------+----------------------------------------+
+| **group**     | Treatment group (1 / 2)                |
++---------------+----------------------------------------+
+
+We next need to create a `survival` object from the `time` and `status` variables using the `Surv()` function: 
+
+```{r, eval = TRUE}
+response <- Surv(time, status)
+```
+
+We can then specify the model for the survival analysis. In this case we state that survival (`response`) is dependent upon the treatment `group`:
+
+```{r, eval = TRUE}
+ca.surv <- survfit(response ~ group)
+```
+
+The `summary()` function applied to a `survfit` object lists the survival probabilities at each time point with 95% confidence intervals:
+
+```{r, eval = TRUE}
+summary(ca.surv)
+```
+
+Printing the `ca.surv` object provides another view of the results: 
+
+```{r, eval = TRUE}
+ca.surv
+```
+
+The `plot()` function with a `survfit` object displays the survival curves: 
+
+```{r, eval = TRUE}
+plot(ca.surv, xlab = "Months", ylab = "Survival")
+```
