@@ -7411,6 +7411,236 @@ Such a test might be used to investigate the spatial distribution
 (e.g.~over natural sampling units such as households) of cases of a
 disease.
 
+Create a new function using the \texttt{function()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v2m.test <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(data) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+And start the function editor:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(v2m.test)}
+\end{Highlighting}
+\end{Shaded}
+
+Now edit this function to make it do something useful:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(data) \{}
+\NormalTok{  nsu <-}\StringTok{ }\KeywordTok{length}\NormalTok{(data)}
+\NormalTok{  obs <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(data)}
+\NormalTok{  m <-}\StringTok{ }\NormalTok{obs }\OperatorTok{/}\StringTok{ }\NormalTok{nsu}
+\NormalTok{  v <-}\StringTok{ }\KeywordTok{var}\NormalTok{(data)}
+\NormalTok{  vmr <-}\StringTok{ }\NormalTok{v }\OperatorTok{/}\StringTok{ }\NormalTok{m}
+\NormalTok{  chi2 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((data }\OperatorTok{-}\StringTok{ }\NormalTok{m)}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{m}
+\NormalTok{  df <-}\StringTok{ }\NormalTok{nsu }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+\NormalTok{  p <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{pchisq}\NormalTok{(chi2, df)}
+  \KeywordTok{names}\NormalTok{(chi2) <-}\StringTok{ "Chi-square"}
+  \KeywordTok{names}\NormalTok{(df) <-}\StringTok{ "df"}
+  \KeywordTok{names}\NormalTok{(vmr) <-}\StringTok{ "Variance : mean ratio"}
+\NormalTok{  v2m <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{method =} \StringTok{"Variance to mean test"}\NormalTok{,}
+              \DataTypeTok{data.name =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(data)),}
+              \DataTypeTok{statistic =}\NormalTok{ chi2,}
+              \DataTypeTok{parameter =}\NormalTok{ df,}
+              \DataTypeTok{p.value =}\NormalTok{ p,}
+              \DataTypeTok{estimate =}\NormalTok{ vmr)}
+  \KeywordTok{class}\NormalTok{(v2m) <-}\StringTok{ "htest"}
+  \KeywordTok{return}\NormalTok{(v2m)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{v2m.test <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(data) \{}
+\NormalTok{  nsu <-}\StringTok{ }\KeywordTok{length}\NormalTok{(data)}
+\NormalTok{  obs <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(data)}
+\NormalTok{  m <-}\StringTok{ }\NormalTok{obs }\OperatorTok{/}\StringTok{ }\NormalTok{nsu}
+\NormalTok{  v <-}\StringTok{ }\KeywordTok{var}\NormalTok{(data)}
+\NormalTok{  vmr <-}\StringTok{ }\NormalTok{v }\OperatorTok{/}\StringTok{ }\NormalTok{m}
+\NormalTok{  chi2 <-}\StringTok{ }\KeywordTok{sum}\NormalTok{((data }\OperatorTok{-}\StringTok{ }\NormalTok{m)}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{/}\StringTok{ }\NormalTok{m}
+\NormalTok{  df <-}\StringTok{ }\NormalTok{nsu }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+\NormalTok{  p <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\KeywordTok{pchisq}\NormalTok{(chi2, df)}
+  \KeywordTok{names}\NormalTok{(chi2) <-}\StringTok{ "Chi-square"}
+  \KeywordTok{names}\NormalTok{(df) <-}\StringTok{ "df"}
+  \KeywordTok{names}\NormalTok{(vmr) <-}\StringTok{ "Variance : mean ratio"}
+\NormalTok{  v2m <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{method =} \StringTok{"Variance to mean test"}\NormalTok{,}
+              \DataTypeTok{data.name =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(data)),}
+              \DataTypeTok{statistic =}\NormalTok{ chi2,}
+              \DataTypeTok{parameter =}\NormalTok{ df,}
+              \DataTypeTok{p.value =}\NormalTok{ p,}
+              \DataTypeTok{estimate =}\NormalTok{ vmr)}
+  \KeywordTok{class}\NormalTok{(v2m) <-}\StringTok{ "htest"}
+  \KeywordTok{return}\NormalTok{(v2m)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Before proceeding we should examine the \texttt{v2m.test()} function to
+make sure we understand what is happening:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  The first eight lines after the opening curly bracket (\texttt{\{})
+  contain the required calculations.
+\item
+  The next three lines use the \texttt{names()} function to give our
+  variables names that will make sense in formatted output.
+\item
+  The next line creates a list of items that the function returns using
+  some of the names used by \texttt{htest} class objects.
+\item
+  The next line tells \texttt{R} that the list object called
+  \texttt{v2m} is of the class \texttt{htest}.
+\item
+  The next line causes the function to return the \texttt{v2m} object
+  (i.e.~a list of class \texttt{htest} containing the named items
+  \texttt{method}, \texttt{data.name}, \texttt{statistic},
+  \texttt{parameter}, \texttt{p.value}, and \texttt{estimate}).
+\item
+  The final line ends the function definition.
+\end{enumerate}
+
+Note that objects of class htest may contain items with the following
+names:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[b]{0.21\columnwidth}\raggedright
+\textbf{Item}\strut
+\end{minipage} & \begin{minipage}[b]{0.73\columnwidth}\raggedright
+\textbf{Usage}\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{method}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Text description of the test used to title output\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{data.name}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Name(s) of data or variables used for the test\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{null.value}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+The null value\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{statistic}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Value of test statistic\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{parameter}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+A test parameter such as the degrees of freedom of the test
+statistic\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{p.value}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+The p-value of the test\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{estimate}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+An estimate (e.g.~the mean)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{conf.int}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Confidence interval of estimate\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{alternative}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Text describing the alternative hypothesis\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.21\columnwidth}\raggedright
+\textbf{note}\strut
+\end{minipage} & \begin{minipage}[t]{0.73\columnwidth}\raggedright
+Text note\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+We are now ready to test the \texttt{v2m.test()} function. This table:
+
+\begin{verbatim}
+Number of cases :       0  1  2  3  4  6
+Number of households : 24 29 26 14  5  2
+\end{verbatim}
+
+shows the number of cases of chronic (stunting) undernutrition found in
+a random sample of 100 households.
+
+We can reproduce the data behind this table using a combination of the
+\texttt{c()} and \texttt{rep()} functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{stunt <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{24}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{29}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{26}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{14}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{4}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+           \KeywordTok{rep}\NormalTok{(}\DecValTok{5}\NormalTok{,}\DecValTok{0}\NormalTok{), }\KeywordTok{rep}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{table}\NormalTok{(stunt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## stunt
+##  0  1  2  3  4  6 
+## 24 29 26 14  5  2
+\end{verbatim}
+
+And use it to test our new \texttt{v2m.test()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{v2m.test}\NormalTok{(stunt)}
+\end{Highlighting}
+\end{Shaded}
+
+Which should produce the following output:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{v2m.test}\NormalTok{(stunt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Variance to mean test
+## 
+## data:  stunt
+## Chi-square = 110.16, df = 99, p-value = 0.2083
+## sample estimates:
+## Variance : mean ratio 
+##               1.11274
+\end{verbatim}
+
+If your \texttt{vm2.test()} function does not produce this output then
+use the \texttt{fix()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(v2m.test)}
+\end{Highlighting}
+\end{Shaded}
+
+to check and edit the \texttt{vm2.test()} function and try again.
+
 \hypertarget{exercise7}{%
 \chapter{Writing your own graphical functions}\label{exercise7}}
 

@@ -273,6 +273,144 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## mean in group 1 mean in group 2 
 ##       0.7867213       0.6404444</code></pre>
 <p>You can use this feature of <code>R</code> in your own functions. We will explore this by writing a function to test the null hypothesis that the <em>variance to mean ratio</em> of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.</p>
+<p>Create a new function using the <code>function()</code> function:</p>
+<pre class="sourceCode r" id="cb479"><code class="sourceCode r"><a class="sourceLine" id="cb479-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {}</a></code></pre>
+<p>And start the function editor:</p>
+<pre class="sourceCode r" id="cb480"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre>
+<p>Now edit this function to make it do something useful:</p>
+<pre class="sourceCode r" id="cb481"><code class="sourceCode r"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb481-2" data-line-number="2">  nsu &lt;-<span class="st"> </span><span class="kw">length</span>(data)</a>
+<a class="sourceLine" id="cb481-3" data-line-number="3">  obs &lt;-<span class="st"> </span><span class="kw">sum</span>(data)</a>
+<a class="sourceLine" id="cb481-4" data-line-number="4">  m &lt;-<span class="st"> </span>obs <span class="op">/</span><span class="st"> </span>nsu</a>
+<a class="sourceLine" id="cb481-5" data-line-number="5">  v &lt;-<span class="st"> </span><span class="kw">var</span>(data)</a>
+<a class="sourceLine" id="cb481-6" data-line-number="6">  vmr &lt;-<span class="st"> </span>v <span class="op">/</span><span class="st"> </span>m</a>
+<a class="sourceLine" id="cb481-7" data-line-number="7">  chi2 &lt;-<span class="st"> </span><span class="kw">sum</span>((data <span class="op">-</span><span class="st"> </span>m)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>m</a>
+<a class="sourceLine" id="cb481-8" data-line-number="8">  df &lt;-<span class="st"> </span>nsu <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb481-9" data-line-number="9">  p &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(chi2, df)</a>
+<a class="sourceLine" id="cb481-10" data-line-number="10">  <span class="kw">names</span>(chi2) &lt;-<span class="st"> &quot;Chi-square&quot;</span></a>
+<a class="sourceLine" id="cb481-11" data-line-number="11">  <span class="kw">names</span>(df) &lt;-<span class="st"> &quot;df&quot;</span></a>
+<a class="sourceLine" id="cb481-12" data-line-number="12">  <span class="kw">names</span>(vmr) &lt;-<span class="st"> &quot;Variance : mean ratio&quot;</span></a>
+<a class="sourceLine" id="cb481-13" data-line-number="13">  v2m &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">method =</span> <span class="st">&quot;Variance to mean test&quot;</span>,</a>
+<a class="sourceLine" id="cb481-14" data-line-number="14">              <span class="dt">data.name =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(data)),</a>
+<a class="sourceLine" id="cb481-15" data-line-number="15">              <span class="dt">statistic =</span> chi2,</a>
+<a class="sourceLine" id="cb481-16" data-line-number="16">              <span class="dt">parameter =</span> df,</a>
+<a class="sourceLine" id="cb481-17" data-line-number="17">              <span class="dt">p.value =</span> p,</a>
+<a class="sourceLine" id="cb481-18" data-line-number="18">              <span class="dt">estimate =</span> vmr)</a>
+<a class="sourceLine" id="cb481-19" data-line-number="19">  <span class="kw">class</span>(v2m) &lt;-<span class="st"> &quot;htest&quot;</span></a>
+<a class="sourceLine" id="cb481-20" data-line-number="20">  <span class="kw">return</span>(v2m)</a>
+<a class="sourceLine" id="cb481-21" data-line-number="21">}</a></code></pre>
+<pre class="sourceCode r" id="cb482"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb482-2" data-line-number="2">  nsu &lt;-<span class="st"> </span><span class="kw">length</span>(data)</a>
+<a class="sourceLine" id="cb482-3" data-line-number="3">  obs &lt;-<span class="st"> </span><span class="kw">sum</span>(data)</a>
+<a class="sourceLine" id="cb482-4" data-line-number="4">  m &lt;-<span class="st"> </span>obs <span class="op">/</span><span class="st"> </span>nsu</a>
+<a class="sourceLine" id="cb482-5" data-line-number="5">  v &lt;-<span class="st"> </span><span class="kw">var</span>(data)</a>
+<a class="sourceLine" id="cb482-6" data-line-number="6">  vmr &lt;-<span class="st"> </span>v <span class="op">/</span><span class="st"> </span>m</a>
+<a class="sourceLine" id="cb482-7" data-line-number="7">  chi2 &lt;-<span class="st"> </span><span class="kw">sum</span>((data <span class="op">-</span><span class="st"> </span>m)<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span>m</a>
+<a class="sourceLine" id="cb482-8" data-line-number="8">  df &lt;-<span class="st"> </span>nsu <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb482-9" data-line-number="9">  p &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pchisq</span>(chi2, df)</a>
+<a class="sourceLine" id="cb482-10" data-line-number="10">  <span class="kw">names</span>(chi2) &lt;-<span class="st"> &quot;Chi-square&quot;</span></a>
+<a class="sourceLine" id="cb482-11" data-line-number="11">  <span class="kw">names</span>(df) &lt;-<span class="st"> &quot;df&quot;</span></a>
+<a class="sourceLine" id="cb482-12" data-line-number="12">  <span class="kw">names</span>(vmr) &lt;-<span class="st"> &quot;Variance : mean ratio&quot;</span></a>
+<a class="sourceLine" id="cb482-13" data-line-number="13">  v2m &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">method =</span> <span class="st">&quot;Variance to mean test&quot;</span>,</a>
+<a class="sourceLine" id="cb482-14" data-line-number="14">              <span class="dt">data.name =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(data)),</a>
+<a class="sourceLine" id="cb482-15" data-line-number="15">              <span class="dt">statistic =</span> chi2,</a>
+<a class="sourceLine" id="cb482-16" data-line-number="16">              <span class="dt">parameter =</span> df,</a>
+<a class="sourceLine" id="cb482-17" data-line-number="17">              <span class="dt">p.value =</span> p,</a>
+<a class="sourceLine" id="cb482-18" data-line-number="18">              <span class="dt">estimate =</span> vmr)</a>
+<a class="sourceLine" id="cb482-19" data-line-number="19">  <span class="kw">class</span>(v2m) &lt;-<span class="st"> &quot;htest&quot;</span></a>
+<a class="sourceLine" id="cb482-20" data-line-number="20">  <span class="kw">return</span>(v2m)</a>
+<a class="sourceLine" id="cb482-21" data-line-number="21">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>Before proceeding we should examine the <code>v2m.test()</code> function to make sure we understand what is happening:</p>
+<ol style="list-style-type: decimal">
+<li><p>The first eight lines after the opening curly bracket (<code>{</code>) contain the required calculations.</p></li>
+<li><p>The next three lines use the <code>names()</code> function to give our variables names that will make sense in formatted output.</p></li>
+<li><p>The next line creates a list of items that the function returns using some of the names used by <code>htest</code> class objects.</p></li>
+<li><p>The next line tells <code>R</code> that the list object called <code>v2m</code> is of the class <code>htest</code>.</p></li>
+<li><p>The next line causes the function to return the <code>v2m</code> object (i.e. a list of class <code>htest</code> containing the named items <code>method</code>, <code>data.name</code>, <code>statistic</code>, <code>parameter</code>, <code>p.value</code>, and <code>estimate</code>).</p></li>
+<li><p>The final line ends the function definition.</p></li>
+</ol>
+<p>Note that objects of class htest may contain items with the following names:</p>
+<table>
+<colgroup>
+<col width="22%" />
+<col width="77%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Item</strong></th>
+<th><strong>Usage</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>method</strong></td>
+<td>Text description of the test used to title output</td>
+</tr>
+<tr class="even">
+<td><strong>data.name</strong></td>
+<td>Name(s) of data or variables used for the test</td>
+</tr>
+<tr class="odd">
+<td><strong>null.value</strong></td>
+<td>The null value</td>
+</tr>
+<tr class="even">
+<td><strong>statistic</strong></td>
+<td>Value of test statistic</td>
+</tr>
+<tr class="odd">
+<td><strong>parameter</strong></td>
+<td>A test parameter such as the degrees of freedom of the test statistic</td>
+</tr>
+<tr class="even">
+<td><strong>p.value</strong></td>
+<td>The p-value of the test</td>
+</tr>
+<tr class="odd">
+<td><strong>estimate</strong></td>
+<td>An estimate (e.g. the mean)</td>
+</tr>
+<tr class="even">
+<td><strong>conf.int</strong></td>
+<td>Confidence interval of estimate</td>
+</tr>
+<tr class="odd">
+<td><strong>alternative</strong></td>
+<td>Text describing the alternative hypothesis</td>
+</tr>
+<tr class="even">
+<td><strong>note</strong></td>
+<td>Text note</td>
+</tr>
+</tbody>
+</table>
+<p>We are now ready to test the <code>v2m.test()</code> function. This table:</p>
+<pre><code>Number of cases :       0  1  2  3  4  6
+Number of households : 24 29 26 14  5  2</code></pre>
+<p>shows the number of cases of chronic (stunting) undernutrition found in a random sample of 100 households.</p>
+<p>We can reproduce the data behind this table using a combination of the <code>c()</code> and <code>rep()</code> functions:</p>
+<pre class="sourceCode r" id="cb484"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" data-line-number="1">stunt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">24</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">29</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">26</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">14</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb484-2" data-line-number="2">           <span class="kw">rep</span>(<span class="dv">5</span>,<span class="dv">0</span>), <span class="kw">rep</span>(<span class="dv">6</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb484-3" data-line-number="3"><span class="kw">table</span>(stunt)</a></code></pre>
+<pre><code>## stunt
+##  0  1  2  3  4  6 
+## 24 29 26 14  5  2</code></pre>
+<p>And use it to test our new <code>v2m.test()</code> function:</p>
+<pre class="sourceCode r" id="cb486"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre>
+<p>Which should produce the following output:</p>
+<pre class="sourceCode r" id="cb487"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre>
+<pre><code>## 
+##  Variance to mean test
+## 
+## data:  stunt
+## Chi-square = 110.16, df = 99, p-value = 0.2083
+## sample estimates:
+## Variance : mean ratio 
+##               1.11274</code></pre>
+<p>If your <code>vm2.test()</code> function does not produce this output then use the <code>fix()</code> function:</p>
+<pre class="sourceCode r" id="cb489"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre>
+<p>to check and edit the <code>vm2.test()</code> function and try again.</p>
 
 </div>
             </section>
