@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Practical R for Epidemiologists</title>
   <meta name="description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.7.1 and GitBook 2.6.7">
 
   <meta property="og:title" content="Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
@@ -50,24 +50,16 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { display: inline-block; min-height: 1.25em; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
+code.sourceCode { white-space: pre; }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -79,39 +71,38 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
+pre, code { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; color: initial; }
 }
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
+code span.bn { color: #0000cf; } /* BaseN */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
+code span.ch { color: #4e9a06; } /* Char */
 code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.ot { color: #8f5902; } /* Other */
+code span.al { color: #ef2929; } /* Alert */
+code span.fu { color: #000000; } /* Function */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #000000; } /* Constant */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #000000; } /* Variable */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.ex { } /* Extension */
+code span.at { color: #c4a000; } /* Attribute */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -189,7 +180,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <p><code>R</code> is often described as an environment for working with data. This is in contrast to a <em>package</em> which is a collection of very specific tools. <code>R</code> is not strictly a statistics system but a system that provides many classical and modern statistical procedures as part of a broader data-analysis tool. This is an important difference between <code>R</code> and other statistical systems. In <code>R</code> a statistical analysis is usually performed as a series of steps with intermediate results being stored in objects. Systems such as <code>SPSS</code> and <code>SAS</code> provide copious output from (e.g.) a regression analysis whereas <code>R</code> will give minimal output and store the results of a fit for subsequent interrogation or use with other <code>R</code> functions. This means that <code>R</code> can be tailored to produce exactly the analysis and results that you want rather than produce an analysis designed to fit all situations.</p>
 <p><code>R</code> is a language based product. This means that you interact with <code>R</code> by typing commands such as:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">table</span>(SEX, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">table</span>(SEX, LIFE)</a></code></pre>
 <p>rather than by using menus, dialog boxes, selection lists, and buttons. This may seem to be a drawback but it means that the system is considerably more flexible than one that relies on menus, buttons, and boxes. It also means that every stage of your data management and analysis can be recorded and edited and re-run at a later date. It also provides an audit trail for quality control purposes.</p>
 <p><code>R</code> is available under UNIX (including Linux), the Macintosh operating system OS X, and Microsoft Windows. The method used for starting <code>R</code> will vary from system to system. On UNIX systems you may need to issue the <code>R</code> command in a terminal session or click on an icon or menu option if your system has a windowing system. On Macintosh systems <code>R</code> will be available as an application but can also be run in a terminal session. On Microsoft Windows systems there will usually be an icon on the Start menu or the desktop.</p>
 <p><code>R</code> is an open source system and is available under the <em>GNU general public license</em> (GPL) which means that it is available for free but that there are some restrictions on how you are allowed to distribute the system and how you may charge for bespoke data analysis solutions written using the <code>R</code> system. Details of the general public license are available from <a href="http://www.gnu.org/copyleft/gpl.html" class="uri">http://www.gnu.org/copyleft/gpl.html</a>.</p>
@@ -207,13 +198,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 + SEX, LIFE +)</code></pre>
 <p>The <code>&gt;</code> and <code>+</code> prompts are not shown in the example commands in the rest of this material.</p>
 <p>The example commands in this material are often broken into shorter lines and indented for ease of understanding. The code still works as lines are split in places where <code>R</code> knows that a line is not complete. For example:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">table</span>(SEX,</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">      LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">table</span>(SEX,</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">      LIFE)</a></code></pre>
 <p>could be entered on a single line as:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">table</span>(SEX, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">table</span>(SEX, LIFE)</a></code></pre>
 <p>In this example <code>R</code> knows that the command is not complete until the brackets are closed. The following example could also be written on one line:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">salex.lreg.coeffs &lt;-</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a></code></pre></div>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">salex.lreg.coeffs &lt;-</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="st">  </span><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a></code></pre>
 <p>In this case <code>R</code> knows that the <code>&lt;-</code> operator at the end of the first line needs further input.</p>
 <p><code>R</code> maintains a history of previous commands. These can be recalled and edited using the up and down arrow
 keys.</p>
@@ -239,15 +230,15 @@ format:</p>
 All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from:</p>
 <p><a href="http://www.brixtonhealth.com/prfe/prfe.zip" class="uri">http://www.brixtonhealth.com/prfe/prfe.zip</a></p>
 <p>A command such as:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;data/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;data/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>retrieves the data stored in the file named <code>fem.dat</code> which is stored in the <code>data</code> folder.</p>
 <p>To retrieve data that is stored in files outside a different directory you need to specify the full path to the file. For example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>example</code> directory under the user’s home directory on UNIX, Linux, and OS X systems.</p>
 <p><code>R</code> follows many UNIX operating and naming conventions including the use of the backslash (<code>\</code>) character to specify special characters in strings (e.g. using <code>\n</code> to specify a new line in printed output). Windows uses the backslash (<code>\</code>) character to separate directory and file names in paths. This means that Windows users need to escape any backslashes in file paths using an additional backslash character. For example:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:</span><span class="ch">\\</span><span class="st">example</span><span class="ch">\\</span><span class="st">fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:</span><span class="ch">\\</span><span class="st">example</span><span class="ch">\\</span><span class="st">fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>will retrieve the data that is stored in the file named <code>fem.dat</code> which is stored in the <code>example</code> directory off the root directory of the <code>C:</code> drive. The Windows version of <code>R</code> also allows you to specify UNIX-style path names (i.e. using the forward slash (<code>/</code>) character as a separator in file paths). For example:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;c:/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>Path names may include shortcut characters such as:
 <br/></p>
 <table>
@@ -268,7 +259,7 @@ All of the data files that you require to follow this material are in a ZIP arch
 </table>
 <p><br/></p>
 <p><code>R</code> also allows you to retrieve files from any location that may be represented by a standard <code>uniform resource locator (URL)</code> string. For example:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;file://~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">read.table</span>(<span class="st">&quot;file://~/example/fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>will retrieve the data stored in the file named <code>fem.dat</code> stored in the <code>example</code> directory under the users home directory on UNIX-based systems.</p>
 <p>All of the data files used in this section are stored in the <code>/data</code> directory of this guide’s GitLab repository (<a href="https://git.validmeasures.org/datahub/datahubguide/tree/master/data" class="uri">https://git.validmeasures.org/datahub/datahubguide/tree/master/data</a>). This means, for example, that you can use the <code>read.table()</code> function specifying</p>
 <p>“<a href="https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat" class="uri">https://git.validmeasures.org/datahub/datahubguide/tree/master/data/fem.dat</a>”</p>
