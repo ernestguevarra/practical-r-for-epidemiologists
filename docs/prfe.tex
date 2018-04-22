@@ -992,7 +992,13 @@ want to use a particular variable. We can fix this problem by
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 8):
+## The following objects are masked from fem (pos = 4):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 9):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -2271,7 +2277,7 @@ our data:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 8):
+## The following objects are masked from salex (pos = 9):
 ## 
 ##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
 ##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
@@ -4269,7 +4275,7 @@ variables are coded 1=yes, 2=no. Retrieve and attach the
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 9):
+## The following objects are masked from salex (pos = 10):
 ## 
 ##     CRISPS, ILL, RICE, TOMATO
 \end{verbatim}
@@ -5777,7 +5783,7 @@ And then retrieve and attach the sample dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from gudhiv (pos = 8):
+## The following objects are masked from gudhiv (pos = 9):
 ## 
 ##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO,
 ##     TRAVOUT, UTIGC
@@ -6947,7 +6953,7 @@ Before we go any further we should retrieve a dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from ca (pos = 7):
+## The following objects are masked from ca (pos = 8):
 ## 
 ##     group, status, time
 \end{verbatim}
@@ -7208,7 +7214,13 @@ and associated confidence interval for two-by-two tables:
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 12):
+## The following objects are masked from fem (pos = 8):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 13):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -7640,6 +7652,333 @@ use the \texttt{fix()} function:
 \end{Shaded}
 
 to check and edit the \texttt{vm2.test()} function and try again.
+
+The important thing to note from this exercise is that \texttt{R} allows
+us to specify a class for the output of our functions. This means that
+we can use standard \texttt{R} classes and functions to (e.g.) produce
+formatted output without us having to write commands to format the
+output ourselves.
+
+More importantly, it also means that we can write functions that return
+values when we need them to return values but can also produce formatted
+output when we need them to produce formatted output.
+
+Our \texttt{v2m.test()} function can produce values for later use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vm <-}\StringTok{ }\KeywordTok{v2m.test}\NormalTok{(stunt)}
+\NormalTok{vm}\OperatorTok{$}\NormalTok{p.value}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2083442
+\end{verbatim}
+
+or produce formatted output:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{v2m.test}\NormalTok{(stunt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Variance to mean test
+## 
+## data:  stunt
+## Chi-square = 110.16, df = 99, p-value = 0.2083
+## sample estimates:
+## Variance : mean ratio 
+##               1.11274
+\end{verbatim}
+
+This way of working is not limited to using standard \texttt{R} classes
+and functions.
+
+\texttt{R} also allows us to define our own classes. We will explore
+this by defining functions and a new class to deal with two-by-two
+tables.
+
+We need to create two functions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  One function will handle the calculations.
+\item
+  A second function function will produce formatted output when
+  required.
+\end{enumerate}
+
+Create a new function using the \texttt{function()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rr22 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+And start the function editor:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(rr22)}
+\end{Highlighting}
+\end{Shaded}
+
+Now edit this function to make it do something useful:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(exposure, outcome)}
+\NormalTok{  a <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  b <-}\StringTok{ }\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  c <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{  d <-}\StringTok{ }\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  rr <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b)) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+\NormalTok{  se.log.rr <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((b }\OperatorTok{/}\StringTok{ }\NormalTok{a) }\OperatorTok{/}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{+}\StringTok{ }\NormalTok{(d }\OperatorTok{/}\StringTok{ }\NormalTok{c) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{+}\StringTok{ }\NormalTok{d))}
+\NormalTok{  lci <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  uci <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{log}\NormalTok{(rr) }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{se.log.rr)}
+\NormalTok{  rr22.output <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{estimate =}\NormalTok{ rr, }\DataTypeTok{ci =} \KeywordTok{c}\NormalTok{(lci, uci))}
+  \KeywordTok{class}\NormalTok{(rr22.output) <-}\StringTok{ "rr22"}
+  \KeywordTok{return}\NormalTok{(rr22.output)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, save the file and quit the
+editor.
+
+The \texttt{rr22()} function is similar to the \texttt{tab2by2()}
+function that you created in the second exercise of this tutorial except
+that the function now returns a list of values instead of formatted
+output:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fem <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(fem)}
+\NormalTok{rr22.test <-}\StringTok{ }\KeywordTok{rr22}\NormalTok{(SEX, LIFE)}
+\KeywordTok{names}\NormalTok{(rr22.test)}
+\NormalTok{rr22.test}\OperatorTok{$}\NormalTok{estimate}
+\NormalTok{rr22.test}\OperatorTok{$}\NormalTok{conf.int}
+\NormalTok{rr22.test}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{1}\NormalTok{]}
+\NormalTok{rr22.test}\OperatorTok{$}\NormalTok{conf.int[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 3):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 7):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 8):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 9):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 14):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "estimate" "ci"
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 2.054167
+\end{verbatim}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+\begin{verbatim}
+## NULL
+\end{verbatim}
+
+The function returns a list of class \texttt{rr22}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(rr22.test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "rr22"
+\end{verbatim}
+
+The displayed output from the \texttt{rr22()} function is, however, not
+pretty:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(rr22.test)}
+\KeywordTok{rr22}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $estimate
+## [1] 2.054167
+## 
+## $ci
+## [1] 0.966417 4.366232
+## 
+## attr(,"class")
+## [1] "rr22"
+\end{verbatim}
+
+\begin{verbatim}
+## $estimate
+## [1] 2.054167
+## 
+## $ci
+## [1] 0.966417 4.366232
+## 
+## attr(,"class")
+## [1] "rr22"
+\end{verbatim}
+
+This can be fixed by creating a new function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{print.rr22 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+And start the function editor:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(print.rr22)}
+\end{Highlighting}
+\end{Shaded}
+
+Now edit this function to make it do something useful:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(x) \{}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"RR     : "}\NormalTok{, x}\OperatorTok{$}\NormalTok{estimate, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+      \StringTok{"95% CI : "}\NormalTok{, x}\OperatorTok{$}\NormalTok{ci[}\DecValTok{1}\NormalTok{], }\StringTok{"; "}\NormalTok{, x}\OperatorTok{$}\NormalTok{ci[}\DecValTok{2}\NormalTok{], }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{""}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+The function name \texttt{print.rr22()} indicates that this function
+contains the print method for objects of class \texttt{rr22}. All
+objects of class \texttt{rr22} will use the function
+\texttt{print.rr22()} instead of the standard \texttt{R}
+\texttt{print()} function to produce formatted output:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{rr22}\NormalTok{(SEX, LIFE)}
+\NormalTok{rr22.test <-}\StringTok{ }\KeywordTok{rr22}\NormalTok{(SEX, LIFE)}
+\NormalTok{rr22.test}
+\KeywordTok{print}\NormalTok{(rr22.test)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## RR     : 2.054167
+## 95% CI : 0.966417; 4.366232
+\end{verbatim}
+
+\begin{verbatim}
+## RR     : 2.054167
+## 95% CI : 0.966417; 4.366232
+\end{verbatim}
+
+\begin{verbatim}
+## RR     : 2.054167
+## 95% CI : 0.966417; 4.366232
+\end{verbatim}
+
+Note that we can still extract returned values from an \texttt{rr22}
+class object:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rr22.test}\OperatorTok{$}\NormalTok{estimate}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{print.rr22()} function only controls the way an entire
+\texttt{rr22} object is displayed.
+
+You might like to use the \texttt{save()} function to save the
+\texttt{v2m.test()}, \texttt{rr22()}, and \texttt{print.rr22()}
+functions before quitting \texttt{R}. We can now quit \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{q}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+For this exercise there is no need to save the workspace image so click
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
+when prompted to save the workspace image (terminal).
+
+\hypertarget{summary-5}{%
+\section{Summary}\label{summary-5}}
+
+\begin{itemize}
+\item
+  \texttt{R} objects can be assigned a class or type.
+\item
+  Objects of a specific class or type may share functions that extract
+  and manipulate data common to members of that class. This allows you
+  to write functions that handle data that is common to all members of
+  that class (e.g.~to produce formatted output for hypothesis testing
+  functions).
+\item
+  \texttt{R} provides a set of ready-made classes (e.g. \texttt{htest})
+  which can be used by standard R functions such as the \texttt{print()}
+  and \texttt{summary()} functions.
+\item
+  \texttt{R} allows you to create new classes and class-specific
+  functions that can extract and manipulate data common to the new
+  classes.
+\item
+  Classes allows you to create versatile functions that return values
+  when you need them to return values but can also produce formatted
+  output when you need them to produce formatted output.
+\item
+  Classes allow you to write functions that can be chained together so
+  that the output of one function is the input of another function.
+\end{itemize}
 
 \hypertarget{exercise7}{%
 \chapter{Writing your own graphical functions}\label{exercise7}}
