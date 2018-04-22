@@ -8,9 +8,10 @@ output: bookdown::gitbook
 documentclass: book
 bibliography: [book.bib]
 biblio-style: apalike
-link-citations: true
-links-as-notes: false
-colorlinks: true
+link-citations: TRUE
+links-as-notes: FALSE
+colorlinks: TRUE
+fontsize: 12pt
 url: http\://guevarra.io/prfe/
 github-repo: ernestguevarra/prfe
 cover-image: images/bookcover.jpg
