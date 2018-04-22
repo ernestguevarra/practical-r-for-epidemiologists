@@ -19,7 +19,7 @@ description: "This guide is intended as a practical introduction to using the R 
 
 # Welcome to Practical R for Epidemiologists {-}
 
-![](images/bookcover.jpg)
+![](images/bookcover_medium.jpg)
 
 This is the website for *Practical R for Epidemiologists*. Visit the [GitHub repository for this site](https://github.com/ernestguevarra/practical-r-for-epidemiologists) or buy it as a [Kindle ebook on Amazon](https://www.amazon.co.uk/Practical-R-Epidemiologists-Mark-Myatt-ebook/dp/B00DQATKIE/ref=sr_1_1?ie=UTF8&qid=1524423427&sr=8-1&keywords=practical+r+for+epidemiologists).
 
