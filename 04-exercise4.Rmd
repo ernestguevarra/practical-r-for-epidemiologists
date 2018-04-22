@@ -138,3 +138,94 @@ table(PARTNERS, HIV)
 
 The *number of events* in each row is in the second column (labelled **1**) and the *number of trials* is the total number of cases in each row of the table.
 
+We can extract this data from a table object:
+
+```{r, eval = FALSE}
+tab <- table(PARTNERS, HIV)
+events <- tab[ ,2]
+trials <- tab[ ,1] + tab[ ,2]
+```
+
+```{r, eval = TRUE}
+tab <- table(PARTNERS, HIV)
+events <- tab[ ,2]
+trials <- tab[ ,1] + tab[ ,2]
+```
+
+Another way of creating the `trials` object would be to use the `apply()` function to sum the rows of the tab object:
+
+```{r, eval = TRUE}
+trials <- apply(tab, 1, sum)
+```
+
+Pass this data to the `prop.trend.test()` function: 
+
+```{r, eval = TRUE}
+prop.trend.test(events, trials)
+```
+
+With a linear trend such as this we can use `PARTNERS` in a logistic model without recoding or creating indicator variables. We can now specify and fit the logistic regression model:
+
+```{r, eval = TRUE}
+gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS,
+                   family = binomial(logit))
+summary(gudhiv.lreg)
+```
+
+We can use the `lreg.or()` function that we wrote earlier to calculate and display odds ratios and confidence intervals:
+
+```{r, eval = TRUE}
+lreg.or(gudhiv.lreg)
+```
+
+`PARTNERS` is incorporated into the logistic model as a continuous variable.
+
+The odds ratio reported for `PARTNERS` is the odds ratio associated with a unit increase in the number of sexual `PARTNERS`. A man reporting five sexual partners, for example, was over three times as likely (odds ratio = 3.19) to have a positive HIV-2 serology than a man reporting four sexual partners.
+
+An alternative approach would be to have created an *indicator* variables: 
+
+```{r, eval = TRUE}
+part.gt.5 <- ifelse(PARTNERS > 5, 1, 0)
+```
+
+This creates a new variable (`part.gt.5`) that indicates whether or not an individual subject reported having more than five sexual partners in the previous twelve months:
+
+```{r, eval = TRUE}
+table(PARTNERS, part.gt.5)
+```
+
+You can also inspect this on a case-by-case basis:
+
+```{r, eval = TRUE}
+cbind(PARTNERS, part.gt.5)
+```
+
+We can now specify and fit the logistic regression model using our indicator variable:
+
+```{r, eval = FALSE}
+gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5,
+                   family = binomial(logit))
+summary(gudhiv.lreg)
+lreg.or(gudhiv.lreg)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5,
+                   family = binomial(logit))
+summary(gudhiv.lreg)
+lreg.or(gudhiv.lreg)
+```
+
+We can now quit R:
+
+```{r, eval = FALSE}
+q()
+```
+
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
+
+## Summary
+
+* Using built-in functions and our own functions we can use `R` to analyse epidemiological data.
+
+* The power of `R` is that it can be easily extended. Many user-contributed functions (usually packages of related functions) are available for download over the Internet. We will use one of these packages in the next exercise.
