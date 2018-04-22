@@ -135,7 +135,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="4.1" data-path="exercise3.html"><a href="exercise3.html#matched-data"><i class="fa fa-check"></i><b>4.1</b> Matched data</a></li>
 <li class="chapter" data-level="4.2" data-path="exercise3.html"><a href="exercise3.html#summary-2"><i class="fa fa-check"></i><b>4.2</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a></li>
+<li class="chapter" data-level="5" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>5</b> Analysing some data with R</a><ul>
+<li class="chapter" data-level="5.1" data-path="exercise4.html"><a href="exercise4.html#summary-3"><i class="fa fa-check"></i><b>5.1</b> Summary</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>6</b> Extending R with packages</a></li>
 <li class="chapter" data-level="7" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>7</b> Making your own objects behave like R objects</a></li>
 <li class="chapter" data-level="8" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>8</b> Writing your own graphical functions</a></li>
@@ -438,7 +440,560 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        8   1   1
 ##        9   0   2</code></pre>
 <p>The <em>number of events</em> in each row is in the second column (labelled <strong>1</strong>) and the <em>number of trials</em> is the total number of cases in each row of the table.</p>
+<p>We can extract this data from a table object:</p>
+<pre class="sourceCode r" id="cb424"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
+<a class="sourceLine" id="cb424-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb424-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
+<pre class="sourceCode r" id="cb425"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
+<a class="sourceLine" id="cb425-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb425-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
+<p>Another way of creating the <code>trials</code> object would be to use the <code>apply()</code> function to sum the rows of the tab object:</p>
+<pre class="sourceCode r" id="cb426"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1">trials &lt;-<span class="st"> </span><span class="kw">apply</span>(tab, <span class="dv">1</span>, sum)</a></code></pre>
+<p>Pass this data to the <code>prop.trend.test()</code> function:</p>
+<pre class="sourceCode r" id="cb427"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1"><span class="kw">prop.trend.test</span>(events, trials)</a></code></pre>
+<pre><code>## 
+##  Chi-squared Test for Trend in Proportions
+## 
+## data:  events out of trials ,
+##  using scores: 1 2 3 4 5 6 7 8 9
+## X-squared = 76.389, df = 1, p-value &lt; 2.2e-16</code></pre>
+<p>With a linear trend such as this we can use <code>PARTNERS</code> in a logistic model without recoding or creating indicator variables. We can now specify and fit the logistic regression model:</p>
+<pre class="sourceCode r" id="cb429"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>PARTNERS,</a>
+<a class="sourceLine" id="cb429-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
+<a class="sourceLine" id="cb429-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS, family = binomial(logit))
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.70415  -0.19849  -0.11148  -0.06247   3.11742  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -9.4854     1.4663  -6.469 9.86e-11 ***
+## GUD           1.3869     0.5937   2.336   0.0195 *  
+## TRAVOUT       2.0867     0.9547   2.186   0.0288 *  
+## PARTNERS      1.1605     0.2050   5.662 1.50e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 167.364  on 425  degrees of freedom
+## Residual deviance:  99.377  on 422  degrees of freedom
+##   (9 observations deleted due to missingness)
+## AIC: 107.38
+## 
+## Number of Fisher Scoring iterations: 8</code></pre>
+<p>We can use the <code>lreg.or()</code> function that we wrote earlier to calculate and display odds ratios and confidence intervals:</p>
+<pre class="sourceCode r" id="cb431"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<pre><code>##               OR  LCI   UCI
+## (Intercept) 0.00 0.00  0.00
+## GUD         4.00 1.25 12.81
+## TRAVOUT     8.06 1.24 52.35
+## PARTNERS    3.19 2.14  4.77</code></pre>
+<p><code>PARTNERS</code> is incorporated into the logistic model as a continuous variable.</p>
+<p>The odds ratio reported for <code>PARTNERS</code> is the odds ratio associated with a unit increase in the number of sexual <code>PARTNERS</code>. A man reporting five sexual partners, for example, was over three times as likely (odds ratio = 3.19) to have a positive HIV-2 serology than a man reporting four sexual partners.</p>
+<p>An alternative approach would be to have created an <em>indicator</em> variables:</p>
+<pre class="sourceCode r" id="cb433"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1">part.gt<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">ifelse</span>(PARTNERS <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre>
+<p>This creates a new variable (<code>part.gt.5</code>) that indicates whether or not an individual subject reported having more than five sexual partners in the previous twelve months:</p>
+<pre class="sourceCode r" id="cb434"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
+<pre><code>##         part.gt.5
+## PARTNERS   0   1
+##        1  61   0
+##        2 129   0
+##        3 133   0
+##        4  71   0
+##        5  25   0
+##        6   0   6
+##        7   0   6
+##        8   0   2
+##        9   0   2</code></pre>
+<p>You can also inspect this on a case-by-case basis:</p>
+<pre class="sourceCode r" id="cb436"><code class="sourceCode r"><a class="sourceLine" id="cb436-1" data-line-number="1"><span class="kw">cbind</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
+<pre><code>##        PARTNERS part.gt.5
+##   [1,]        2         0
+##   [2,]        2         0
+##   [3,]        1         0
+##   [4,]        2         0
+##   [5,]        3         0
+##   [6,]        2         0
+##   [7,]        4         0
+##   [8,]        5         0
+##   [9,]        2         0
+##  [10,]        3         0
+##  [11,]        4         0
+##  [12,]        3         0
+##  [13,]        1         0
+##  [14,]        2         0
+##  [15,]        5         0
+##  [16,]        8         1
+##  [17,]        5         0
+##  [18,]        3         0
+##  [19,]        2         0
+##  [20,]        1         0
+##  [21,]        2         0
+##  [22,]        3         0
+##  [23,]        2         0
+##  [24,]        3         0
+##  [25,]        4         0
+##  [26,]        3         0
+##  [27,]        4         0
+##  [28,]        3         0
+##  [29,]        4         0
+##  [30,]        5         0
+##  [31,]        4         0
+##  [32,]        3         0
+##  [33,]        4         0
+##  [34,]        5         0
+##  [35,]        2         0
+##  [36,]        4         0
+##  [37,]        3         0
+##  [38,]        2         0
+##  [39,]        1         0
+##  [40,]        2         0
+##  [41,]        3         0
+##  [42,]        4         0
+##  [43,]        3         0
+##  [44,]        3         0
+##  [45,]        2         0
+##  [46,]        4         0
+##  [47,]        5         0
+##  [48,]        4         0
+##  [49,]        3         0
+##  [50,]        4         0
+##  [51,]        1         0
+##  [52,]        1         0
+##  [53,]        2         0
+##  [54,]        3         0
+##  [55,]        3         0
+##  [56,]        3         0
+##  [57,]        3         0
+##  [58,]        4         0
+##  [59,]        5         0
+##  [60,]        4         0
+##  [61,]        3         0
+##  [62,]        3         0
+##  [63,]        5         0
+##  [64,]        2         0
+##  [65,]        2         0
+##  [66,]        3         0
+##  [67,]        2         0
+##  [68,]        1         0
+##  [69,]        2         0
+##  [70,]        3         0
+##  [71,]        2         0
+##  [72,]        3         0
+##  [73,]        4         0
+##  [74,]        3         0
+##  [75,]        3         0
+##  [76,]        2         0
+##  [77,]        5         0
+##  [78,]        4         0
+##  [79,]        3         0
+##  [80,]        1         0
+##  [81,]        2         0
+##  [82,]        5         0
+##  [83,]        3         0
+##  [84,]        7         1
+##  [85,]        6         1
+##  [86,]        5         0
+##  [87,]        5         0
+##  [88,]        5         0
+##  [89,]        4         0
+##  [90,]        3         0
+##  [91,]        2         0
+##  [92,]        5         0
+##  [93,]        1         0
+##  [94,]        1         0
+##  [95,]        1         0
+##  [96,]        1         0
+##  [97,]        2         0
+##  [98,]        3         0
+##  [99,]        4         0
+## [100,]        3         0
+## [101,]        3         0
+## [102,]        2         0
+## [103,]        3         0
+## [104,]        4         0
+## [105,]        3         0
+## [106,]        2         0
+## [107,]        3         0
+## [108,]        4         0
+## [109,]        3         0
+## [110,]        3         0
+## [111,]        4         0
+## [112,]        3         0
+## [113,]        6         1
+## [114,]        3         0
+## [115,]        4         0
+## [116,]        3         0
+## [117,]        3         0
+## [118,]        2         0
+## [119,]        3         0
+## [120,]        4         0
+## [121,]        7         1
+## [122,]        3         0
+## [123,]        2         0
+## [124,]        3         0
+## [125,]        4         0
+## [126,]        3         0
+## [127,]        2         0
+## [128,]        3         0
+## [129,]        4         0
+## [130,]        8         1
+## [131,]        5         0
+## [132,]        6         1
+## [133,]        5         0
+## [134,]        4         0
+## [135,]        4         0
+## [136,]        4         0
+## [137,]        3         0
+## [138,]        4         0
+## [139,]        3         0
+## [140,]        3         0
+## [141,]        2         0
+## [142,]        2         0
+## [143,]        1         0
+## [144,]        2         0
+## [145,]        1         0
+## [146,]        2         0
+## [147,]        3         0
+## [148,]        1         0
+## [149,]        2         0
+## [150,]        3         0
+## [151,]        2         0
+## [152,]        2         0
+## [153,]        2         0
+## [154,]        1         0
+## [155,]        1         0
+## [156,]        2         0
+## [157,]        3         0
+## [158,]        3         0
+## [159,]        2         0
+## [160,]        3         0
+## [161,]        4         0
+## [162,]        2         0
+## [163,]        5         0
+## [164,]        4         0
+## [165,]        2         0
+## [166,]        3         0
+## [167,]        2         0
+## [168,]        2         0
+## [169,]        1         0
+## [170,]        4         0
+## [171,]        3         0
+## [172,]        3         0
+## [173,]        2         0
+## [174,]        3         0
+## [175,]        2         0
+## [176,]        4         0
+## [177,]        3         0
+## [178,]        2         0
+## [179,]        3         0
+## [180,]        4         0
+## [181,]        2         0
+## [182,]        3         0
+## [183,]        3         0
+## [184,]        4         0
+## [185,]        2         0
+## [186,]        3         0
+## [187,]        2         0
+## [188,]        2         0
+## [189,]        3         0
+## [190,]        3         0
+## [191,]        2         0
+## [192,]        3         0
+## [193,]        2         0
+## [194,]        4         0
+## [195,]        3         0
+## [196,]        2         0
+## [197,]        2         0
+## [198,]        3         0
+## [199,]        2         0
+## [200,]        3         0
+## [201,]        2         0
+## [202,]        3         0
+## [203,]        3         0
+## [204,]        2         0
+## [205,]        3         0
+## [206,]        2         0
+## [207,]        3         0
+## [208,]        2         0
+## [209,]        1         0
+## [210,]        6         1
+## [211,]        9         1
+## [212,]        1         0
+## [213,]        2         0
+## [214,]        3         0
+## [215,]        4         0
+## [216,]        5         0
+## [217,]        4         0
+## [218,]        5         0
+## [219,]        5         0
+## [220,]        5         0
+## [221,]        4         0
+## [222,]        3         0
+## [223,]        4         0
+## [224,]        3         0
+## [225,]        2         0
+## [226,]        1         0
+## [227,]        2         0
+## [228,]        3         0
+## [229,]        2         0
+## [230,]        1         0
+## [231,]        4         0
+## [232,]        3         0
+## [233,]        4         0
+## [234,]        3         0
+## [235,]        3         0
+## [236,]        2         0
+## [237,]        2         0
+## [238,]        1         0
+## [239,]        2         0
+## [240,]        3         0
+## [241,]        2         0
+## [242,]        1         0
+## [243,]        2         0
+## [244,]        4         0
+## [245,]        3         0
+## [246,]        2         0
+## [247,]        3         0
+## [248,]        2         0
+## [249,]        2         0
+## [250,]        1         0
+## [251,]        2         0
+## [252,]        3         0
+## [253,]        2         0
+## [254,]        3         0
+## [255,]        1         0
+## [256,]        2         0
+## [257,]        3         0
+## [258,]        2         0
+## [259,]        4         0
+## [260,]        3         0
+## [261,]        3         0
+## [262,]        2         0
+## [263,]        2         0
+## [264,]        1         0
+## [265,]        1         0
+## [266,]        1         0
+## [267,]        1         0
+## [268,]        1         0
+## [269,]        1         0
+## [270,]        1         0
+## [271,]        1         0
+## [272,]        1         0
+## [273,]        1         0
+## [274,]        2         0
+## [275,]        3         0
+## [276,]        2         0
+## [277,]        3         0
+## [278,]        2         0
+## [279,]        1         0
+## [280,]        2         0
+## [281,]        3         0
+## [282,]        4         0
+## [283,]        3         0
+## [284,]        2         0
+## [285,]        3         0
+## [286,]        2         0
+## [287,]        1         0
+## [288,]        2         0
+## [289,]        4         0
+## [290,]        7         1
+## [291,]        1         0
+## [292,]        4         0
+## [293,]        1         0
+## [294,]        3         0
+## [295,]        3         0
+## [296,]        4         0
+## [297,]        3         0
+## [298,]        2         0
+## [299,]        2         0
+## [300,]        1         0
+## [301,]        2         0
+## [302,]        3         0
+## [303,]        3         0
+## [304,]        3         0
+## [305,]        2         0
+## [306,]        4         0
+## [307,]        4         0
+## [308,]        5         0
+## [309,]        4         0
+## [310,]        4         0
+## [311,]        9         1
+## [312,]        3         0
+## [313,]        3         0
+## [314,]        2         0
+## [315,]        2         0
+## [316,]        1         0
+## [317,]        1         0
+## [318,]        2         0
+## [319,]        7         1
+## [320,]        3         0
+## [321,]        2         0
+## [322,]        1         0
+## [323,]        2         0
+## [324,]        4         0
+## [325,]        6         1
+## [326,]        5         0
+## [327,]        3         0
+## [328,]        2         0
+## [329,]        3         0
+## [330,]        4         0
+## [331,]        3         0
+## [332,]        2         0
+## [333,]        3         0
+## [334,]        4         0
+## [335,]        3         0
+## [336,]        3         0
+## [337,]        2         0
+## [338,]        3         0
+## [339,]        4         0
+## [340,]        3         0
+## [341,]        2         0
+## [342,]        3         0
+## [343,]        1         0
+## [344,]        1         0
+## [345,]        2         0
+## [346,]        3         0
+## [347,]        4         0
+## [348,]        3         0
+## [349,]        3         0
+## [350,]        2         0
+## [351,]        4         0
+## [352,]        5         0
+## [353,]        4         0
+## [354,]        3         0
+## [355,]        3         0
+## [356,]        2         0
+## [357,]        2         0
+## [358,]        1         0
+## [359,]        4         0
+## [360,]        1         0
+## [361,]        1         0
+## [362,]        4         0
+## [363,]        3         0
+## [364,]        2         0
+## [365,]        1         0
+## [366,]        4         0
+## [367,]        1         0
+## [368,]        2         0
+## [369,]        3         0
+## [370,]        1         0
+## [371,]        5         0
+## [372,]        4         0
+## [373,]        3         0
+## [374,]        2         0
+## [375,]        1         0
+## [376,]        2         0
+## [377,]        3         0
+## [378,]        2         0
+## [379,]        4         0
+## [380,]        2         0
+## [381,]        3         0
+## [382,]        4         0
+## [383,]        7         1
+## [384,]        3         0
+## [385,]        2         0
+## [386,]        4         0
+## [387,]        4         0
+## [388,]        3         0
+## [389,]        2         0
+## [390,]        2         0
+## [391,]        1         0
+## [392,]        2         0
+## [393,]        6         1
+## [394,]        7         1
+## [395,]        2         0
+## [396,]        1         0
+## [397,]        2         0
+## [398,]        3         0
+## [399,]        1         0
+## [400,]        2         0
+## [401,]        3         0
+## [402,]        2         0
+## [403,]        1         0
+## [404,]        2         0
+## [405,]        3         0
+## [406,]        2         0
+## [407,]        3         0
+## [408,]        2         0
+## [409,]        3         0
+## [410,]        2         0
+## [411,]        4         0
+## [412,]        2         0
+## [413,]        2         0
+## [414,]        1         0
+## [415,]        2         0
+## [416,]        3         0
+## [417,]        2         0
+## [418,]        3         0
+## [419,]        2         0
+## [420,]        3         0
+## [421,]        2         0
+## [422,]        3         0
+## [423,]        4         0
+## [424,]        2         0
+## [425,]        2         0
+## [426,]        3         0
+## [427,]        4         0
+## [428,]        4         0
+## [429,]        1         0
+## [430,]        2         0
+## [431,]        3         0
+## [432,]        2         0
+## [433,]        1         0
+## [434,]        1         0
+## [435,]        2         0</code></pre>
+<p>We can now specify and fit the logistic regression model using our indicator variable:</p>
+<pre class="sourceCode r" id="cb438"><code class="sourceCode r"><a class="sourceLine" id="cb438-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>part.gt<span class="fl">.5</span>,</a>
+<a class="sourceLine" id="cb438-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
+<a class="sourceLine" id="cb438-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a>
+<a class="sourceLine" id="cb438-4" data-line-number="4"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5, family = binomial(logit))
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.6092  -0.2205  -0.2205  -0.0719   3.4521  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  -5.9559     0.9850  -6.046 1.48e-09 ***
+## GUD           1.4930     0.5805   2.572   0.0101 *  
+## TRAVOUT       2.2514     0.9319   2.416   0.0157 *  
+## part.gt.5     4.6791     0.7560   6.189 6.05e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 167.36  on 425  degrees of freedom
+## Residual deviance: 106.43  on 422  degrees of freedom
+##   (9 observations deleted due to missingness)
+## AIC: 114.43
+## 
+## Number of Fisher Scoring iterations: 7</code></pre>
+<pre><code>##                 OR   LCI    UCI
+## (Intercept)   0.00  0.00   0.02
+## GUD           4.45  1.43  13.89
+## TRAVOUT       9.50  1.53  59.02
+## part.gt.5   107.67 24.47 473.84</code></pre>
+<p>We can now quit R:</p>
+<pre class="sourceCode r" id="cb441"><code class="sourceCode r"><a class="sourceLine" id="cb441-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
+<div id="summary-3" class="section level2">
+<h2><span class="header-section-number">5.1</span> Summary</h2>
+<ul>
+<li><p>Using built-in functions and our own functions we can use <code>R</code> to analyse epidemiological data.</p></li>
+<li><p>The power of <code>R</code> is that it can be easily extended. Many user-contributed functions (usually packages of related functions) are available for download over the Internet. We will use one of these packages in the next exercise.</p></li>
+</ul>
 
+</div>
 </div>
             </section>
 
