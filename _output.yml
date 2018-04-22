@@ -2,8 +2,10 @@ bookdown::gitbook:
   highlight: tango
   css: style.css
   fig_caption: yes
+  split_by: chapter
   config:
     toc:
+      collapse: section
       before: |
         <li><a href="./">Practical R for Epidemiologists</a></li>
       after: |
