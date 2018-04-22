@@ -5,3 +5,71 @@ require("knitr")
 opts_knit$set(root.dir = "data/")
 ```
 
+In this exercise we will use the `R` functions we have already used and the functions we have added to `R` to
+analyse a small dataset. First we will start `R` and retrieve our functions: 
+
+```{r, eval = FALSE}
+load("tab2by2.r")
+load("lregor.r")
+```
+
+And then retrieve and attach the sample dataset:
+
+```{r, eval = TRUE}
+gudhiv <- read.table("gudhiv.dat", header = TRUE, na.strings = "X")
+attach(gudhiv)
+```
+
+This data is from a cross-sectional study of 435 male patients who presented with sexually transmitted infections at an outpatient clinic in The Gambia between August 1988 and June 1990. Several studies have documented an association between genital ulcer disease (GUD) and HIV infection. A study of Gambian prostitutes documented an association between seropositivity for HIV-2 and antibodies against `Treponema pallidum` (a serological test for syphilis). Prostitutes are not the ideal population for such studies as they may have experienced multiple sexually transmitted infections and it is difficult to quantify the number of times they may have had sex with HIV-2 seropositive customers. A sample of males with sexually transmitted infections is easier to study as they have probably had fewer sexual partners than prostitutes and much less contact with sexually transmitted infection pathogens. In such a sample it is also easier to find subjects and collect data. The variables in the dataset are:
+
++---------------+------------------------------------------------------------+
+| **MARRIED**   | Married (1=yes, 0=no)                                      |
++---------------+------------------------------------------------------------+
+| **GAMBIAN**   | Gambian Citizen (1=yes, 0=no)                              |
++---------------+------------------------------------------------------------+
+| **GUD**       | History of GUD or syphilis (1=yes, 0=no)                   |
++---------------+------------------------------------------------------------+
+| **UTIGC**     | History of urethral discharge (1=yes, 0=no)                |
++---------------+------------------------------------------------------------+
+| **CIR**       | Circumcised (1=yes, 0=no)                                  |  
++---------------+------------------------------------------------------------+
+| **TRAVOUT**   | Travelled outside of Gambia and Senegal (1=yes, 0=no)      |
++---------------+------------------------------------------------------------+
+| **SEXPRO**    | Ever had sex with a prostitute (1=yes, 0=no)               |
++---------------+------------------------------------------------------------+
+| **INJ12M**    | Injection in previous 12 months (1=yes, 0=no)              |
++---------------+------------------------------------------------------------+
+| **PARTNERS**  | Sexual partners in previous 12 months (number)             |
++---------------+------------------------------------------------------------+
+| **HIV HIV-2** | positive serology (1=yes, 0=no)                            |
++---------------+------------------------------------------------------------+
+
+Data is available for all 435 patients enrolled in the study.
+
+We will start our analysis by examining pairwise associations between the binary exposure variables and the
+HIV variable using the `tab2by2()` function that we wrote earlier:
+
+```{r, eval = FALSE}
+tab2by2(MARRIED, HIV)
+tab2by2(GAMBIAN, HIV)
+tab2by2(GUD, HIV)
+tab2by2(UTIGC, HIV)
+tab2by2(CIR, HIV)
+tab2by2(TRAVOUT, HIV)
+tab2by2(SEXPRO, HIV)
+tab2by2(INJ12M, HIV)
+```
+
+```{r, eval = TRUE}
+tab2by2(MARRIED, HIV)
+tab2by2(GAMBIAN, HIV)
+tab2by2(GUD, HIV)
+tab2by2(UTIGC, HIV)
+tab2by2(CIR, HIV)
+tab2by2(TRAVOUT, HIV)
+tab2by2(SEXPRO, HIV)
+tab2by2(INJ12M, HIV)
+```
+
+Note that our `tab2by2()` function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the `exposure` and `outcome` variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the `gudhiv` dataset.
+
