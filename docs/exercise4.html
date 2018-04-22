@@ -164,6 +164,194 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise4" class="section level1">
 <h1><span class="header-section-number">5</span> Analysing some data with R</h1>
+<p>In this exercise we will use the <code>R</code> functions we have already used and the functions we have added to <code>R</code> to
+analyse a small dataset. First we will start <code>R</code> and retrieve our functions:</p>
+<pre class="sourceCode r" id="cb390"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a>
+<a class="sourceLine" id="cb390-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p>And then retrieve and attach the sample dataset:</p>
+<pre class="sourceCode r" id="cb391"><code class="sourceCode r"><a class="sourceLine" id="cb391-1" data-line-number="1">gudhiv &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gudhiv.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;X&quot;</span>)</a>
+<a class="sourceLine" id="cb391-2" data-line-number="2"><span class="kw">attach</span>(gudhiv)</a></code></pre>
+<p>This data is from a cross-sectional study of 435 male patients who presented with sexually transmitted infections at an outpatient clinic in The Gambia between August 1988 and June 1990. Several studies have documented an association between genital ulcer disease (GUD) and HIV infection. A study of Gambian prostitutes documented an association between seropositivity for HIV-2 and antibodies against <code>Treponema pallidum</code> (a serological test for syphilis). Prostitutes are not the ideal population for such studies as they may have experienced multiple sexually transmitted infections and it is difficult to quantify the number of times they may have had sex with HIV-2 seropositive customers. A sample of males with sexually transmitted infections is easier to study as they have probably had fewer sexual partners than prostitutes and much less contact with sexually transmitted infection pathogens. In such a sample it is also easier to find subjects and collect data. The variables in the dataset are:</p>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="79%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>MARRIED</strong></td>
+<td>Married (1=yes, 0=no)</td>
+</tr>
+<tr class="even">
+<td><strong>GAMBIAN</strong></td>
+<td>Gambian Citizen (1=yes, 0=no)</td>
+</tr>
+<tr class="odd">
+<td><strong>GUD</strong></td>
+<td>History of GUD or syphilis (1=yes, 0=no)</td>
+</tr>
+<tr class="even">
+<td><strong>UTIGC</strong></td>
+<td>History of urethral discharge (1=yes, 0=no)</td>
+</tr>
+<tr class="odd">
+<td><strong>CIR</strong></td>
+<td>Circumcised (1=yes, 0=no)</td>
+</tr>
+<tr class="even">
+<td><strong>TRAVOUT</strong></td>
+<td>Travelled outside of Gambia and Senegal (1=yes, 0=no)</td>
+</tr>
+<tr class="odd">
+<td><strong>SEXPRO</strong></td>
+<td>Ever had sex with a prostitute (1=yes, 0=no)</td>
+</tr>
+<tr class="even">
+<td><strong>INJ12M</strong></td>
+<td>Injection in previous 12 months (1=yes, 0=no)</td>
+</tr>
+<tr class="odd">
+<td><strong>PARTNERS</strong></td>
+<td>Sexual partners in previous 12 months (number)</td>
+</tr>
+<tr class="even">
+<td><strong>HIV HIV-2</strong></td>
+<td>positive serology (1=yes, 0=no)</td>
+</tr>
+</tbody>
+</table>
+<p>Data is available for all 435 patients enrolled in the study.</p>
+<p>We will start our analysis by examining pairwise associations between the binary exposure variables and the
+HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p>
+<pre class="sourceCode r" id="cb392"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a>
+<a class="sourceLine" id="cb392-2" data-line-number="2"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a>
+<a class="sourceLine" id="cb392-3" data-line-number="3"><span class="kw">tab2by2</span>(GUD, HIV)</a>
+<a class="sourceLine" id="cb392-4" data-line-number="4"><span class="kw">tab2by2</span>(UTIGC, HIV)</a>
+<a class="sourceLine" id="cb392-5" data-line-number="5"><span class="kw">tab2by2</span>(CIR, HIV)</a>
+<a class="sourceLine" id="cb392-6" data-line-number="6"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a>
+<a class="sourceLine" id="cb392-7" data-line-number="7"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a>
+<a class="sourceLine" id="cb392-8" data-line-number="8"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
+<pre class="sourceCode r" id="cb393"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 321  13
+##        1  93   8
+## 
+## Relative Risk     : 1.043751 
+## 95% CI            : 0.9818512 1.109554 
+## 
+## Sample Odds Ratio : 2.124069 
+## 95% CI            : 0.8545749 5.279433 
+## 
+## MLE Odds Ratio    : 2.119801 
+## 95% CI             : 0.7380371 5.714354</code></pre>
+<pre class="sourceCode r" id="cb395"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0  73   4
+##        1 341  17
+## 
+## Relative Risk     : 0.9953155 
+## 95% CI            : 0.9400068 1.053879 
+## 
+## Sample Odds Ratio : 0.909824 
+## 95% CI            : 0.2974059 2.783333 
+## 
+## MLE Odds Ratio    : 0.9100104 
+## 95% CI             : 0.2853202 3.826485</code></pre>
+<pre class="sourceCode r" id="cb397"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1"><span class="kw">tab2by2</span>(GUD, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 339  12
+##        1  72   9
+## 
+## Relative Risk     : 1.086538 
+## 95% CI            : 1.003531 1.176412 
+## 
+## Sample Odds Ratio : 3.53125 
+## 95% CI            : 1.434372 8.693509 
+## 
+## MLE Odds Ratio    : 3.517408 
+## 95% CI             : 1.258556 9.491924</code></pre>
+<pre class="sourceCode r" id="cb399"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="kw">tab2by2</span>(UTIGC, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 261  12
+##        1 151   9
+## 
+## Relative Risk     : 1.013027 
+## 95% CI            : 0.9678841 1.060275 
+## 
+## Sample Odds Ratio : 1.296358 
+## 95% CI            : 0.5338453 3.147997 
+## 
+## MLE Odds Ratio    : 1.295532 
+## 95% CI             : 0.4703496 3.438842</code></pre>
+<pre class="sourceCode r" id="cb401"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1"><span class="kw">tab2by2</span>(CIR, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0  10   3
+##        1 392  17
+## 
+## Relative Risk     : 0.8025903 
+## 95% CI            : 0.5955085 1.081682 
+## 
+## Sample Odds Ratio : 0.1445578 
+## 95% CI            : 0.0364195 0.5737851 
+## 
+## MLE Odds Ratio    : 0.1460183 
+## 95% CI             : 0.03322189 0.899754</code></pre>
+<pre class="sourceCode r" id="cb403"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 152   2
+##        1 256  19
+## 
+## Relative Risk     : 1.060268 
+## 95% CI            : 1.02181 1.100173 
+## 
+## Sample Odds Ratio : 5.640625 
+## 95% CI            : 1.295879 24.55218 
+## 
+## MLE Odds Ratio    : 5.624226 
+## 95% CI             : 1.32716 50.45859</code></pre>
+<pre class="sourceCode r" id="cb405"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" data-line-number="1"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 268  13
+##        1 143   8
+## 
+## Relative Risk     : 1.007093 
+## 95% CI            : 0.9621259 1.054161 
+## 
+## Sample Odds Ratio : 1.153308 
+## 95% CI            : 0.4671083 2.847562 
+## 
+## MLE Odds Ratio    : 1.152912 
+## 95% CI             : 0.4042323 3.083152</code></pre>
+<pre class="sourceCode r" id="cb407"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
+<pre><code>## 
+##         outcome
+## exposure   0   1
+##        0 146   7
+##        1 268  14
+## 
+## Relative Risk     : 1.004097 
+## 95% CI            : 0.9610996 1.049018 
+## 
+## Sample Odds Ratio : 1.089552 
+## 95% CI            : 0.4301305 2.759916 
+## 
+## MLE Odds Ratio    : 1.089351 
+## 95% CI             : 0.4006202 3.263814</code></pre>
+<p>Note that our <code>tab2by2()</code> function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the <code>exposure</code> and <code>outcome</code> variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the <code>gudhiv</code> dataset.</p>
 
 </div>
             </section>

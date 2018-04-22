@@ -893,7 +893,7 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 4):
+## The following objects are masked from fem (pos = 5):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -2172,7 +2172,7 @@ our data:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 4):
+## The following objects are masked from salex (pos = 5):
 ## 
 ##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
 ##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
@@ -4171,7 +4171,7 @@ variables are coded 1=yes, 2=no. Retrieve and attach the
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 5):
+## The following objects are masked from salex (pos = 6):
 ## 
 ##     CRISPS, ILL, RICE, TOMATO
 \end{verbatim}
@@ -5657,6 +5657,315 @@ prompted to save the workspace image (terminal).
 
 \hypertarget{exercise4}{%
 \chapter{Analysing some data with R}\label{exercise4}}
+
+In this exercise we will use the \texttt{R} functions we have already
+used and the functions we have added to \texttt{R} to analyse a small
+dataset. First we will start \texttt{R} and retrieve our functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{load}\NormalTok{(}\StringTok{"tab2by2.r"}\NormalTok{)}
+\KeywordTok{load}\NormalTok{(}\StringTok{"lregor.r"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+And then retrieve and attach the sample dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gudhiv <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"gudhiv.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"X"}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(gudhiv)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from gudhiv (pos = 5):
+## 
+##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO,
+##     TRAVOUT, UTIGC
+\end{verbatim}
+
+This data is from a cross-sectional study of 435 male patients who
+presented with sexually transmitted infections at an outpatient clinic
+in The Gambia between August 1988 and June 1990. Several studies have
+documented an association between genital ulcer disease (GUD) and HIV
+infection. A study of Gambian prostitutes documented an association
+between seropositivity for HIV-2 and antibodies against
+\texttt{Treponema\ pallidum} (a serological test for syphilis).
+Prostitutes are not the ideal population for such studies as they may
+have experienced multiple sexually transmitted infections and it is
+difficult to quantify the number of times they may have had sex with
+HIV-2 seropositive customers. A sample of males with sexually
+transmitted infections is easier to study as they have probably had
+fewer sexual partners than prostitutes and much less contact with
+sexually transmitted infection pathogens. In such a sample it is also
+easier to find subjects and collect data. The variables in the dataset
+are:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{MARRIED}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Married (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{GAMBIAN}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Gambian Citizen (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{GUD}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+History of GUD or syphilis (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{UTIGC}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+History of urethral discharge (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{CIR}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Circumcised (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{TRAVOUT}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Travelled outside of Gambia and Senegal (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{SEXPRO}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Ever had sex with a prostitute (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{INJ12M}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Injection in previous 12 months (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{PARTNERS}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+Sexual partners in previous 12 months (number)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.20\columnwidth}\raggedright
+\textbf{HIV HIV-2}\strut
+\end{minipage} & \begin{minipage}[t]{0.75\columnwidth}\raggedright
+positive serology (1=yes, 0=no)\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Data is available for all 435 patients enrolled in the study.
+
+We will start our analysis by examining pairwise associations between
+the binary exposure variables and the HIV variable using the
+\texttt{tab2by2()} function that we wrote earlier:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(MARRIED, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(GAMBIAN, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(GUD, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(UTIGC, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(CIR, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(TRAVOUT, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(SEXPRO, HIV)}
+\KeywordTok{tab2by2}\NormalTok{(INJ12M, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(MARRIED, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 321  13
+##        1  93   8
+## 
+## Relative Risk     : 1.043751 
+## 95% CI            : 0.9818512 1.109554 
+## 
+## Sample Odds Ratio : 2.124069 
+## 95% CI            : 0.8545749 5.279433 
+## 
+## MLE Odds Ratio    : 2.119801 
+## 95% CI             : 0.7380371 5.714354
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(GAMBIAN, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0  73   4
+##        1 341  17
+## 
+## Relative Risk     : 0.9953155 
+## 95% CI            : 0.9400068 1.053879 
+## 
+## Sample Odds Ratio : 0.909824 
+## 95% CI            : 0.2974059 2.783333 
+## 
+## MLE Odds Ratio    : 0.9100104 
+## 95% CI             : 0.2853202 3.826485
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(GUD, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 339  12
+##        1  72   9
+## 
+## Relative Risk     : 1.086538 
+## 95% CI            : 1.003531 1.176412 
+## 
+## Sample Odds Ratio : 3.53125 
+## 95% CI            : 1.434372 8.693509 
+## 
+## MLE Odds Ratio    : 3.517408 
+## 95% CI             : 1.258556 9.491924
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(UTIGC, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 261  12
+##        1 151   9
+## 
+## Relative Risk     : 1.013027 
+## 95% CI            : 0.9678841 1.060275 
+## 
+## Sample Odds Ratio : 1.296358 
+## 95% CI            : 0.5338453 3.147997 
+## 
+## MLE Odds Ratio    : 1.295532 
+## 95% CI             : 0.4703496 3.438842
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(CIR, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0  10   3
+##        1 392  17
+## 
+## Relative Risk     : 0.8025903 
+## 95% CI            : 0.5955085 1.081682 
+## 
+## Sample Odds Ratio : 0.1445578 
+## 95% CI            : 0.0364195 0.5737851 
+## 
+## MLE Odds Ratio    : 0.1460183 
+## 95% CI             : 0.03322189 0.899754
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(TRAVOUT, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 152   2
+##        1 256  19
+## 
+## Relative Risk     : 1.060268 
+## 95% CI            : 1.02181 1.100173 
+## 
+## Sample Odds Ratio : 5.640625 
+## 95% CI            : 1.295879 24.55218 
+## 
+## MLE Odds Ratio    : 5.624226 
+## 95% CI             : 1.32716 50.45859
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(SEXPRO, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 268  13
+##        1 143   8
+## 
+## Relative Risk     : 1.007093 
+## 95% CI            : 0.9621259 1.054161 
+## 
+## Sample Odds Ratio : 1.153308 
+## 95% CI            : 0.4671083 2.847562 
+## 
+## MLE Odds Ratio    : 1.152912 
+## 95% CI             : 0.4042323 3.083152
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{tab2by2}\NormalTok{(INJ12M, HIV)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##         outcome
+## exposure   0   1
+##        0 146   7
+##        1 268  14
+## 
+## Relative Risk     : 1.004097 
+## 95% CI            : 0.9610996 1.049018 
+## 
+## Sample Odds Ratio : 1.089552 
+## 95% CI            : 0.4301305 2.759916 
+## 
+## MLE Odds Ratio    : 1.089351 
+## 95% CI             : 0.4006202 3.263814
+\end{verbatim}
+
+Note that our \texttt{tab2by2()} function returns misleading risk ratio
+estimates and confidence intervals for this dataset. This is because the
+function expects the \texttt{exposure} and \texttt{outcome} variables to
+be ordered with exposure-present and outcome-present as the first
+category (e.g.~1 = present, 2 = absent). This coding is reversed (i.e.~0
+= absent, 1 = present) in the \texttt{gudhiv} dataset.
 
 \hypertarget{exercise5}{%
 \chapter{Extending R with packages}\label{exercise5}}
