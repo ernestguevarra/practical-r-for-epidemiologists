@@ -23,10 +23,14 @@
 }{}
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 \hypersetup{unicode=true,
             pdftitle={Practical R for Epidemiologists},
             pdfauthor={Mark Myatt},
-            pdfborder={0 0 0},
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=Blue,
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
 \usepackage{natbib}
@@ -81,6 +85,8 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
 }{% else
@@ -213,16 +219,97 @@
 \maketitle
 
 {
+\hypersetup{linkcolor=black}
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
+\hypertarget{welcome-to-practical-r-for-epidemiologists}{%
+\chapter*{Welcome to Practical R for
+Epidemiologists}\label{welcome-to-practical-r-for-epidemiologists}}
+\addcontentsline{toc}{chapter}{Welcome to Practical R for
+Epidemiologists}
+
 \includegraphics{images/bookcover.jpg}
 
+This is the website for \emph{Practical R for Epidemiologists}. Visit
+the
+\href{https://github.com/ernestguevarra/practical-r-for-epidemiologists}{GitHub
+repository for this site} or buy it as a
+\href{https://www.amazon.co.uk/Practical-R-Epidemiologists-Mark-Myatt-ebook/dp/B00DQATKIE/ref=sr_1_1?ie=UTF8\&qid=1524423427\&sr=8-1\&keywords=practical+r+for+epidemiologists}{Kindle
+ebook on Amazon}.
+
 \hypertarget{introduction}{%
-\chapter{Introduction}\label{introduction}}
+\chapter*{Introduction}\label{introduction}}
+\addcontentsline{toc}{chapter}{Introduction}
+
+These notes are intended as a practical introduction to using the
+\texttt{R} environment for data analysis and graphics to work with
+epidemiological data. Topics covered include univariate statistics,
+simple statistical inference, charting data, two-by-two tables,
+stratified analysis, chi-square test for trend, logistic regression,
+survival analysis, computer-intensive methods, and extending \texttt{R}
+using user-provided functions. You should be able to follow the material
+if you are reasonably familiar with the mechanics of statistical
+estimation (e.g.~calculation of odds ratios and confidence intervals)
+and require a system that can perform simple or complex analyses to your
+exact specifications.
+
+These notes are split into ten sections:
+
+\textbf{Introduction}: You are reading this section now!
+
+\textbf{Introducing R}: Some information about the \texttt{R} system,
+the way the \texttt{R} system works, how to get a copy of \texttt{R},
+and how to start \texttt{R}.
+
+\textbf{Exercise 1}: Read a dataset, producing descriptive statistics,
+charts, and perform simple statistical inference. The aim of the
+exercise is for you to become familiar with \texttt{R} and some basic
+\texttt{R} functions and objects.
+
+\textbf{Exercise 2}: In this exercise we explore how to manipulate
+\texttt{R} objects and how to write functions that can manipulate and
+extract data and information from \texttt{R} objects and produce useful
+analyses.
+
+\textbf{Exercise 3}: In this exercise we explore how \texttt{R} handles
+generalised linear models using the example of logistic regression as
+well as seeing how \texttt{R} can perform stratified
+(i.e.~Mantel-Haenszel) analysis as well as analysing data arising from
+matched case-control studies.
+
+\textbf{Exercise 4}: In this exercise we use \texttt{R} to analyse a
+small dataset using the methods introduced in the previous exercises.
+
+\textbf{Exercise 5}: In this exercise we explore how \texttt{R} can be
+extended using add-in packages. Specifically, we will use an add-in
+package to perform a survival analysis.
+
+\textbf{Exercise 6}: In this exercise we explore how to make your own
+\texttt{R} functions behave like \texttt{R} objects so that they return
+a data-structure that can be manipulated or interrogated by other
+\texttt{R} functions.
+
+\textbf{Exercise 7}: In this exercise we explore how you can use
+\texttt{R} to produce custom graphical functions.
+
+\textbf{Exercise 8}: In this exercise we explore some more graphical
+functions and create custom graphical functions that produce two
+variable plots, pyramid charts, Pareto charts, charts with error bars,
+and simple mesh-maps.
+
+\textbf{Exercise 9}: In this exercise we explore ways of implementing
+computer-intensive methods, such as the bootstrap and computer based
+simulation, using standard \texttt{R} functions.
+
+If you are interested in a system that is flexible, can be tailored to
+produce exactly the analysis you want, provides modern analytical
+facilities, and have a basic understanding of the mechanics of
+hypothesis testing and estimation then you should consider following
+this material.
 
 \hypertarget{introducing-r}{%
-\section{Introducing R}\label{introducing-r}}
+\chapter{Introducing R}\label{introducing-r}}
 
 \texttt{R} is a system for data manipulation, calculation, and graphics.
 It provides:
