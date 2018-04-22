@@ -15,7 +15,7 @@ description: "This guide is intended as a practical introduction to using the R 
 
 # Introduction {#chapter1}
 
-
+![prfe cover](images/bookcover.jpg)
 
 ## Introducing R
 
