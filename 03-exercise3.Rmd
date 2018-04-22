@@ -490,5 +490,67 @@ Before we continue, it is probably a good idea to save the `woolf.test()` functi
 save(woolf.test, file = "woolf.r")
 ```
 
+## Matched data
+
+*Matching* is another way to control for the effects of potential confounding variables. Matching is usually performed during data-collection as part of the design of a study.
+
+In a matched case-control studies, each case is matched with one or more controls which are chosen to have the same values over a set of potential confounding variables.
+In order to illustrate how matched data may be analysed using tabulation and stratification in `R` we will start with the simple case of one-to-one matching (i.e. each case has a single matched control):
+
+```{r, eval = TRUE}
+octe <- read.table("octe.dat", header = TRUE)
+octe[1:10, ]
+```
+
+This data is from a matched case-control study investigating the association between oral contraceptive use and thromboembolism. The cases are 175 women aged between 15 and 44 years admitted to hospital for thromboembolism and discharged alive. The controls are female patients admitted for conditions believed to be unrelated to oral contraceptive use. Cases and controls were matched on age, ethnic group, marital status, parity, income, place of residence, and date of hospitalisation. The variables in the dataset are:
+
++---------------+--------------------------------------------------------------+
+| **ID**        | Identifier for the matched sets of cases and controls        |
++---------------+--------------------------------------------------------------+
+| **CASE**      | Case (1) or control (2)                                      |
++---------------+--------------------------------------------------------------+
+| **OC**        | Used oral contraceptives in the previous month (1=yes, 2=no) |
++---------------+--------------------------------------------------------------+
+
+The dataset consists of 350 records:
+
+```{r, eval = TRUE}
+nrow(octe)
+```
+
+There are 175 matched sets of cases and controls:
+
+```{r, eval = TRUE}
+length(unique(octe$ID))
+```
+
+In each matched set of cases and controls there is one case and one control:
+
+```{r, eval = TRUE}
+table(octe$ID, octe$CASE)
+```
+
+This data may be analysed using *McNemar's chi-squared test* which use the number of discordant (i.e. relative to exposure) pairs of matched cases and controls.
+
+To find the number of discordant pairs we need to split the dataset into cases and controls:
+
+```{r, eval = TRUE}
+octe.cases <- subset(octe, CASE == 1)
+octe.controls <- subset(octe, CASE == 2)
+```
+
+Sorting these two datasets (i.e. `octe.cases` and `octe.controls`) by the `ID` variable simplifies the analysis:
+
+```{r, eval = TRUE}
+octe.cases <- octe.cases[order(octe.cases$ID), ]
+octe.controls <- octe.controls[order(octe.controls$ID), ]
+```
+
+Since the two datasets (i.e. `octe.cases` and `octe.controls`) are now sorted by the `ID` variable we can use the `table()` function to retrieve the number if concordant and discordant pairs and store them in a table object:
+
+```{r, eval = TRUE}
+tab <- table(octe.cases$OC, octe.controls$OC)
+tab
+```
 
 
