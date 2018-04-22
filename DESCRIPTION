@@ -1,0 +1,9 @@
+Package: practical-r-for-epidemiologists
+Title: Practical R for Epidemiologists
+Version: 0.1.0.9000
+Authors@R: c(
+    person("Mark", "Myatt", email = "mark@brixtonhealth.com", role = "aut"),
+    person("Ernest", "Guevarra", email = "ernestgmd@gmail.com", role = c("ctb", "cre")))
+Depends: R (>= 3.0.1)
+Imports:
+    bookdown
