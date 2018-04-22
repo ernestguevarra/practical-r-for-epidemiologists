@@ -75,3 +75,144 @@ tt
 
 You can use this feature of `R` in your own functions. We will explore this by writing a function to test the null hypothesis that the *variance to mean ratio* of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.
 
+Create a new function using the `function()` function:
+
+```{r, eval = FALSE}
+v2m.test <- function(data) {}
+```
+
+And start the function editor:
+
+```{r, eval = FALSE}
+fix(v2m.test)
+```
+
+Now edit this function to make it do something useful:
+
+```{r, eval = FALSE}
+function(data) {
+  nsu <- length(data)
+  obs <- sum(data)
+  m <- obs / nsu
+  v <- var(data)
+  vmr <- v / m
+  chi2 <- sum((data - m)^2) / m
+  df <- nsu - 1
+  p <- 1 - pchisq(chi2, df)
+  names(chi2) <- "Chi-square"
+  names(df) <- "df"
+  names(vmr) <- "Variance : mean ratio"
+  v2m <- list(method = "Variance to mean test",
+              data.name = deparse(substitute(data)),
+              statistic = chi2,
+              parameter = df,
+              p.value = p,
+              estimate = vmr)
+  class(v2m) <- "htest"
+  return(v2m)
+}
+```
+
+```{r, eval = TRUE}
+v2m.test <- function(data) {
+  nsu <- length(data)
+  obs <- sum(data)
+  m <- obs / nsu
+  v <- var(data)
+  vmr <- v / m
+  chi2 <- sum((data - m)^2) / m
+  df <- nsu - 1
+  p <- 1 - pchisq(chi2, df)
+  names(chi2) <- "Chi-square"
+  names(df) <- "df"
+  names(vmr) <- "Variance : mean ratio"
+  v2m <- list(method = "Variance to mean test",
+              data.name = deparse(substitute(data)),
+              statistic = chi2,
+              parameter = df,
+              p.value = p,
+              estimate = vmr)
+  class(v2m) <- "htest"
+  return(v2m)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+Before proceeding we should examine the `v2m.test()` function to make sure we understand what is happening:
+  
+1. The first eight lines after the opening curly bracket (`{`) contain the required calculations.
+
+2. The next three lines use the `names()` function to give our variables names that will make sense in formatted output.
+
+3. The next line creates a list of items that the function returns using some of the names used by `htest` class objects.
+
+4. The next line tells `R` that the list object called `v2m` is of the class `htest`.
+
+5. The next line causes the function to return the `v2m` object (i.e. a list of class `htest` containing the named items `method`, `data.name`, `statistic`, `parameter`, `p.value`, and `estimate`). 
+
+6. The final line ends the function definition.
+    
+Note that objects of class htest may contain items with the following names:
+ 
++--------------------+-----------------------------------------------------------------------+
+| **Item**           | **Usage**                                                             |
++====================+=======================================================================+
+| **method**         | Text description of the test used to title output                     |
++--------------------+-----------------------------------------------------------------------+
+| **data.name**      | Name(s) of data or variables used for the test                        |
++--------------------+-----------------------------------------------------------------------+
+| **null.value**     | The null value                                                        |
++--------------------+-----------------------------------------------------------------------+
+| **statistic**      | Value of test statistic                                               |
++--------------------+-----------------------------------------------------------------------+
+| **parameter**      | A test parameter such as the degrees of freedom of the test statistic |
++--------------------+-----------------------------------------------------------------------+
+| **p.value**        | The p-value of the test                                               |
++--------------------+-----------------------------------------------------------------------+
+| **estimate**       | An estimate (e.g. the mean)                                           |
++--------------------+-----------------------------------------------------------------------+
+| **conf.int**       | Confidence interval of estimate                                       |
++--------------------+-----------------------------------------------------------------------+
+| **alternative**    | Text describing the alternative hypothesis                            |
++--------------------+-----------------------------------------------------------------------+
+| **note**           | Text note                                                             |
++--------------------+-----------------------------------------------------------------------+
+
+We are now ready to test the `v2m.test()` function. This table: 
+
+```
+Number of cases :       0  1  2  3  4  6
+Number of households : 24 29 26 14  5  2
+```
+
+shows the number of cases of chronic (stunting) undernutrition found in a random sample of 100 households. 
+
+We can reproduce the data behind this table using a combination of the `c()` and `rep()` functions:
+
+```{r, eval = TRUE}
+stunt <- c(rep(0,24), rep(1,29), rep(2,26), rep(3,14), rep(4,5),
+           rep(5,0), rep(6,2))
+table(stunt)
+```
+
+And use it to test our new `v2m.test()` function: 
+
+```{r, eval = FALSE}
+v2m.test(stunt)
+```
+
+Which should produce the following output:
+
+```{r, eval = TRUE}
+v2m.test(stunt)
+```
+
+If your `vm2.test()` function does not produce this output then use the `fix()` function: 
+
+```{r, eval = FALSE}
+fix(v2m.test)
+```
+
+to check and edit the `vm2.test()` function and try again.
+
