@@ -216,3 +216,199 @@ fix(v2m.test)
 
 to check and edit the `vm2.test()` function and try again.
 
+The important thing to note from this exercise is that `R` allows us to specify a class for the output of our functions. This means that we can use standard `R` classes and functions to (e.g.) produce formatted output without us having to write commands to format the output ourselves.
+
+More importantly, it also means that we can write functions that return values when we need them to return values but can also produce formatted output when we need them to produce formatted output.
+
+Our `v2m.test()` function can produce values for later use: 
+
+```{r, eval = TRUE}
+vm <- v2m.test(stunt)
+vm$p.value
+```
+
+or produce formatted output:
+
+```{r, eval = TRUE}
+v2m.test(stunt)
+```
+
+This way of working is not limited to using standard `R` classes and functions.
+
+`R` also allows us to define our own classes. We will explore this by defining functions and a new class to deal
+with two-by-two tables.
+
+We need to create two functions:
+
+1. One function will handle the calculations.
+
+2. A second function function will produce formatted output when required. 
+
+Create a new function using the `function()` function:
+
+```{r, eval = FALSE}
+rr22 <- function(exposure, outcome) {}
+```
+
+And start the function editor:
+
+```{r, eval = FALSE}
+fix(rr22)
+```
+
+Now edit this function to make it do something useful:
+
+```{r, eval = FALSE}
+function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d))
+  lci <- exp(log(rr) - 1.96 * se.log.rr)
+  uci <- exp(log(rr) + 1.96 * se.log.rr)
+  rr22.output <- list(estimate = rr, ci = c(lci, uci))
+  class(rr22.output) <- "rr22"
+  return(rr22.output)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+rr22 <- function(exposure, outcome) {
+  tab <- table(exposure, outcome)
+  a <- tab[1,1]
+  b <- tab[1,2]
+  c <- tab[2,1]
+  d <- tab[2,2]
+  rr <- (a / (a + b)) / (c / (c + d))
+  se.log.rr <- sqrt((b / a) / (a + b) + (d / c) / (c + d))
+  lci <- exp(log(rr) - 1.96 * se.log.rr)
+  uci <- exp(log(rr) + 1.96 * se.log.rr)
+  rr22.output <- list(estimate = rr, ci = c(lci, uci))
+  class(rr22.output) <- "rr22"
+  return(rr22.output)
+}
+```
+
+Once you have made the changes shown above, save the file and quit the editor.
+
+The `rr22()` function is similar to the `tab2by2()` function that you created in the second exercise of this
+tutorial except that the function now returns a list of values instead of formatted output:
+
+```{r, eval = FALSE}
+fem <- read.table("fem.dat", header = TRUE)
+attach(fem)
+rr22.test <- rr22(SEX, LIFE)
+names(rr22.test)
+rr22.test$estimate
+rr22.test$conf.int
+rr22.test$conf.int[1]
+rr22.test$conf.int[2]
+```
+
+```{r, echo = FALSE, eval = TRUE}
+fem <- read.table("fem.dat", header = TRUE)
+attach(fem)
+rr22.test <- rr22(SEX, LIFE)
+names(rr22.test)
+rr22.test$estimate
+rr22.test$conf.int
+rr22.test$conf.int[1]
+rr22.test$conf.int[2]
+```
+
+The function returns a list of class `rr22`: 
+
+```{r, eval = TRUE}
+class(rr22.test)
+```
+
+The displayed output from the `rr22()` function is, however, not pretty: 
+
+```{r, eval = FALSE}
+print(rr22.test)
+rr22(SEX, LIFE)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+print(rr22.test)
+rr22(SEX, LIFE)
+```
+
+This can be fixed by creating a new function:
+
+```{r, eval = FALSE}
+print.rr22 <- function(x) {}
+```
+
+And start the function editor:
+
+```{r, eval = FALSE}
+fix(print.rr22)
+```
+
+Now edit this function to make it do something useful:
+
+```{r, eval = FALSE}
+function(x) {
+  cat("RR     : ", x$estimate, "\n",
+      "95% CI : ", x$ci[1], "; ", x$ci[2], "\n", sep = "")
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+print.rr22 <- function(x) {
+  cat("RR     : ", x$estimate, "\n",
+      "95% CI : ", x$ci[1], "; ", x$ci[2], "\n", sep = "")
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+The function name `print.rr22()` indicates that this function contains the print method for objects of class `rr22`. All objects of class `rr22` will use the function `print.rr22()` instead of the standard `R` `print()` function to produce formatted output:
+
+```{r, eval = FALSE}
+rr22(SEX, LIFE)
+rr22.test <- rr22(SEX, LIFE)
+rr22.test
+print(rr22.test)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+rr22(SEX, LIFE)
+rr22.test <- rr22(SEX, LIFE)
+rr22.test
+print(rr22.test)
+```
+
+Note that we can still extract returned values from an `rr22` class object: 
+
+```{r, eval = FALSE}
+rr22.test$estimate
+```
+
+The `print.rr22()` function only controls the way an entire `rr22` object is displayed.
+
+You might like to use the `save()` function to save the `v2m.test()`, `rr22()`, and `print.rr22()` functions before quitting `R`. We can now quit `R`:
+
+```{r, eval = FALSE}
+q()
+```
+
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
+
+## Summary
+
+* `R` objects can be assigned a class or type.
+
+* Objects of a specific class or type may share functions that extract and manipulate data common to members of that class. This allows you to write functions that handle data that is common to all members of that class (e.g. to produce formatted output for hypothesis testing functions).
+
+* `R` provides a set of ready-made classes (e.g. `htest`) which can be used by standard R functions such as the `print()` and `summary()` functions.
+
+* `R` allows you to create new classes and class-specific functions that can extract and manipulate data common to the new classes.
+
+* Classes allows you to create versatile functions that return values when you need them to return values but can also produce formatted output when you need them to produce formatted output.
+
+* Classes allow you to write functions that can be chained together so that the output of one function is the input of another function.
