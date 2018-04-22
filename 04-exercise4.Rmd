@@ -73,3 +73,68 @@ tab2by2(INJ12M, HIV)
 
 Note that our `tab2by2()` function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the `exposure` and `outcome` variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the `gudhiv` dataset.
 
+We can produce risk ratio estimates for variables in the `gudhiv` data using the `tab2by2()` function and a
+simple transformation of the `exposure` and `outcome` variables. For example: 
+
+```{r, eval = TRUE}
+tab2by2(2 - GUD, 2 - HIV)
+```
+
+The odds ratio estimates returned by the `tab2by2()` function, with or without this transformation, are correct. The `GUD` and `TRAVOUT` variables are associated with `HIV`.
+
+`PARTNERS` is a continuous variable and we should examine its distribution before doing anything with it: 
+
+```{r, eval = FALSE}
+table(PARTNERS)
+hist(PARTNERS)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+table(PARTNERS)
+hist(PARTNERS)
+```
+
+The distribution of `PARTNERS` is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the `HIV` variable and perform a non-parametric test:
+   
+```{r, eval = FALSE}
+by(PARTNERS, HIV, summary)
+kruskal.test(PARTNERS ~ HIV)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+by(PARTNERS, HIV, summary)
+kruskal.test(PARTNERS ~ HIV)
+```
+
+An alternative way of looking at the data is as a tabulation:
+
+```{r, eval = TRUE}
+table(PARTNERS, HIV)
+```
+
+You can use the `plot()` function to represent this table graphically: 
+
+```{r, eval = TRUE}
+plot(table(PARTNERS, HIV), color = c("lightgreen", "red"))
+```
+
+There appears to be an association between the number of sexual `PARTNERS` in the previous twelve months and positive `HIV` serology. The proportion with positive `HIV` serology increases as the number of sexual partners increases:
+
+```{r, eval = TRUE}
+prop.table(table(PARTNERS, HIV), 1) * 100
+```
+
+The **‘1’** instructs the `prop.table()` function to calculate row proportions. You can also use the `plot()` function to represent this table graphically:
+
+```{r, eval = TRUE}
+plot(prop.table(table(PARTNERS, HIV), 1) * 100, color = c("lightgreen", "red"))
+```
+
+The *chi-square test for trend* is an appropriate test to perform on this data. The `prop.trend.test()` function that performs the *chi-square test for trend* requires you to specify the *number of events* and the *number of trials*. In this table:
+
+```{r, eval = TRUE}
+table(PARTNERS, HIV)
+```
+
+The *number of events* in each row is in the second column (labelled **1**) and the *number of trials* is the total number of cases in each row of the table.
+
