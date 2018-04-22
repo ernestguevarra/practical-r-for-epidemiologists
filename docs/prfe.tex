@@ -982,7 +982,13 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 7):
+## The following objects are masked from fem (pos = 3):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 8):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -2261,7 +2267,7 @@ our data:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 7):
+## The following objects are masked from salex (pos = 8):
 ## 
 ##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
 ##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
@@ -4259,7 +4265,7 @@ variables are coded 1=yes, 2=no. Retrieve and attach the
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 8):
+## The following objects are masked from salex (pos = 9):
 ## 
 ##     CRISPS, ILL, RICE, TOMATO
 \end{verbatim}
@@ -5767,7 +5773,7 @@ And then retrieve and attach the sample dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from gudhiv (pos = 7):
+## The following objects are masked from gudhiv (pos = 8):
 ## 
 ##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO,
 ##     TRAVOUT, UTIGC
@@ -6937,7 +6943,7 @@ Before we go any further we should retrieve a dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from ca (pos = 6):
+## The following objects are masked from ca (pos = 7):
 ## 
 ##     group, status, time
 \end{verbatim}
@@ -7169,6 +7175,237 @@ when prompted to save the workspace image (terminal).
 \hypertarget{exercise6}{%
 \chapter{Making your own objects behave like R
 objects}\label{exercise6}}
+
+In the previous exercises we concentrated on writing functions that take
+some input data, analyse it, and display the results of the analysis.
+The standard \texttt{R} functions we have used all do this. The
+\texttt{fisher.test()} function, for example, takes a \texttt{table}
+object (or the names of two variables) as input and calculates and
+displays the p- value for \emph{Fisher's exact test} and the odds ratio
+and associated confidence interval for two-by-two tables:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fem <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"fem.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(fem)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 6):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 7):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 12):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+The results of the \texttt{fisher.test()} function may also be saved for
+later use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ft <-}\StringTok{ }\KeywordTok{fisher.test}\NormalTok{(SEX, LIFE)}
+\NormalTok{ft}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+The \texttt{fisher.test()} function returns an object of the class
+\texttt{htest}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{(ft)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "htest"
+\end{verbatim}
+
+which is a list containing the output of the \texttt{fisher.test()}
+function. Each item of output is stored as a different named item in the
+list:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(ft)}
+\KeywordTok{str}\NormalTok{(ft)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "p.value"     "conf.int"    "estimate"    "null.value"  "alternative"
+## [6] "method"      "data.name"
+\end{verbatim}
+
+\begin{verbatim}
+## List of 7
+##  $ p.value    : num 0.0318
+##  $ conf.int   : atomic [1:2] 1.08 14.21
+##   ..- attr(*, "conf.level")= num 0.95
+##  $ estimate   : Named num 3.62
+##   ..- attr(*, "names")= chr "odds ratio"
+##  $ null.value : Named num 1
+##   ..- attr(*, "names")= chr "odds ratio"
+##  $ alternative: chr "two.sided"
+##  $ method     : chr "Fisher's Exact Test for Count Data"
+##  $ data.name  : chr "SEX and LIFE"
+##  - attr(*, "class")= chr "htest"
+\end{verbatim}
+
+Each of these items can be referred to by name:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ft}\OperatorTok{$}\NormalTok{estimate}
+\NormalTok{ft}\OperatorTok{$}\NormalTok{conf.int}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+\begin{verbatim}
+## [1]  1.080298 14.214482
+## attr(,"conf.level")
+## [1] 0.95
+\end{verbatim}
+
+When you display the output of the \texttt{fisher.test()} function
+either by calling the function directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fisher.test}\NormalTok{(SEX, LIFE)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+or by typing the name of an object created using the
+\texttt{fisher.test()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ft}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Fisher's Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646
+\end{verbatim}
+
+The \texttt{print()} function takes over and formatted output is
+produced. The \texttt{print()} function knows about \texttt{htest} class
+objects and produces output of the correct format for that class of
+object. This means that any function that produces an \texttt{htest}
+object (or any other standard \texttt{R} object) does not need to
+include \texttt{R} commands to produce formatted output.
+
+All hypothesis testing functions supplied with \texttt{R} produce
+objects of the htest class and use the \texttt{print()} function to
+produce formatted output. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tt <-}\StringTok{ }\KeywordTok{t.test}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{LIFE)}
+\KeywordTok{class}\NormalTok{(tt)}
+\NormalTok{tt}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "htest"
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.60608, df = 98.866, p-value = 0.5459
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3326225  0.6251763
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444
+\end{verbatim}
+
+You can use this feature of \texttt{R} in your own functions. We will
+explore this by writing a function to test the null hypothesis that the
+\emph{variance to mean ratio} of a vector of numbers is equal to one.
+Such a test might be used to investigate the spatial distribution
+(e.g.~over natural sampling units such as households) of cases of a
+disease.
 
 \hypertarget{exercise7}{%
 \chapter{Writing your own graphical functions}\label{exercise7}}

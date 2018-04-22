@@ -169,6 +169,110 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise6" class="section level1">
 <h1><span class="header-section-number">7</span> Making your own objects behave like R objects</h1>
+<p>In the previous exercises we concentrated on writing functions that take some input data, analyse it, and display the results of the analysis. The standard <code>R</code> functions we have used all do this. The <code>fisher.test()</code> function, for example, takes a <code>table</code> object (or the names of two variables) as input and calculates and displays the p- value for <em>Fisher’s exact test</em> and the odds ratio and associated confidence interval for two-by-two tables:</p>
+<pre class="sourceCode r" id="cb458"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">attach</span>(fem)</a></code></pre>
+<pre><code>## The following objects are masked from fem (pos = 7):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
+<pre class="sourceCode r" id="cb460"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>The results of the <code>fisher.test()</code> function may also be saved for later use:</p>
+<pre class="sourceCode r" id="cb462"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(SEX, LIFE)</a>
+<a class="sourceLine" id="cb462-2" data-line-number="2">ft</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>The <code>fisher.test()</code> function returns an object of the class <code>htest</code>:</p>
+<pre class="sourceCode r" id="cb464"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="kw">class</span>(ft)</a></code></pre>
+<pre><code>## [1] &quot;htest&quot;</code></pre>
+<p>which is a list containing the output of the <code>fisher.test()</code> function. Each item of output is stored as a different named item in the list:</p>
+<pre class="sourceCode r" id="cb466"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="kw">names</span>(ft)</a>
+<a class="sourceLine" id="cb466-2" data-line-number="2"><span class="kw">str</span>(ft)</a></code></pre>
+<pre><code>## [1] &quot;p.value&quot;     &quot;conf.int&quot;    &quot;estimate&quot;    &quot;null.value&quot;  &quot;alternative&quot;
+## [6] &quot;method&quot;      &quot;data.name&quot;</code></pre>
+<pre><code>## List of 7
+##  $ p.value    : num 0.0318
+##  $ conf.int   : atomic [1:2] 1.08 14.21
+##   ..- attr(*, &quot;conf.level&quot;)= num 0.95
+##  $ estimate   : Named num 3.62
+##   ..- attr(*, &quot;names&quot;)= chr &quot;odds ratio&quot;
+##  $ null.value : Named num 1
+##   ..- attr(*, &quot;names&quot;)= chr &quot;odds ratio&quot;
+##  $ alternative: chr &quot;two.sided&quot;
+##  $ method     : chr &quot;Fisher&#39;s Exact Test for Count Data&quot;
+##  $ data.name  : chr &quot;SEX and LIFE&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;htest&quot;</code></pre>
+<p>Each of these items can be referred to by name:</p>
+<pre class="sourceCode r" id="cb469"><code class="sourceCode r"><a class="sourceLine" id="cb469-1" data-line-number="1">ft<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb469-2" data-line-number="2">ft<span class="op">$</span>conf.int</a></code></pre>
+<pre><code>## odds ratio 
+##   3.620646</code></pre>
+<pre><code>## [1]  1.080298 14.214482
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p>When you display the output of the <code>fisher.test()</code> function either by calling the function directly:</p>
+<pre class="sourceCode r" id="cb472"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>or by typing the name of an object created using the <code>fisher.test()</code> function:</p>
+<pre class="sourceCode r" id="cb474"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">ft</a></code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  SEX and LIFE
+## p-value = 0.03175
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   1.080298 14.214482
+## sample estimates:
+## odds ratio 
+##   3.620646</code></pre>
+<p>The <code>print()</code> function takes over and formatted output is produced. The <code>print()</code> function knows about <code>htest</code> class objects and produces output of the correct format for that class of object. This means that any function that produces an <code>htest</code> object (or any other standard <code>R</code> object) does not need to include <code>R</code> commands to produce formatted output.</p>
+<p>All hypothesis testing functions supplied with <code>R</code> produce objects of the htest class and use the <code>print()</code> function to produce formatted output. For example:</p>
+<pre class="sourceCode r" id="cb476"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1">tt &lt;-<span class="st"> </span><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a>
+<a class="sourceLine" id="cb476-2" data-line-number="2"><span class="kw">class</span>(tt)</a>
+<a class="sourceLine" id="cb476-3" data-line-number="3">tt</a></code></pre>
+<pre><code>## [1] &quot;htest&quot;</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  WT by LIFE
+## t = 0.60608, df = 98.866, p-value = 0.5459
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.3326225  0.6251763
+## sample estimates:
+## mean in group 1 mean in group 2 
+##       0.7867213       0.6404444</code></pre>
+<p>You can use this feature of <code>R</code> in your own functions. We will explore this by writing a function to test the null hypothesis that the <em>variance to mean ratio</em> of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.</p>
 
 </div>
             </section>
