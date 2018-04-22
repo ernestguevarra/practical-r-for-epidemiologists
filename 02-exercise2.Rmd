@@ -502,14 +502,19 @@ We can now quit `R`:
 q()
 ```
 
-For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter **n** when prompted to save the workspace image (terminal).
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 
 ## Summary
 
 * `R` objects contain information that can be examined and manipulated.
+
 * `R` can be extended by writing new functions.
+
 * New functions can perform simple or complex data analysis.
+
 * New functions can be composed of parts of existing function.
+
 * New functions can be saved and used in subsequent `R` sessions.
+
 * Objects defined within functions are local to that function and only exist while that function is being used. This means that you can re-use meaningful names within functions without them interfering with each other.
 

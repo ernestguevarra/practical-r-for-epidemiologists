@@ -678,7 +678,7 @@ q()
 ```
 
 
-For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter n when prompted to save the workspace image (terminal).
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 
 ## Summary
 

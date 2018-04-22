@@ -516,7 +516,7 @@ q()
 
 When you call the `q()` function you will be asked if you want to save the workspace image. If you save the workspace image then all of the objects and functions currently available to you will be saved. These will then be automatically restored the next time you start `R` in the current working directory.
 
-For this exercise there is no need to save the workspace image so click the `No` or `Don't Save` button (GUI) or enter `n` when prompted to save the workspace image (terminal).
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 
 ## Summary
 

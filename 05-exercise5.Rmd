@@ -61,3 +61,57 @@ The `plot()` function with a `survfit` object displays the survival curves:
 ```{r, eval = TRUE}
 plot(ca.surv, xlab = "Months", ylab = "Survival")
 ```
+
+We can make it easier to distinguish between the two lines by specifying a width for each line using thelwd
+parameter of the `plot()` function:
+
+```{r, eval = TRUE}
+plot(ca.surv, xlab = "Months", ylab = "Survival", lwd = c(1, 2))
+```
+
+It would also be useful to add a legend:
+
+```{r, eval = FALSE}
+legend(125, 1, names(ca.surv$strata), lwd = c(1, 2))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(ca.surv, xlab = "Months", ylab = "Survival", lwd = c(1, 2))
+legend(125, 1, names(ca.surv$strata), lwd = c(1, 2))
+```
+
+If there is only one survival curve to plot then plotting a `survfit` object will plot the survival curve with 95% confidence limits. You can specify that confidence limits should be plotted when there is more than one survival curve but the results can be disappointing:
+
+```{r, eval = TRUE}
+plot(ca.surv, conf.int = TRUE)
+```
+
+Plots can be improved by specifying different colours for each curve:
+
+```{r, eval = TRUE}
+plot(ca.surv, conf.int = TRUE, col = c("red", "darkgreen"))
+```
+
+We can perform a formal test of the two survival times using the `survdiff()` function: 
+
+```{r, eval = TRUE}
+survdiff(response ~ group)
+```
+
+We can now quit `R`: 
+
+```{r, eval = FALSE}
+q()
+```
+
+For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
+
+## Summary
+
+* `R` can be extended by adding additional packages. Some packages are included with the standard `R` installation but many others are available and may be downloaded from the Internet.
+
+* You can find a list of add-in packages at the `R` website: http://www.r-project.org/
+
+* Packages may also be downloaded and installed from this site using the `install.packages()` function or from the **Packages** or **Packages & Data** menu if you are using a GUI version of `R`.
+
+* Packages are loaded into `R` as they are needed using the `library()` function. You can use the `search()` function to display a list of loaded packages and attached data.frames.
