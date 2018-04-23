@@ -171,6 +171,101 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise7" class="section level1">
 <h1><span class="header-section-number">8</span> Writing your own graphical functions</h1>
+<p><code>R</code> provides a pretty full set of graphical functions for plotting data as well as <code>plot()</code> methods for a wide variety of statistical functions. There will be times, however, when you will need to write you own graphical functions to present and analyse data in a specific way. In this exercise we will create a function that produces a plot that may be used for assessing agreement between two methods of clinical measurement as described in:</p>
+<pre><code>Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods of Clinical Measurement. Lancet. 1986;1: 307–310. </code></pre>
+<p>Which involves plotting the difference of two measurements against the mean of the two measurements and calculating and displaying limits of agreement.</p>
+<p>Start <code>R</code> and retrieve and attach the sample dataset:</p>
+<pre class="sourceCode r" id="cb520"><code class="sourceCode r"><a class="sourceLine" id="cb520-1" data-line-number="1">ba &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ba.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb520-2" data-line-number="2"><span class="kw">attach</span>(ba)</a></code></pre>
+<p>The <code>ba</code> data.frame contains measurements (in litres per minute) taken with a <em>Wright peak flow meter</em> and a <em>Mini-Wright peak flow meter</em>. This is the same data that is presented in the referenced Lancet article:</p>
+<pre><code>##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451</code></pre>
+<p>Wright Mini
+1 494 512
+2 395 430
+3 516 520
+4 434 428
+5 476 500
+6 557 600
+7 413 364
+8 442 380
+9 650 658
+10 433 445
+11 417 432
+12 656 626
+13 267 260
+14 478 477
+15 178 259
+16 423 350
+17 427 451</p>
+<p>You can examine the <code>ba</code> data.frame using the <code>print()</code> and <code>summary()</code> functions:</p>
+<pre class="sourceCode r" id="cb522"><code class="sourceCode r"><a class="sourceLine" id="cb522-1" data-line-number="1"><span class="kw">print</span>(ba)</a>
+<a class="sourceLine" id="cb522-2" data-line-number="2">ba</a>
+<a class="sourceLine" id="cb522-3" data-line-number="3"><span class="kw">summary</span>(ba)</a></code></pre>
+<pre><code>##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451</code></pre>
+<pre><code>##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451</code></pre>
+<pre><code>##      Wright           Mini      
+##  Min.   :178.0   Min.   :259.0  
+##  1st Qu.:417.0   1st Qu.:380.0  
+##  Median :434.0   Median :445.0  
+##  Mean   :450.4   Mean   :452.5  
+##  3rd Qu.:494.0   3rd Qu.:512.0  
+##  Max.   :656.0   Max.   :658.0</code></pre>
+<p>The <code>function()</code> function allows us to create new functions in <code>R</code>:</p>
+<pre class="sourceCode r" id="cb526"><code class="sourceCode r"><a class="sourceLine" id="cb526-1" data-line-number="1">ba.plot &lt;-<span class="st"> </span><span class="cf">function</span>(a, b) {}</a></code></pre>
+<p>This creates an empty function called <code>ba.plot()</code> that expects two parameters called <code>a</code> and <code>b</code>. We could type the whole function in at the <code>R</code> command prompt but it is easier to use a text editor:</p>
+<pre class="sourceCode r" id="cb527"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<p>We will start be writing a basic function which we will gradually improve throughout this exercise.</p>
 
 </div>
             </section>

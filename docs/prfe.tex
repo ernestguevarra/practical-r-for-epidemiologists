@@ -986,19 +986,19 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 3):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 4):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 9):
+## The following objects are masked from fem (pos = 5):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 10):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -2277,7 +2277,7 @@ our data:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 9):
+## The following objects are masked from salex (pos = 10):
 ## 
 ##     ALMONDS, BEEF, CHOCOLATE, COLESLAW, CRISPS, EGGS, FRUIT, HAM,
 ##     ILL, LETTUCE, MUSHROOM, PASTA, PEACHCAKE, PEPPER, PORKPIE,
@@ -4275,7 +4275,7 @@ variables are coded 1=yes, 2=no. Retrieve and attach the
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from salex (pos = 10):
+## The following objects are masked from salex (pos = 11):
 ## 
 ##     CRISPS, ILL, RICE, TOMATO
 \end{verbatim}
@@ -5783,7 +5783,7 @@ And then retrieve and attach the sample dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from gudhiv (pos = 9):
+## The following objects are masked from gudhiv (pos = 10):
 ## 
 ##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO,
 ##     TRAVOUT, UTIGC
@@ -6953,7 +6953,7 @@ Before we go any further we should retrieve a dataset:
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from ca (pos = 8):
+## The following objects are masked from ca (pos = 9):
 ## 
 ##     group, status, time
 \end{verbatim}
@@ -7208,19 +7208,19 @@ and associated confidence interval for two-by-two tables:
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 7):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 8):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 13):
+## The following objects are masked from fem (pos = 9):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 14):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -7784,19 +7784,19 @@ output:
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 8):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 9):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from fem (pos = 14):
+## The following objects are masked from fem (pos = 10):
+## 
+##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 15):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
@@ -7982,6 +7982,153 @@ when prompted to save the workspace image (terminal).
 
 \hypertarget{exercise7}{%
 \chapter{Writing your own graphical functions}\label{exercise7}}
+
+\texttt{R} provides a pretty full set of graphical functions for
+plotting data as well as \texttt{plot()} methods for a wide variety of
+statistical functions. There will be times, however, when you will need
+to write you own graphical functions to present and analyse data in a
+specific way. In this exercise we will create a function that produces a
+plot that may be used for assessing agreement between two methods of
+clinical measurement as described in:
+
+\begin{verbatim}
+Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods of Clinical Measurement. Lancet. 1986;1: 307–310. 
+\end{verbatim}
+
+Which involves plotting the difference of two measurements against the
+mean of the two measurements and calculating and displaying limits of
+agreement.
+
+Start \texttt{R} and retrieve and attach the sample dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ba <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"ba.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(ba)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from ba (pos = 9):
+## 
+##     Mini, Wright
+\end{verbatim}
+
+The \texttt{ba} data.frame contains measurements (in litres per minute)
+taken with a \emph{Wright peak flow meter} and a \emph{Mini-Wright peak
+flow meter}. This is the same data that is presented in the referenced
+Lancet article:
+
+\begin{verbatim}
+##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451
+\end{verbatim}
+
+Wright Mini 1 494 512 2 395 430 3 516 520 4 434 428 5 476 500 6 557 600
+7 413 364 8 442 380 9 650 658 10 433 445 11 417 432 12 656 626 13 267
+260 14 478 477 15 178 259 16 423 350 17 427 451
+
+You can examine the \texttt{ba} data.frame using the \texttt{print()}
+and \texttt{summary()} functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{print}\NormalTok{(ba)}
+\NormalTok{ba}
+\KeywordTok{summary}\NormalTok{(ba)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451
+\end{verbatim}
+
+\begin{verbatim}
+##    Wright Mini
+## 1     494  512
+## 2     395  430
+## 3     516  520
+## 4     434  428
+## 5     476  500
+## 6     557  600
+## 7     413  364
+## 8     442  380
+## 9     650  658
+## 10    433  445
+## 11    417  432
+## 12    656  626
+## 13    267  260
+## 14    478  477
+## 15    178  259
+## 16    423  350
+## 17    427  451
+\end{verbatim}
+
+\begin{verbatim}
+##      Wright           Mini      
+##  Min.   :178.0   Min.   :259.0  
+##  1st Qu.:417.0   1st Qu.:380.0  
+##  Median :434.0   Median :445.0  
+##  Mean   :450.4   Mean   :452.5  
+##  3rd Qu.:494.0   3rd Qu.:512.0  
+##  Max.   :656.0   Max.   :658.0
+\end{verbatim}
+
+The \texttt{function()} function allows us to create new functions in
+\texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ba.plot <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(a, b) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{ba.plot()} that expects
+two parameters called \texttt{a} and \texttt{b}. We could type the whole
+function in at the \texttt{R} command prompt but it is easier to use a
+text editor:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(ba.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+We will start be writing a basic function which we will gradually
+improve throughout this exercise.
 
 \hypertarget{exercise8}{%
 \chapter{More graphical functions}\label{exercise8}}
