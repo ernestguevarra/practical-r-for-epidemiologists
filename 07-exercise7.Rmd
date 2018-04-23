@@ -1,1 +1,70 @@
 # Writing your own graphical functions {#exercise7}
+
+`R` provides a pretty full set of graphical functions for plotting data as well as `plot()` methods for a wide variety of statistical functions. There will be times, however, when you will need to write you own graphical functions to present and analyse data in a specific way. In this exercise we will create a function that produces a plot that may be used for assessing agreement between two methods of clinical measurement as described in:
+
+```
+Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods of Clinical Measurement. Lancet. 1986;1: 307–310. 
+```
+
+Which involves plotting the difference of two measurements against the mean of the two measurements and calculating and displaying limits of agreement.
+
+Start `R` and retrieve and attach the sample dataset:
+
+```{r, eval = TRUE}
+ba <- read.table("ba.dat", header = TRUE)
+attach(ba)
+```
+
+The `ba` data.frame contains measurements (in litres per minute) taken with a *Wright peak flow meter* and a *Mini-Wright peak flow meter*. This is the same data that is presented in the referenced Lancet article:
+
+```{r, echo = FALSE, eval = TRUE}
+ba
+```
+
+   Wright Mini
+ 1 494    512
+ 2 395    430
+ 3 516    520
+ 4 434    428
+ 5 476    500
+ 6 557    600
+ 7 413    364
+ 8 442    380
+ 9 650    658
+10 433    445
+11 417    432
+12 656    626
+13 267    260
+14 478    477
+15 178    259
+16 423    350
+17 427    451
+   
+You can examine the `ba` data.frame using the `print()` and `summary()` functions:
+
+```{r, eval = FALSE}
+print(ba)
+ba
+summary(ba)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+print(ba)
+ba
+summary(ba)
+```
+
+The `function()` function allows us to create new functions in `R`: 
+
+```{r, eval = FALSE}
+ba.plot <- function(a, b) {}
+```
+
+This creates an empty function called `ba.plot()` that expects two parameters called `a` and `b`. We could type the whole function in at the `R` command prompt but it is easier to use a text editor:
+
+```{r, eval = FALSE}
+fix(ba.plot)
+```
+
+We will start be writing a basic function which we will gradually improve throughout this exercise.
+
