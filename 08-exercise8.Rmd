@@ -62,3 +62,57 @@ We might want to explore the association between the `Rain` and `Cases` variable
 plot(Rain, Cases)
 ```
 
+It is better to treat both variables as time series (which they are) and use the built-in `plot()` methods for objects of class `ts`:
+
+```{r, eval = TRUE}
+rain.cases.ts <- ts(cbind(Rain, Cases), start = c(1997,7), frequency = 12)
+plot(rain.cases.ts)
+```
+
+The association between the `Rain` and `Cases` variables is now clearer with the number of malaria cases peaking shortly after peaks in rainfall.
+
+The `plot()` function when used with objects of class `ts` produces useful output but it is not particularly flexible and the output is, sometimes, not particularly pretty. We can however use basic graphical functions to produce multiple plots. First we will set the `mfrow` graphical parameter using the `par()` function:
+
+```{r, eval = TRUE}
+par(mfrow = c(2, 1))
+```
+
+The `par()` function sets a graphical parameter. The `mfrow` parameter is used to set the number of charts that will appear on a page in rows and columns. We have specified two rows with one chart per row. Test this by plotting two charts:
+
+```{r, eval = TRUE}
+plot(Rain, type = "l")
+plot(Cases, type = "l")
+```
+
+We will want to have tick-marks on the x-axis of each for each record. We can set the number of tick-marks on axes by setting the `lab` graphical parameter using the `par()` function:
+
+```{r, eval = TRUE}
+par(lab = c(length(Time), 10, 7))
+```
+
+The `par()` function sets a graphical parameter. The `lab` parameter is used to set the number tick-marks on the x and y axes and the label size. We have specified a tick-mark on the x-axis for each record (i.e. using `length(Time)`), ten tick-marks on the y-axis, and a label length of seven. Test this by plotting two charts:
+
+```{r, eval = TRUE}
+plot(Rain, type = "l")
+plot(Cases, type = "l")
+```
+
+The problem with these charts is that the month and year are not displayed on the x-axis. We can get round this by plotting a chart without axes and then specifying the axes and labels directly:
+
+```{r, eval = TRUE}
+plot(Rain, type = "l", axes = FALSE, xlab = "Time", ylab = "mm", main = "Rainfall")
+axis(side = 1, labels = as.character(Time), at = 1:length(Time))
+axis(side = 2)
+plot(Cases, type = "l", axes = FALSE, xlab = "Time", ylab = "n", main = "Cases")
+axis(side = 1, labels = as.character(Time), at = 1:length(Time))
+axis(side = 2)
+```
+
+The resulting charts now look much better (you may need to resize the plot to display the x-axis labels correctly) but it would be nice to be able draw the two lines on a single chart.
+
+Before proceeding we will use the `par()` function to specify one plot per window (using the `mfrow` parameter) and set the default number of tick-marks on the axes (using the `lab` parameter):
+
+```{r, eval = TRUE}
+par(mfrow = c(1, 1))
+par(lab = c(5, 5, 7))
+```
