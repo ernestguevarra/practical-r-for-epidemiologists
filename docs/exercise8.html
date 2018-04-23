@@ -173,6 +173,80 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise8" class="section level1">
 <h1><span class="header-section-number">9</span> More graphical functions</h1>
+<p>Graphical functions in <code>R</code> are just like any other function in <code>R</code> in the sense that <code>R</code> provides you with a set of functions which can be altered or added to. In this exercise we will experiment with some of the graphical functions provided by R to demonstrate the flexibility of graphical functions in <code>R</code>. We will then use the graphical functions that we experiment with to create some useful graphical functions of our own.</p>
+<p>The first function that we will develop will be a function that is capable of plotting two data series on a single graph. We will take this exercise slowly in order to introduce some further graphical functions.
+Before we go any further we should start <code>R</code> and retrieve a dataset:</p>
+<pre class="sourceCode r" id="cb556"><code class="sourceCode r"><a class="sourceLine" id="cb556-1" data-line-number="1">mal &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;malaria.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb556-2" data-line-number="2"><span class="kw">attach</span>(mal)</a></code></pre>
+<p>The file <code>malaria.dat</code> contains data on rainfall (in mm) and the number of cases of malaria reported from health centres in an administrative district of Ethiopia between July 1997 and July 1999. The columns in this dataset are as follows:</p>
+<table style="width:72%;">
+<colgroup>
+<col width="15%" />
+<col width="56%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Time</strong></td>
+<td>Month and year (as text)</td>
+</tr>
+<tr class="even">
+<td><strong>Cases</strong></td>
+<td>Number of cases of malaria reported</td>
+</tr>
+<tr class="odd">
+<td><strong>Rain</strong></td>
+<td>Rainfall in mm</td>
+</tr>
+</tbody>
+</table>
+<p>Examine the dataset:</p>
+<pre class="sourceCode r" id="cb557"><code class="sourceCode r"><a class="sourceLine" id="cb557-1" data-line-number="1">mal</a></code></pre>
+<pre><code>##      Time Cases  Rain
+## 1  Jul-97   997  68.5
+## 2  Aug-97   824 162.1
+## 3  Sep-97   573 138.8
+## 4  Oct-97   586 222.2
+## 5  Nov-97   523 115.5
+## 6  Dec-97   968  37.2
+## 7  Jan-98   985  96.6
+## 8  Feb-98   745  99.1
+## 9  Mar-98   520  51.2
+## 10 Apr-98   406  80.0
+## 11 May-98   523 112.4
+## 12 Jun-98   560 183.7
+## 13 Jul-98   671 101.0
+## 14 Aug-98   667 252.5
+## 15 Sep-98   768  40.8
+## 16 Oct-98   990 193.7
+## 17 Nov-98   775  17.5
+## 18 Dec-98   833   0.0
+## 19 Jan-99   672  33.5
+## 20 Feb-99   505   0.0
+## 21 Mar-99   320 106.8
+## 22 Apr-99   274 117.4
+## 23 May-99   263 175.8
+## 24 Jun-99   264 187.5
+## 25 Jul-99   179 283.5</code></pre>
+<p>First we will plot the number of cases of malaria seen over time using the <code>plot()</code> function:</p>
+<pre class="sourceCode r" id="cb559"><code class="sourceCode r"><a class="sourceLine" id="cb559-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-314-1.png" width="672" /></p>
+<p>The problem with this plot is that it does not treat the data as a time series. Adding the <code>Time</code> variable to the plot does not solve the problem:</p>
+<pre class="sourceCode r" id="cb560"><code class="sourceCode r"><a class="sourceLine" id="cb560-1" data-line-number="1"><span class="kw">plot</span>(Time, Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-315-1.png" width="672" /></p>
+<p>Because <code>Time</code> is a factor variable. If you convert <code>Time</code> to a character variable using <code>as.character()</code> or prevent <code>R</code> from converting <code>Time</code> to a factor using the <code>as.is</code> parameter to the <code>read.table()</code> function the <code>plot()</code> function will return an error because it expects a numeric x-axis variable. We should, instead, specify a time series (<code>ts</code>) class object. Rather than change the original data, we will create a new object using the <code>ts()</code> function:</p>
+<pre class="sourceCode r" id="cb561"><code class="sourceCode r"><a class="sourceLine" id="cb561-1" data-line-number="1">cases.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(Cases, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1997</span>, <span class="dv">7</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)</a></code></pre>
+<p>Examine the cases.ts object:</p>
+<pre class="sourceCode r" id="cb562"><code class="sourceCode r"><a class="sourceLine" id="cb562-1" data-line-number="1">cases.ts</a></code></pre>
+<pre><code>##      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+## 1997                         997 824 573 586 523 968
+## 1998 985 745 520 406 523 560 671 667 768 990 775 833
+## 1999 672 505 320 274 263 264 179</code></pre>
+<p>We can now plot <code>cases.ts</code> as a time series:</p>
+<pre class="sourceCode r" id="cb564"><code class="sourceCode r"><a class="sourceLine" id="cb564-1" data-line-number="1"><span class="kw">plot</span>(cases.ts)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-318-1.png" width="672" /></p>
+<p>We might want to explore the association between the <code>Rain</code> and <code>Cases</code> variables. A simple scatter plot is not particularly informative:</p>
+<pre class="sourceCode r" id="cb565"><code class="sourceCode r"><a class="sourceLine" id="cb565-1" data-line-number="1"><span class="kw">plot</span>(Rain, Cases)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-319-1.png" width="672" /></p>
 
 </div>
             </section>
