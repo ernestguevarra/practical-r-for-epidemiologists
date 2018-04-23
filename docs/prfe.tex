@@ -8040,10 +8040,6 @@ Lancet article:
 ## 17    427  451
 \end{verbatim}
 
-Wright Mini 1 494 512 2 395 430 3 516 520 4 434 428 5 476 500 6 557 600
-7 413 364 8 442 380 9 650 658 10 433 445 11 417 432 12 656 626 13 267
-260 14 478 477 15 178 259 16 423 350 17 427 451
-
 You can examine the \texttt{ba} data.frame using the \texttt{print()}
 and \texttt{summary()} functions:
 
@@ -8129,6 +8125,410 @@ text editor:
 
 We will start be writing a basic function which we will gradually
 improve throughout this exercise.
+
+Edit the \texttt{ba.plot()} function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(a, b) \{}
+\NormalTok{  mean.two <-}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{  diff.two <-}\StringTok{ }\NormalTok{a }\OperatorTok{-}\StringTok{ }\NormalTok{b}
+  \KeywordTok{plot}\NormalTok{(mean.two, diff.two)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+The function calculates the mean and the difference of the two measures
+and then plots the results. Lets try the \texttt{ba.plot()} function
+with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-286-1.pdf}
+
+The resulting plot is rather plain and lacks meaningful titles and axis
+labels. Use the \texttt{fix()} function to edit the \texttt{ba.plot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(ba.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(a, b, }\DataTypeTok{title =} \StringTok{"Bland and Altman Plot"}\NormalTok{) \{}
+\NormalTok{  a.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(a))}
+\NormalTok{  b.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(b))}
+\NormalTok{  x.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mean of"}\NormalTok{, a.txt, }\StringTok{"and"}\NormalTok{, b.txt)}
+\NormalTok{  y.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(a.txt, }\StringTok{"-"}\NormalTok{, b.txt)}
+\NormalTok{  mean.two <-}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{  diff.two <-}\StringTok{ }\NormalTok{a }\OperatorTok{-}\StringTok{ }\NormalTok{b}
+  \KeywordTok{plot}\NormalTok{(mean.two, diff.two, }\DataTypeTok{xlab =}\NormalTok{ x.lab, }\DataTypeTok{ylab =}\NormalTok{ y.lab, }\DataTypeTok{main =}\NormalTok{ title)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+We have added a new parameter (\texttt{title}) to the function and given
+this a default value of \texttt{Bland\ and\ Altman\ Plot}. Adding
+\texttt{title} as a parameter means that we will be able to specify a
+title for the plot when we call the function. We have also used the
+function combination \texttt{deparse(substitute())} to retrieve the
+names of the vectors passed to parameters \texttt{a} and \texttt{b}. The
+\texttt{paste()} function pastes pieces of text together. It is used
+here to create the text for the axis labels used with the
+\texttt{plot()} function.
+
+Lets try the \texttt{ba.plot()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-290-1.pdf}
+
+We may also specify a title for the plot using the title parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini, }\DataTypeTok{title =} \StringTok{"PEFR data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-291-1.pdf}
+
+We can now edit the function to calculate and plot mean, difference, and
+the limits of agreement. Use the \texttt{fix()} function to edit the
+\texttt{ba.plot()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(ba.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(a, b, }\DataTypeTok{title =} \StringTok{"Bland and Altman Plot"}\NormalTok{) \{}
+\NormalTok{  a.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(a))}
+\NormalTok{  b.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(b))}
+\NormalTok{  x.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mean of"}\NormalTok{, a.txt, }\StringTok{"and"}\NormalTok{, b.txt)}
+\NormalTok{  y.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(a.txt, }\StringTok{"-"}\NormalTok{, b.txt)}
+\NormalTok{  mean.two <-}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{  diff.two <-}\StringTok{ }\NormalTok{a }\OperatorTok{-}\StringTok{ }\NormalTok{b}
+  \KeywordTok{plot}\NormalTok{(mean.two, diff.two, }\DataTypeTok{xlab =}\NormalTok{ x.lab, }\DataTypeTok{ylab =}\NormalTok{ y.lab, }\DataTypeTok{main =}\NormalTok{ title) }
+\NormalTok{  mean.diff <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(diff.two)}
+\NormalTok{  sd.diff <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(diff.two)}
+\NormalTok{  upper <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+\NormalTok{  lower <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(mean.diff, mean.diff), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{) }
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(upper, upper), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(lower, lower), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file and quit the editor.
+
+We have used the \texttt{mean()} and \texttt{sd()} functions to
+calculate the mean and standard deviation of the difference between the
+two measures and calculated the limits of agreement (\texttt{upper} and
+\texttt{lower}) assuming that the differences are \emph{Normally}
+distributed.
+
+The \texttt{lines()} function is then used to plot the mean and the
+limits of agreement on top of the existing scatter plot.
+
+The parameter \texttt{lty\ =\ 3} used with the \texttt{lines()} function
+specifies dotted lines.
+
+\texttt{R} provided a great number of graphical parameters that can be
+used to customise plots. You can see a list of these parameters using:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{help}\NormalTok{(par)}
+\end{Highlighting}
+\end{Shaded}
+
+These parameters can be specified for almost all graphical functions.
+
+Lets try the \texttt{ba.plot()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini, }\DataTypeTok{title =}  \StringTok{"Difference vs. mean for PEFR data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-296-1.pdf}
+
+The function is almost complete. All that remains to do is to label the
+lines with the values of the mean difference and the limits of
+agreement.
+
+Use the \texttt{fix()} function to edit the \texttt{ba.plot()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(ba.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(a, b, }\DataTypeTok{title =} \StringTok{"Bland and Altman Plot"}\NormalTok{) \{}
+\NormalTok{  a.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(a))}
+\NormalTok{  b.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(b))}
+\NormalTok{  x.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mean of"}\NormalTok{, a.txt, }\StringTok{"and"}\NormalTok{, b.txt)}
+\NormalTok{  y.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(a.txt, }\StringTok{"-"}\NormalTok{, b.txt)}
+\NormalTok{  mean.two <-}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{  diff.two <-}\StringTok{ }\NormalTok{a }\OperatorTok{-}\StringTok{ }\NormalTok{b}
+  \KeywordTok{plot}\NormalTok{(mean.two, diff.two, }\DataTypeTok{xlab =}\NormalTok{ x.lab, }\DataTypeTok{ylab =}\NormalTok{ y.lab, }\DataTypeTok{main =}\NormalTok{ title) }
+\NormalTok{  mean.diff <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(diff.two)}
+\NormalTok{  sd.diff <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(diff.two)}
+\NormalTok{  upper <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+\NormalTok{  lower <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(mean.diff, mean.diff), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{) }
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(upper, upper), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(lower, lower), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+\NormalTok{  m.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(mean.diff, }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  u.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(upper , }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  l.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(lower, }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), mean.diff, m.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)) }
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), upper, u.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)) }
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), lower, l.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor. We have used the \texttt{round()} function to
+limit the display of the mean difference and the limits of agreement to
+one decimal place and used the \texttt{text()} function to display these
+(rounded) values. The \texttt{adj} parameter to the \texttt{text()}
+function controls the position and justification of text.
+
+Let's try the \texttt{ba.plot()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini, }\DataTypeTok{title =} \StringTok{"PEFR data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-300-1.pdf}
+
+The graphical function is now complete.
+
+One improvement that we could make is for the function to produce a
+chart and return the values of the mean difference and the limits of
+agreement.
+
+We would do this in exactly the same way as we would with a
+non-graphical function. We would return the mean difference and the
+limits of agreement as members of a list.
+
+We could also specify a class for the returned list and create a class
+specific \texttt{print()} function (or \emph{method}) to produce nicely
+formatted output.
+
+Use the \texttt{fix()} function to edit the \texttt{ba.plot()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(ba.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(a, b, }\DataTypeTok{title =} \StringTok{"Bland and Altman Plot"}\NormalTok{) \{}
+\NormalTok{  a.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(a))}
+\NormalTok{  b.txt <-}\StringTok{ }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(b))}
+\NormalTok{  x.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Mean of"}\NormalTok{, a.txt, }\StringTok{"and"}\NormalTok{, b.txt)}
+\NormalTok{  y.lab <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(a.txt, }\StringTok{"-"}\NormalTok{, b.txt)}
+\NormalTok{  mean.two <-}\StringTok{ }\NormalTok{(a }\OperatorTok{+}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\DecValTok{2}
+\NormalTok{  diff.two <-}\StringTok{ }\NormalTok{a }\OperatorTok{-}\StringTok{ }\NormalTok{b}
+  \KeywordTok{plot}\NormalTok{(mean.two, diff.two, }\DataTypeTok{xlab =}\NormalTok{ x.lab, }\DataTypeTok{ylab =}\NormalTok{ y.lab, }\DataTypeTok{main =}\NormalTok{ title) }
+\NormalTok{  mean.diff <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(diff.two)}
+\NormalTok{  sd.diff <-}\StringTok{ }\KeywordTok{sd}\NormalTok{(diff.two)}
+\NormalTok{  upper <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{+}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+\NormalTok{  lower <-}\StringTok{ }\NormalTok{mean.diff }\OperatorTok{-}\StringTok{ }\FloatTok{1.96} \OperatorTok{*}\StringTok{ }\NormalTok{sd.diff}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(mean.diff, mean.diff), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{) }
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(upper, upper), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+  \KeywordTok{lines}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{range}\NormalTok{(mean.two), }\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(lower, lower), }\DataTypeTok{lty =} \DecValTok{3}\NormalTok{)}
+\NormalTok{  m.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(mean.diff, }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  u.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(upper , }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  l.text <-}\StringTok{ }\KeywordTok{round}\NormalTok{(lower, }\DataTypeTok{digits =} \DecValTok{1}\NormalTok{)}
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), mean.diff, m.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)) }
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), upper, u.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{)) }
+  \KeywordTok{text}\NormalTok{(}\KeywordTok{max}\NormalTok{(mean.two), lower, l.text, }\DataTypeTok{adj =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\NormalTok{  ba <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{mean =}\NormalTok{ mean.diff, }\DataTypeTok{limits =} \KeywordTok{c}\NormalTok{(lower, upper))}
+  \KeywordTok{class}\NormalTok{(ba) <-}\StringTok{ "ba"}
+  \KeywordTok{return}\NormalTok{(ba)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, save the file and quit the
+editor.
+
+Create a \texttt{print()} function for objects of the \texttt{ba} class:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{print.ba <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Use the \texttt{fix()} function to edit the new function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(print.ba)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(x) \{}
+  \KeywordTok{cat}\NormalTok{(}\StringTok{"Mean difference     : "}\NormalTok{, x}\OperatorTok{$}\NormalTok{mean, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+      \StringTok{"Limits of agreement : "}\NormalTok{, x}\OperatorTok{$}\NormalTok{limits[}\DecValTok{1}\NormalTok{], }\StringTok{"; "}\NormalTok{, x}\OperatorTok{$}\NormalTok{limits[}\DecValTok{2}\NormalTok{], }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+      \DataTypeTok{sep =} \StringTok{""}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Let's try the \texttt{ba.plot()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ba.plot}\NormalTok{(Wright, Mini, }\DataTypeTok{title =} \StringTok{"PEFR data"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-308-1.pdf}
+
+\begin{verbatim}
+## Mean difference     : -2.117647
+## Limits of agreement : -78.0973; 73.86201
+\end{verbatim}
+
+The function produces the plot and returns the mean difference and
+limits of agreement as a list of class \texttt{ba} which is formatted
+and printed by the \texttt{print.ba()} function.
+
+We can manipulate the returned values just as we would with any other
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ba.test <-}\StringTok{ }\KeywordTok{ba.plot}\NormalTok{(Wright, Mini)}
+\KeywordTok{print}\NormalTok{(ba.test)}
+\NormalTok{ba.test}
+\NormalTok{ba.test}\OperatorTok{$}\NormalTok{mean}
+\NormalTok{ba.test}\OperatorTok{$}\NormalTok{limits}
+\NormalTok{ba.test}\OperatorTok{$}\NormalTok{limits[}\DecValTok{1}\NormalTok{]}
+\NormalTok{ba.test}\OperatorTok{$}\NormalTok{limits[}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-310-1.pdf}
+
+\begin{verbatim}
+## Mean difference     : -2.117647
+## Limits of agreement : -78.0973; 73.86201
+\end{verbatim}
+
+\begin{verbatim}
+## Mean difference     : -2.117647
+## Limits of agreement : -78.0973; 73.86201
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -2.117647
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -78.09730  73.86201
+\end{verbatim}
+
+\begin{verbatim}
+## [1] -78.0973
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 73.86201
+\end{verbatim}
+
+You might like to use the \texttt{save()} function to save the
+\texttt{ba.plot()} and \texttt{print.ba()} functions before quitting
+\texttt{R}.
+
+We can now quit \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{q}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+For this exercise there is no need to save the workspace image so click
+the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
+when prompted to save the workspace image (terminal).
+
+\hypertarget{summary-6}{%
+\section{Summary}\label{summary-6}}
+
+\begin{itemize}
+\item
+  \texttt{R} allows you to create functions that produce graphical
+  output.
+\item
+  \texttt{R} allows you to create functions that produce graphical
+  output and return values.
+\item
+  \texttt{R} objects can be assigned a class or type.
+\item
+  \texttt{R} allows you to create new classes and class-specific
+  functions that can extract and manipulate data common to the new
+  classes.
+\item
+  Classes allows you to create versatile functions that return values
+  when we need them to return values but can also produce formatted
+  output when we need them to produce formatted output.
+\item
+  Classes allow you to write functions that can be chained together so
+  that the output of one function is the input of another function.
+\end{itemize}
 
 \hypertarget{exercise8}{%
 \chapter{More graphical functions}\label{exercise8}}
