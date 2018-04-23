@@ -8697,6 +8697,127 @@ informative:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-319-1.pdf}
 
+It is better to treat both variables as time series (which they are) and
+use the built-in \texttt{plot()} methods for objects of class
+\texttt{ts}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rain.cases.ts <-}\StringTok{ }\KeywordTok{ts}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(Rain, Cases), }\DataTypeTok{start =} \KeywordTok{c}\NormalTok{(}\DecValTok{1997}\NormalTok{,}\DecValTok{7}\NormalTok{), }\DataTypeTok{frequency =} \DecValTok{12}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(rain.cases.ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-320-1.pdf}
+
+The association between the \texttt{Rain} and \texttt{Cases} variables
+is now clearer with the number of malaria cases peaking shortly after
+peaks in rainfall.
+
+The \texttt{plot()} function when used with objects of class \texttt{ts}
+produces useful output but it is not particularly flexible and the
+output is, sometimes, not particularly pretty. We can however use basic
+graphical functions to produce multiple plots. First we will set the
+\texttt{mfrow} graphical parameter using the \texttt{par()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{par()} function sets a graphical parameter. The
+\texttt{mfrow} parameter is used to set the number of charts that will
+appear on a page in rows and columns. We have specified two rows with
+one chart per row. Test this by plotting two charts:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Rain, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-322-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-322-2.pdf}
+
+We will want to have tick-marks on the x-axis of each for each record.
+We can set the number of tick-marks on axes by setting the \texttt{lab}
+graphical parameter using the \texttt{par()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\KeywordTok{length}\NormalTok{(Time), }\DecValTok{10}\NormalTok{, }\DecValTok{7}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{par()} function sets a graphical parameter. The \texttt{lab}
+parameter is used to set the number tick-marks on the x and y axes and
+the label size. We have specified a tick-mark on the x-axis for each
+record (i.e.~using \texttt{length(Time)}), ten tick-marks on the y-axis,
+and a label length of seven. Test this by plotting two charts:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Rain, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-324-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-324-2.pdf}
+
+The problem with these charts is that the month and year are not
+displayed on the x-axis. We can get round this by plotting a chart
+without axes and then specifying the axes and labels directly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Rain, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Time"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"mm"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Rainfall"}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{as.character}\NormalTok{(Time), }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(Time))}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Time"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Cases"}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{as.character}\NormalTok{(Time), }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(Time))}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-2.pdf}
+
+The resulting charts now look much better (you may need to resize the
+plot to display the x-axis labels correctly) but it would be nice to be
+able draw the two lines on a single chart.
+
+Before proceeding we will use the \texttt{par()} function to specify one
+plot per window (using the \texttt{mfrow} parameter) and set the default
+number of tick-marks on the axes (using the \texttt{lab} parameter):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}
 
