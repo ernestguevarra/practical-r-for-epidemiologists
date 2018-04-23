@@ -1,1 +1,64 @@
 # More graphical functions {#exercise8}
+
+Graphical functions in `R` are just like any other function in `R` in the sense that `R` provides you with a set of functions which can be altered or added to. In this exercise we will experiment with some of the graphical functions provided by R to demonstrate the flexibility of graphical functions in `R`. We will then use the graphical functions that we experiment with to create some useful graphical functions of our own.
+
+The first function that we will develop will be a function that is capable of plotting two data series on a single graph. We will take this exercise slowly in order to introduce some further graphical functions.
+Before we go any further we should start `R` and retrieve a dataset:
+
+```{r, eval = TRUE}
+mal <- read.table("malaria.dat", header = TRUE)
+attach(mal)
+```
+
+The file `malaria.dat` contains data on rainfall (in mm) and the number of cases of malaria reported from health centres in an administrative district of Ethiopia between July 1997 and July 1999. The columns in this dataset are as follows:
+
++----------+----------------------------------------+
+| **Time** | Month and year (as text)               |
++----------+----------------------------------------+
+| **Cases**| Number of cases of malaria reported    |
++----------+----------------------------------------+
+| **Rain** | Rainfall in mm                         |
++----------+----------------------------------------+
+
+Examine the dataset:
+
+```{r, eval = TRUE}
+mal
+```
+
+First we will plot the number of cases of malaria seen over time using the `plot()` function: 
+
+```{r, eval = TRUE}
+plot(Cases, type = "l")
+```
+
+The problem with this plot is that it does not treat the data as a time series. Adding the `Time` variable to the plot does not solve the problem:
+
+```{r, eval = TRUE}
+plot(Time, Cases, type = "l")
+```
+
+Because `Time` is a factor variable. If you convert `Time` to a character variable using `as.character()` or prevent `R` from converting `Time` to a factor using the `as.is` parameter to the `read.table()` function the `plot()` function will return an error because it expects a numeric x-axis variable. We should, instead, specify a time series (`ts`) class object. Rather than change the original data, we will create a new object using the `ts()` function:
+
+```{r, eval = TRUE}
+cases.ts <- ts(Cases, start = c(1997, 7), frequency = 12)
+```
+
+Examine the cases.ts object:
+
+```{r, eval = TRUE}
+cases.ts
+```
+
+We can now plot `cases.ts` as a time series: 
+
+```{r, eval = TRUE}
+plot(cases.ts)
+```
+
+We might want to explore the association between the `Rain` and `Cases` variables. A simple scatter plot is not particularly informative:
+
+```{r, eval = TRUE}
+plot(Rain, Cases)
+```
+
