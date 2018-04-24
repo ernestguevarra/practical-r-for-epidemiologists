@@ -116,3 +116,53 @@ Before proceeding we will use the `par()` function to specify one plot per windo
 par(mfrow = c(1, 1))
 par(lab = c(5, 5, 7))
 ```
+
+And then use the `plot()` and `lines()` function to draw the two lines on the same graph: 
+
+```{r, eval = TRUE}
+plot(Cases, type = "l")
+lines(Rain, lty = 2)
+```
+
+The problem with this is that the ranges of the two variables are different and the `plot()` function automatically sets the y-axis to the range of the specified variable. To fix this problem we need to set the limits of the y-axis to the minimum and maximum value of both of variables using the `ylim` parameter of the `plot()` function:
+
+```{r, eval = TRUE}
+plot(Cases, type = "l", ylim = c(min(Cases, Rain), max(Cases, Rain)))
+lines(Rain, lty = 2)
+```
+
+We can improve the chart by adding a legend:
+
+```{r, eval = FALSE}
+legend(18, 1000, legend = c("Cases", "Rainfall (mm)"), lty = c(1,2))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(Cases, type = "l", ylim = c(min(Cases, Rain), max(Cases, Rain)))
+lines(Rain, lty = 2)
+legend(18, 1000, legend = c("Cases", "Rainfall (mm)"), lty = c(1,2))
+```
+
+We could continue to improve the chart (e.g. by adding labels for the x-axis tick-marks taken from the `Time` variable, specifying more meaningful axis labels, and specifying a title) but the chart would be more useful if each variable made full use of the plotting area. We can do this by plotting one chart on top of another by using the `new` graphical parameter:
+
+```{r, eval = TRUE}
+par(lab = c(length(Time), 5, 7))
+plot(Cases, type = "l", lty = 1, axes = FALSE)
+axis(side = 2)
+par(new = TRUE)
+plot(Rain, type = "l", lty = 2, axes = FALSE)
+axis(side = 4)
+axis(side = 1)
+```
+
+This chart is much clearer but there are still some improvements that could be made:
+
+* The chart should have a title. We can do this using the `main` parameter of either of the `plot()` functions.
+
+* The y-axis labels are displayed on top of each other beside the left-hand y-axis. We can solve this problem by preventing the second `plot()` function from displaying a y-axis label (i.e. by specifying an empty character string for the `ylab` parameter).
+
+* We will need to make room on the right-hand side of the chart for an axis label (i.e. by setting the `mar` (margin) graphical parameter) and place the label there ourselves (using the `mtext()` function).
+
+* The x-axis should display the month and year which are held as character strings in the `Time` variable. We can do this using the labels parameter of the `axis()` function after setting the appropriate number of tick-marks using the `lab` graphical parameter.
+
+The x-axis should be properly labelled. We can do this using the `xlab` parameters of the `plot()` functions. An empty string must be specified for one of the `plot()` functions in order to prevent the default label from being displayed.
