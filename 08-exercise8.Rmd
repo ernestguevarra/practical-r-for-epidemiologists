@@ -262,3 +262,34 @@ plot2var <- function() {
 ```
 
 Once you have made the changes shown above, save the file and quit the editor.
+
+Note that with this function we have given some of the parameters default values in the function definition and we have also used the `if()` function to check whether the user specified a value for the `x.ticks` parameter. We also save and restore the graphical parameters `mar` and `lab` so as to prevent changes to these parameters in the `plot2var()` function affecting other graphical functions.
+
+Let's try the `plot2var()` function with the test data: 
+
+```{r, eval = FALSE}
+plot2var(Rain, Cases)
+plot2var(Rain, Cases, Time)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot2var(Rain, Cases)
+plot2var(Rain, Cases, Time)
+```
+
+Note how the function has used default values for the axis labels and chart title. We can override these default values if we want to:
+
+```{r, eval = TRUE}
+   plot2var(Rain, Cases, Time, x.lab = "Month and Year",
+            y1.lab = "Rainfall (mm)", y2.lab = "Cases of malaria")
+```
+
+You might like to use the `save()` function to save the `plot2var()` function.
+
+As an exercise you might want to edit the `plot2var()` function to automatically add a legend to the two-axis
+chart using the `legend()` function with `y1.lab` and `y2.lab`. Before continuing we should detach the `mal` data.frame:
+
+```{r, eval = TRUE}
+detach(mal)
+```
+
