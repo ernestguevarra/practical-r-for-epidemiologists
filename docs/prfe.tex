@@ -984,12 +984,6 @@ want to use a particular variable. We can fix this problem by
 \end{Shaded}
 
 \begin{verbatim}
-## The following objects are masked from pop:
-## 
-##     AGE, SEX
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 5):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
@@ -7212,12 +7206,6 @@ and associated confidence interval for two-by-two tables:
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from pop:
-## 
-##     AGE, SEX
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 9):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
@@ -7791,12 +7779,6 @@ output:
 ## The following objects are masked from fem (pos = 7):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from pop:
-## 
-##     AGE, SEX
 \end{verbatim}
 
 \begin{verbatim}
@@ -9076,12 +9058,6 @@ Before we go any further we should retrieve a dataset:
 \end{verbatim}
 
 \begin{verbatim}
-## The following objects are masked from pop (pos = 10):
-## 
-##     AGE, SEX
-\end{verbatim}
-
-\begin{verbatim}
 ## The following objects are masked from fem (pos = 12):
 ## 
 ##     AGE, SEX
@@ -9460,6 +9436,261 @@ chart titles. We can override these default values if we want to:
 
 You might like to use the \texttt{save()} function to save the
 \texttt{pyramid.plot()} function.
+
+\hypertarget{pareto-chart}{%
+\section{Pareto chart}\label{pareto-chart}}
+
+Another type of chart that is missing from many statistical applications
+is the \emph{Pareto} chart which is a bar chart where the bars are
+sorted by the bar value with the largest bar drawn first. Such a chart
+is easier to interpret than a pie chart, particularly when there are
+more than a few categories being plotted.
+
+Before we go any further we should detach the \texttt{pop} data.frame
+and retrieve a new dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{detach}\NormalTok{(pop)}
+\NormalTok{sssw <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"sssw.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(sssw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from sssw (pos = 10):
+## 
+##     ethnic, living, marital
+\end{verbatim}
+
+The file \texttt{sssw.dat} contains data on the marital status, home
+circumstances, and ethnic group of 152 persons recruited into a study
+into the levels of stress experienced by student social workers in the
+United Kingdom. The columns in this dataset are as follows:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[t]{0.48\columnwidth}\raggedright
+\textbf{marital}\strut
+\end{minipage} & \begin{minipage}[t]{0.48\columnwidth}\raggedright
+Marital status coded as:
+
+\begin{verbatim}
+  1 = Married
+
+  2 = Single
+
+  3 = Divorced
+
+  4 = Separated
+
+  5 = Cohabiting
+
+  6 = Widowed
+\end{verbatim}
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.48\columnwidth}\raggedright
+\textbf{living}\strut
+\end{minipage} & \begin{minipage}[t]{0.48\columnwidth}\raggedright
+Living with \ldots{} coded as:
+
+\begin{verbatim}
+  1 = Alone
+
+  2 = Parents or siblings
+
+  3 = Partner
+
+  4 = Partner and children
+
+  5 = Children
+
+  6 = Friends or colleagues
+\end{verbatim}
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.48\columnwidth}\raggedright
+\textbf{ethnic}\strut
+\end{minipage} & \begin{minipage}[t]{0.48\columnwidth}\raggedright
+Ethnic group coded as:
+
+\begin{verbatim}
+  1 = African
+
+  2 = West-Indian
+
+  3 = Indian
+
+  4 = Pakistani
+
+  5 = Bangladeshi
+
+  6 = East African Asian
+
+  7 = Chinese
+
+  8 = Cypriot
+
+  9 = Black European
+
+ 10 = White European
+
+ 11 = Other
+\end{verbatim}
+\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Examine the dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sssw[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    marital living ethnic
+## 1        2      5      2
+## 2        1      4      2
+## 3        1      1     11
+## 4        1      4     10
+## 5        2      3     10
+## 6        2      6     10
+## 7        1      4     10
+## 8        1      4     10
+## 9        2      2      4
+## 10       2      6     10
+## 11       2      5     10
+## 12       1      3      1
+## 13       5      3     10
+## 14       1      4     10
+## 15       2      6      3
+## 16       1      4     10
+## 17       1      3      3
+## 18       5      3     10
+## 19       3      5     10
+## 20       5      3     10
+\end{verbatim}
+
+Producing a bar chart from this data is simple as long as we remember to
+pass summary data (i.e.~created using the \texttt{table()} function) to
+the \texttt{barplot()} function instead of the variable name:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(marital))}
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(living))}
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(ethnic))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-3.pdf}
+
+Creating a Pareto chart only requires us to sort the summary data. We do
+this using the \texttt{rev()} and \texttt{sort()} functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{rev}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(marital))))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-1.pdf}
+
+Having to specify \texttt{rev(sort(table(variable)))} each time we want
+to produce a \emph{Pareto} plot is rather tedious but now that we know
+how to create a \emph{Pareto} chart, we can write a function that we
+will be able to use whenever we need to plot a Pareto chart. Create a
+new function called \texttt{pareto()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pareto <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{pareto()}. Use the
+\texttt{fix()} function to edit the \texttt{pareto()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(pareto)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(x,}
+         \DataTypeTok{xlab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(x)),}
+         \DataTypeTok{ylab =} \StringTok{"Count"}\NormalTok{,}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Pareto Chart of"}\NormalTok{, }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(x)))) \{}
+  \KeywordTok{barplot}\NormalTok{(}\KeywordTok{rev}\NormalTok{(}\KeywordTok{sort}\NormalTok{(}\KeywordTok{table}\NormalTok{(x))),}
+          \DataTypeTok{xlab =}\NormalTok{ xlab,}
+          \DataTypeTok{ylab =}\NormalTok{ ylab,}
+          \DataTypeTok{main =}\NormalTok{ main,}
+          \DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Let's try the \texttt{pareto()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pareto}\NormalTok{(marital)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-371-1.pdf}
+
+Note how the function has used default values for the axis labels and
+chart titles. We can override these default values if we want to:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pareto}\NormalTok{(marital, }\DataTypeTok{ylab =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Marital Status"}\NormalTok{,}
+       \DataTypeTok{main =} \StringTok{"Marital Status"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-372-1.pdf}
+
+Note that we can use value labels if the variable we plot is a factor
+with value labels as levels rather than a simple numeric vector:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ms <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(marital)}
+\KeywordTok{levels}\NormalTok{(ms) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Married"}\NormalTok{, }\StringTok{"Single"}\NormalTok{, }\StringTok{"Divorced"}\NormalTok{, }\StringTok{"Separated"}\NormalTok{,}
+                \StringTok{"Cohabiting"}\NormalTok{, }\StringTok{"Widowed"}\NormalTok{)}
+\KeywordTok{table}\NormalTok{(ms)}
+\KeywordTok{pareto}\NormalTok{(ms, }\DataTypeTok{ylab =} \StringTok{"n"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Marital Status"}\NormalTok{,}
+       \DataTypeTok{main =} \StringTok{"Marital Status"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ms
+##    Married     Single   Divorced  Separated Cohabiting    Widowed 
+##         32         90          5          4         21          0
+\end{verbatim}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-374-1.pdf}
+
+You may need to resize the plot to display the x-axis labels correctly.
+
+You might like to use the \texttt{save()} function to save the
+\texttt{pareto()} function.
 
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}
