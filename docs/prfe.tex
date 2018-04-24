@@ -221,11 +221,9 @@
 \setcounter{tocdepth}{1}
 \tableofcontents
 }
-\hypertarget{welcome-to-practical-r-for-epidemiologists}{%
-\chapter*{Welcome to Practical R for
-Epidemiologists}\label{welcome-to-practical-r-for-epidemiologists}}
-\addcontentsline{toc}{chapter}{Welcome to Practical R for
-Epidemiologists}
+\hypertarget{welcome}{%
+\chapter*{Welcome}\label{welcome}}
+\addcontentsline{toc}{chapter}{Welcome}
 
 \includegraphics{images/bookcover_medium.jpg}
 
@@ -984,6 +982,12 @@ want to use a particular variable. We can fix this problem by
 \KeywordTok{attach}\NormalTok{(fem)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from pop:
+## 
+##     AGE, SEX
+\end{verbatim}
 
 \begin{verbatim}
 ## The following objects are masked from fem (pos = 5):
@@ -7208,6 +7212,12 @@ and associated confidence interval for two-by-two tables:
 \end{verbatim}
 
 \begin{verbatim}
+## The following objects are masked from pop:
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
 ## The following objects are masked from fem (pos = 9):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
@@ -7781,6 +7791,12 @@ output:
 ## The following objects are masked from fem (pos = 7):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from pop:
+## 
+##     AGE, SEX
 \end{verbatim}
 
 \begin{verbatim}
@@ -8554,12 +8570,6 @@ dataset:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## The following objects are masked from mal (pos = 10):
-## 
-##     Cases, Rain, Time
-\end{verbatim}
-
 The file \texttt{malaria.dat} contains data on rainfall (in mm) and the
 number of cases of malaria reported from health centres in an
 administrative district of Ethiopia between July 1997 and July 1999. The
@@ -8985,6 +8995,471 @@ Edit the function to read:
 
 Once you have made the changes shown above, save the file and quit the
 editor.
+
+Note that with this function we have given some of the parameters
+default values in the function definition and we have also used the
+\texttt{if()} function to check whether the user specified a value for
+the \texttt{x.ticks} parameter. We also save and restore the graphical
+parameters \texttt{mar} and \texttt{lab} so as to prevent changes to
+these parameters in the \texttt{plot2var()} function affecting other
+graphical functions.
+
+Let's try the \texttt{plot2var()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot2var}\NormalTok{(Rain, Cases)}
+\KeywordTok{plot2var}\NormalTok{(Rain, Cases, Time)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-2.pdf}
+
+Note how the function has used default values for the axis labels and
+chart title. We can override these default values if we want to:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot2var}\NormalTok{(Rain, Cases, Time, }\DataTypeTok{x.lab =} \StringTok{"Month and Year"}\NormalTok{,}
+         \DataTypeTok{y1.lab =} \StringTok{"Rainfall (mm)"}\NormalTok{, }\DataTypeTok{y2.lab =} \StringTok{"Cases of malaria"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-339-1.pdf}
+
+You might like to use the \texttt{save()} function to save the
+\texttt{plot2var()} function.
+
+As an exercise you might want to edit the \texttt{plot2var()} function
+to automatically add a legend to the two-axis chart using the
+\texttt{legend()} function with \texttt{y1.lab} and \texttt{y2.lab}.
+Before continuing we should detach the \texttt{mal} data.frame:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{detach}\NormalTok{(mal)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{population-pyramid}{%
+\section{Population pyramid}\label{population-pyramid}}
+
+A common chart type that is not available in many statistical
+applications and in \texttt{R} is the \emph{population pyramid}.
+
+Before we go any further we should retrieve a dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pop <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"pop.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{attach}\NormalTok{(pop)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 4):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 5):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 9):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from pop (pos = 10):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 12):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 13):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from fem (pos = 18):
+## 
+##     AGE, SEX
+\end{verbatim}
+
+The file \texttt{pop.dat} contains data on the age (in months) and sex
+of 438 children aged between six and sixty months collected as part of a
+nutritional anthropometry survey of the Khosh Valley in Northeast
+Afghanistan.
+
+The columns in this dataset are as follows:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+\begin{minipage}[t]{0.14\columnwidth}\raggedright
+\textbf{AGE}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Age of the child in months\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.14\columnwidth}\raggedright
+\textbf{SEX}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Sex of the child (M/F)\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Examine the first twenty records of the dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pop[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    AGE SEX
+## 1    7   M
+## 2   42   M
+## 3   60   M
+## 4   60   F
+## 5   48   M
+## 6   60   F
+## 7   18   M
+## 8   48   M
+## 9   60   F
+## 10  36   M
+## 11  24   F
+## 12  60   M
+## 13  60   M
+## 14  48   F
+## 15  18   M
+## 16  60   M
+## 17   6   M
+## 18   7   M
+## 19  12   M
+## 20  60   M
+\end{verbatim}
+
+The first step is to make groups from the \texttt{AGE} variable since
+many ages are biased towards full years:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(AGE)}
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(AGE), }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## AGE
+##  6  7  8  9 10 12 13 14 15 17 18 22 23 24 25 26 30 34 36 38 40 42 48 54 60 
+##  7  5  8 15  3 21  1  3  5  1 45  1  1 48  1  2 24  1 80  2  1  9 67  4 83
+\end{verbatim}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-344-1.pdf}
+
+So we will centre the age-groups around the months representing full
+years:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{age.group <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(AGE, }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{17}\NormalTok{, }\DecValTok{29}\NormalTok{, }\DecValTok{41}\NormalTok{, }\DecValTok{53}\NormalTok{, }\DecValTok{99}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+We can check that the grouping operation has worked as expected by
+tabulating \texttt{AGE} and \texttt{age.group}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(AGE, age.group)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     age.group
+## AGE  (0,17] (17,29] (29,41] (41,53] (53,99]
+##   6       7       0       0       0       0
+##   7       5       0       0       0       0
+##   8       8       0       0       0       0
+##   9      15       0       0       0       0
+##   10      3       0       0       0       0
+##   12     21       0       0       0       0
+##   13      1       0       0       0       0
+##   14      3       0       0       0       0
+##   15      5       0       0       0       0
+##   17      1       0       0       0       0
+##   18      0      45       0       0       0
+##   22      0       1       0       0       0
+##   23      0       1       0       0       0
+##   24      0      48       0       0       0
+##   25      0       1       0       0       0
+##   26      0       2       0       0       0
+##   30      0       0      24       0       0
+##   34      0       0       1       0       0
+##   36      0       0      80       0       0
+##   38      0       0       2       0       0
+##   40      0       0       1       0       0
+##   42      0       0       0       9       0
+##   48      0       0       0      67       0
+##   54      0       0       0       0       4
+##   60      0       0       0       0      83
+\end{verbatim}
+
+We now use the \texttt{table()} function to produce the summary data for
+the population pyramid:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(age.group, SEX)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          SEX
+## age.group  F  M
+##   (0,17]  34 35
+##   (17,29] 54 44
+##   (29,41] 49 59
+##   (41,53] 39 37
+##   (53,99] 41 46
+\end{verbatim}
+
+We will construct our population pyramid using the \texttt{barplot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(age.group, SEX))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-348-1.pdf}
+
+The default behaviour of the \texttt{barplot()} function is to produce
+stacked bars. We can set the \texttt{beside} parameter to display the
+bars side-by-side:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(age.group, SEX), }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-349-1.pdf}
+
+We can also use the \texttt{horiz} parameter to present the data as
+horizontal bars:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{table}\NormalTok{(age.group, SEX), }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-350-1.pdf}
+
+In order to centre the bars around zero we need to make one column of
+the summary data table contain negative numbers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(age.group, SEX)}
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          SEX
+## age.group  F  M
+##   (0,17]  34 35
+##   (17,29] 54 44
+##   (29,41] 49 59
+##   (41,53] 39 37
+##   (53,99] 41 46
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tab[ ,}\DecValTok{1}\NormalTok{] <-}\StringTok{ }\OperatorTok{-}\NormalTok{tab[ ,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          SEX
+## age.group   F   M
+##   (0,17]  -34  35
+##   (17,29] -54  44
+##   (29,41] -49  59
+##   (41,53] -39  37
+##   (53,99] -41  46
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(tab, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-351-1.pdf}
+
+This is looking better.
+
+We still need to shift the second set of bars down beside the first set
+of bars using thespace parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(tab, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{space =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tab)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-352-1.pdf}
+
+The axis labels are wrong but we can fix that using the
+\texttt{names.arg} parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bar.names <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\KeywordTok{dimnames}\NormalTok{(tab)}\OperatorTok{$}\NormalTok{age.group, }\KeywordTok{dimnames}\NormalTok{(tab)}\OperatorTok{$}\NormalTok{age.group)}
+\KeywordTok{barplot}\NormalTok{(tab, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{space =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tab)),}
+        \DataTypeTok{names.arg =}\NormalTok{ bar.names)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-353-1.pdf}
+
+The chart can still be improved upon by making the fill-colour of each
+bar white and by expanding the x-axis slightly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(tab, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{space =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tab)),}
+        \DataTypeTok{col =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{, }\KeywordTok{max}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{),}
+        \DataTypeTok{names.arg =}\NormalTok{ bar.names)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-354-1.pdf}
+
+The chart would be better if the x-axis displayed only positive numbers:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(tab, }\DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{space =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tab)),}
+        \DataTypeTok{col =} \StringTok{"white"}\NormalTok{, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{, }\KeywordTok{max}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{),}
+        \DataTypeTok{names.arg =}\NormalTok{ bar.names, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{,}
+     \DataTypeTok{labels =} \KeywordTok{abs}\NormalTok{(}\KeywordTok{axTicks}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)),}
+     \DataTypeTok{at =}\NormalTok{ (}\KeywordTok{axTicks}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-355-1.pdf}
+
+Now we know how to create a population pyramid, we can write a function
+that we will be able to use whenever we need to plot a population
+pyramid.
+
+Create a new function called \texttt{pyramid.plot()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pyramid.plot <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{pyramid.plot()}.
+
+Use the \texttt{fix()} function to edit the \texttt{pyramid.plot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(pyramid.plot)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(x,}
+\NormalTok{         g,}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Pyramid plot of"}\NormalTok{, }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(x)),}
+                      \StringTok{"by"}\NormalTok{, }\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(g))),}
+         \DataTypeTok{xlab =} \KeywordTok{paste}\NormalTok{(}\KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(g)),}
+                      \StringTok{"("}\NormalTok{, }\KeywordTok{levels}\NormalTok{(g)[}\DecValTok{1}\NormalTok{], }\StringTok{"/"}\NormalTok{,}\KeywordTok{levels}\NormalTok{(g)[}\DecValTok{2}\NormalTok{],}\StringTok{")"}\NormalTok{),}
+         \DataTypeTok{ylab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(x))) \{}
+\NormalTok{  tab <-}\StringTok{ }\KeywordTok{table}\NormalTok{(x, g)}
+\NormalTok{  tab[ ,}\DecValTok{1}\NormalTok{] <-}\StringTok{ }\OperatorTok{-}\NormalTok{tab[ ,}\DecValTok{1}\NormalTok{]}
+  \KeywordTok{barplot}\NormalTok{(tab,}
+          \DataTypeTok{horiz =} \OtherTok{TRUE}\NormalTok{,}
+          \DataTypeTok{beside =} \OtherTok{TRUE}\NormalTok{,}
+          \DataTypeTok{space =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\OperatorTok{-}\KeywordTok{nrow}\NormalTok{(tab)),}
+          \DataTypeTok{names.arg =} \KeywordTok{c}\NormalTok{(}\KeywordTok{dimnames}\NormalTok{(tab)}\OperatorTok{$}\NormalTok{x, }\KeywordTok{dimnames}\NormalTok{(tab)}\OperatorTok{$}\NormalTok{x),}
+          \DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{,}
+          \KeywordTok{max}\NormalTok{(tab) }\OperatorTok{*}\StringTok{ }\FloatTok{1.2}\NormalTok{),}
+          \DataTypeTok{col =} \StringTok{"white"}\NormalTok{,}
+          \DataTypeTok{main =}\NormalTok{ main,}
+          \DataTypeTok{xlab =}\NormalTok{ xlab,}
+          \DataTypeTok{ylab =}\NormalTok{ ylab,}
+          \DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{)}
+  \KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{,}
+       \DataTypeTok{labels =} \KeywordTok{abs}\NormalTok{(}\KeywordTok{axTicks}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)),}
+       \DataTypeTok{at =}\NormalTok{ (}\KeywordTok{axTicks}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Note that with this function we have given some of the parameters
+default values in the function definition.
+
+Giving default values to parameters is useful because it means that you
+do not need to specify parameters such as titles and axis labels unless
+you want to. Many \texttt{R} functions use default parameters which are
+usually set to the most frequently used values.
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor. Let's try the \texttt{pyramid.plot()}
+function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pyramid.plot}\NormalTok{(age.group, SEX)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-360-1.pdf}
+
+Note how the function has used default values for the axis labels and
+chart titles. We can override these default values if we want to:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pyramid.plot}\NormalTok{(age.group, SEX, }\DataTypeTok{ylab =} \StringTok{"Months"}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Sex F / M"}\NormalTok{,}
+             \DataTypeTok{main =} \StringTok{"Children by age and sex"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-361-1.pdf}
+
+You might like to use the \texttt{save()} function to save the
+\texttt{pyramid.plot()} function.
 
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}

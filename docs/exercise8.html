@@ -121,7 +121,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li><a href="./">Practical R for Epidemiologists</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome to Practical R for Epidemiologists</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="chapter" data-level="1" data-path="introducing-r.html"><a href="introducing-r.html"><i class="fa fa-check"></i><b>1</b> Introducing R</a><ul>
 <li class="chapter" data-level="1.1" data-path="introducing-r.html"><a href="introducing-r.html#retrieving-data"><i class="fa fa-check"></i><b>1.1</b> Retrieving data</a></li>
@@ -148,7 +148,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="8" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>8</b> Writing your own graphical functions</a><ul>
 <li class="chapter" data-level="8.1" data-path="exercise7.html"><a href="exercise7.html#summary-6"><i class="fa fa-check"></i><b>8.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>9</b> More graphical functions</a></li>
+<li class="chapter" data-level="9" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>9</b> More graphical functions</a><ul>
+<li class="chapter" data-level="9.1" data-path="exercise8.html"><a href="exercise8.html#population-pyramid"><i class="fa fa-check"></i><b>9.1</b> Population pyramid</a></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a></li>
 <li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
@@ -355,7 +357,218 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 <a class="sourceLine" id="cb583-26" data-line-number="26">  <span class="kw">par</span>(<span class="dt">lab =</span> old.par.lab)</a>
 <a class="sourceLine" id="cb583-27" data-line-number="27">}</a></code></pre>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
+<p>Note that with this function we have given some of the parameters default values in the function definition and we have also used the <code>if()</code> function to check whether the user specified a value for the <code>x.ticks</code> parameter. We also save and restore the graphical parameters <code>mar</code> and <code>lab</code> so as to prevent changes to these parameters in the <code>plot2var()</code> function affecting other graphical functions.</p>
+<p>Let’s try the <code>plot2var()</code> function with the test data:</p>
+<pre class="sourceCode r" id="cb584"><code class="sourceCode r"><a class="sourceLine" id="cb584-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases)</a>
+<a class="sourceLine" id="cb584-2" data-line-number="2"><span class="kw">plot2var</span>(Rain, Cases, Time)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-338-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-338-2.png" width="672" /></p>
+<p>Note how the function has used default values for the axis labels and chart title. We can override these default values if we want to:</p>
+<pre class="sourceCode r" id="cb585"><code class="sourceCode r"><a class="sourceLine" id="cb585-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases, Time, <span class="dt">x.lab =</span> <span class="st">&quot;Month and Year&quot;</span>,</a>
+<a class="sourceLine" id="cb585-2" data-line-number="2">         <span class="dt">y1.lab =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">y2.lab =</span> <span class="st">&quot;Cases of malaria&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-339-1.png" width="672" /></p>
+<p>You might like to use the <code>save()</code> function to save the <code>plot2var()</code> function.</p>
+<p>As an exercise you might want to edit the <code>plot2var()</code> function to automatically add a legend to the two-axis
+chart using the <code>legend()</code> function with <code>y1.lab</code> and <code>y2.lab</code>. Before continuing we should detach the <code>mal</code> data.frame:</p>
+<pre class="sourceCode r" id="cb586"><code class="sourceCode r"><a class="sourceLine" id="cb586-1" data-line-number="1"><span class="kw">detach</span>(mal)</a></code></pre>
+<div id="population-pyramid" class="section level2">
+<h2><span class="header-section-number">9.1</span> Population pyramid</h2>
+<p>A common chart type that is not available in many statistical applications and in <code>R</code> is the <em>population pyramid</em>.</p>
+<p>Before we go any further we should retrieve a dataset:</p>
+<pre class="sourceCode r" id="cb587"><code class="sourceCode r"><a class="sourceLine" id="cb587-1" data-line-number="1">pop &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;pop.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb587-2" data-line-number="2"><span class="kw">attach</span>(pop)</a></code></pre>
+<pre><code>## The following objects are masked from fem (pos = 4):
+## 
+##     AGE, SEX</code></pre>
+<pre><code>## The following objects are masked from fem (pos = 5):
+## 
+##     AGE, SEX</code></pre>
+<pre><code>## The following objects are masked from fem (pos = 10):
+## 
+##     AGE, SEX</code></pre>
+<p>The file <code>pop.dat</code> contains data on the age (in months) and sex of 438 children aged between six and sixty months collected as part of a nutritional anthropometry survey of the Khosh Valley in Northeast Afghanistan.</p>
+<p>The columns in this dataset are as follows:</p>
+<table style="width:56%;">
+<colgroup>
+<col width="15%" />
+<col width="40%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>AGE</strong></td>
+<td>Age of the child in months</td>
+</tr>
+<tr class="even">
+<td><strong>SEX</strong></td>
+<td>Sex of the child (M/F)</td>
+</tr>
+</tbody>
+</table>
+<p>Examine the first twenty records of the dataset:</p>
+<pre class="sourceCode r" id="cb591"><code class="sourceCode r"><a class="sourceLine" id="cb591-1" data-line-number="1">pop[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a></code></pre>
+<pre><code>##    AGE SEX
+## 1    7   M
+## 2   42   M
+## 3   60   M
+## 4   60   F
+## 5   48   M
+## 6   60   F
+## 7   18   M
+## 8   48   M
+## 9   60   F
+## 10  36   M
+## 11  24   F
+## 12  60   M
+## 13  60   M
+## 14  48   F
+## 15  18   M
+## 16  60   M
+## 17   6   M
+## 18   7   M
+## 19  12   M
+## 20  60   M</code></pre>
+<p>The first step is to make groups from the <code>AGE</code> variable since many ages are biased towards full years:</p>
+<pre class="sourceCode r" id="cb593"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1"><span class="kw">table</span>(AGE)</a>
+<a class="sourceLine" id="cb593-2" data-line-number="2"><span class="kw">barplot</span>(<span class="kw">table</span>(AGE), <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
+<pre><code>## AGE
+##  6  7  8  9 10 12 13 14 15 17 18 22 23 24 25 26 30 34 36 38 40 42 48 54 60 
+##  7  5  8 15  3 21  1  3  5  1 45  1  1 48  1  2 24  1 80  2  1  9 67  4 83</code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-344-1.png" width="672" /></p>
+<p>So we will centre the age-groups around the months representing full years:</p>
+<pre class="sourceCode r" id="cb595"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1">age.group &lt;-<span class="st"> </span><span class="kw">cut</span>(AGE, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">99</span>))</a></code></pre>
+<p>We can check that the grouping operation has worked as expected by tabulating <code>AGE</code> and <code>age.group</code>:</p>
+<pre class="sourceCode r" id="cb596"><code class="sourceCode r"><a class="sourceLine" id="cb596-1" data-line-number="1"><span class="kw">table</span>(AGE, age.group)</a></code></pre>
+<pre><code>##     age.group
+## AGE  (0,17] (17,29] (29,41] (41,53] (53,99]
+##   6       7       0       0       0       0
+##   7       5       0       0       0       0
+##   8       8       0       0       0       0
+##   9      15       0       0       0       0
+##   10      3       0       0       0       0
+##   12     21       0       0       0       0
+##   13      1       0       0       0       0
+##   14      3       0       0       0       0
+##   15      5       0       0       0       0
+##   17      1       0       0       0       0
+##   18      0      45       0       0       0
+##   22      0       1       0       0       0
+##   23      0       1       0       0       0
+##   24      0      48       0       0       0
+##   25      0       1       0       0       0
+##   26      0       2       0       0       0
+##   30      0       0      24       0       0
+##   34      0       0       1       0       0
+##   36      0       0      80       0       0
+##   38      0       0       2       0       0
+##   40      0       0       1       0       0
+##   42      0       0       0       9       0
+##   48      0       0       0      67       0
+##   54      0       0       0       0       4
+##   60      0       0       0       0      83</code></pre>
+<p>We now use the <code>table()</code> function to produce the summary data for the population pyramid:</p>
+<pre class="sourceCode r" id="cb598"><code class="sourceCode r"><a class="sourceLine" id="cb598-1" data-line-number="1"><span class="kw">table</span>(age.group, SEX)</a></code></pre>
+<pre><code>##          SEX
+## age.group  F  M
+##   (0,17]  34 35
+##   (17,29] 54 44
+##   (29,41] 49 59
+##   (41,53] 39 37
+##   (53,99] 41 46</code></pre>
+<p>We will construct our population pyramid using the <code>barplot()</code> function:</p>
+<pre class="sourceCode r" id="cb600"><code class="sourceCode r"><a class="sourceLine" id="cb600-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-348-1.png" width="672" /></p>
+<p>The default behaviour of the <code>barplot()</code> function is to produce stacked bars. We can set the <code>beside</code> parameter to display the bars side-by-side:</p>
+<pre class="sourceCode r" id="cb601"><code class="sourceCode r"><a class="sourceLine" id="cb601-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-349-1.png" width="672" /></p>
+<p>We can also use the <code>horiz</code> parameter to present the data as horizontal bars:</p>
+<pre class="sourceCode r" id="cb602"><code class="sourceCode r"><a class="sourceLine" id="cb602-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
+<p>In order to centre the bars around zero we need to make one column of the summary data table contain negative numbers:</p>
+<pre class="sourceCode r" id="cb603"><code class="sourceCode r"><a class="sourceLine" id="cb603-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(age.group, SEX)</a>
+<a class="sourceLine" id="cb603-2" data-line-number="2">tab</a></code></pre>
+<pre><code>##          SEX
+## age.group  F  M
+##   (0,17]  34 35
+##   (17,29] 54 44
+##   (29,41] 49 59
+##   (41,53] 39 37
+##   (53,99] 41 46</code></pre>
+<pre class="sourceCode r" id="cb605"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" data-line-number="1">tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb605-2" data-line-number="2">tab</a></code></pre>
+<pre><code>##          SEX
+## age.group   F   M
+##   (0,17]  -34  35
+##   (17,29] -54  44
+##   (29,41] -49  59
+##   (41,53] -39  37
+##   (53,99] -41  46</code></pre>
+<pre class="sourceCode r" id="cb607"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-351-1.png" width="672" /></p>
+<p>This is looking better.</p>
+<p>We still need to shift the second set of bars down beside the first set of bars using thespace parameter:</p>
+<pre class="sourceCode r" id="cb608"><code class="sourceCode r"><a class="sourceLine" id="cb608-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-352-1.png" width="672" /></p>
+<p>The axis labels are wrong but we can fix that using the <code>names.arg</code> parameter:</p>
+<pre class="sourceCode r" id="cb609"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" data-line-number="1">bar.names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group, <span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group)</a>
+<a class="sourceLine" id="cb609-2" data-line-number="2"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb609-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-353-1.png" width="672" /></p>
+<p>The chart can still be improved upon by making the fill-colour of each bar white and by expanding the x-axis slightly:</p>
+<pre class="sourceCode r" id="cb610"><code class="sourceCode r"><a class="sourceLine" id="cb610-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb610-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb610-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-354-1.png" width="672" /></p>
+<p>The chart would be better if the x-axis displayed only positive numbers:</p>
+<pre class="sourceCode r" id="cb611"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb611-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb611-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb611-4" data-line-number="4"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb611-5" data-line-number="5">     <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb611-6" data-line-number="6">     <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
+<p>Now we know how to create a population pyramid, we can write a function that we will be able to use whenever we need to plot a population pyramid.</p>
+<p>Create a new function called <code>pyramid.plot()</code>:</p>
+<pre class="sourceCode r" id="cb612"><code class="sourceCode r"><a class="sourceLine" id="cb612-1" data-line-number="1">pyramid.plot &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>pyramid.plot()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>pyramid.plot()</code> function:</p>
+<pre class="sourceCode r" id="cb613"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" data-line-number="1"><span class="kw">fix</span>(pyramid.plot)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb614"><code class="sourceCode r"><a class="sourceLine" id="cb614-1" data-line-number="1"><span class="cf">function</span>(x,</a>
+<a class="sourceLine" id="cb614-2" data-line-number="2">         g,</a>
+<a class="sourceLine" id="cb614-3" data-line-number="3">         <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Pyramid plot of&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
+<a class="sourceLine" id="cb614-4" data-line-number="4">                      <span class="st">&quot;by&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(g))),</a>
+<a class="sourceLine" id="cb614-5" data-line-number="5">         <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="kw">deparse</span>(<span class="kw">substitute</span>(g)),</a>
+<a class="sourceLine" id="cb614-6" data-line-number="6">                      <span class="st">&quot;(&quot;</span>, <span class="kw">levels</span>(g)[<span class="dv">1</span>], <span class="st">&quot;/&quot;</span>,<span class="kw">levels</span>(g)[<span class="dv">2</span>],<span class="st">&quot;)&quot;</span>),</a>
+<a class="sourceLine" id="cb614-7" data-line-number="7">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x))) {</a>
+<a class="sourceLine" id="cb614-8" data-line-number="8">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(x, g)</a>
+<a class="sourceLine" id="cb614-9" data-line-number="9">  tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb614-10" data-line-number="10">  <span class="kw">barplot</span>(tab,</a>
+<a class="sourceLine" id="cb614-11" data-line-number="11">          <span class="dt">horiz =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb614-12" data-line-number="12">          <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb614-13" data-line-number="13">          <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb614-14" data-line-number="14">          <span class="dt">names.arg =</span> <span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>x, <span class="kw">dimnames</span>(tab)<span class="op">$</span>x),</a>
+<a class="sourceLine" id="cb614-15" data-line-number="15">          <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>,</a>
+<a class="sourceLine" id="cb614-16" data-line-number="16">          <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb614-17" data-line-number="17">          <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>,</a>
+<a class="sourceLine" id="cb614-18" data-line-number="18">          <span class="dt">main =</span> main,</a>
+<a class="sourceLine" id="cb614-19" data-line-number="19">          <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb614-20" data-line-number="20">          <span class="dt">ylab =</span> ylab,</a>
+<a class="sourceLine" id="cb614-21" data-line-number="21">          <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb614-22" data-line-number="22">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb614-23" data-line-number="23">       <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb614-24" data-line-number="24">       <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb614-25" data-line-number="25">}</a></code></pre>
+<p>Note that with this function we have given some of the parameters default values in the function definition.</p>
+<p>Giving default values to parameters is useful because it means that you do not need to specify parameters such as titles and axis labels unless you want to. Many <code>R</code> functions use default parameters which are usually set to the most frequently used values.</p>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor. Let’s try the <code>pyramid.plot()</code> function with the test data:</p>
+<pre class="sourceCode r" id="cb615"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-360-1.png" width="672" /></p>
+<p>Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:</p>
+<pre class="sourceCode r" id="cb616"><code class="sourceCode r"><a class="sourceLine" id="cb616-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX, <span class="dt">ylab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Sex F / M&quot;</span>,</a>
+<a class="sourceLine" id="cb616-2" data-line-number="2">             <span class="dt">main =</span> <span class="st">&quot;Children by age and sex&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
+<p>You might like to use the <code>save()</code> function to save the <code>pyramid.plot()</code> function.</p>
 
+</div>
 </div>
             </section>
 
