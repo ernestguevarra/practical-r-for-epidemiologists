@@ -505,4 +505,177 @@ pyramid.plot(age.group, SEX, ylab = "Months", xlab = "Sex F / M",
 
 You might like to use the `save()` function to save the `pyramid.plot()` function.
 
+## Pareto chart
+
+Another type of chart that is missing from many statistical applications is the *Pareto* chart which is a bar chart where the bars are sorted by the bar value with the largest bar drawn first. Such a chart is easier to interpret than a pie chart, particularly when there are more than a few categories being plotted.
+
+Before we go any further we should detach the `pop` data.frame and retrieve a new dataset:
+
+```{r, eval = TRUE}
+detach(pop)
+sssw <- read.table("sssw.dat", header = TRUE)
+attach(sssw)
+```
+
+The file `sssw.dat` contains data on the marital status, home circumstances, and ethnic group of 152 persons recruited into a study into the levels of stress experienced by student social workers in the United Kingdom. The columns in this dataset are as follows:
+
++---------------+----------------------------------------+
+| **marital**   | Marital status coded as:               |
+|               |                                        |
+|               |       1 = Married                      |
+|               |                                        |
+|               |       2 = Single                       |
+|               |                                        |
+|               |       3 = Divorced                     |
+|               |                                        |
+|               |       4 = Separated                    |
+|               |                                        |
+|               |       5 = Cohabiting                   |
+|               |                                        |
+|               |       6 = Widowed                      |
++---------------+----------------------------------------+
+| **living**    | Living with ... coded as:              |
+|               |                                        |
+|               |       1 = Alone                        |
+|               |                                        |
+|               |       2 = Parents or siblings          |
+|               |                                        |
+|               |       3 = Partner                      |
+|               |                                        |
+|               |       4 = Partner and children         |
+|               |                                        |
+|               |       5 = Children                     |
+|               |                                        |
+|               |       6 = Friends or colleagues        |
++---------------+----------------------------------------+
+| **ethnic**    | Ethnic group coded as:                 |
+|               |                                        |
+|               |       1 = African                      |
+|               |                                        |
+|               |       2 = West-Indian                  |
+|               |                                        |
+|               |       3 = Indian                       |
+|               |                                        |
+|               |       4 = Pakistani                    |
+|               |                                        |
+|               |       5 = Bangladeshi                  |
+|               |                                        |
+|               |       6 = East African Asian           |
+|               |                                        |
+|               |       7 = Chinese                      |
+|               |                                        |
+|               |       8 = Cypriot                      |
+|               |                                        |
+|               |       9 = Black European               |
+|               |                                        |
+|               |      10 = White European               |
+|               |                                        |
+|               |      11 = Other                        |
++---------------+----------------------------------------+
+
+Examine the dataset:
+
+```{r, eval = TRUE}
+sssw[1:20, ]
+```
+
+Producing a bar chart from this data is simple as long as we remember to pass summary data (i.e. created using the `table()` function) to the `barplot()` function instead of the variable name:
+
+```{r, eval = FALSE}
+barplot(table(marital))
+barplot(table(living))
+barplot(table(ethnic))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot(table(marital))
+barplot(table(living))
+barplot(table(ethnic))
+```
+
+Creating a Pareto chart only requires us to sort the summary data. We do this using the `rev()` and `sort()` functions:
+
+```{r, eval = TRUE}
+barplot(rev(sort(table(marital))))
+```
+
+Having to specify `rev(sort(table(variable)))` each time we want to produce a *Pareto* plot is rather tedious but now that we know how to create a *Pareto* chart, we can write a function that we will be able to use whenever we need to plot a Pareto chart. Create a new function called `pareto()`:
+
+```{r, eval = FALSE}
+pareto <- function() {}
+```
+
+This creates an empty function called `pareto()`. Use the `fix()` function to edit the `pareto()` function: 
+
+```{r, eval = FALSE}
+fix(pareto)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(x,
+         xlab = deparse(substitute(x)),
+         ylab = "Count",
+         main = paste("Pareto Chart of", deparse(substitute(x)))) {
+  barplot(rev(sort(table(x))),
+          xlab = xlab,
+          ylab = ylab,
+          main = main,
+          col = "white")
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+pareto <- function(x,
+                   xlab = deparse(substitute(x)),
+                   ylab = "Count",
+                   main = paste("Pareto Chart of", deparse(substitute(x)))) {
+  barplot(rev(sort(table(x))),
+          xlab = xlab,
+          ylab = ylab,
+          main = main,
+          col = "white")
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+Let's try the `pareto()` function with the test data:
+   
+```{r, eval = TRUE}
+pareto(marital)
+```
+
+Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:
+
+```{r, eval = TRUE}
+pareto(marital, ylab = "n", xlab = "Marital Status",
+       main = "Marital Status")
+```
+
+Note that we can use value labels if the variable we plot is a factor with value labels as levels rather than a simple numeric vector:
+
+```{r, eval = FALSE}
+ms <- as.factor(marital)
+levels(ms) <- c("Married", "Single", "Divorced", "Separated",
+                "Cohabiting", "Widowed")
+table(ms)
+pareto(ms, ylab = "n", xlab = "Marital Status",
+       main = "Marital Status")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ms <- as.factor(marital)
+levels(ms) <- c("Married", "Single", "Divorced", "Separated",
+                "Cohabiting", "Widowed")
+table(ms)
+pareto(ms, ylab = "n", xlab = "Marital Status",
+       main = "Marital Status")
+```
+
+You may need to resize the plot to display the x-axis labels correctly.
+
+You might like to use the `save()` function to save the `pareto()` function.
+
 
