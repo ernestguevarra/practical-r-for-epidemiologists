@@ -8907,6 +8907,85 @@ The x-axis should be properly labelled. We can do this using the
 string must be specified for one of the \texttt{plot()} functions in
 order to prevent the default label from being displayed.
 
+Try this now:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\KeywordTok{length}\NormalTok{(Time), }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{1}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{""}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{""}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Malaria cases and rainfall"}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{mtext}\NormalTok{(}\DataTypeTok{text =} \StringTok{"Malaria cases"}\NormalTok{, }\DataTypeTok{side =} \DecValTok{2}\NormalTok{, }\DataTypeTok{line =} \DecValTok{3}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(Rain, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Month & Year"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{""}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{mtext}\NormalTok{(}\DataTypeTok{text =} \StringTok{"Rainfall (mm)"}\NormalTok{, }\DataTypeTok{side =} \DecValTok{4}\NormalTok{, }\DataTypeTok{line =} \DecValTok{3}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{as.character}\NormalTok{(Time), }\DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(Time))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-332-1.pdf}
+
+Now that we know how to create a two-axis chart, we can write a function
+that we will be able to use whenever we need to plot two variables on
+the same chart. Create a new function called \texttt{plot2var()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plot2var <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{plot2var()}.
+
+Use the \texttt{fix()} function to edit the \texttt{plot2var()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(plot2var)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(y1,}
+\NormalTok{         y2,}
+\NormalTok{         x.ticks,}
+         \DataTypeTok{x.lab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(x.ticks)),}
+         \DataTypeTok{y1.lab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(y1)),}
+         \DataTypeTok{y2.lab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(y2)),}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(y1.lab, }\StringTok{"&"}\NormalTok{, y2.lab)) \{}
+\NormalTok{  old.par.mar <-}\StringTok{ }\KeywordTok{par}\NormalTok{(}\StringTok{"mar"}\NormalTok{)}
+\NormalTok{  old.par.lab <-}\StringTok{ }\KeywordTok{par}\NormalTok{(}\StringTok{"lab"}\NormalTok{)}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{))}
+  \ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{missing}\NormalTok{(x.ticks)) \{}\KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\KeywordTok{length}\NormalTok{(x.ticks), }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{))\}}
+  \KeywordTok{plot}\NormalTok{(y1, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{1}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{,}
+       \DataTypeTok{xlab =} \StringTok{""}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{""}\NormalTok{, }\DataTypeTok{main =}\NormalTok{ main)}
+  \KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{2}\NormalTok{)}
+  \KeywordTok{mtext}\NormalTok{(}\DataTypeTok{text =}\NormalTok{ y1.lab, }\DataTypeTok{side =} \DecValTok{2}\NormalTok{, }\DataTypeTok{line =} \DecValTok{3}\NormalTok{)}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{new =} \OtherTok{TRUE}\NormalTok{)}
+  \KeywordTok{plot}\NormalTok{(y2, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{,}
+       \DataTypeTok{ylab =} \StringTok{""}\NormalTok{, }\DataTypeTok{xlab =}\NormalTok{ x.lab)}
+  \KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{4}\NormalTok{)}
+  \KeywordTok{mtext}\NormalTok{(}\DataTypeTok{text =}\NormalTok{ y2.lab, }\DataTypeTok{side =} \DecValTok{4}\NormalTok{, }\DataTypeTok{line =} \DecValTok{3}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{missing}\NormalTok{(x.ticks)) \{}
+    \KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{, }\DataTypeTok{labels =} \KeywordTok{as.character}\NormalTok{(x.ticks),}
+         \DataTypeTok{at =} \DecValTok{1}\OperatorTok{:}\KeywordTok{length}\NormalTok{(x.ticks))}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)\}}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =}\NormalTok{ old.par.mar)}
+  \KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =}\NormalTok{ old.par.lab)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, save the file and quit the
+editor.
+
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}
 

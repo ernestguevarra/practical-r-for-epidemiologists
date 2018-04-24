@@ -307,6 +307,54 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 <li><p>The x-axis should display the month and year which are held as character strings in the <code>Time</code> variable. We can do this using the labels parameter of the <code>axis()</code> function after setting the appropriate number of tick-marks using the <code>lab</code> graphical parameter.</p></li>
 </ul>
 <p>The x-axis should be properly labelled. We can do this using the <code>xlab</code> parameters of the <code>plot()</code> functions. An empty string must be specified for one of the <code>plot()</code> functions in order to prevent the default label from being displayed.</p>
+<p>Try this now:</p>
+<pre class="sourceCode r" id="cb580"><code class="sourceCode r"><a class="sourceLine" id="cb580-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb580-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb580-3" data-line-number="3"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb580-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Malaria cases and rainfall&quot;</span>)</a>
+<a class="sourceLine" id="cb580-5" data-line-number="5"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb580-6" data-line-number="6"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Malaria cases&quot;</span>, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb580-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb580-8" data-line-number="8"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb580-9" data-line-number="9">     <span class="dt">xlab =</span> <span class="st">&quot;Month &amp; Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb580-10" data-line-number="10"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb580-11" data-line-number="11"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb580-12" data-line-number="12"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-332-1.png" width="672" /></p>
+<p>Now that we know how to create a two-axis chart, we can write a function that we will be able to use whenever we need to plot two variables on the same chart. Create a new function called <code>plot2var()</code>:</p>
+<pre class="sourceCode r" id="cb581"><code class="sourceCode r"><a class="sourceLine" id="cb581-1" data-line-number="1">plot2var &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>plot2var()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>plot2var()</code> function:</p>
+<pre class="sourceCode r" id="cb582"><code class="sourceCode r"><a class="sourceLine" id="cb582-1" data-line-number="1"><span class="kw">fix</span>(plot2var)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb583"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" data-line-number="1"><span class="cf">function</span>(y1,</a>
+<a class="sourceLine" id="cb583-2" data-line-number="2">         y2,</a>
+<a class="sourceLine" id="cb583-3" data-line-number="3">         x.ticks,</a>
+<a class="sourceLine" id="cb583-4" data-line-number="4">         <span class="dt">x.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x.ticks)),</a>
+<a class="sourceLine" id="cb583-5" data-line-number="5">         <span class="dt">y1.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y1)),</a>
+<a class="sourceLine" id="cb583-6" data-line-number="6">         <span class="dt">y2.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y2)),</a>
+<a class="sourceLine" id="cb583-7" data-line-number="7">         <span class="dt">main =</span> <span class="kw">paste</span>(y1.lab, <span class="st">&quot;&amp;&quot;</span>, y2.lab)) {</a>
+<a class="sourceLine" id="cb583-8" data-line-number="8">  old.par.mar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;mar&quot;</span>)</a>
+<a class="sourceLine" id="cb583-9" data-line-number="9">  old.par.lab &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;lab&quot;</span>)</a>
+<a class="sourceLine" id="cb583-10" data-line-number="10">  <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb583-11" data-line-number="11">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {<span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(x.ticks), <span class="dv">5</span>, <span class="dv">7</span>))}</a>
+<a class="sourceLine" id="cb583-12" data-line-number="12">  <span class="kw">plot</span>(y1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb583-13" data-line-number="13">       <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> main)</a>
+<a class="sourceLine" id="cb583-14" data-line-number="14">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb583-15" data-line-number="15">  <span class="kw">mtext</span>(<span class="dt">text =</span> y1.lab, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb583-16" data-line-number="16">  <span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb583-17" data-line-number="17">  <span class="kw">plot</span>(y2, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb583-18" data-line-number="18">       <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xlab =</span> x.lab)</a>
+<a class="sourceLine" id="cb583-19" data-line-number="19">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb583-20" data-line-number="20">  <span class="kw">mtext</span>(<span class="dt">text =</span> y2.lab, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb583-21" data-line-number="21">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {</a>
+<a class="sourceLine" id="cb583-22" data-line-number="22">    <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(x.ticks),</a>
+<a class="sourceLine" id="cb583-23" data-line-number="23">         <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(x.ticks))</a>
+<a class="sourceLine" id="cb583-24" data-line-number="24">  } <span class="cf">else</span> {<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)}</a>
+<a class="sourceLine" id="cb583-25" data-line-number="25">  <span class="kw">par</span>(<span class="dt">mar =</span> old.par.mar)</a>
+<a class="sourceLine" id="cb583-26" data-line-number="26">  <span class="kw">par</span>(<span class="dt">lab =</span> old.par.lab)</a>
+<a class="sourceLine" id="cb583-27" data-line-number="27">}</a></code></pre>
+<p>Once you have made the changes shown above, save the file and quit the editor.</p>
 
 </div>
             </section>
