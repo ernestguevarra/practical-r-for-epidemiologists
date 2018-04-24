@@ -166,3 +166,99 @@ This chart is much clearer but there are still some improvements that could be m
 * The x-axis should display the month and year which are held as character strings in the `Time` variable. We can do this using the labels parameter of the `axis()` function after setting the appropriate number of tick-marks using the `lab` graphical parameter.
 
 The x-axis should be properly labelled. We can do this using the `xlab` parameters of the `plot()` functions. An empty string must be specified for one of the `plot()` functions in order to prevent the default label from being displayed.
+
+Try this now:
+
+```{r, eval = TRUE}
+par(mar = c(5, 5, 4, 5))
+par(lab = c(length(Time), 5, 7))
+plot(Cases, type = "l", lty = 1, axes = FALSE,
+     xlab = "", ylab = "", main = "Malaria cases and rainfall")
+axis(side = 2)
+mtext(text = "Malaria cases", side = 2, line = 3)
+par(new = TRUE)
+plot(Rain, type = "l", lty = 2, axes = FALSE,
+     xlab = "Month & Year", ylab = "")
+axis(side = 4)
+mtext(text = "Rainfall (mm)", side = 4, line = 3)
+axis(side = 1, labels = as.character(Time), at = 1:length(Time))
+```
+
+Now that we know how to create a two-axis chart, we can write a function that we will be able to use whenever we need to plot two variables on the same chart. Create a new function called `plot2var()`:
+
+```{r, eval = FALSE}
+plot2var <- function() {}
+```
+
+This creates an empty function called `plot2var()`.
+
+Use the `fix()` function to edit the `plot2var()` function:
+
+```{r, eval = FALSE}
+fix(plot2var)
+```
+
+Edit the function to read:
+   
+```{r, eval = FALSE}
+function(y1,
+         y2,
+         x.ticks,
+         x.lab = deparse(substitute(x.ticks)),
+         y1.lab = deparse(substitute(y1)),
+         y2.lab = deparse(substitute(y2)),
+         main = paste(y1.lab, "&", y2.lab)) {
+  old.par.mar <- par("mar")
+  old.par.lab <- par("lab")
+  par(mar = c(5, 5, 4, 5))
+  if(!missing(x.ticks)) {par(lab = c(length(x.ticks), 5, 7))}
+  plot(y1, type = "l", lty = 1, axes = FALSE,
+       xlab = "", ylab = "", main = main)
+  axis(side = 2)
+  mtext(text = y1.lab, side = 2, line = 3)
+  par(new = TRUE)
+  plot(y2, type = "l", lty = 2, axes = FALSE,
+       ylab = "", xlab = x.lab)
+  axis(side = 4)
+  mtext(text = y2.lab, side = 4, line = 3)
+  if(!missing(x.ticks)) {
+    axis(side = 1, labels = as.character(x.ticks),
+         at = 1:length(x.ticks))
+  } else {axis(side = 1)}
+  par(mar = old.par.mar)
+  par(lab = old.par.lab)
+}
+```
+```{r, echo = FALSE, eval = TRUE}
+plot2var <- function() {
+  function(y1,
+           y2,
+           x.ticks,
+           x.lab = deparse(substitute(x.ticks)),
+           y1.lab = deparse(substitute(y1)),
+           y2.lab = deparse(substitute(y2)),
+           main = paste(y1.lab, "&", y2.lab)) {
+    old.par.mar <- par("mar")
+    old.par.lab <- par("lab")
+    par(mar = c(5, 5, 4, 5))
+    if(!missing(x.ticks)) {par(lab = c(length(x.ticks), 5, 7))}
+    plot(y1, type = "l", lty = 1, axes = FALSE,
+         xlab = "", ylab = "", main = main)
+    axis(side = 2)
+    mtext(text = y1.lab, side = 2, line = 3)
+    par(new = TRUE)
+    plot(y2, type = "l", lty = 2, axes = FALSE,
+         ylab = "", xlab = x.lab)
+    axis(side = 4)
+    mtext(text = y2.lab, side = 4, line = 3)
+    if(!missing(x.ticks)) {
+      axis(side = 1, labels = as.character(x.ticks),
+           at = 1:length(x.ticks))
+    } else {axis(side = 1)}
+    par(mar = old.par.mar)
+    par(lab = old.par.lab)  
+  }
+}
+```
+
+Once you have made the changes shown above, save the file and quit the editor.
