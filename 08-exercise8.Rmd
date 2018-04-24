@@ -230,34 +230,32 @@ function(y1,
 }
 ```
 ```{r, echo = FALSE, eval = TRUE}
-plot2var <- function() {
-  function(y1,
+plot2var <- function(y1,
            y2,
            x.ticks,
            x.lab = deparse(substitute(x.ticks)),
            y1.lab = deparse(substitute(y1)),
            y2.lab = deparse(substitute(y2)),
            main = paste(y1.lab, "&", y2.lab)) {
-    old.par.mar <- par("mar")
-    old.par.lab <- par("lab")
-    par(mar = c(5, 5, 4, 5))
-    if(!missing(x.ticks)) {par(lab = c(length(x.ticks), 5, 7))}
-    plot(y1, type = "l", lty = 1, axes = FALSE,
-         xlab = "", ylab = "", main = main)
-    axis(side = 2)
-    mtext(text = y1.lab, side = 2, line = 3)
-    par(new = TRUE)
-    plot(y2, type = "l", lty = 2, axes = FALSE,
-         ylab = "", xlab = x.lab)
-    axis(side = 4)
-    mtext(text = y2.lab, side = 4, line = 3)
-    if(!missing(x.ticks)) {
-      axis(side = 1, labels = as.character(x.ticks),
-           at = 1:length(x.ticks))
-    } else {axis(side = 1)}
-    par(mar = old.par.mar)
-    par(lab = old.par.lab)  
-  }
+  old.par.mar <- par("mar")
+  old.par.lab <- par("lab")
+  par(mar = c(5, 5, 4, 5))
+  if(!missing(x.ticks)) {par(lab = c(length(x.ticks), 5, 7))}
+  plot(y1, type = "l", lty = 1, axes = FALSE,
+       xlab = "", ylab = "", main = main)
+  axis(side = 2)
+  mtext(text = y1.lab, side = 2, line = 3)
+  par(new = TRUE)
+  plot(y2, type = "l", lty = 2, axes = FALSE,
+       ylab = "", xlab = x.lab)
+  axis(side = 4)
+  mtext(text = y2.lab, side = 4, line = 3)
+  if(!missing(x.ticks)) {
+    axis(side = 1, labels = as.character(x.ticks),
+         at = 1:length(x.ticks))
+  } else {axis(side = 1)}
+  par(mar = old.par.mar)
+  par(lab = old.par.lab)  
 }
 ```
 
@@ -280,8 +278,8 @@ plot2var(Rain, Cases, Time)
 Note how the function has used default values for the axis labels and chart title. We can override these default values if we want to:
 
 ```{r, eval = TRUE}
-   plot2var(Rain, Cases, Time, x.lab = "Month and Year",
-            y1.lab = "Rainfall (mm)", y2.lab = "Cases of malaria")
+plot2var(Rain, Cases, Time, x.lab = "Month and Year",
+         y1.lab = "Rainfall (mm)", y2.lab = "Cases of malaria")
 ```
 
 You might like to use the `save()` function to save the `plot2var()` function.
@@ -292,4 +290,219 @@ chart using the `legend()` function with `y1.lab` and `y2.lab`. Before continuin
 ```{r, eval = TRUE}
 detach(mal)
 ```
+
+## Population pyramid
+
+A common chart type that is not available in many statistical applications and in `R` is the *population pyramid*. 
+
+Before we go any further we should retrieve a dataset:
+
+```{r, eval = TRUE}
+pop <- read.table("pop.dat", header = TRUE)
+attach(pop)
+```
+
+The file `pop.dat` contains data on the age (in months) and sex of 438 children aged between six and sixty months collected as part of a nutritional anthropometry survey of the Khosh Valley in Northeast Afghanistan.
+
+The columns in this dataset are as follows:
+
++----------+----------------------------+
+| **AGE**  | Age of the child in months |
++----------+----------------------------+
+| **SEX**  | Sex of the child (M/F)     |
++----------+----------------------------+
+
+Examine the first twenty records of the dataset:
+
+```{r, eval = TRUE}
+pop[1:20, ]
+```
+
+The first step is to make groups from the `AGE` variable since many ages are biased towards full years: 
+
+```{r, eval = FALSE}
+table(AGE)
+barplot(table(AGE), col = "white")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+table(AGE)
+barplot(table(AGE), col = "white")
+```
+
+So we will centre the age-groups around the months representing full years:
+
+```{r, eval = TRUE}
+age.group <- cut(AGE, c(0, 17, 29, 41, 53, 99))
+```
+
+We can check that the grouping operation has worked as expected by tabulating `AGE` and `age.group`: 
+
+```{r, eval = TRUE}
+table(AGE, age.group)
+```
+
+We now use the `table()` function to produce the summary data for the population pyramid: 
+
+```{r, eval = TRUE}
+table(age.group, SEX)
+```
+
+We will construct our population pyramid using the `barplot()` function: 
+
+```{r, eval = TRUE}
+barplot(table(age.group, SEX))
+```
+
+The default behaviour of the `barplot()` function is to produce stacked bars. We can set the `beside` parameter to display the bars side-by-side:
+
+```{r, eval = TRUE}
+barplot(table(age.group, SEX), beside = TRUE)
+```
+
+We can also use the `horiz` parameter to present the data as horizontal bars: 
+
+```{r, eval = TRUE}
+barplot(table(age.group, SEX), beside = TRUE, horiz = TRUE)
+```
+
+In order to centre the bars around zero we need to make one column of the summary data table contain negative numbers:
+
+```{r, eval = TRUE}
+tab <- table(age.group, SEX)
+tab
+tab[ ,1] <- -tab[ ,1]
+tab
+barplot(tab, beside = TRUE, horiz = TRUE)
+```
+
+This is looking better.
+
+We still need to shift the second set of bars down beside the first set of bars using thespace parameter:
+
+```{r, eval = TRUE}
+barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)))
+```
+
+The axis labels are wrong but we can fix that using the `names.arg` parameter:
+
+```{r, eval = TRUE}
+bar.names <- c(dimnames(tab)$age.group, dimnames(tab)$age.group)
+barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
+        names.arg = bar.names)
+```
+
+The chart can still be improved upon by making the fill-colour of each bar white and by expanding the x-axis slightly:
+
+```{r, eval = TRUE}
+barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
+        col = "white", xlim = c(min(tab) * 1.2, max(tab) * 1.2),
+        names.arg = bar.names)
+```
+
+
+The chart would be better if the x-axis displayed only positive numbers:
+
+```{r, eval = TRUE}
+barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
+        col = "white", xlim = c(min(tab) * 1.2, max(tab) * 1.2),
+        names.arg = bar.names, axes = FALSE)
+axis(side = 1,
+     labels = abs(axTicks(side = 1)),
+     at = (axTicks(side = 1)))
+```
+
+Now we know how to create a population pyramid, we can write a function that we will be able to use whenever we need to plot a population pyramid.
+
+Create a new function called `pyramid.plot()`: 
+
+```{r, eval = FALSE}
+pyramid.plot <- function() {}
+```
+
+This creates an empty function called `pyramid.plot()`.
+
+Use the `fix()` function to edit the `pyramid.plot()` function:
+
+```{r, eval = FALSE}
+fix(pyramid.plot)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(x,
+         g,
+         main = paste("Pyramid plot of", deparse(substitute(x)),
+                      "by", deparse(substitute(g))),
+         xlab = paste(deparse(substitute(g)),
+                      "(", levels(g)[1], "/",levels(g)[2],")"),
+         ylab = deparse(substitute(x))) {
+  tab <- table(x, g)
+  tab[ ,1] <- -tab[ ,1]
+  barplot(tab,
+          horiz = TRUE,
+          beside = TRUE,
+          space = c(0, -nrow(tab)),
+          names.arg = c(dimnames(tab)$x, dimnames(tab)$x),
+          xlim = c(min(tab) * 1.2,
+          max(tab) * 1.2),
+          col = "white",
+          main = main,
+          xlab = xlab,
+          ylab = ylab,
+          axes = FALSE)
+  axis(side = 1,
+       labels = abs(axTicks(side = 1)),
+       at = (axTicks(side = 1)))
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+pyramid.plot <- function(x,
+                          g,
+                          main = paste("Pyramid plot of", deparse(substitute(x)),
+                                       "by", deparse(substitute(g))),
+                          xlab = paste(deparse(substitute(g)),
+                                       "(", levels(g)[1], "/",levels(g)[2],")"),
+                          ylab = deparse(substitute(x))) {
+  tab <- table(x, g)
+  tab[ ,1] <- -tab[ ,1]
+  barplot(tab,
+          horiz = TRUE,
+          beside = TRUE,
+          space = c(0, -nrow(tab)),
+          names.arg = c(dimnames(tab)$x, dimnames(tab)$x),
+          xlim = c(min(tab) * 1.2,
+          max(tab) * 1.2),
+          col = "white",
+          main = main,
+          xlab = xlab,
+          ylab = ylab,
+          axes = FALSE)
+  axis(side = 1,
+       labels = abs(axTicks(side = 1)),
+       at = (axTicks(side = 1)))
+}
+```
+
+Note that with this function we have given some of the parameters default values in the function definition.
+
+Giving default values to parameters is useful because it means that you do not need to specify parameters such as titles and axis labels unless you want to. Many `R` functions use default parameters which are usually set to the most frequently used values.
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. Let's try the `pyramid.plot()` function with the test data:
+
+```{r, eval = TRUE}
+pyramid.plot(age.group, SEX)
+```
+
+Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:
+
+```{r, eval = TRUE}
+pyramid.plot(age.group, SEX, ylab = "Months", xlab = "Sex F / M",
+             main = "Children by age and sex")
+```
+
+You might like to use the `save()` function to save the `pyramid.plot()` function.
+
 
