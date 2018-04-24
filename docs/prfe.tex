@@ -129,7 +129,7 @@
   \postauthor{\par}
       \predate{\centering\large\emph}
   \postdate{\par}
-    \date{2018-04-23}
+    \date{2018-04-24}
 
 \usepackage{booktabs}
 \usepackage{color}
@@ -8817,6 +8817,95 @@ number of tick-marks on the axes (using the \texttt{lab} parameter):
 \KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
+
+And then use the \texttt{plot()} and \texttt{lines()} function to draw
+the two lines on the same graph:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(Rain, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-327-1.pdf}
+
+The problem with this is that the ranges of the two variables are
+different and the \texttt{plot()} function automatically sets the y-axis
+to the range of the specified variable. To fix this problem we need to
+set the limits of the y-axis to the minimum and maximum value of both of
+variables using the \texttt{ylim} parameter of the \texttt{plot()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(Cases, Rain), }\KeywordTok{max}\NormalTok{(Cases, Rain)))}
+\KeywordTok{lines}\NormalTok{(Rain, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-1.pdf}
+
+We can improve the chart by adding a legend:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{legend}\NormalTok{(}\DecValTok{18}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Cases"}\NormalTok{, }\StringTok{"Rainfall (mm)"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-330-1.pdf}
+
+We could continue to improve the chart (e.g.~by adding labels for the
+x-axis tick-marks taken from the \texttt{Time} variable, specifying more
+meaningful axis labels, and specifying a title) but the chart would be
+more useful if each variable made full use of the plotting area. We can
+do this by plotting one chart on top of another by using the
+\texttt{new} graphical parameter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{lab =} \KeywordTok{c}\NormalTok{(}\KeywordTok{length}\NormalTok{(Time), }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(Cases, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{1}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{2}\NormalTok{)}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{new =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(Rain, }\DataTypeTok{type =} \StringTok{"l"}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{, }\DataTypeTok{axes =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{4}\NormalTok{)}
+\KeywordTok{axis}\NormalTok{(}\DataTypeTok{side =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-1.pdf}
+
+This chart is much clearer but there are still some improvements that
+could be made:
+
+\begin{itemize}
+\item
+  The chart should have a title. We can do this using the \texttt{main}
+  parameter of either of the \texttt{plot()} functions.
+\item
+  The y-axis labels are displayed on top of each other beside the
+  left-hand y-axis. We can solve this problem by preventing the second
+  \texttt{plot()} function from displaying a y-axis label (i.e.~by
+  specifying an empty character string for the \texttt{ylab} parameter).
+\item
+  We will need to make room on the right-hand side of the chart for an
+  axis label (i.e.~by setting the \texttt{mar} (margin) graphical
+  parameter) and place the label there ourselves (using the
+  \texttt{mtext()} function).
+\item
+  The x-axis should display the month and year which are held as
+  character strings in the \texttt{Time} variable. We can do this using
+  the labels parameter of the \texttt{axis()} function after setting the
+  appropriate number of tick-marks using the \texttt{lab} graphical
+  parameter.
+\end{itemize}
+
+The x-axis should be properly labelled. We can do this using the
+\texttt{xlab} parameters of the \texttt{plot()} functions. An empty
+string must be specified for one of the \texttt{plot()} functions in
+order to prevent the default label from being displayed.
 
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}

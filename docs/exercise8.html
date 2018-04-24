@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt">
 
 
-<meta name="date" content="2018-04-23">
+<meta name="date" content="2018-04-24">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -279,6 +279,34 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 <p>Before proceeding we will use the <code>par()</code> function to specify one plot per window (using the <code>mfrow</code> parameter) and set the default number of tick-marks on the axes (using the <code>lab</code> parameter):</p>
 <pre class="sourceCode r" id="cb575"><code class="sourceCode r"><a class="sourceLine" id="cb575-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a>
 <a class="sourceLine" id="cb575-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>))</a></code></pre>
+<p>And then use the <code>plot()</code> and <code>lines()</code> function to draw the two lines on the same graph:</p>
+<pre class="sourceCode r" id="cb576"><code class="sourceCode r"><a class="sourceLine" id="cb576-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a>
+<a class="sourceLine" id="cb576-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-327-1.png" width="672" /></p>
+<p>The problem with this is that the ranges of the two variables are different and the <code>plot()</code> function automatically sets the y-axis to the range of the specified variable. To fix this problem we need to set the limits of the y-axis to the minimum and maximum value of both of variables using the <code>ylim</code> parameter of the <code>plot()</code> function:</p>
+<pre class="sourceCode r" id="cb577"><code class="sourceCode r"><a class="sourceLine" id="cb577-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(Cases, Rain), <span class="kw">max</span>(Cases, Rain)))</a>
+<a class="sourceLine" id="cb577-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-328-1.png" width="672" /></p>
+<p>We can improve the chart by adding a legend:</p>
+<pre class="sourceCode r" id="cb578"><code class="sourceCode r"><a class="sourceLine" id="cb578-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">18</span>, <span class="dv">1000</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Cases&quot;</span>, <span class="st">&quot;Rainfall (mm)&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-330-1.png" width="672" /></p>
+<p>We could continue to improve the chart (e.g. by adding labels for the x-axis tick-marks taken from the <code>Time</code> variable, specifying more meaningful axis labels, and specifying a title) but the chart would be more useful if each variable made full use of the plotting area. We can do this by plotting one chart on top of another by using the <code>new</code> graphical parameter:</p>
+<pre class="sourceCode r" id="cb579"><code class="sourceCode r"><a class="sourceLine" id="cb579-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb579-2" data-line-number="2"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb579-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb579-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb579-5" data-line-number="5"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb579-6" data-line-number="6"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb579-7" data-line-number="7"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
+<p>This chart is much clearer but there are still some improvements that could be made:</p>
+<ul>
+<li><p>The chart should have a title. We can do this using the <code>main</code> parameter of either of the <code>plot()</code> functions.</p></li>
+<li><p>The y-axis labels are displayed on top of each other beside the left-hand y-axis. We can solve this problem by preventing the second <code>plot()</code> function from displaying a y-axis label (i.e. by specifying an empty character string for the <code>ylab</code> parameter).</p></li>
+<li><p>We will need to make room on the right-hand side of the chart for an axis label (i.e. by setting the <code>mar</code> (margin) graphical parameter) and place the label there ourselves (using the <code>mtext()</code> function).</p></li>
+<li><p>The x-axis should display the month and year which are held as character strings in the <code>Time</code> variable. We can do this using the labels parameter of the <code>axis()</code> function after setting the appropriate number of tick-marks using the <code>lab</code> graphical parameter.</p></li>
+</ul>
+<p>The x-axis should be properly labelled. We can do this using the <code>xlab</code> parameters of the <code>plot()</code> functions. An empty string must be specified for one of the <code>plot()</code> functions in order to prevent the default label from being displayed.</p>
 
 </div>
             </section>
