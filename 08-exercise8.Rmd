@@ -1363,39 +1363,113 @@ The techniques introduced in this section allow you to write custom graphical fu
 
 ## Combining plots
 
-In ***Exercise 1*** (Getting acquainted with R), we saw how the plot() function could be applied to a fitted object:
-   fem <- read.table("fem.dat", header = TRUE)
-   attach(fem)
-   fem.lm <- lm(WT ~ AGE)
-   plot(fem.lm)
-Each of the diagnostic plots are presented as a separate chart. We could use the mfrow parameter of the par() function to present all four diagnostic plots on a single chart:
-   par(mfrow = c(2, 2))
-   plot(fem.lm)
+In [***Exercise 1 Getting acquainted with R)***](#exercise1), we saw how the `plot()` function could be applied to a fitted object:
+
+```{r, eval = TRUE}
+fem <- read.table("fem.dat", header = TRUE)
+attach(fem)
+fem.lm <- lm(WT ~ AGE)
+plot(fem.lm)
+```
+
+Each of the diagnostic plots are presented as a separate chart. We could use the `mfrow` parameter of the `par()` function to present all four diagnostic plots on a single chart:
+
+```{r, eval = TRUE}
+par(mfrow = c(2, 2))
+plot(fem.lm)
+```
+
 It might improve the appearance of the chart if each of the diagnostic plots were square rather than rectangular:
-   par(mfrow = c(2, 2))
-   par(pty = "s")
-   plot(fem.lm)
+
+```{r, eval = TRUE}
+par(mfrow = c(2, 2))
+par(pty = "s")
+plot(fem.lm)
+```
+
 It might improve the appearance of the chart if smaller text and symbols were used:
-   par(mfrow = c(2, 2))
-   par(pty = "s")
-   par(cex = 0.5)
-   plot(fem.lm)
-Graphical parameters set using the par() function affect all subsequent plot commands and must be reset explicitly:
-   par(mfrow = c(1, 1), pty = "m", cex = 1)
-   plot(fem.lm)
-It is possible to save graphical parameters into an R object and use this object to restore original graphical parameters:
-   old.par <- par()
-   par(mfrow = c(2, 2), pty = "s")
-   plot(fem.lm)
-   par(old.par)
-   plot(fem.lm)
-The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the par() function as required:
-   default.par <- par()
-   par(mfrow = c(2, 2), pty = "s")
-   plot.lm.par <- par()
-   par(default.par)
-   plot(fem.lm)
-   par(plot.lm.par)
-   plot(fem.lm)
-   par(default.par)
-   plot(fem.lm)
+   
+```{r, eval = TRUE}
+par(mfrow = c(2, 2))
+par(pty = "s")
+par(cex = 0.5)
+plot(fem.lm)
+```
+
+Graphical parameters set using the `par()` function affect all subsequent plot commands and must be reset explicitly:
+
+```{r, eval = TRUE}
+par(mfrow = c(1, 1), pty = "m", cex = 1)
+plot(fem.lm)
+```
+
+It is possible to save graphical parameters into an `R` object and use this object to restore original graphical parameters:
+
+```{r, eval = FALSE}
+old.par <- par()
+par(mfrow = c(2, 2), pty = "s")
+plot(fem.lm)
+par(old.par)
+plot(fem.lm)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+par(mfrow = c(2, 2), pty = "s")
+plot(fem.lm)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(fem.lm)
+```
+
+The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the `par()` function as required:
+
+```{r, eval = FALSE}
+default.par <- par()
+par(mfrow = c(2, 2), pty = "s")
+plot.lm.par <- par()
+par(default.par)
+plot(fem.lm)
+par(plot.lm.par)
+plot(fem.lm)
+par(default.par)
+plot(fem.lm)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(fem.lm)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+par(mfrow = c(2, 2), pty = "s")
+plot(fem.lm)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(fem.lm)
+```
+
+`R` produces warning messages when you save and restore graphical parameters in this way. This is because some graphical parameters are read only and cannot be changed using the `par()` function. This has no effect other than to cause `R` to issue warning messages.
+
+If you do not like the warning messages then you can use the `par()` function with the `no.readonly` parameter set to `TRUE`:
+
+```{r, eval = TRUE}
+default.par <- par(no.readonly = TRUE)
+par(mfrow = c(2, 2), pty = "s")
+plot.lm.par <- par(no.readonly = TRUE)
+par(default.par)
+plot(fem.lm)
+par(plot.lm.par)
+plot(fem.lm)
+par(default.par)
+plot(fem.lm)
+```
+
+Graphical parameter sets, like any other `R` object, may be saved and loaded using the `save()` and `load()` functions.
+
+## Summary
+* `R` allows you to create functions that produce graphical output.
+
+* `R` graphical functions are flexible so that you can create functions that can produce chart types that are not available in `R` or many other statistical applications. Standard plots may also be customised using the `par()` function.
+
+* `R` allows you to specify default values for function parameters making functions calls easier by removing the requirement to specify values for every function parameter.
