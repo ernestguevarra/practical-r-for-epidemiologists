@@ -1363,7 +1363,7 @@ The techniques introduced in this section allow you to write custom graphical fu
 
 ## Combining plots
 
-In [***Exercise 1 Getting acquainted with R)***](#exercise1), we saw how the `plot()` function could be applied to a fitted object:
+In [***Exercise 1 Getting acquainted with R***](#exercise1), we saw how the `plot()` function could be applied to a fitted object:
 
 ```{r, eval = TRUE}
 fem <- read.table("fem.dat", header = TRUE)
