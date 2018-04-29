@@ -534,6 +534,7 @@ The file `sssw.dat` contains data on the marital status, home circumstances, and
 |               |                                        |
 |               |       6 = Widowed                      |
 +---------------+----------------------------------------+
++---------------+----------------------------------------+
 | **living**    | Living with ... coded as:              |
 |               |                                        |
 |               |       1 = Alone                        |
@@ -547,6 +548,7 @@ The file `sssw.dat` contains data on the marital status, home circumstances, and
 |               |       5 = Children                     |
 |               |                                        |
 |               |       6 = Friends or colleagues        |
++---------------+----------------------------------------+
 +---------------+----------------------------------------+
 | **ethnic**    | Ethnic group coded as:                 |
 |               |                                        |
@@ -678,4 +680,359 @@ You may need to resize the plot to display the x-axis labels correctly.
 
 You might like to use the `save()` function to save the `pareto()` function.
 
+
+## Confidence intervals or error bars
+
+You may want to plot your data with confidence intervals or error bars. `R` does not have a function to do this but it is a relatively simple matter to write a function to do so. On the way we will use some of `R`s data management functions as well.
+
+Before we go any further we should detach the `sssw` data.frame and retrieve a new dataset: 
+
+```{r, eval = TRUE}
+detach(sssw)
+diets <- read.table("diets.dat", header = TRUE)
+```
+
+The file `diets.dat` contains data from a trial of two different diets undertaken at an adult therapeutic feeding centre in Somalia. The columns in this dataset are as follows:
+
++---------------+--------------------------------------------------------------------------------+
+| **day**       | The day after start of diet that measurements were taken                       |
++---------------+--------------------------------------------------------------------------------+
+| **oedema**    | Type of undernutrition coded as: 1 = Oedematous; 2 = Marasmic                  |
++---------------+--------------------------------------------------------------------------------+
+| **diet**      | The trial diets coded as: LP = Low protein; HP = High protein                  |
++---------------+--------------------------------------------------------------------------------+
+| **wt**        | Mean weight change weight velocity) in g/kg/day since the previous measurement |
++---------------+--------------------------------------------------------------------------------+
+| **sd**        | Standard deviation of weight change in g/kg/day                                |
++---------------+--------------------------------------------------------------------------------+
+| **n**         | Number of subjects at each observation                                         |
++---------------+--------------------------------------------------------------------------------+
+
+Examine the dataset:
+
+```{r, eval = TRUE}
+diets
+```
+
+Note that the dataset contains a summary of the results from the four arms of the trial:
+
++----------+---------------+-------------------------+
+| **Arm**  | **Oedema**    | **Therapeutic diet**    |
++:========:+:=============:+:=======================:+
+| 1        | Present       | High protein            |
++----------+---------------+-------------------------+
+| 2        | Present       | Low protein             |
++----------+---------------+-------------------------+
+| 3        | Absent        | High protein            |
++----------+---------------+-------------------------+
+| 4        | Absent        | Low protein             |
++----------+---------------+-------------------------+
+
+with observations at 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, and 33 days after admission.
+
+We can calculate a confidence interval for the mean weight velocity (`wt`) using the data in the `sd` and `n`
+variables. We will use the `transform()` function to do this:
+
+```{r, eval = TRUE}
+diets <- transform(diets, lci = wt - sd / sqrt(n), uci = wt + sd / sqrt(n))
+```
+
+In this case we are calculating confidence intervals as plus or minus one standard error of the mean.
+
+The `transform()` function is very useful as it can add columns directly to a data.frame or transform data already stored in a data.frame.
+
+Examine the `diets` data.frame: 
+
+```{r, eval = TRUE}
+diets
+```
+
+Two new columns (`lci` and `uci`) have been added.
+
+Now that we have calculated the confidence intervals we should, for convenience, split the diets data.frame
+into four separate data.frames (one for each arm of the trial):
+
+```{r, eval = FALSE}
+oed.hp <- subset(diets, oedema == 1 & diet == "HP")
+oed.lp <- subset(diets, oedema == 1 & diet == "LP")
+mar.hp <- subset(diets, oedema == 2 & diet == "HP")
+mar.lp <- subset(diets, oedema == 2 & diet == "LP")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+oed.hp <- subset(diets, oedema == 1 & diet == "HP")
+oed.lp <- subset(diets, oedema == 1 & diet == "LP")
+mar.hp <- subset(diets, oedema == 2 & diet == "HP")
+mar.lp <- subset(diets, oedema == 2 & diet == "LP")
+```
+
+Check that each data.frame contains the data that you expect it to:
+
+```{r, eval = FALSE}
+oed.hp
+oed.lp
+mar.hp
+mar.lp
+```
+
+```{r, echo = FALSE, eval = TRUE}
+oed.hp
+oed.lp
+mar.hp
+mar.lp
+```
+
+We can now plot the data for one arm of the trial:
+
+```{r, eval = TRUE}
+plot(oed.hp$day, oed.hp$wt, type = "l")
+```
+
+We can add error bars using the `arrows()` function:
+
+```{r, eval = FALSE}
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(oed.hp$day, oed.hp$wt, type = "l")
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+```
+
+The scale of the y axis is wrong because the `plot()` function automatically scales axes to the ranges of the x and y data it is given. We can fix this by specifying a different set of limits (from `lci` and `uci`) for the y axis using the `ylim` parameter:
+
+```{r, eval = FALSE}
+plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+```
+
+The plot might also be improved by adding plotting symbols:
+
+```{r, eval = FALSE}
+points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
+```
+
+The axis titles (`oed.hp$day` and `oed.hp$wt`) are the column (variable) names.
+
+We can specify titles and axes labels in the call to the `plot()` function:
+
+```{r, eval = FALSE}
+plot(oed.hp$day, oed.hp$wt, type = "l",
+     ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
+     main = "HP Diet. Oedematous Cases",
+     xlab = "Days of treatment", ylab = "Weight gain (g/kg/d)")
+
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci,
+       code = 3, angle = 90, length = 0.1)
+
+points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot(oed.hp$day, oed.hp$wt, type = "l",
+     ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
+     main = "HP Diet. Oedematous Cases",
+     xlab = "Days of treatment", ylab = "Weight gain (g/kg/d)")
+
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci,
+       code = 3, angle = 90, length = 0.1)
+
+points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
+```
+
+Now that we know how to plot error bars, we can write a function that we will be able to use whenever we need to plot data with error bars.
+
+Before continuing we will consider what the new function should be able to do. This will help us when it comes to writing the function. Our new function should:
+
+1. Take four numeric vectors (x, y, lower CI for y, and upper CI for y) and plot them.
+
+2. Be able to plot the data points as unconnected points or as points joined by lines.
+
+3. Calculateappropriatelimitsfortheyaxis.
+
+4. Produce a plot without axes so that more than one data series may be plotted on the same chart. 5. Provide sensible default values for axis limits and labels.
+
+From this list we know that we need the function to take several parameters:
+
++-----------+------------------------+------------------------------+
+| **Name**  | **Purpose**            | **Default value**            |
++===========+========================+==============================+
+| `x`       | Data to plot           | None                         |
++-----------+------------------------+------------------------------+
+| `y`       | Data to plot           | None                         |
++-----------+------------------------+------------------------------+
+| `y.lci`   | Data to plot           | None                         |
++-----------+------------------------+------------------------------+
+| `y.uci`   | Data to plot           | None                         |
++-----------+------------------------+------------------------------+
+| `ylim`    | Limits for y axis      | `c(min(y.lci), max(y.uci))`  |
++-----------+------------------------+------------------------------+
+| `xlab`    | Label for x axis       | `deparse(substitute(x))`     |
++-----------+------------------------+------------------------------+
+| `ylab`    | Label for y axis       | `deparse(substitute(y))`     |
++-----------+------------------------+------------------------------+
+| `main`    | Chart title            | `paste(ylab, "by", xlab)`    |
++-----------+------------------------+------------------------------+
+| `type`    | Type of plot           | `"l"`                        |
++-----------+------------------------+------------------------------+
+| `lty`     | Line type              | `1`                          |
++-----------+------------------------+------------------------------+
+| `col`     | Line and point colour  | `"black"`                    |
++-----------+------------------------+------------------------------+
+| `axes`    | Draw x and y axes      | `TRUE`                       |
++-----------+------------------------+------------------------------+
+| `pch`     | Type of points to plot | `1`                          |
++-----------+------------------------+------------------------------+
+| `bg`      | Fill colour of point   | `white`                      |
++-----------+------------------------+------------------------------+
+
+The parameter names have been chosen to be the same as the parameter names to `plot()` and `points()`. This makes the function easier to use. It also makes the function easier to write.
+
+Create a new function called `plot.ci()`: 
+
+```{r, eval = FALSE}
+plot.ci <- function() {}
+```
+
+This creates an empty function called `plot.ci()`.
+
+Use the `fix()` function to edit the `plot.ci()` function: 
+
+```{r, eval = FALSE}
+fix(plot.ci)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(x,
+         y, y.lci, y.uci,
+         ylim = c(min(y.lci), max(y.uci)),
+         xlab = deparse(substitute(x)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab),
+         type = "l",
+         lty = 1,
+         col = "black",
+         axes = TRUE,
+         pch = 21,
+         bg = "white") {
+
+  plot(x, y, type = type, ylim = ylim, xlab = xlab, ylab = ylab,
+       main = main, lty = lty, col = col, axes = axes)
+  
+  arrows(x, y.lci, x, y.uci, code = 3, angle = 90, length = 0.1,
+         lty = lty, col = col)
+  
+  points(x, y, pch = pch, bg = bg, col = col)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot.ci <- function(x,
+                    y, y.lci, y.uci,
+                    ylim = c(min(y.lci), max(y.uci)),
+                    xlab = deparse(substitute(x)),
+                    ylab = deparse(substitute(y)),
+                    main = paste(ylab, "by", xlab),
+                    type = "l",
+                    lty = 1,
+                    col = "black",
+                    axes = TRUE,
+                    pch = 21,
+                    bg = "white") {
+
+  plot(x, y, type = type, ylim = ylim, xlab = xlab, ylab = ylab,
+       main = main, lty = lty, col = col, axes = axes)
+  
+  arrows(x, y.lci, x, y.uci, code = 3, angle = 90, length = 0.1,
+         lty = lty, col = col)
+  
+  points(x, y, pch = pch, bg = bg, col = col)
+}
+```
+
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+Let's try the `plot.ci()` function with the test data:
+
+```{r, eval = TRUE}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci)
+```
+
+Note how the function has used default values for the axis labels, chart titles, chart limits &c. 
+
+We can override these default values if we need to:
+
+```{r, eval = TRUE}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
+        ylim = c(-6, 10), xlab = "Day",
+        ylab = "Weight gain (g/kg/day)",
+        main = "Oedematous", col = "red")
+```
+
+Do not close the plot window.
+
+We should also check that we can plot another data series on this chart:
+
+```{r, eval = FALSE}
+par(new = TRUE)
+plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
+        axes = FALSE, pch = 22, xlab = "", ylab = "", main = "",
+        col = "darkgreen")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
+        ylim = c(-6, 10), xlab = "Day",
+        ylab = "Weight gain (g/kg/day)",
+        main = "Oedematous", col = "red")
+par(new = TRUE)
+plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
+        axes = FALSE, pch = 22, xlab = "", ylab = "", main = "",
+        col = "darkgreen")
+```
+
+We can also add a legend:
+
+```{r, eval = FALSE}
+legend(5, 8, legend = c("HP", "LP"), lty = c(1, 1),
+       pch = c(21, 22), col = c("red", "darkgreen"))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
+        ylim = c(-6, 10), xlab = "Day",
+        ylab = "Weight gain (g/kg/day)",
+        main = "Oedematous", col = "red")
+par(new = TRUE)
+plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
+        axes = FALSE, pch = 22, xlab = "", ylab = "", main = "",
+        col = "darkgreen")
+legend(5, 8, legend = c("HP", "LP"), lty = c(1, 1),
+       pch = c(21, 22), col = c("red", "darkgreen"))
+```
+
+We should also check that we can produce plots of unconnected points:
+
+```{r, eval = TRUE}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci, type = "p")
+```
+
+Try plotting the data for the marasmic patients using the `plot.ci()` function. 
+
+You might like to use the `save()` function to save the `plot.ci()` function.
 
