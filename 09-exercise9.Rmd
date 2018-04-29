@@ -57,4 +57,68 @@ The bootstrap estimate of the mean is:
 median(x2)
 ```
 
+The bootstrap estimate may differ somewhat from the mean of `x`: 
+
+```{r, eval = TRUE}
+mean(x)
+```
+
+The situation is improved by increasing the number of replicates. Here we take 5000 replicates:
+
+```{r, eval = TRUE}
+x1 <- matrix(sample(x, length(x) * 5000, replace = TRUE),
+             nrow = length(x), ncol = 5000)
+x2 <- apply(x1, 2, mean)
+median(x2)
+```
+
+This is a pretty useless example as estimating the mean / standard deviation, or standard error of the mean of a sample from a normal population can be done using standard formulae.
+
+The utility of bootstrap methods is that they can be applied to summary measures that are not as well understood as the arithmetic mean. The bootstrap method also has the advantage of retaining simplicity even with complicated measures.
+
+To illustrate this, we will work through an example of using the bootstrap to estimate the harmonic mean. 
+
+Again, we will work with a simple dataset which we will enter directly:
+
+```{r, eval = TRUE}
+d <- c(43.64, 50.67, 33.56, 27.75, 43.35, 29.56, 38.83, 35.95, 20.01)
+```
+
+The data represents distance (in kilometres) from a point source of environmental pollution for nine female patients with oral / pharyngeal cancer.
+
+The harmonic mean is considered to be a sensitive measure of spatial clustering. The first step is to construct a function to calculate the harmonic mean:
+
+```{r, eval = TRUE}
+h.mean <- function(x) {length(x) / sum(1 / x)}
+```
+
+Calling this function with the sample data:
+
+```{r, eval = TRUE}
+h.mean(d)
+```
+
+Should return an estimated harmonic mean distance of 33.47 kilometres. This is simple. The problem is that calculating the variance of this estimate is complicated using standard methods. This problem is relatively simple to solve using bootstrap methods:
+
+```{r, eval = TRUE}
+replicates <- 5000
+n <- length(d)
+x1 <- matrix(sample(d, n * replicates, replace = TRUE),
+             nrow = n, ncol = replicates)
+x2 <- apply(x1, 2, h.mean)
+median(x2)
+```
+
+A 95% confidence interval can be extracted from `x2` using the `quantile()` function: 
+
+```{r, eval = TRUE}
+quantile(x2, c(0.025, 0.975))
+```
+
+A 99% confidence interval can also be extracted from `x2` using the `quantile()` function: 
+
+```{r, eval = TRUE}
+quantile(x2, c(0.005, 0.995))
+```
+
 
