@@ -1,6 +1,7 @@
 --- 
 title: "Practical R for Epidemiologists"
-author: "Mark Myatt"
+subtitle: "Second Edition"
+author: "Mark Myatt and Ernest Guevarra"
 date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
