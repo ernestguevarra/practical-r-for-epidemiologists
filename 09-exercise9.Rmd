@@ -1,2 +1,60 @@
 # Computer intensive methods {#exercise9}
 
+Estimation involves the calculation of a measure with some sense of precision based upon sampling variation.
+
+Only a few estimators (e.g. the sample mean from a normal population) have exact formulae that may be used to estimate sampling variation. Typically, estimates of variability are based upon approximations informed by expected or postulated properties of the sampled population. The development of variance formulae for some measures may require in-depth statistical and mathematical knowledge or may even be impossible to derive.
+
+*Bootstrap* methods are computer-intensive methods that can provide estimates and measures of precision (e.g. confidence intervals) without resort to theoretical models, higher mathematics, or assumptions about the sampled population. They rely on repeated sampling, sometimes called *resampling*, of the observed data.
+
+As a simple example of how such methods work, we will start by using bootstrap methods to estimate the mean from a normal population. We will work with a very simple dataset which we will enter directly:
+
+```{r, eval = TRUE}
+x <- c(7.3, 10.4, 14.0, 12.2, 8.4)
+```
+
+We can summarise this data quite easily:
+
+```{r, eval = TRUE}
+mean(x)
+```
+
+The `sample()` function can be used to select a bootstrap `replicate`: 
+
+```{r, eval = TRUE}
+sample(x, length(x), replace = TRUE)
+```
+
+Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The `length()` parameter is not required for taking bootstrap replicates and can be omitted.
+
+It is possible to apply a summary measure to a replicate:
+
+```{r, eval = TRUE}
+mean(sample(x, replace = TRUE))
+```
+
+Enter this command several times. A bootstrap estimate of the mean of `x` can be made by repeating this process many times and taking the `median` of the means for each replicate.
+
+One way of doing this is to create a matrix where each column contains a bootstrap replicate and then use the `apply()` and `mean()` functions to get at the estimate.
+
+First create the matrix of replicates. Here we take ten replicates:
+
+```{r, eval = TRUE}
+x1 <- matrix(sample(x, length(x) * 10, replace = TRUE),
+             nrow = length(x), ncol = 10)
+x1
+```
+
+Then calculate and store the means of each replicate. We can do this using the `apply()` function to apply the `mean()` function to the columns of matrix `x1`:
+
+```{r, eval = TRUE}
+x2 <- apply(x1, 2, mean)
+x2
+```
+
+The bootstrap estimate of the mean is:
+
+```{r, eval = TRUE}
+median(x2)
+```
+
+
