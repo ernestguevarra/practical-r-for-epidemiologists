@@ -1363,3 +1363,39 @@ The techniques introduced in this section allow you to write custom graphical fu
 
 ## Combining plots
 
+In ***Exercise 1*** (Getting acquainted with R), we saw how the plot() function could be applied to a fitted object:
+   fem <- read.table("fem.dat", header = TRUE)
+   attach(fem)
+   fem.lm <- lm(WT ~ AGE)
+   plot(fem.lm)
+Each of the diagnostic plots are presented as a separate chart. We could use the mfrow parameter of the par() function to present all four diagnostic plots on a single chart:
+   par(mfrow = c(2, 2))
+   plot(fem.lm)
+It might improve the appearance of the chart if each of the diagnostic plots were square rather than rectangular:
+   par(mfrow = c(2, 2))
+   par(pty = "s")
+   plot(fem.lm)
+It might improve the appearance of the chart if smaller text and symbols were used:
+   par(mfrow = c(2, 2))
+   par(pty = "s")
+   par(cex = 0.5)
+   plot(fem.lm)
+Graphical parameters set using the par() function affect all subsequent plot commands and must be reset explicitly:
+   par(mfrow = c(1, 1), pty = "m", cex = 1)
+   plot(fem.lm)
+It is possible to save graphical parameters into an R object and use this object to restore original graphical parameters:
+   old.par <- par()
+   par(mfrow = c(2, 2), pty = "s")
+   plot(fem.lm)
+   par(old.par)
+   plot(fem.lm)
+The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the par() function as required:
+   default.par <- par()
+   par(mfrow = c(2, 2), pty = "s")
+   plot.lm.par <- par()
+   par(default.par)
+   plot(fem.lm)
+   par(plot.lm.par)
+   plot(fem.lm)
+   par(default.par)
+   plot(fem.lm)
