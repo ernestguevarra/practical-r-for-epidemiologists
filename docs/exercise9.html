@@ -161,6 +161,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="10.2" data-path="exercise9.html"><a href="exercise9.html#hypothesis-testing"><i class="fa fa-check"></i><b>10.2</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="10.3" data-path="exercise9.html"><a href="exercise9.html#simulating-processes"><i class="fa fa-check"></i><b>10.3</b> Simulating processes</a></li>
 <li class="chapter" data-level="10.4" data-path="exercise9.html"><a href="exercise9.html#cellular-automata-machines"><i class="fa fa-check"></i><b>10.4</b> Cellular automata machines</a></li>
+<li class="chapter" data-level="10.5" data-path="exercise9.html"><a href="exercise9.html#summary-8"><i class="fa fa-check"></i><b>10.5</b> Summary</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
@@ -197,11 +198,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 10.46</code></pre>
 <p>The <code>sample()</code> function can be used to select a bootstrap <code>replicate</code>:</p>
 <pre class="sourceCode r" id="cb701"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">sample</span>(x, <span class="kw">length</span>(x), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<pre><code>## [1] 10.4  7.3  8.4 12.2  8.4</code></pre>
+<pre><code>## [1] 10.4 10.4 10.4 10.4  8.4</code></pre>
 <p>Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The <code>length()</code> parameter is not required for taking bootstrap replicates and can be omitted.</p>
 <p>It is possible to apply a summary measure to a replicate:</p>
 <pre class="sourceCode r" id="cb703"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a></code></pre>
-<pre><code>## [1] 11.58</code></pre>
+<pre><code>## [1] 12.56</code></pre>
 <p>Enter this command several times. A bootstrap estimate of the mean of <code>x</code> can be made by repeating this process many times and taking the <code>median</code> of the means for each replicate.</p>
 <p>One way of doing this is to create a matrix where each column contains a bootstrap replicate and then use the <code>apply()</code> and <code>mean()</code> functions to get at the estimate.</p>
 <p>First create the matrix of replicates. Here we take ten replicates:</p>
@@ -209,18 +210,18 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb705-2" data-line-number="2">             <span class="dt">nrow =</span> <span class="kw">length</span>(x), <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb705-3" data-line-number="3">x1</a></code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]  8.4 10.4 10.4  8.4 14.0 10.4 12.2 10.4  8.4   8.4
-## [2,] 12.2 10.4  8.4 12.2 10.4 14.0  7.3 12.2  7.3   8.4
-## [3,] 14.0 14.0  7.3  7.3  8.4  8.4 10.4 14.0  8.4  12.2
-## [4,]  8.4 10.4  8.4 10.4  8.4 14.0 10.4  8.4 14.0  10.4
-## [5,]  8.4 14.0 12.2 10.4 10.4  8.4  7.3 10.4  7.3   8.4</code></pre>
+## [1,] 10.4 14.0 10.4 14.0 10.4 10.4 10.4  7.3 14.0   7.3
+## [2,] 14.0 10.4  8.4  7.3  7.3  8.4 10.4  8.4  7.3  12.2
+## [3,] 10.4 12.2 10.4 10.4 14.0 14.0 14.0  8.4 10.4  10.4
+## [4,]  7.3  8.4 10.4 10.4 10.4 10.4 10.4 10.4 12.2   7.3
+## [5,] 14.0 12.2  8.4  7.3 14.0  8.4  8.4 10.4  8.4   8.4</code></pre>
 <p>Then calculate and store the means of each replicate. We can do this using the <code>apply()</code> function to apply the <code>mean()</code> function to the columns of matrix <code>x1</code>:</p>
 <pre class="sourceCode r" id="cb707"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, mean)</a>
 <a class="sourceLine" id="cb707-2" data-line-number="2">x2</a></code></pre>
-<pre><code>##  [1] 10.28 11.84  9.34  9.74 10.32 11.04  9.52 11.08  9.08  9.56</code></pre>
+<pre><code>##  [1] 11.22 11.44  9.60  9.88 11.22 10.32 10.72  8.98 10.46  9.12</code></pre>
 <p>The bootstrap estimate of the mean is:</p>
 <pre class="sourceCode r" id="cb709"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 10.01</code></pre>
+<pre><code>## [1] 10.39</code></pre>
 <p>The bootstrap estimate may differ somewhat from the mean of <code>x</code>:</p>
 <pre class="sourceCode r" id="cb711"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">mean</span>(x)</a></code></pre>
 <pre><code>## [1] 10.46</code></pre>
@@ -248,15 +249,15 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb719-4" data-line-number="4">             <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> replicates)</a>
 <a class="sourceLine" id="cb719-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, h.mean)</a>
 <a class="sourceLine" id="cb719-6" data-line-number="6"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 33.80496</code></pre>
+<pre><code>## [1] 33.68616</code></pre>
 <p>A 95% confidence interval can be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb721"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
 <pre><code>##     2.5%    97.5% 
-## 27.84726 40.22577</code></pre>
+## 27.77678 40.08494</code></pre>
 <p>A 99% confidence interval can also be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb723"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</a></code></pre>
 <pre><code>##     0.5%    99.5% 
-## 26.39036 42.10288</code></pre>
+## 26.13595 42.13664</code></pre>
 <p>As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the <code>salex</code> dataset which we used in exercise 2 and exercise 3:</p>
 <pre class="sourceCode r" id="cb725"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>,  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
 <a class="sourceLine" id="cb725-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL)</a></code></pre>
@@ -280,16 +281,16 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The vector <code>boot</code> now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the <code>median()</code> and <code>quantile()</code> functions</p>
 <pre class="sourceCode r" id="cb731"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb731-2" data-line-number="2"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.71361</code></pre>
-<pre><code>##      2.5%     97.5% 
-##  4.640518 60.046875</code></pre>
+<pre><code>## [1] 14.42222</code></pre>
+<pre><code>##     2.5%    97.5% 
+##  4.78564 65.81958</code></pre>
 <p>This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of <code>boot</code> that are not (<code>!=</code>) infinite (<code>Inf</code>):</p>
 <pre class="sourceCode r" id="cb734"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">boot &lt;-<span class="st"> </span>boot[boot <span class="op">!=</span><span class="st"> </span><span class="ot">Inf</span>]</a>
 <a class="sourceLine" id="cb734-2" data-line-number="2"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.65152</code></pre>
-<pre><code>##      2.5%     97.5% 
-##  4.640092 57.187500</code></pre>
+<pre><code>## [1] 14.4</code></pre>
+<pre><code>##     2.5%    97.5% 
+##  4.78427 63.84794</code></pre>
 <p>Another way to avoid this problem is to use an <code>adjusted odds ratio</code> calculated by adding 0.5 to each cell of the two-by-two table:</p>
 <pre class="sourceCode r" id="cb737"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
 <a class="sourceLine" id="cb737-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
@@ -300,9 +301,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb737-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb737-8" data-line-number="8"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb737-9" data-line-number="9"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 12.73345</code></pre>
+<pre><code>## [1] 12.46243</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.879844 42.164286</code></pre>
+##  4.597374 46.529748</code></pre>
 <p>This procedure is preferred when working with sparse tables.</p>
 </div>
 <div id="hypothesis-testing" class="section level2">
@@ -350,7 +351,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb746"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb746-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb746-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.101</code></pre>
+<pre><code>## [1] 0.1045</code></pre>
 <p>You might like to repeat this exercise using the harmonic mean distance and the median distance.</p>
 <p>We can check if this method is capable of detecting a simple cluster using simulated data:</p>
 <pre class="sourceCode r" id="cb748"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
@@ -362,12 +363,12 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb749"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
 <p>The observed mean distance of each case from the industrial waste disposal site is:</p>
 <pre class="sourceCode r" id="cb750"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
-<pre><code>## [1] 0.2642957</code></pre>
+<pre><code>## [1] 0.2741452</code></pre>
 <p>We can use the the simulated null hypothesis data to test for spatial clustering:</p>
 <pre class="sourceCode r" id="cb752"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb752-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb752-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 1e-04</code></pre>
+<pre><code>## [1] 2e-04</code></pre>
 <p>We should also check if the procedure can detect a plume of cases, such as might be created by a prevailing wind at a waste incineration site, in a similar way:</p>
 <pre class="sourceCode r" id="cb754"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
 <a class="sourceLine" id="cb754-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
@@ -378,7 +379,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb755-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb755-3" data-line-number="3">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb755-4" data-line-number="4"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.3772</code></pre>
+<pre><code>## [1] 0.5305</code></pre>
 <p>The method is not capable of detecting plumes.</p>
 <p>You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.</p>
 </div>
@@ -1049,10 +1050,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb779-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb779-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 50
+## [1] 51
 ## 
 ## $cases
-## [1] 5
+## [1] 7
 ## 
 ## $outcome
 ## [1] 0</code></pre>
@@ -1065,10 +1066,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb782-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb782-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 30
+## [1] 45
 ## 
 ## $cases
-## [1] 15
+## [1] 16
 ## 
 ## $outcome
 ## [1] 1</code></pre>
@@ -1080,13 +1081,13 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb785-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb785-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 41
+## [1] 50
 ## 
 ## $cases
-## [1] 16
+## [1] 14
 ## 
 ## $outcome
-## [1] 1</code></pre>
+## [1] 0</code></pre>
 <p>Repeat the last function call several times. The function should return:</p>
 <pre><code>$outcome
 [1] 0</code></pre>
@@ -1130,26 +1131,26 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.592
+## [1] 50.656
 ## 
 ## $p.high
-## [1] 0.032</code></pre>
+## [1] 0.012</code></pre>
 <pre><code>## $p
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 33.476
+## [1] 34.3
 ## 
 ## $p.high
-## [1] 0.988</code></pre>
+## [1] 0.984</code></pre>
 <pre><code>## $p
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 44.916
+## [1] 46.316
 ## 
 ## $p.high
-## [1] 0.704</code></pre>
+## [1] 0.576</code></pre>
 <p>The simulation consists of applying this function to each of the datasets in turn and collating the results. We will create a function to do this.</p>
 <p>Create a new function called <code>main.simul()</code>:</p>
 <pre class="sourceCode r" id="cb796"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" data-line-number="1">main.simul &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
@@ -1177,54 +1178,54 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The returned data.frame object (<code>z1</code>) contains the results of the simulation:</p>
 <pre class="sourceCode r" id="cb801"><code class="sourceCode r"><a class="sourceLine" id="cb801-1" data-line-number="1">z1</a></code></pre>
 <pre><code>##             p    asn p.high      file.name
-## 1  0.59139785 26.008  1.000    egypt01.sim
-## 2  0.09243697 50.780  0.000    egypt02.sim
-## 3  0.34394904 42.860  0.788    egypt03.sim
-## 4  0.25465839 49.116  0.304    egypt04.sim
-## 5  0.13548387 50.728  0.012    egypt05.sim
-## 6  0.69934641 22.740  1.000    egypt06.sim
-## 7  0.09815951 50.796  0.000    egypt07.sim
-## 8  0.56684492 27.424  1.000    egypt08.sim
-## 9  0.52517986 29.060  1.000    egypt09.sim
-## 10 0.43434343 35.324  0.980    egypt10.sim
-## 11 0.08510638 51.776  0.000   gambia01.sim
-## 12 0.25174825 49.904  0.336   gambia02.sim
-## 13 0.17307692 51.712  0.076   gambia03.sim
-## 14 0.18666667 51.340  0.064   gambia04.sim
-## 15 0.12643678 52.332  0.008   gambia05.sim
-## 16 0.51809524 32.132  1.000   gambia06.sim
-## 17 0.38766520 40.772  0.908   gambia07.sim
-## 18 0.31055901 46.416  0.640   gambia08.sim
-## 19 0.35483871 43.372  0.752   gambia09.sim
-## 20 0.33584906 44.864  0.672   gambia10.sim
-## 21 0.09900990 52.264  0.000    ghana01.sim
-## 22 0.21621622 51.632  0.148    ghana02.sim
-## 23 0.27819549 48.768  0.492    ghana03.sim
-## 24 0.46728972 33.296  0.996 tanzania01.sim
-## 25 0.45631068 33.984  0.988 tanzania02.sim
-## 26 0.10256410 50.728  0.000 tanzania03.sim
-## 27 0.17241379 50.744  0.016 tanzania04.sim
-## 28 0.69629630 22.508  1.000 tanzania05.sim
-## 29 0.30927835 45.648  0.608 tanzania06.sim
-## 30 0.37272727 40.088  0.900 tanzania07.sim
-## 31 0.44545455 34.044  0.980 tanzania08.sim
-## 32 0.21468927 50.384  0.128 tanzania09.sim
-## 33 0.59259259 26.240  1.000 tanzania10.sim
-## 34 0.25443787 48.764  0.284 tanzania11.sim
-## 35 0.56198347 29.524  1.000 tanzania12.sim
-## 36 0.50862069 31.020  1.000 tanzania13.sim
-## 37 0.41052632 37.504  0.968 tanzania14.sim
-## 38 0.25490196 48.916  0.428     togo01.sim
-## 39 0.16923077 54.768  0.056     togo02.sim
-## 40 0.21476510 50.652  0.192     togo03.sim
-## 41 0.12658228 51.996  0.024     togo04.sim
-## 42 0.10982659 52.752  0.008     togo05.sim
-## 43 0.26771654 48.024  0.364     togo06.sim
-## 44 0.32446809 45.164  0.664     togo07.sim
-## 45 0.31250000 45.372  0.636     togo08.sim
-## 46 0.12500000 51.224  0.000     togo09.sim
-## 47 0.04385965 52.340  0.000     togo10.sim
-## 48 0.08609272 52.256  0.000     togo11.sim</code></pre>
+## 1  0.59139785 26.188  1.000    egypt01.sim
+## 2  0.09243697 50.772  0.000    egypt02.sim
+## 3  0.34394904 43.152  0.800    egypt03.sim
+## 4  0.25465839 49.120  0.292    egypt04.sim
+## 5  0.13548387 50.624  0.008    egypt05.sim
+## 6  0.69934641 22.360  1.000    egypt06.sim
+## 7  0.09815951 50.764  0.000    egypt07.sim
+## 8  0.56684492 27.364  1.000    egypt08.sim
+## 9  0.52517986 29.116  1.000    egypt09.sim
+## 10 0.43434343 35.976  1.000    egypt10.sim
+## 11 0.08510638 51.504  0.000   gambia01.sim
+## 12 0.25174825 49.156  0.412   gambia02.sim
+## 13 0.17307692 52.056  0.072   gambia03.sim
+## 14 0.18666667 51.484  0.064   gambia04.sim
+## 15 0.12643678 52.152  0.036   gambia05.sim
+## 16 0.51809524 33.012  1.000   gambia06.sim
+## 17 0.38766520 41.552  0.920   gambia07.sim
+## 18 0.31055901 46.452  0.596   gambia08.sim
+## 19 0.35483871 42.820  0.732   gambia09.sim
+## 20 0.33584906 44.484  0.680   gambia10.sim
+## 21 0.09900990 52.140  0.000    ghana01.sim
+## 22 0.21621622 51.044  0.244    ghana02.sim
+## 23 0.27819549 48.608  0.480    ghana03.sim
+## 24 0.46728972 33.640  0.972 tanzania01.sim
+## 25 0.45631068 33.684  0.996 tanzania02.sim
+## 26 0.10256410 50.748  0.000 tanzania03.sim
+## 27 0.17241379 50.720  0.052 tanzania04.sim
+## 28 0.69629630 23.064  1.000 tanzania05.sim
+## 29 0.30927835 45.672  0.588 tanzania06.sim
+## 30 0.37272727 40.204  0.880 tanzania07.sim
+## 31 0.44545455 33.796  0.988 tanzania08.sim
+## 32 0.21468927 50.684  0.088 tanzania09.sim
+## 33 0.59259259 26.336  1.000 tanzania10.sim
+## 34 0.25443787 48.644  0.296 tanzania11.sim
+## 35 0.56198347 29.016  1.000 tanzania12.sim
+## 36 0.50862069 30.792  0.996 tanzania13.sim
+## 37 0.41052632 37.484  0.968 tanzania14.sim
+## 38 0.25490196 49.028  0.364     togo01.sim
+## 39 0.16923077 55.016  0.068     togo02.sim
+## 40 0.21476510 50.628  0.208     togo03.sim
+## 41 0.12658228 51.832  0.012     togo04.sim
+## 42 0.10982659 53.252  0.000     togo05.sim
+## 43 0.26771654 48.156  0.440     togo06.sim
+## 44 0.32446809 44.756  0.644     togo07.sim
+## 45 0.31250000 45.004  0.664     togo08.sim
+## 46 0.12500000 51.444  0.000     togo09.sim
+## 47 0.04385965 52.680  0.000     togo10.sim
+## 48 0.08609272 52.576  0.000     togo11.sim</code></pre>
 <p>We can examine the prevalences in the test datasets:</p>
 <pre class="sourceCode r" id="cb803"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" data-line-number="1"><span class="kw">x11</span>()</a>
 <a class="sourceLine" id="cb803-2" data-line-number="2"></a>
@@ -1346,54 +1347,54 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The data.frame object <code>z2</code> contains the results of the simulation:</p>
 <pre class="sourceCode r" id="cb814"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" data-line-number="1">z2</a></code></pre>
 <pre><code>##             p    asn p.high      file.name
-## 1  0.59139785 26.432  1.000    egypt01.sim
-## 2  0.09243697 50.824  0.000    egypt02.sim
-## 3  0.34394904 43.196  0.772    egypt03.sim
-## 4  0.25465839 49.344  0.284    egypt04.sim
-## 5  0.13548387 50.756  0.004    egypt05.sim
-## 6  0.69934641 22.364  1.000    egypt06.sim
-## 7  0.09815951 50.828  0.000    egypt07.sim
-## 8  0.56684492 27.388  1.000    egypt08.sim
-## 9  0.52517986 29.468  1.000    egypt09.sim
-## 10 0.43434343 36.024  0.988    egypt10.sim
-## 11 0.08510638 51.584  0.000   gambia01.sim
-## 12 0.25174825 50.180  0.324   gambia02.sim
-## 13 0.17307692 52.136  0.060   gambia03.sim
-## 14 0.18666667 51.740  0.088   gambia04.sim
-## 15 0.12643678 52.092  0.020   gambia05.sim
-## 16 0.51809524 32.668  1.000   gambia06.sim
-## 17 0.38766520 41.504  0.908   gambia07.sim
-## 18 0.31055901 47.364  0.604   gambia08.sim
-## 19 0.35483871 42.612  0.780   gambia09.sim
-## 20 0.33584906 44.680  0.656   gambia10.sim
-## 21 0.09900990 52.316  0.000    ghana01.sim
-## 22 0.21621622 51.068  0.216    ghana02.sim
-## 23 0.27819549 48.736  0.524    ghana03.sim
-## 24 0.46728972 33.060  0.988 tanzania01.sim
-## 25 0.45631068 33.480  0.996 tanzania02.sim
-## 26 0.10256410 50.732  0.004 tanzania03.sim
-## 27 0.17241379 50.628  0.024 tanzania04.sim
-## 28 0.69629630 22.968  1.000 tanzania05.sim
-## 29 0.30927835 45.040  0.672 tanzania06.sim
-## 30 0.37272727 39.660  0.888 tanzania07.sim
-## 31 0.44545455 34.244  0.992 tanzania08.sim
-## 32 0.21468927 50.500  0.088 tanzania09.sim
-## 33 0.59259259 25.980  1.000 tanzania10.sim
-## 34 0.25443787 48.892  0.320 tanzania11.sim
-## 35 0.56198347 29.232  1.000 tanzania12.sim
-## 36 0.50862069 30.132  0.996 tanzania13.sim
-## 37 0.41052632 37.428  0.984 tanzania14.sim
-## 38 0.25490196 49.308  0.372     togo01.sim
-## 39 0.16923077 55.856  0.072     togo02.sim
-## 40 0.21476510 50.720  0.212     togo03.sim
-## 41 0.12658228 51.672  0.004     togo04.sim
-## 42 0.10982659 53.056  0.000     togo05.sim
-## 43 0.26771654 48.024  0.396     togo06.sim
-## 44 0.32446809 45.604  0.700     togo07.sim
-## 45 0.31250000 45.336  0.608     togo08.sim
-## 46 0.12500000 51.484  0.000     togo09.sim
-## 47 0.04385965 51.932  0.000     togo10.sim
-## 48 0.08609272 52.296  0.000     togo11.sim</code></pre>
+## 1  0.59139785 26.420  1.000    egypt01.sim
+## 2  0.09243697 50.736  0.000    egypt02.sim
+## 3  0.34394904 44.156  0.776    egypt03.sim
+## 4  0.25465839 49.128  0.336    egypt04.sim
+## 5  0.13548387 50.652  0.000    egypt05.sim
+## 6  0.69934641 22.892  1.000    egypt06.sim
+## 7  0.09815951 50.628  0.000    egypt07.sim
+## 8  0.56684492 27.500  1.000    egypt08.sim
+## 9  0.52517986 29.992  1.000    egypt09.sim
+## 10 0.43434343 35.260  0.992    egypt10.sim
+## 11 0.08510638 51.720  0.000   gambia01.sim
+## 12 0.25174825 50.048  0.356   gambia02.sim
+## 13 0.17307692 51.700  0.092   gambia03.sim
+## 14 0.18666667 51.960  0.064   gambia04.sim
+## 15 0.12643678 52.264  0.024   gambia05.sim
+## 16 0.51809524 32.928  1.000   gambia06.sim
+## 17 0.38766520 40.832  0.924   gambia07.sim
+## 18 0.31055901 45.108  0.680   gambia08.sim
+## 19 0.35483871 42.476  0.788   gambia09.sim
+## 20 0.33584906 45.352  0.628   gambia10.sim
+## 21 0.09900990 52.208  0.000    ghana01.sim
+## 22 0.21621622 51.072  0.204    ghana02.sim
+## 23 0.27819549 48.280  0.504    ghana03.sim
+## 24 0.46728972 33.000  0.980 tanzania01.sim
+## 25 0.45631068 33.840  0.988 tanzania02.sim
+## 26 0.10256410 50.676  0.004 tanzania03.sim
+## 27 0.17241379 50.708  0.016 tanzania04.sim
+## 28 0.69629630 22.468  1.000 tanzania05.sim
+## 29 0.30927835 45.752  0.564 tanzania06.sim
+## 30 0.37272727 40.368  0.868 tanzania07.sim
+## 31 0.44545455 34.384  0.980 tanzania08.sim
+## 32 0.21468927 50.164  0.140 tanzania09.sim
+## 33 0.59259259 26.148  1.000 tanzania10.sim
+## 34 0.25443787 48.820  0.320 tanzania11.sim
+## 35 0.56198347 29.404  1.000 tanzania12.sim
+## 36 0.50862069 30.376  1.000 tanzania13.sim
+## 37 0.41052632 37.216  0.964 tanzania14.sim
+## 38 0.25490196 49.264  0.400     togo01.sim
+## 39 0.16923077 55.228  0.080     togo02.sim
+## 40 0.21476510 51.036  0.184     togo03.sim
+## 41 0.12658228 52.072  0.008     togo04.sim
+## 42 0.10982659 52.784  0.000     togo05.sim
+## 43 0.26771654 48.120  0.328     togo06.sim
+## 44 0.32446809 45.496  0.684     togo07.sim
+## 45 0.31250000 45.888  0.632     togo08.sim
+## 46 0.12500000 51.384  0.000     togo09.sim
+## 47 0.04385965 52.292  0.000     togo10.sim
+## 48 0.08609272 52.444  0.000     togo11.sim</code></pre>
 <p>We can examine the performance of the sampling plan on the age-restricted datasets by plotting its <em>operating characteristic</em> (OC) curve and comparing the simulation results with the expected <em>operating characteristic</em> (OC) curve under ideal sampling conditions:</p>
 <pre class="sourceCode r" id="cb816"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" data-line-number="1"><span class="kw">x11</span>()</a>
 <a class="sourceLine" id="cb816-2" data-line-number="2"></a>
@@ -1541,7 +1542,7 @@ by the the rule-set.</p></li>
 <pre class="sourceCode r" id="cb830"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">20</span>)</a></code></pre>
 <p>The number of infected cells is:</p>
 <pre class="sourceCode r" id="cb831"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid)</a></code></pre>
-<pre><code>## [1] 159</code></pre>
+<pre><code>## [1] 139</code></pre>
 <p>We can use this model to investigate the effect of different transmission pressures by systematically altering the transmission pressure specified in <code>TP</code>:</p>
 <pre class="sourceCode r" id="cb833"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" data-line-number="1">cases &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
 <a class="sourceLine" id="cb833-2" data-line-number="2">cases[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
@@ -1585,10 +1586,10 @@ by the the rule-set.</p></li>
 <pre class="sourceCode r" id="cb839"><code class="sourceCode r"><a class="sourceLine" id="cb839-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">30</span>)</a></code></pre>
 <p>The number of infected cells is:</p>
 <pre class="sourceCode r" id="cb840"><code class="sourceCode r"><a class="sourceLine" id="cb840-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid)</a></code></pre>
-<pre><code>## [1] 31</code></pre>
+<pre><code>## [1] 25</code></pre>
 <p>A better summary is the proportion of susceptible (i.e. non-immune) cells that become infected during a run:</p>
 <pre class="sourceCode r" id="cb842"><code class="sourceCode r"><a class="sourceLine" id="cb842-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid) <span class="op">/</span><span class="st"> </span>(<span class="dv">361</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(cam.state<span class="op">$</span>immune))</a></code></pre>
-<pre><code>## [1] 0.1409091</code></pre>
+<pre><code>## [1] 0.1201923</code></pre>
 <p>We can use this model to investigate the effect of different proportions of the population that are immune by systematically altering the value assigned to <code>IM</code>:</p>
 <pre class="sourceCode r" id="cb844"><code class="sourceCode r"><a class="sourceLine" id="cb844-1" data-line-number="1">immune.p &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
 <a class="sourceLine" id="cb844-2" data-line-number="2">infected.p &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
@@ -1643,6 +1644,138 @@ We can do this by adding a new layer of cells (i.e. to record the time-step at 
 <pre class="sourceCode r" id="cb851"><code class="sourceCode r"><a class="sourceLine" id="cb851-1" data-line-number="1"><span class="kw">image</span>(cam.state<span class="op">$</span>ti, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-570-1.png" width="672" /></p>
 <p>The colour of each cell reflects the time-step of infection (i.e. the darker cells were infected before the lighter cells).</p>
+<p>The CAM models that we have developed are general models of an infectious phenomenon. They could, for example, be models of the spread of an item of gossip, a forest fire, or an ink-spot. They are, however, poorly specified models for the epidemic spread of an infectious disease. In particular, they assume that a cell is infectious to other cells immediately after infection, that an infected cell never loses its ability to infect other cells, recovery never takes place, and immunity is never acquired. These deficits in the models may be addressed by appropriate modification of the CAM rule-set.</p>
+<p>A simple and useful model of epidemic spread is the <em>SIR</em> model. The letters in <em>SIR</em> refer to the three states that influence epidemic spread that an individual can exist in. The three states are <strong>S</strong>usceptible, <strong>I</strong>nfectious, and <strong>R</strong>ecovered.</p>
+<p>We will now modify our CAM model to follow the <em>SIR</em> model using the following parameters:</p>
+<ul>
+<li><p><strong>Susceptible</strong>: A cell may be immune or non-immune. A cell may be immune prior to the epidemic or
+acquire immunity fourteen time-steps after infection. Once a cell is immune it remains immune.</p></li>
+<li><p><strong>Infectious</strong>: An infected cell is infectious from eight to fourteen time-steps after being infected.</p></li>
+<li><p><strong>Recovered</strong>: A cell is clinically sick from ten to twenty time-steps after being infected. If one time-step is taken to equal one day, these parameters provide a coarse simulation of the course of a measles infection.</p></li>
+</ul>
+<p>Use the <code>fix()</code> function to edit the <code>cam.rule()</code> function:</p>
+<pre class="sourceCode r" id="cb852"><code class="sourceCode r"><a class="sourceLine" id="cb852-1" data-line-number="1"><span class="kw">fix</span>(cam.rule)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb853"><code class="sourceCode r"><a class="sourceLine" id="cb853-1" data-line-number="1"><span class="cf">function</span>(V, N, S, E, W, x, y, t) {</a>
+<a class="sourceLine" id="cb853-2" data-line-number="2">  tsi &lt;-<span class="st"> </span>t <span class="op">-</span><span class="st"> </span>cam.state<span class="op">$</span>ti[x, y]</a>
+<a class="sourceLine" id="cb853-3" data-line-number="3">  cam.state.new<span class="op">$</span>grid[x, y] &lt;&lt;-<span class="st"> </span><span class="kw">ifelse</span>(tsi <span class="op">%in%</span><span class="st"> </span>INFECTIOUS, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb853-4" data-line-number="4">  cam.state.new<span class="op">$</span>cf[x, y] &lt;&lt;-<span class="st"> </span><span class="kw">ifelse</span>(tsi <span class="op">%in%</span><span class="st"> </span>CLINICAL, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb853-5" data-line-number="5">  cam.state.new<span class="op">$</span>immune[x, y] &lt;&lt;-<span class="st"> </span><span class="kw">ifelse</span>(<span class="op">!</span><span class="kw">is.na</span>(tsi) <span class="op">&amp;</span><span class="st">  </span>tsi <span class="op">&gt;</span><span class="st"> </span>IMMUNITY, <span class="dv">1</span>, cam.state<span class="op">$</span>immune[x,y])</a>
+<a class="sourceLine" id="cb853-6" data-line-number="6">     </a>
+<a class="sourceLine" id="cb853-7" data-line-number="7">  <span class="cf">if</span>(cam.state<span class="op">$</span>infected[x, y] <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb853-8" data-line-number="8">    cam.state.new<span class="op">$</span>infected[x, y] &lt;&lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb853-9" data-line-number="9">    cam.state.new<span class="op">$</span>ti[x, y] &lt;&lt;-<span class="st"> </span>cam.state<span class="op">$</span>ti[x, y]</a>
+<a class="sourceLine" id="cb853-10" data-line-number="10">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb853-11" data-line-number="11">    tp &lt;-<span class="st"> </span><span class="kw">c</span>(N, S, E, W) <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">4</span>, <span class="dv">1</span>, TP)</a>
+<a class="sourceLine" id="cb853-12" data-line-number="12">    </a>
+<a class="sourceLine" id="cb853-13" data-line-number="13">    <span class="cf">if</span>(<span class="kw">sum</span>(tp) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>cam.state<span class="op">$</span>immune[x, y] <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>) {</a>
+<a class="sourceLine" id="cb853-14" data-line-number="14">      cam.state.new<span class="op">$</span>infected[x, y] &lt;&lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb853-15" data-line-number="15">      cam.state.new<span class="op">$</span>ti[x, y] &lt;&lt;-<span class="st"> </span>t</a>
+<a class="sourceLine" id="cb853-16" data-line-number="16">    }</a>
+<a class="sourceLine" id="cb853-17" data-line-number="17">  } </a>
+<a class="sourceLine" id="cb853-18" data-line-number="18">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>It will also be useful to have a more detailed report of the state of the CAM at each time-step.</p>
+<p>Use the <code>fix()</code> function to edit the <code>cam.state.display()</code> function:</p>
+<pre class="sourceCode r" id="cb854"><code class="sourceCode r"><a class="sourceLine" id="cb854-1" data-line-number="1"><span class="kw">fix</span>(cam.state.display)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb855"><code class="sourceCode r"><a class="sourceLine" id="cb855-1" data-line-number="1"><span class="cf">function</span>(t) {</a>
+<a class="sourceLine" id="cb855-2" data-line-number="2">  <span class="cf">if</span>(t <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb855-3" data-line-number="3">    <span class="kw">x11</span>(<span class="dt">width =</span> <span class="dv">9</span>, <span class="dt">height =</span> <span class="dv">9</span>)</a>
+<a class="sourceLine" id="cb855-4" data-line-number="4">    <span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb855-5" data-line-number="5">    <span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb855-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb855-7" data-line-number="7">     </a>
+<a class="sourceLine" id="cb855-8" data-line-number="8">  <span class="kw">image</span>(cam.state<span class="op">$</span>grid,</a>
+<a class="sourceLine" id="cb855-9" data-line-number="9">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Infectious at :&quot;</span>, t),</a>
+<a class="sourceLine" id="cb855-10" data-line-number="10">        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;wheat&quot;</span>, <span class="st">&quot;navy&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb855-11" data-line-number="11">     </a>
+<a class="sourceLine" id="cb855-12" data-line-number="12">  <span class="kw">image</span>(cam.state<span class="op">$</span>cf,</a>
+<a class="sourceLine" id="cb855-13" data-line-number="13">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Clinical at :&quot;</span>, t),</a>
+<a class="sourceLine" id="cb855-14" data-line-number="14">        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;wheat&quot;</span>, <span class="st">&quot;navy&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb855-15" data-line-number="15">     </a>
+<a class="sourceLine" id="cb855-16" data-line-number="16">  <span class="kw">image</span>(cam.state<span class="op">$</span>ti,</a>
+<a class="sourceLine" id="cb855-17" data-line-number="17">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Infected at :&quot;</span>, t), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb855-18" data-line-number="18">     </a>
+<a class="sourceLine" id="cb855-19" data-line-number="19">  <span class="kw">image</span>(cam.state<span class="op">$</span>immune,</a>
+<a class="sourceLine" id="cb855-20" data-line-number="20">        <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Immune at :&quot;</span>, t),</a>
+<a class="sourceLine" id="cb855-21" data-line-number="21">        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;wheat&quot;</span>, <span class="st">&quot;navy&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb855-22" data-line-number="22">}</a></code></pre>
+<p>Remember, if you are using a Macintosh computer then you can use <code>quartz()</code> instead of <code>x11()</code>. This will give better results.</p>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We need to specify values for the transmission pressure (<code>TP</code>) and the proportion of the population that is
+immune (<code>IM</code>):</p>
+<pre class="sourceCode r" id="cb856"><code class="sourceCode r"><a class="sourceLine" id="cb856-1" data-line-number="1">TP &lt;-<span class="st"> </span><span class="fl">0.2</span></a>
+<a class="sourceLine" id="cb856-2" data-line-number="2">IM &lt;-<span class="st"> </span><span class="fl">0.2</span></a></code></pre>
+<p>And the <em>SIR</em> parameters:</p>
+<pre class="sourceCode r" id="cb857"><code class="sourceCode r"><a class="sourceLine" id="cb857-1" data-line-number="1">CLINICAL &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">:</span><span class="dv">20</span></a>
+<a class="sourceLine" id="cb857-2" data-line-number="2">INFECTIOUS &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">:</span><span class="dv">14</span></a>
+<a class="sourceLine" id="cb857-3" data-line-number="3">IMMUNITY &lt;-<span class="st"> </span><span class="dv">14</span></a></code></pre>
+<p>And define the initial state of the CAM:</p>
+<pre class="sourceCode r" id="cb858"><code class="sourceCode r"><a class="sourceLine" id="cb858-1" data-line-number="1">infected &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb858-2" data-line-number="2">infected[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb858-3" data-line-number="3">ti &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb858-4" data-line-number="4">ti[<span class="dv">10</span>,<span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb858-5" data-line-number="5">infectious &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb858-6" data-line-number="6">immune &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">361</span>, <span class="dv">1</span>, IM), <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb858-7" data-line-number="7">immune[<span class="dv">10</span>,<span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb858-8" data-line-number="8">cf &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb858-9" data-line-number="9">cam.state &lt;-<span class="st">  </span><span class="kw">list</span>(<span class="dt">grid =</span> infectious, <span class="dt">infected =</span> infected, <span class="dt">ti =</span> ti,</a>
+<a class="sourceLine" id="cb858-10" data-line-number="10">                   <span class="dt">immune =</span> immune, <span class="dt">cf =</span> cf)</a></code></pre>
+<p>We should also record the number of susceptible cells for later use:</p>
+<pre class="sourceCode r" id="cb859"><code class="sourceCode r"><a class="sourceLine" id="cb859-1" data-line-number="1">susceptibles &lt;-<span class="st"> </span><span class="dv">361</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(cam.state<span class="op">$</span>immune)</a></code></pre>
+<p>We can now run the simulation:</p>
+<pre class="sourceCode r" id="cb860"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">200</span>)</a></code></pre>
+<p>We can now calculate the proportion of susceptible (i.e. non-immune) cells that become infected:</p>
+<pre class="sourceCode r" id="cb861"><code class="sourceCode r"><a class="sourceLine" id="cb861-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>infected) <span class="op">/</span><span class="st"> </span>susceptibles</a></code></pre>
+<pre><code>## [1] 0.916955</code></pre>
+<p>We can use this model to test the effect of an intervention such as isolating an infected cell for a short period after clinical features first appear. We can do this, imperfectly because it does not allow us to specify compliance, by shortening the infectious period to include only the non-symptomatic time-steps and one time- step after clinical features have appeared:</p>
+<pre class="sourceCode r" id="cb863"><code class="sourceCode r"><a class="sourceLine" id="cb863-1" data-line-number="1">INFECTIOUS &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">:</span><span class="dv">11</span></a></code></pre>
+<p>resetting the initial state of the CAM:</p>
+<pre class="sourceCode r" id="cb864"><code class="sourceCode r"><a class="sourceLine" id="cb864-1" data-line-number="1">infected &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb864-2" data-line-number="2">infected[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb864-3" data-line-number="3">ti &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="ot">NA</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb864-4" data-line-number="4">ti[<span class="dv">10</span>,<span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb864-5" data-line-number="5">infectious &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb864-6" data-line-number="6">immune &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">rbinom</span>(<span class="dv">361</span>, <span class="dv">1</span>, IM), <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb864-7" data-line-number="7">immune[<span class="dv">10</span>,<span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb864-8" data-line-number="8">cf &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb864-9" data-line-number="9">cam.state &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">grid =</span> infectious, <span class="dt">infected =</span> infected, <span class="dt">ti =</span> ti,</a>
+<a class="sourceLine" id="cb864-10" data-line-number="10">                  <span class="dt">immune =</span> immune, <span class="dt">cf =</span> cf)</a></code></pre>
+<p>Recording the number of susceptible cells:</p>
+<pre class="sourceCode r" id="cb865"><code class="sourceCode r"><a class="sourceLine" id="cb865-1" data-line-number="1">susceptibles &lt;-<span class="st"> </span><span class="dv">361</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(cam.state<span class="op">$</span>immune)</a></code></pre>
+<p>Running the simulation:</p>
+<pre class="sourceCode r" id="cb866"><code class="sourceCode r"><a class="sourceLine" id="cb866-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">200</span>)</a></code></pre>
+<p>And recalculating the proportion of susceptible (i.e. non-immune) cells that become infected:</p>
+<pre class="sourceCode r" id="cb867"><code class="sourceCode r"><a class="sourceLine" id="cb867-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>infected) <span class="op">/</span><span class="st"> </span>susceptibles</a></code></pre>
+<pre><code>## [1] 0.4261745</code></pre>
+<p>We have developed a simple but realistic model of epidemic spread using a cellular automata machine. Such a model could be used to investigate the relative effect of model parameters (e.g. initial proportion immune, initial number of infective cells, transmission pressure, etc.) on epidemic spread by changing a single parameter at a time and running the simulation. Since the model is <em>stochastic</em>, the effect of each parameter change would be simulated many times and suitable summaries calculated.</p>
+<p>The model could be improved by, for example:</p>
+<ul>
+<li><p>Allowing for an <em>open population</em> with births (or immigration) and deaths (or emigration). This could be implemented by allowing immune cells to become susceptible after a specified number of time-steps. The ratio of births to deaths could then be modelled as the ratio of the length of the infectious period to the length of the immune period.</p></li>
+<li><p>Specifying a non-uniform distribution of transmission pressure during the infectious period.</p></li>
+<li><p>Allowing for individual variation in susceptibility.</p></li>
+<li><p>Allowing for individual variation in the duration of the infectious period.</p></li>
+<li><p>Simulating a non-uniform population density by allowing cells to be empty. Note that an immune cell is the same as an empty cell in the current model.</p></li>
+<li><p>Simulating a clustered distribution of immunity in the initial state of the CAM.</p></li>
+<li><p>Allowing a small proportion of infections to be infectious without exhibiting clinical features.</p></li>
+<li><p>Specifying rules that are applied at different time-points such as introducing isolation only after a certain number of clinical cases have appeared (i.e. after an epidemic has been detected).</p></li>
+<li><p>Allowing the coverage of interventions (e.g. the coverage of a vaccination campaign or compliance with isolation instructions) that are introduced after an epidemic has been detected to be specified.</p></li>
+<li><p>Simulating a more complex social structure. This could be implemented by allowing cells to belong to one of a finite set of castes with different initial conditions (e.g. immunity) and having rules that specify the level of interaction (i.e. the transmission pressure) between members of separate castes and the levels of intervention coverage achievable in the separate castes.</p></li>
+<li><p>Extending the neighbourhood definition by using the corner (i.e. north-east, south-east, south-west, and north-west) cells as neighbours for consideration in the CAM rule-set.</p></li>
+</ul>
+<p>We can now quit <code>R</code>:</p>
+<pre class="sourceCode r" id="cb869"><code class="sourceCode r"><a class="sourceLine" id="cb869-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
+</div>
+<div id="summary-8" class="section level2">
+<h2><span class="header-section-number">10.5</span> Summary</h2>
+<ul>
+<li><p>Computer intensive methods provide an alternative to classical statistical techniques for both estimation and statistical hypothesis testing. They have the advantage of being simple to implement and they remain simple even with complex estimators.</p></li>
+<li><p>Computer based simulation can simulate both data and processes. Process simulations maybe arbitrarily complex. Process simulation is a useful development tool that can save considerable time and expense when developing systems and methods.</p></li>
+<li><p>Process simulation can also be used to model complex social phenomena such as epidemic spread. Such simulations allow (e.g.) the the relative efficacy of interventions to be evaluated.</p></li>
+<li><p><code>R</code> provides functions that allow you to implement computer intensive methods such as the bootstrap and computer based simulation.</p></li>
+</ul>
 
 </div>
 </div>
