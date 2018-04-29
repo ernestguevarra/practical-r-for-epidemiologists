@@ -14,5 +14,5 @@ deploy:
   github_token: aaf9069aaea443ff1d6facc5ddafc3ed0437b66d #$GITHUB_TOKEN
   on:
     branch: master
-  local_dir: public
+  local_dir: docs
   fqdn: https://mystifying-khorana-d80ecb.netlify.com/ #travis-blogdown.yihui.name
