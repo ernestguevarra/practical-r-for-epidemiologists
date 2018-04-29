@@ -1,4 +1,4 @@
-# Introducing R
+# Introducing R {-}
 
 `R` is a system for data manipulation, calculation, and graphics. It provides:
 
