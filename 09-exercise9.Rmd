@@ -617,3 +617,686 @@ $outcome
 [1] 1
 ```
 
+We will use `tanzania06.sim` as an example of a moderate prevalence dataset:
+   
+```{r, eval = TRUE}
+x <- read.table("tanzania06.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.run(x = x.hh, n = 50, d = 14)
+```
+
+Repeat the last function call several times. The function should return:
+
+```
+$outcome
+[1] 0
+```
+
+And:
+
+```   
+$outcome
+[1] 1
+```
+
+In roughly equal proportion.
+
+The simulation will require repeated sampling from the same dataset. We need to write a function to do this.
+
+Create a new function called `lqas.simul()`: 
+
+```{r, eval = FALSE}
+lqas.simul <- function() {}
+```
+
+This creates an empty function called `lqas.simul()`.
+
+Use the `fix()` function to edit the `lqas.simul()` function:
+
+```{r, eval = FALSE}
+fix(lqas.simul)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(x, n, d, runs) {
+  all <- data.frame()
+  for(i in 1:runs) {
+    run <- data.frame(lqas.run(x, n ,d))
+    all <- rbind(all, run)
+  }
+  p <- sum(x$n.cases) / sum(x$n.kids)
+  asn <- mean(all$kids)
+  p.high <- mean(all$outcome)
+  result <- list(p = p, asn = asn, p.high = p.high)
+  return(result)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+lqas.simul <- function(x, n, d, runs) {
+  all <- data.frame()
+  for(i in 1:runs) {
+    run <- data.frame(lqas.run(x, n ,d))
+    all <- rbind(all, run)
+  }
+  p <- sum(x$n.cases) / sum(x$n.kids)
+  asn <- mean(all$kids)
+  p.high <- mean(all$outcome)
+  result <- list(p = p, asn = asn, p.high = p.high)
+  return(result)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+We can test this function with the same three test datasets:
+
+```{r, eval = FALSE}
+x <- read.table("tanzania04.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul(x = x.hh, n = 50, d = 14, runs = 250)
+
+x <- read.table("tanzania08.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul(x = x.hh, n = 50, d = 14, runs = 250)
+
+x <- read.table("tanzania06.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul( x = x.hh, n = 50, d = 14, runs = 250)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+x <- read.table("tanzania04.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul(x = x.hh, n = 50, d = 14, runs = 250)
+
+x <- read.table("tanzania08.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul(x = x.hh, n = 50, d = 14, runs = 250)
+
+x <- read.table("tanzania06.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.simul( x = x.hh, n = 50, d = 14, runs = 250)
+```
+
+The simulation consists of applying this function to each of the datasets in turn and collating the results. We will create a function to do this.
+
+Create a new function called `main.simul()`: 
+
+```{r, eval = FALSE}
+main.simul <- function() {}
+```
+
+This creates an empty function called `main.simul()`.
+
+Use the `fix()` function to edit the `main.simul()` function:
+
+```{r, eval = FALSE}
+fix(main.simul)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(n, d, runs) {
+  result <- data.frame()
+  for(i in dir(pattern = "\\.sim$")) {
+    cat(".", sep = "")
+    x <- read.table(i, header = TRUE)
+    y <- ind2hh(x)
+    z <- lqas.simul(y, n, d, runs)
+    z$file.name <- i
+    result <- rbind(result, as.data.frame(z))
+  }
+  return(result)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+main.simul <- function(n, d, runs) {
+  result <- data.frame()
+  for(i in dir(pattern = "\\.sim$")) {
+    cat(".", sep = "")
+    x <- read.table(i, header = TRUE)
+    y <- ind2hh(x)
+    z <- lqas.simul(y, n, d, runs)
+    z$file.name <- i
+    result <- rbind(result, as.data.frame(z))
+  }
+  return(result)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+We are now ready to run the simulation:
+
+```{r, eval = TRUE}
+z1 <- main.simul(n = 50, d = 14, runs = 250)
+```
+
+Progress of the simulation is shown by a lengthening line of dots. Each dot represents one community screening file processed. The `>` prompt will be displayed when the simulation has finished running.
+
+The returned data.frame object (`z1`) contains the results of the simulation:
+
+```{r, eval = TRUE}
+z1
+```
+
+We can examine the prevalences in the test datasets:
+
+```{r, eval = FALSE}
+x11()
+
+hist(z1$p,
+     main = "Prevalence in test datasets",
+     xlab = "Proportion TF/TI")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+hist(z1$p,
+     main = "Prevalence in test datasets",
+     xlab = "Proportion TF/TI")
+```
+
+
+If you are using a Macintosh computer then you can use `quartz()` instead of `x11()`. This will give better results.
+
+We examine the sample size required to make classifications at different levels of prevalence as *anaverage sample number* (ASN) curve:
+
+```{r, eval = FALSE}
+x11()
+
+plot(z1$p,
+     z1$asn,
+     main = "ASN Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Sample size required")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+plot(z1$p,
+     z1$asn,
+     main = "ASN Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Sample size required")
+```
+
+We can examine the performance of the sampling plan by plotting its *operating characteristic* (OC) curve:
+
+```{r, eval = FALSE}
+x11()
+
+plot(z1$p,
+     z1$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+plot(z1$p,
+     z1$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+```
+
+Before closing the OC curve plot, we can compare the simulation results with the expected *operating characteristic* (OC) curve under ideal sampling conditions:
+
+```{r, eval = FALSE}
+lines(seq(0, max(z1$p), 0.01),
+      pbinom(14, 50,seq(0, max(z1$p),0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+plot(z1$p,
+     z1$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+
+lines(seq(0, max(z1$p), 0.01),
+      pbinom(14, 50,seq(0, max(z1$p),0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+The LQAS method appears to be robust to the loss of sampling variation introduced by the proposed sampling constraints. There is, however, some deviation from the expected *operating characteristic* (OC) curve at lower prevalences:
+
+```{r, eval = FALSE}
+x11()
+plot(z1$p, z1$p.high,
+     xlim = c(0.10, 0.35),
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+
+lines(seq(0.10, 0.35, 0.01),
+      pbinom(14, 50, seq(0.10, 0.35, 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+plot(z1$p, z1$p.high,
+     xlim = c(0.10, 0.35),
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+
+lines(seq(0.10, 0.35, 0.01),
+      pbinom(14, 50, seq(0.10, 0.35, 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+This deviation from the expected *operating characteristic* (OC) curve is likely to be due to a few very large households in which many of the children have active trachoma. You can check this by examining the `p.high` (i.e. the probability of a classification as high prevalence) column in `z1`, and household size and trachoma status in the individual data files that return higher than expected values for `p.high`. The `ind2hh()` function is likely to prove useful in this context.
+
+The observed deviation from the expected *operating characteristic* (OC) curve is small but it is important, in the resource-constrained context of trachoma-endemic countries, to minimise the false positive rate in order to ensure that resources are devoted to communities that need them most.
+
+We might be able to improve the performance of the survey method in this regard by restricting the sample so that only younger children are examined. This will have the effect of reducing the number of children examined in each household. It also has the benefit of making the surveys simpler and quicker since younger children will tend to be closer to home than older children.
+
+The range of ages in the datasets can be found using:
+
+```{r, eval = TRUE}
+for(i in dir(pattern = "\\.sim$")) {
+  x <- read.table(i, header = TRUE)
+  cat(i, ":", range(x$age), "\n")
+}
+```
+
+We will investigate the effect of restricting the sample to children aged between two and five years. Use the fix() function to edit the `main.simul()` function:
+
+```{r, eval = FALSE}
+fix(main.simul)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(n, d, runs) {
+  result <- data.frame()
+  for(i in dir(pattern = "\\.sim$")) {
+    cat(".", sep = "")
+    x <- read.table(i, header = TRUE)
+    x <- subset(x, age >= 2 & age <= 5)
+    y <- ind2hh(x)
+    z <- lqas.simul(y, n, d, runs) z$file.name <- i
+    result <- rbind(result, as.data.frame(z))
+  }
+  return(result)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+We are now ready to run the simulation again:
+
+```{r, eval = TRUE}
+z2 <- main.simul(n = 50, d = 14, runs = 250)
+```
+
+The data.frame object `z2` contains the results of the simulation:
+
+```{r, eval = TRUE}
+z2
+```
+
+We can examine the performance of the sampling plan on the age-restricted datasets by plotting its *operating characteristic* (OC) curve and comparing the simulation results with the expected *operating characteristic* (OC) curve under ideal sampling conditions:
+
+```{r, eval = FALSE}
+x11()
+
+plot(z2$p, z2$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability ")
+
+lines(seq(0, max(z2$p), 0.01),
+      pbinom(14, 50, seq(0, max(z2$p), 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+plot(z2$p, z2$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability ")
+
+lines(seq(0, max(z2$p), 0.01),
+      pbinom(14, 50, seq(0, max(z2$p), 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+Remember that if you are using a Macintosh computer then you can use quartz() instead of x11(). This will give better results.
+
+We should also take a closer look at the range of prevalences where the deviation from the expected *operating characteristic* (OC) curve was largest and most problematic in the previous simulation:
+
+```{r, eval = FALSE}
+x11()
+
+plot(z2$p, z2$p.high,
+     xlim = c(0.10, 0.35),
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+
+lines(seq(0.10, 0.35, 0.01),
+      pbinom(14, 50, seq(0.10, 0.35, 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+#x11()
+
+plot(z2$p, z2$p.high,
+     xlim = c(0.10, 0.35),
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability")
+
+lines(seq(0.10, 0.35, 0.01),
+      pbinom(14, 50, seq(0.10, 0.35, 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+We can compare the behaviour of the sampling plan in the unrestricted and age-restricted datasets:
+
+```{r, eval = FALSE}
+x11()
+
+plot(z1$p, z1$p.high,
+     main = "",
+     xlab = "",
+     ylab = "",
+     axes = FALSE,
+     xlim = c(0, 0.8))
+
+par(new = TRUE)
+
+plot(z2$p, z2$p.high,
+     main = "OC Curve",
+     xlab = "Proportion TF/TI",
+     ylab = "Probability",
+     xlim = c(0, 0.8),
+     pch = 3)
+   
+lines(seq(0, 0.8, 0.01),
+      pbinom(14, 50, seq(0, 0.8, 0.01), lower.tail = FALSE),
+      lty = 3)
+```
+
+Restricting the sample to children aged between two and five years (inclusive) appears to have improved the behaviour of the survey method by lowering the false positive rate to close to expected behaviour under ideal sampling condition. Process simulation has allowed us to improve the performance of the survey method without expensive and lengthy field-work. In practice, the method would now be validated in the field probably by repeated sampling of communities in which prevalence is known from house-to-house screening.
+
+## Cellular automata machines
+
+*Cellular automata machines* are simple computing devices that are commonly used to simulate social, biological, and physical processes. Despite their simplicity, cellular automata machines are general purpose computing devices. This means that they may be used for any *computable* problem.
+
+The way that problems are specified to cellular automata machines make them simple to program for some types of problem and difficult to program for other types of problem. In this exercise we will explore the use of cellular automata machines to create a simple model of epidemic spread.
+
+Cellular automata machines model a universe in which space is represented by a uniform grid, time advances in steps, and the laws of the universe are represented by a set of rules which compute the future state of each cell of the grid from its current state and from the current state of its neighbouring cells.
+
+Typically, a cellular automata machine has the following features:
+
+1. It consists of a large number of identical cells arranged in a regular grid. The grid is a two-dimensional projection of a torus (a ring-doughnut shaped surface) and has no edges.
+
+2. Each cell can be in one of a limited number of states.
+
+3. Time advances through the simulation in steps. At each time-step, the state of a cell may change.
+
+4. The state of a cell after each time-step is determined by a set of rules that define how the future state of a cell depends on the current state of the cell and the current state of its immediate neighbours. This set of rules is used to update the state of every cell in the grid at each time-step. Since the rules refer only to the state of an individual cell and its immediate neighbours, cellular automata machines are best suited to modelling situations where local interactions give rise to global phenomena.
+
+In this exercise we will simulate a cellular automata machine using `R` and then use the simulated machine to simulate epidemic spread. We will use three functions to simulate the cellular automata machine (CAM):
+
+
+- **cam.run():** This function will display the initial state of the CAM, examine each cell in the CAM grid, apply the CAM rule-set to each cell, update the CAM grid, and display the state of the CAM at each time-step.
+
+- **cam.state.display():** This function will display the state of the CAM at each time-step. It will be implemented using the `image()` function to plot the contents of matrices held in the `cam.state` list object (see below). This function will be developed as we refine the epidemic model.
+
+- **cam.rule():** This function will contain the rule-set. It will be implemented using `ifelse()` functions to codify rules. This function will also be developed as we refine the epidemic model.
+
+The current and future states of the CAM will be held in two *global* list objects:
+
+- **cam.state:** This object will contain the current state of the CAM and must contain a matrix object
+called grid.
+
+- **cam.state.new:** This object will contain the the state of the CAM at the next time-step as defined
+by the the rule-set.
+
+Other *global* objects will be defined as required.
+
+Create a new function called `cam.run():` 
+
+```{r, eval = FALSE}
+cam.run <- function() {}
+```
+
+This creates an empty function called `cam.run()`.
+
+Use the `fix()` function to edit the `cam.run()` function:
+
+```{r, eval = FALSE}
+fix(cam.run)
+```
+
+Edit the function to read:
+   
+```{r, eval = FALSE}
+function(steps) {
+  cam.state.new <<- cam.state
+  cam.state.display(t = 0)
+  mx <- nrow(cam.state$grid)
+  my <- ncol(cam.state$grid)
+  for(t in 1:steps) {
+    for(y in 1:my) {
+      for(x in 1:mx) {
+        V <- cam.state$grid[x, y]
+        N <- cam.state$grid[x, ifelse(y == 1, my, y - 1)]
+        S <- cam.state$grid[x, ifelse(y == my, 1, y + 1)]
+        E <- cam.state$grid[ifelse(x == mx, 1, x + 1), y]
+        W <- cam.state$grid[ifelse(x == 1, mx, x - 1), y]
+        cam.rule(V, N, S, E, W, x, y, t)
+        }
+      }
+      cam.state <<- cam.state.new
+      cam.state.display(t)
+  }
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+cam.run <- function(steps) {
+  cam.state.new <<- cam.state
+  cam.state.display(t = 0)
+  mx <- nrow(cam.state$grid)
+  my <- ncol(cam.state$grid)
+  for(t in 1:steps) {
+    for(y in 1:my) {
+      for(x in 1:mx) {
+        V <- cam.state$grid[x, y]
+        N <- cam.state$grid[x, ifelse(y == 1, my, y - 1)]
+        S <- cam.state$grid[x, ifelse(y == my, 1, y + 1)]
+        E <- cam.state$grid[ifelse(x == mx, 1, x + 1), y]
+        W <- cam.state$grid[ifelse(x == 1, mx, x - 1), y]
+        cam.rule(V, N, S, E, W, x, y, t)
+        }
+      }
+      cam.state <<- cam.state.new
+      cam.state.display(t)
+  }
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the 
+
+Note that when we assign anything to the state of the CAM (held in `cam.state` and `cam.state.new`) we use the `<<-` (instead of the usual `<-`) assignment operator. This operator allows assignment to objects outside of the function in the global environment.
+
+Objects that are stored in the *global* environment are available to all functions.
+
+Create a new function called `cam.state.display()`: 
+
+```{r, eval = FALSE}
+cam.state.display <- function() {}
+```
+
+This creates an empty function called `cam.state.display()`.
+
+Use the `fix()` function to edit the `cam.state.display()` function:
+
+```{r, eval = FALSE}
+fix(cam.state.display)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}   
+function(t) {
+  if(t == 0) {
+    x11(); par(pty = "s")
+  }
+  image(cam.state$grid, main = paste("Infected at :", t),
+        col = c("wheat", "navy"), axes = FALSE)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+cam.state.display <- function(t) {
+  if(t == 0) {
+    x11(); par(pty = "s")
+  }
+  image(cam.state$grid, main = paste("Infected at :", t),
+        col = c("wheat", "navy"), axes = FALSE)
+}
+```
+
+Remember that if you are using a Macintosh computer then you can use `quartz()` instead of `x11()`. This will give better results.
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+The `cam.rule()` function contains the rules of the CAM universe.
+
+We will start with a very simple *infection* rule:
+
+* Each cell can be either *infected* or *not-infected*.
+
+* If a cell is already *infected* it will remain *infected*.
+
+* If a cell is *not-infected* then it will change its state to *infected* based on the state of its neighbours: If a neighbouring cell is *infected* it will infect the cell with a fixed probability or *transmission* pressure.
+
+Create a new function called `cam.rule()`: 
+
+```{r, eval = FALSE}
+cam.rule <- function() {}
+```
+
+This creates an empty function called `cam.rule()`. Use the `fix()` function to edit the `cam.rule()` function:
+
+```{r, eval = FALSE}
+fix(cam.rule)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(V, N, S, E, W, x, y, t) {
+  tp <- c(N, S, E, W) * rbinom(4, 1, TP)
+  cam.state.new$grid[x, y] <<- ifelse(V == 1 | sum(tp) > 0, 1, 0)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+cam.rule <- function(V, N, S, E, W, x, y, t) {
+  tp <- c(N, S, E, W) * rbinom(4, 1, TP)
+  cam.state.new$grid[x, y] <<- ifelse(V == 1 | sum(tp) > 0, 1, 0)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. The basic CAM machine is now complete.
+
+We need to specify a value for the transmission pressure (`TP`): 
+
+```{r, eval = TRUE}
+TP <- 0.2
+```
+
+And define the initial state of the CAM:
+
+```{r, eval = TRUE}
+cases <- matrix(0, nrow = 19, ncol = 19)
+cases[10, 10] <- 1
+cam.state <- list(grid = cases)
+```
+
+We can now run the simulation:
+
+```{r, eval = TRUE}
+cam.run(steps = 20)
+```
+
+The number of infected cells is:
+
+```{r, eval = TRUE}
+sum(cam.state$grid)
+```
+
+We can use this model to investigate the effect of different transmission pressures by systematically altering the transmission pressure specified in `TP`:
+
+```{r, eval = TRUE}
+cases <- matrix(0, nrow = 19, ncol = 19)
+cases[10, 10] <- 1
+cam.state.initial <- list(grid = cases)
+pressure <- vector(mode = "numeric")
+infected <- vector(mode = "numeric")
+   
+for(TP in seq(0.05, 0.25, 0.05)) {
+  cam.state <- cam.state.initial
+  cam.run(steps = 20)
+  graphics.off()
+  pressure <- c(pressure, TP)
+  infected <- c(infected, sum(cam.state$grid))
+  }
+
+plot(pressure, infected)
+```
+
+In practice we would run the simulation many times for each transmission pressure and plot (e.g.) the median number of infected cells found at the end of each run of the model.
+
+We can extend the model to include host immunity by specifying a new layer of cells (i.e. for host immunity) and modifying the CAM rule-set appropriately.
+
+Use the `fix()` function to edit the `cam.rule()` function:
+
+```{r, eval = FALSE}
+fix(cam.rule)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(V, N, S, E, W, x, y, t) {
+  tp <- c(N, S, E, W) * rbinom(4, 1, TP)
+  cam.state.new$grid[x, y] <<- ifelse(V == 1 | (sum(tp) > 0 & cam.state$immune[x, y] != 1), 1, 0)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+cam.rule <- function(V, N, S, E, W, x, y, t) {
+  tp <- c(N, S, E, W) * rbinom(4, 1, TP)
+  cam.state.new$grid[x, y] <<- ifelse(V == 1 | (sum(tp) > 0 & cam.state$immune[x, y] != 1), 1, 0)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+
