@@ -50,24 +50,16 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { display: inline-block; min-height: 1.25em; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
+code.sourceCode { white-space: pre; }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -79,39 +71,38 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
+pre, code { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; color: initial; }
 }
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
+code span.bn { color: #0000cf; } /* BaseN */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
+code span.ch { color: #4e9a06; } /* Char */
 code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.ot { color: #8f5902; } /* Other */
+code span.al { color: #ef2929; } /* Alert */
+code span.fu { color: #000000; } /* Function */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #000000; } /* Constant */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #000000; } /* Variable */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.ex { } /* Extension */
+code span.at { color: #c4a000; } /* Attribute */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -191,9 +182,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> Manipulating objects and creating new functions</h1>
 <p>In this exercise we will explore how to manipulate <code>R</code> objects and how to write functions that can manipulate and extract data and information from <code>R</code> objects and produce useful analyses.</p>
 <p>Before we go any further we should start <code>R</code> and retrieve a dataset:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb141"><code class="sourceCode r"><a class="sourceLine" id="cb141-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a></code></pre>
 <p>Missing values are coded as 9 throughout this dataset so we can use the <code>na.strings</code> parameter of the <code>read.table()</code> function to replace all 9’s with the special <code>NA</code> code when we retrieve the dataset. Check that this works by examining the <code>salex</code> data.frame:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">salex</a></code></pre></div>
+<pre class="sourceCode r" id="cb142"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1">salex</a></code></pre>
 <pre><code>##    ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
 ## 1    1   1    1    1        1      1       2     2    2       2      2
 ## 2    1   1    1    1        2      2       1     2    2       2      1
@@ -350,7 +341,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## 75        1      1         2         2     2      2      NA
 ## 76        2      2         2         2     2      2      NA
 ## 77        1      1         2         2     2      2       2</code></pre>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">names</span>(salex)</a></code></pre></div>
+<pre class="sourceCode r" id="cb144"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">names</span>(salex)</a></code></pre>
 <pre><code>##  [1] &quot;ILL&quot;       &quot;HAM&quot;       &quot;BEEF&quot;      &quot;EGGS&quot;      &quot;MUSHROOM&quot; 
 ##  [6] &quot;PEPPER&quot;    &quot;PORKPIE&quot;   &quot;PASTA&quot;     &quot;RICE&quot;      &quot;LETTUCE&quot;  
 ## [11] &quot;TOMATO&quot;    &quot;COLESLAW&quot;  &quot;CRISPS&quot;    &quot;PEACHCAKE&quot; &quot;CHOCOLATE&quot;
@@ -439,51 +430,51 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Data is available for seventy-seven of the eighty-two people who attended the sports club buffet. All of the variables are coded 1=yes, 2=no.</p>
 <p>We can use the <code>attach()</code> function to make it easier to access our data:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">attach</span>(salex)</a></code></pre></div>
+<pre class="sourceCode r" id="cb146"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">attach</span>(salex)</a></code></pre>
 <p>The two-by-two table is a basic epidemiological tool. In analysing data from a food-borne outbreak collected as a retrospective cohort study, for example, we would tabulate each exposure (suspect foodstuffs) against the outcome (illness) and calculate risk ratios and confidence intervals. <code>R</code> has no explicit function to calculate risk ratios from two-by-two tables but we can easily write one ourselves.</p>
 <p>The first step in writing such a function would be to create the two-by-two table. This can be done with the <code>table()</code> function. We will use a table of <code>HAM</code> by <code>ILL</code> as an illustration:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">table</span>(HAM, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb147"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">table</span>(HAM, ILL)</a></code></pre>
 <p>This command produces the following output:</p>
 <pre><code>##    ILL
 ## HAM  1  2
 ##   1 46 17
 ##   2  5  9</code></pre>
 <p>We can manipulate the output directly but it is easier if we instruct <code>R</code> to save the output of the <code>table()</code> function in an object:</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(HAM, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb149"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(HAM, ILL)</a></code></pre>
 <p>The <code>tab</code> object contains the output of the <code>table()</code> function:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">tab</a></code></pre></div>
+<pre class="sourceCode r" id="cb150"><code class="sourceCode r"><a class="sourceLine" id="cb150-1" data-line-number="1">tab</a></code></pre>
 <pre><code>##    ILL
 ## HAM  1  2
 ##   1 46 17
 ##   2  5  9</code></pre>
 <p>As it is stored in an object we can examine its contents on an item by item basis.</p>
 <p>The <code>tab</code> object is an object of class <code>table</code>:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb152"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre>
 <pre><code>## [1] &quot;table&quot;</code></pre>
 <p>We can extract data from a table object by using indices or row and column co-ordinates:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="dv">1</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb154"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="dv">1</span>]</a></code></pre>
 <pre><code>## [1] 46</code></pre>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="dv">2</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb156"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="dv">2</span>]</a></code></pre>
 <pre><code>## [1] 17</code></pre>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">tab[<span class="dv">2</span>,<span class="dv">1</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb158"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1">tab[<span class="dv">2</span>,<span class="dv">1</span>]</a></code></pre>
 <pre><code>## [1] 5</code></pre>
 <p>The numbers in the square brackets refer to the <strong><em>position</em></strong> (as row and column co-ordinates) of the data item in the table <strong><em>not</em></strong> the <strong><em>values</em></strong> of the variables. We can extract data using the values of the row and column variables by enclosing the index values in double quotes (“). For example:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">tab[<span class="st">&quot;1&quot;</span>,<span class="st">&quot;1&quot;</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb160"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1">tab[<span class="st">&quot;1&quot;</span>,<span class="st">&quot;1&quot;</span>]</a></code></pre>
 <pre><code>## [1] 46</code></pre>
 <p>The two methods of extracting data may be combined. For example:</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="st">&quot;1&quot;</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb162"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1">tab[<span class="dv">1</span>,<span class="st">&quot;1&quot;</span>]</a></code></pre>
 <pre><code>## [1] 46</code></pre>
 <p>We can calculate a risk ratio using the extracted data:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">(tab[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>(tab[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">+</span>tab[<span class="dv">1</span>,<span class="dv">2</span>]))<span class="op">/</span>(tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">/</span>(tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">+</span>tab[<span class="dv">2</span>,<span class="dv">2</span>]))</a></code></pre></div>
+<pre class="sourceCode r" id="cb164"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1">(tab[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>(tab[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">+</span>tab[<span class="dv">1</span>,<span class="dv">2</span>]))<span class="op">/</span>(tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">/</span>(tab[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">+</span>tab[<span class="dv">2</span>,<span class="dv">2</span>]))</a></code></pre>
 <p>Which returns a risk ratio of</p>
 <pre><code>## [1] 2.044444</code></pre>
 <p>This is a tedious calculation to have to type in every time you need to calculate a risk ratio from a two-by-two table. It would be better to have a function that calculates and displays the risk ratio automatically. Fortunately, <code>R</code> allows us to do just that.</p>
 <p>The <code>function()</code> function allows us to create new functions in <code>R</code>:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">tab2by2 &lt;-<span class="st"> </span><span class="cf">function</span>(exposure, outcome) {}</a></code></pre></div>
+<pre class="sourceCode r" id="cb166"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1">tab2by2 &lt;-<span class="st"> </span><span class="cf">function</span>(exposure, outcome) {}</a></code></pre>
 <p>This creates an empty function called <code>tab2by2</code> that expects two parameters called <code>exposure</code> and <code>outcome</code>. We could type the whole function in at the <code>R</code> command prompt but it is easier to use a text editor:</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre></div>
+<pre class="sourceCode r" id="cb167"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre>
 <p>This will start an editor with the empty <code>tab2by2()</code> function already loaded. We can now edit this function to make it do something useful:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome)</a>
+<pre class="sourceCode r" id="cb168"><code class="sourceCode r"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb168-2" data-line-number="2">  {</a>
 <a class="sourceLine" id="cb168-3" data-line-number="3">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb168-4" data-line-number="4">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
@@ -493,7 +484,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb168-8" data-line-number="8">  rr &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b)) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>(c <span class="op">+</span><span class="st"> </span>d))</a>
 <a class="sourceLine" id="cb168-9" data-line-number="9">  <span class="kw">print</span>(tab)</a>
 <a class="sourceLine" id="cb168-10" data-line-number="10">  <span class="kw">print</span>(rr) </a>
-<a class="sourceLine" id="cb168-11" data-line-number="11">  }</a></code></pre></div>
+<a class="sourceLine" id="cb168-11" data-line-number="11">  }</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
 Before proceeding we should examine the <code>tab2by2()</code> function to make sure we understand what the function will do:</p>
 <ul>
@@ -505,7 +496,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 <li><p>The final two lines print the contents of the <code>tab</code> and <code>rr</code> objects.</p></li>
 </ul>
 <p>Let’s try the <code>tab2by2()</code> function with our test data:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb169"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre>
 <pre><code>##         outcome
 ## exposure  1  2
 ##        1 46 17
@@ -513,18 +504,18 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## [1] 2.044444</code></pre>
 <p>The <code>tab2by2()</code> function displays a table of <code>HAM</code> by <code>ILL</code> followed by the risk ratio calculated from the data in the table.</p>
 <p>Try producing another table:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb171"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre>
 <pre><code>##         outcome
 ## exposure  1  2
 ##        1 25  3
 ##        2 26 23
 ## [1] 1.682692</code></pre>
 <p>Have a look at the <code>R</code> objects available to you:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb173"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
 <pre><code>## [1] &quot;fem&quot;     &quot;salex&quot;   &quot;tab&quot;     &quot;tab2by2&quot;</code></pre>
 <p>Note that there are no <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, or <code>rr</code> objects.</p>
 <p>Examine the <code>tab</code> object:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">tab</a></code></pre></div>
+<pre class="sourceCode r" id="cb175"><code class="sourceCode r"><a class="sourceLine" id="cb175-1" data-line-number="1">tab</a></code></pre>
 <pre><code>##    ILL
 ## HAM  1  2
 ##   1 46 17
@@ -533,22 +524,22 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 <p>The <code>tab</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, and <code>rr</code> objects in the <code>tab2by2()</code> function are local to that function and do not change anything outside of that function. This means that the <code>tab</code> object inside the function is independent of any object of the same name outside of the function.</p>
 <p>When a function completes its work, all of the objects that are local to that function are automatically removed. This is useful as it means that you can use object names inside functions that will not interfere with objects of the same name that are stored elsewhere. It also means that you do not clutter up the <code>R</code> workspace with temporary objects.</p>
 <p>Just to prove that <code>tab</code> in the <code>tab2by2()</code> function exists only in the <code>tab2by2()</code> function we can delete the tab object from the <code>R</code> workspace:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb177"><code class="sourceCode r"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
 <p>Now try another call to the <code>tab2by2()</code> function:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb178"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre>
 <pre><code>##         outcome
 ## exposure  1  2
 ##        1  1  4
 ##        2 49 22
 ## [1] 0.2897959</code></pre>
 <p>Now list the <code>R</code> objects available to you:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb180"><code class="sourceCode r"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
 <pre><code>## [1] &quot;fem&quot;     &quot;salex&quot;   &quot;tab2by2&quot;</code></pre>
 <p>Note that there are no <code>tab</code>, <code>a</code>, <code>b</code>, <code>c</code>, <code>d</code>, or <code>rr</code> objects.</p>
 <p>The <code>tab2by2()</code> function is very limited. It only displays a table and calculates and displays a simple ratio. A more useful function would also calculate and display a confidence interval for the risk ratio. This is what we will do now. Use the <code>fix()</code> function to edit the <code>tab2by2()</code> function:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre></div>
+<pre class="sourceCode r" id="cb182"><code class="sourceCode r"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="kw">fix</span>(tab2by2)</a></code></pre>
 <p>We can now edit this function to calculate and display a 95% confidence interval for the risk ratio.</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<pre class="sourceCode r" id="cb183"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
 <a class="sourceLine" id="cb183-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb183-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb183-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
@@ -562,9 +553,9 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 <a class="sourceLine" id="cb183-12" data-line-number="12">  <span class="kw">print</span>(rr)</a>
 <a class="sourceLine" id="cb183-13" data-line-number="13">  <span class="kw">print</span>(lci.rr)</a>
 <a class="sourceLine" id="cb183-14" data-line-number="14">  <span class="kw">print</span>(uci.rr)</a>
-<a class="sourceLine" id="cb183-15" data-line-number="15">}</a></code></pre></div>
+<a class="sourceLine" id="cb183-15" data-line-number="15">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor. We should test our revised function:</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb184"><code class="sourceCode r"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
 <p>which produces the following output:</p>
 <pre><code>##         outcome
 ## exposure  1  2
@@ -574,7 +565,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## [1] 1.553564
 ## [1] 4.38044</code></pre>
 <p>The function works but the output could be improved. Use the <code>fix()</code> function to edit the <code>tab2by2()</code> function:</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<pre class="sourceCode r" id="cb186"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
 <a class="sourceLine" id="cb186-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb186-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb186-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
@@ -587,10 +578,10 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 <a class="sourceLine" id="cb186-11" data-line-number="11">  <span class="kw">print</span>(tab)</a>
 <a class="sourceLine" id="cb186-12" data-line-number="12">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">RR :&quot;</span>, rr,</a>
 <a class="sourceLine" id="cb186-13" data-line-number="13">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, lci.rr, uci.rr, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb186-14" data-line-number="14">}</a></code></pre></div>
+<a class="sourceLine" id="cb186-14" data-line-number="14">}</a></code></pre>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>Now we can test our function again:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb187"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
 <p>Which produces the following output:</p>
 <pre><code>##         outcome
 ## exposure  1  2
@@ -600,7 +591,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## RR : 2.608696 
 ## 95% CI : 1.553564 4.38044</code></pre>
 <p>The <code>tab2by2()</code> function displays output but does not behave like a standard <code>R</code> function in the sense that you cannot save the results of the <code>tab2by2()</code> function into an object:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">test2by2 &lt;-<span class="st"> </span><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb189"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1">test2by2 &lt;-<span class="st"> </span><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
 <pre><code>##         outcome
 ## exposure  1  2
 ##        1 40  6
@@ -609,27 +600,27 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## RR : 2.608696 
 ## 95% CI : 1.553564 4.38044</code></pre>
 <p>displays output but does not save anything in the <code>test2by2</code> object:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">test2by2</a></code></pre></div>
+<pre class="sourceCode r" id="cb191"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">test2by2</a></code></pre>
 <pre><code>## NULL</code></pre>
 <p>The returned value (<code>NULL</code>) means that <code>test2by2</code> is an empty object. We will not worry about this at the moment as the <code>tab2by2()</code> function is good-enough for our current purposes. In Exercise 6 we will explore how to make our own functions behave like standard <code>R</code> functions.</p>
 <p>We will now add the calculation of the odds ratio and its 95% confidence interval to the <code>tab2by2()</code> function using the <code>fix()</code> function.</p>
 <p>There are two ways of doing this. We could either calculate the odds ratio from the table and use (e.g.) the method of Woolf to calculate the confidence interval:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">or &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>d)</a>
+<pre class="sourceCode r" id="cb193"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1">or &lt;-<span class="st"> </span>(a <span class="op">/</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span>(c <span class="op">/</span><span class="st"> </span>d)</a>
 <a class="sourceLine" id="cb193-2" data-line-number="2">se.log.or &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="dv">1</span> <span class="op">/</span><span class="st"> </span>a <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>c <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="op">/</span><span class="st"> </span>d)</a>
 <a class="sourceLine" id="cb193-3" data-line-number="3">lci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
 <a class="sourceLine" id="cb193-4" data-line-number="4">uci.or &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">log</span>(or) <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>se.log.or)</a>
 <a class="sourceLine" id="cb193-5" data-line-number="5"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">OR     :&quot;</span>, or,</a>
-<a class="sourceLine" id="cb193-6" data-line-number="6">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, lci.or, uci.or, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb193-6" data-line-number="6">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, lci.or, uci.or, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre>
 <p>or use the output of the <code>fisher.test()</code> function:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(tab)</a>
+<pre class="sourceCode r" id="cb194"><code class="sourceCode r"><a class="sourceLine" id="cb194-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(tab)</a>
 <a class="sourceLine" id="cb194-2" data-line-number="2"><span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">OR     :&quot;</span>, ft<span class="op">$</span>estimate,</a>
-<a class="sourceLine" id="cb194-3" data-line-number="3">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, ft<span class="op">$</span>conf.int, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb194-3" data-line-number="3">    <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI :&quot;</span>, ft<span class="op">$</span>conf.int, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre>
 <p>Note that we can refer to components of a function’s output using the same syntax as when we refer to columns in a data.frame (e.g. <code>ft$estimate</code> to examine the estimate of the odds ratio from the <code>fisher.test()</code> function stored in the object <code>ft</code>).</p>
 <p>The names of elements in the output of a standard function such as <code>fisher.test()</code> can be found in the documentation or the help system. For example:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">help</span>(fisher.test)</a></code></pre></div>
+<pre class="sourceCode r" id="cb195"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">help</span>(fisher.test)</a></code></pre>
 <p>Output elements are listed under the <code>Value</code> heading.</p>
 <p>Revise the <code>tab2by2()</code> function to include the calculation of the odds ratio and the 95% confidence interval. The revised function will look something like this:</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<pre class="sourceCode r" id="cb196"><code class="sourceCode r"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
 <a class="sourceLine" id="cb196-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb196-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb196-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
@@ -655,11 +646,11 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 <a class="sourceLine" id="cb196-24" data-line-number="24"></a>
 <a class="sourceLine" id="cb196-25" data-line-number="25">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">MLE Odds Ratio    :&quot;</span>, ft<span class="op">$</span>estimate,</a>
 <a class="sourceLine" id="cb196-26" data-line-number="26">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">95% CI             :&quot;</span>,  ft<span class="op">$</span>conf.int, <span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb196-27" data-line-number="27">}</a></code></pre></div>
+<a class="sourceLine" id="cb196-27" data-line-number="27">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Test the <code>tab2by2()</code> function when you have added the calculation of the odds ratio and its 95% confidence interval.</p>
 <p>Now that we have a function that will calculate risk ratios and odds ratios with confidence intervals from a two- by-two table we can use it to analyse the <code>salex</code> data:</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb197"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="kw">tab2by2</span>(HAM, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -674,7 +665,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 4.75649 
 ## 95% CI             : 1.22777 20.82921</code></pre>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">tab2by2</span>(BEEF, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb199"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">tab2by2</span>(BEEF, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -689,7 +680,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 1.357903 
 ## 95% CI             : 0.2547114 6.428414</code></pre>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb201"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">tab2by2</span>(EGGS, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -704,7 +695,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 12.74512 
 ## 95% CI             : 3.762787 50.05419</code></pre>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">tab2by2</span>(MUSHROOM, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb203"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">tab2by2</span>(MUSHROOM, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -719,7 +710,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 2.995207 
 ## 95% CI             : 0.9421008 10.7953</code></pre>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">tab2by2</span>(PEPPER, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb205"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">tab2by2</span>(PEPPER, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -734,7 +725,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 7.448216 
 ## 95% CI             : 1.861728 44.12015</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">tab2by2</span>(PORKPIE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb207"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">tab2by2</span>(PORKPIE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -749,7 +740,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 1.362228 
 ## 95% CI             : 0.4636016 4.190667</code></pre>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb209"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="kw">tab2by2</span>(PASTA, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -764,7 +755,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 7.195422 
 ## 95% CI             : 1.829867 42.07488</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb211"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -779,7 +770,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 6.532868 
 ## 95% CI             : 1.852297 29.84928</code></pre>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">tab2by2</span>(LETTUCE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb213"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">tab2by2</span>(LETTUCE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -794,7 +785,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 29.32825 
 ## 95% CI             : 4.161299 1284.306</code></pre>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb215"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -809,7 +800,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 2.459981 
 ## 95% CI             : 0.8467562 7.558026</code></pre>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw">tab2by2</span>(COLESLAW, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb217"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="kw">tab2by2</span>(COLESLAW, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -824,7 +815,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 10.26269 
 ## 95% CI             : 2.600771 60.35431</code></pre>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb219"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -839,7 +830,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 1.118358 
 ## 95% CI             : 0.3858206 3.340535</code></pre>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">tab2by2</span>(PEACHCAKE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb221"><code class="sourceCode r"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="kw">tab2by2</span>(PEACHCAKE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -854,7 +845,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 0.4947099 
 ## 95% CI             : 0.03393887 7.209143</code></pre>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">tab2by2</span>(CHOCOLATE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb223"><code class="sourceCode r"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="kw">tab2by2</span>(CHOCOLATE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -869,7 +860,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 3.733535 
 ## 95% CI             : 0.7318646 37.28268</code></pre>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb225"><code class="sourceCode r"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="kw">tab2by2</span>(FRUIT, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -884,7 +875,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 0.1157141 
 ## 95% CI             : 0.002240848 1.256134</code></pre>
-<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="kw">tab2by2</span>(TRIFLE, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb227"><code class="sourceCode r"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="kw">tab2by2</span>(TRIFLE, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -899,7 +890,7 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 
 ## MLE Odds Ratio    : 2.465794 
 ## 95% CI             : 0.7363311 9.778463</code></pre>
-<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="kw">tab2by2</span>(ALMONDS, ILL)</a></code></pre></div>
+<pre class="sourceCode r" id="cb229"><code class="sourceCode r"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="kw">tab2by2</span>(ALMONDS, ILL)</a></code></pre>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -916,9 +907,9 @@ Before proceeding we should examine the <code>tab2by2()</code> function to make 
 ## 95% CI             : 0.06170211 4.141891</code></pre>
 <p>Make a note of any positive associations (i.e. with a risk ratio &gt; 1 with a 95% confidence intervals that does not include one). We will use these for the next exercise when we will use logistic regression to analyse this data.</p>
 <p>Save the <code>tab2by2()</code> function:</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">save</span>(tab2by2, <span class="dt">file =</span> <span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb231"><code class="sourceCode r"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="kw">save</span>(tab2by2, <span class="dt">file =</span> <span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre>
 <p>We can now quit <code>R</code>:</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb232"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">3.1</span> Summary</h2>

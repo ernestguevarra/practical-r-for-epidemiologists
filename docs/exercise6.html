@@ -50,24 +50,16 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { display: inline-block; min-height: 1.25em; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
+code.sourceCode { white-space: pre; }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -79,39 +71,38 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
+pre, code { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; color: initial; }
 }
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
+code span.bn { color: #0000cf; } /* BaseN */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
+code span.ch { color: #4e9a06; } /* Char */
 code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.ot { color: #8f5902; } /* Other */
+code span.al { color: #ef2929; } /* Alert */
+code span.fu { color: #000000; } /* Function */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #000000; } /* Constant */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #000000; } /* Variable */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.ex { } /* Extension */
+code span.at { color: #c4a000; } /* Attribute */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -190,12 +181,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="exercise6" class="section level1">
 <h1><span class="header-section-number">7</span> Making your own objects behave like R objects</h1>
 <p>In the previous exercises we concentrated on writing functions that take some input data, analyse it, and display the results of the analysis. The standard <code>R</code> functions we have used all do this. The <code>fisher.test()</code> function, for example, takes a <code>table</code> object (or the names of two variables) as input and calculates and displays the p- value for <em>Fisher’s exact test</em> and the odds ratio and associated confidence interval for two-by-two tables:</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">attach</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb458"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb458-2" data-line-number="2"><span class="kw">attach</span>(fem)</a></code></pre>
 <pre><code>## The following objects are masked from fem (pos = 7):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb460"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -208,8 +199,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## odds ratio 
 ##   3.620646</code></pre>
 <p>The results of the <code>fisher.test()</code> function may also be saved for later use:</p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(SEX, LIFE)</a>
-<a class="sourceLine" id="cb462-2" data-line-number="2">ft</a></code></pre></div>
+<pre class="sourceCode r" id="cb462"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">ft &lt;-<span class="st"> </span><span class="kw">fisher.test</span>(SEX, LIFE)</a>
+<a class="sourceLine" id="cb462-2" data-line-number="2">ft</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -222,16 +213,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## odds ratio 
 ##   3.620646</code></pre>
 <p>The <code>fisher.test()</code> function returns an object of the class <code>htest</code>:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="kw">class</span>(ft)</a></code></pre></div>
+<pre class="sourceCode r" id="cb464"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="kw">class</span>(ft)</a></code></pre>
 <pre><code>## [1] &quot;htest&quot;</code></pre>
 <p>which is a list containing the output of the <code>fisher.test()</code> function. Each item of output is stored as a different named item in the list:</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="kw">names</span>(ft)</a>
-<a class="sourceLine" id="cb466-2" data-line-number="2"><span class="kw">str</span>(ft)</a></code></pre></div>
+<pre class="sourceCode r" id="cb466"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="kw">names</span>(ft)</a>
+<a class="sourceLine" id="cb466-2" data-line-number="2"><span class="kw">str</span>(ft)</a></code></pre>
 <pre><code>## [1] &quot;p.value&quot;     &quot;conf.int&quot;    &quot;estimate&quot;    &quot;null.value&quot;  &quot;alternative&quot;
 ## [6] &quot;method&quot;      &quot;data.name&quot;</code></pre>
 <pre><code>## List of 7
 ##  $ p.value    : num 0.0318
-##  $ conf.int   : atomic [1:2] 1.08 14.21
+##  $ conf.int   : num [1:2] 1.08 14.21
 ##   ..- attr(*, &quot;conf.level&quot;)= num 0.95
 ##  $ estimate   : Named num 3.62
 ##   ..- attr(*, &quot;names&quot;)= chr &quot;odds ratio&quot;
@@ -242,15 +233,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ##  $ data.name  : chr &quot;SEX and LIFE&quot;
 ##  - attr(*, &quot;class&quot;)= chr &quot;htest&quot;</code></pre>
 <p>Each of these items can be referred to by name:</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb469-1" data-line-number="1">ft<span class="op">$</span>estimate</a>
-<a class="sourceLine" id="cb469-2" data-line-number="2">ft<span class="op">$</span>conf.int</a></code></pre></div>
+<pre class="sourceCode r" id="cb469"><code class="sourceCode r"><a class="sourceLine" id="cb469-1" data-line-number="1">ft<span class="op">$</span>estimate</a>
+<a class="sourceLine" id="cb469-2" data-line-number="2">ft<span class="op">$</span>conf.int</a></code></pre>
 <pre><code>## odds ratio 
 ##   3.620646</code></pre>
 <pre><code>## [1]  1.080298 14.214482
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
 <p>When you display the output of the <code>fisher.test()</code> function either by calling the function directly:</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb472"><code class="sourceCode r"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="kw">fisher.test</span>(SEX, LIFE)</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -263,7 +254,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ## odds ratio 
 ##   3.620646</code></pre>
 <p>or by typing the name of an object created using the <code>fisher.test()</code> function:</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">ft</a></code></pre></div>
+<pre class="sourceCode r" id="cb474"><code class="sourceCode r"><a class="sourceLine" id="cb474-1" data-line-number="1">ft</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -277,9 +268,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ##   3.620646</code></pre>
 <p>The <code>print()</code> function takes over and formatted output is produced. The <code>print()</code> function knows about <code>htest</code> class objects and produces output of the correct format for that class of object. This means that any function that produces an <code>htest</code> object (or any other standard <code>R</code> object) does not need to include <code>R</code> commands to produce formatted output.</p>
 <p>All hypothesis testing functions supplied with <code>R</code> produce objects of the htest class and use the <code>print()</code> function to produce formatted output. For example:</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1">tt &lt;-<span class="st"> </span><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a>
+<pre class="sourceCode r" id="cb476"><code class="sourceCode r"><a class="sourceLine" id="cb476-1" data-line-number="1">tt &lt;-<span class="st"> </span><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a>
 <a class="sourceLine" id="cb476-2" data-line-number="2"><span class="kw">class</span>(tt)</a>
-<a class="sourceLine" id="cb476-3" data-line-number="3">tt</a></code></pre></div>
+<a class="sourceLine" id="cb476-3" data-line-number="3">tt</a></code></pre>
 <pre><code>## [1] &quot;htest&quot;</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -294,11 +285,11 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 ##       0.7867213       0.6404444</code></pre>
 <p>You can use this feature of <code>R</code> in your own functions. We will explore this by writing a function to test the null hypothesis that the <em>variance to mean ratio</em> of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.</p>
 <p>Create a new function using the <code>function()</code> function:</p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb479-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {}</a></code></pre></div>
+<pre class="sourceCode r" id="cb479"><code class="sourceCode r"><a class="sourceLine" id="cb479-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {}</a></code></pre>
 <p>And start the function editor:</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre></div>
+<pre class="sourceCode r" id="cb480"><code class="sourceCode r"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre>
 <p>Now edit this function to make it do something useful:</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="cf">function</span>(data) {</a>
+<pre class="sourceCode r" id="cb481"><code class="sourceCode r"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="cf">function</span>(data) {</a>
 <a class="sourceLine" id="cb481-2" data-line-number="2">  nsu &lt;-<span class="st"> </span><span class="kw">length</span>(data)</a>
 <a class="sourceLine" id="cb481-3" data-line-number="3">  obs &lt;-<span class="st"> </span><span class="kw">sum</span>(data)</a>
 <a class="sourceLine" id="cb481-4" data-line-number="4">  m &lt;-<span class="st"> </span>obs <span class="op">/</span><span class="st"> </span>nsu</a>
@@ -318,8 +309,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb481-18" data-line-number="18">              <span class="dt">estimate =</span> vmr)</a>
 <a class="sourceLine" id="cb481-19" data-line-number="19">  <span class="kw">class</span>(v2m) &lt;-<span class="st"> &quot;htest&quot;</span></a>
 <a class="sourceLine" id="cb481-20" data-line-number="20">  <span class="kw">return</span>(v2m)</a>
-<a class="sourceLine" id="cb481-21" data-line-number="21">}</a></code></pre></div>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb481-21" data-line-number="21">}</a></code></pre>
+<pre class="sourceCode r" id="cb482"><code class="sourceCode r"><a class="sourceLine" id="cb482-1" data-line-number="1">v2m.test &lt;-<span class="st"> </span><span class="cf">function</span>(data) {</a>
 <a class="sourceLine" id="cb482-2" data-line-number="2">  nsu &lt;-<span class="st"> </span><span class="kw">length</span>(data)</a>
 <a class="sourceLine" id="cb482-3" data-line-number="3">  obs &lt;-<span class="st"> </span><span class="kw">sum</span>(data)</a>
 <a class="sourceLine" id="cb482-4" data-line-number="4">  m &lt;-<span class="st"> </span>obs <span class="op">/</span><span class="st"> </span>nsu</a>
@@ -339,7 +330,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb482-18" data-line-number="18">              <span class="dt">estimate =</span> vmr)</a>
 <a class="sourceLine" id="cb482-19" data-line-number="19">  <span class="kw">class</span>(v2m) &lt;-<span class="st"> &quot;htest&quot;</span></a>
 <a class="sourceLine" id="cb482-20" data-line-number="20">  <span class="kw">return</span>(v2m)</a>
-<a class="sourceLine" id="cb482-21" data-line-number="21">}</a></code></pre></div>
+<a class="sourceLine" id="cb482-21" data-line-number="21">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Before proceeding we should examine the <code>v2m.test()</code> function to make sure we understand what is happening:</p>
 <ol style="list-style-type: decimal">
@@ -410,16 +401,16 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 Number of households : 24 29 26 14  5  2</code></pre>
 <p>shows the number of cases of chronic (stunting) undernutrition found in a random sample of 100 households.</p>
 <p>We can reproduce the data behind this table using a combination of the <code>c()</code> and <code>rep()</code> functions:</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" data-line-number="1">stunt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">24</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">29</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">26</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">14</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">5</span>),</a>
+<pre class="sourceCode r" id="cb484"><code class="sourceCode r"><a class="sourceLine" id="cb484-1" data-line-number="1">stunt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="dv">0</span>,<span class="dv">24</span>), <span class="kw">rep</span>(<span class="dv">1</span>,<span class="dv">29</span>), <span class="kw">rep</span>(<span class="dv">2</span>,<span class="dv">26</span>), <span class="kw">rep</span>(<span class="dv">3</span>,<span class="dv">14</span>), <span class="kw">rep</span>(<span class="dv">4</span>,<span class="dv">5</span>),</a>
 <a class="sourceLine" id="cb484-2" data-line-number="2">           <span class="kw">rep</span>(<span class="dv">5</span>,<span class="dv">0</span>), <span class="kw">rep</span>(<span class="dv">6</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb484-3" data-line-number="3"><span class="kw">table</span>(stunt)</a></code></pre></div>
+<a class="sourceLine" id="cb484-3" data-line-number="3"><span class="kw">table</span>(stunt)</a></code></pre>
 <pre><code>## stunt
 ##  0  1  2  3  4  6 
 ## 24 29 26 14  5  2</code></pre>
 <p>And use it to test our new <code>v2m.test()</code> function:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre></div>
+<pre class="sourceCode r" id="cb486"><code class="sourceCode r"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre>
 <p>Which should produce the following output:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre></div>
+<pre class="sourceCode r" id="cb487"><code class="sourceCode r"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre>
 <pre><code>## 
 ##  Variance to mean test
 ## 
@@ -429,16 +420,16 @@ Number of households : 24 29 26 14  5  2</code></pre>
 ## Variance : mean ratio 
 ##               1.11274</code></pre>
 <p>If your <code>vm2.test()</code> function does not produce this output then use the <code>fix()</code> function:</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre></div>
+<pre class="sourceCode r" id="cb489"><code class="sourceCode r"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="kw">fix</span>(v2m.test)</a></code></pre>
 <p>to check and edit the <code>vm2.test()</code> function and try again.</p>
 <p>The important thing to note from this exercise is that <code>R</code> allows us to specify a class for the output of our functions. This means that we can use standard <code>R</code> classes and functions to (e.g.) produce formatted output without us having to write commands to format the output ourselves.</p>
 <p>More importantly, it also means that we can write functions that return values when we need them to return values but can also produce formatted output when we need them to produce formatted output.</p>
 <p>Our <code>v2m.test()</code> function can produce values for later use:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" data-line-number="1">vm &lt;-<span class="st"> </span><span class="kw">v2m.test</span>(stunt)</a>
-<a class="sourceLine" id="cb490-2" data-line-number="2">vm<span class="op">$</span>p.value</a></code></pre></div>
+<pre class="sourceCode r" id="cb490"><code class="sourceCode r"><a class="sourceLine" id="cb490-1" data-line-number="1">vm &lt;-<span class="st"> </span><span class="kw">v2m.test</span>(stunt)</a>
+<a class="sourceLine" id="cb490-2" data-line-number="2">vm<span class="op">$</span>p.value</a></code></pre>
 <pre><code>## [1] 0.2083442</code></pre>
 <p>or produce formatted output:</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb492-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre></div>
+<pre class="sourceCode r" id="cb492"><code class="sourceCode r"><a class="sourceLine" id="cb492-1" data-line-number="1"><span class="kw">v2m.test</span>(stunt)</a></code></pre>
 <pre><code>## 
 ##  Variance to mean test
 ## 
@@ -456,11 +447,11 @@ with two-by-two tables.</p>
 <li><p>A second function function will produce formatted output when required.</p></li>
 </ol>
 <p>Create a new function using the <code>function()</code> function:</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb494-1" data-line-number="1">rr22 &lt;-<span class="st"> </span><span class="cf">function</span>(exposure, outcome) {}</a></code></pre></div>
+<pre class="sourceCode r" id="cb494"><code class="sourceCode r"><a class="sourceLine" id="cb494-1" data-line-number="1">rr22 &lt;-<span class="st"> </span><span class="cf">function</span>(exposure, outcome) {}</a></code></pre>
 <p>And start the function editor:</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" data-line-number="1"><span class="kw">fix</span>(rr22)</a></code></pre></div>
+<pre class="sourceCode r" id="cb495"><code class="sourceCode r"><a class="sourceLine" id="cb495-1" data-line-number="1"><span class="kw">fix</span>(rr22)</a></code></pre>
 <p>Now edit this function to make it do something useful:</p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb496-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
+<pre class="sourceCode r" id="cb496"><code class="sourceCode r"><a class="sourceLine" id="cb496-1" data-line-number="1"><span class="cf">function</span>(exposure, outcome) {</a>
 <a class="sourceLine" id="cb496-2" data-line-number="2">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(exposure, outcome)</a>
 <a class="sourceLine" id="cb496-3" data-line-number="3">  a &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb496-4" data-line-number="4">  b &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
@@ -473,18 +464,18 @@ with two-by-two tables.</p>
 <a class="sourceLine" id="cb496-11" data-line-number="11">  rr22.output &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">estimate =</span> rr, <span class="dt">ci =</span> <span class="kw">c</span>(lci, uci))</a>
 <a class="sourceLine" id="cb496-12" data-line-number="12">  <span class="kw">class</span>(rr22.output) &lt;-<span class="st"> &quot;rr22&quot;</span></a>
 <a class="sourceLine" id="cb496-13" data-line-number="13">  <span class="kw">return</span>(rr22.output)</a>
-<a class="sourceLine" id="cb496-14" data-line-number="14">}</a></code></pre></div>
+<a class="sourceLine" id="cb496-14" data-line-number="14">}</a></code></pre>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>The <code>rr22()</code> function is similar to the <code>tab2by2()</code> function that you created in the second exercise of this
 tutorial except that the function now returns a list of values instead of formatted output:</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<pre class="sourceCode r" id="cb497"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb497-2" data-line-number="2"><span class="kw">attach</span>(fem)</a>
 <a class="sourceLine" id="cb497-3" data-line-number="3">rr22.test &lt;-<span class="st"> </span><span class="kw">rr22</span>(SEX, LIFE)</a>
 <a class="sourceLine" id="cb497-4" data-line-number="4"><span class="kw">names</span>(rr22.test)</a>
 <a class="sourceLine" id="cb497-5" data-line-number="5">rr22.test<span class="op">$</span>estimate</a>
 <a class="sourceLine" id="cb497-6" data-line-number="6">rr22.test<span class="op">$</span>conf.int</a>
 <a class="sourceLine" id="cb497-7" data-line-number="7">rr22.test<span class="op">$</span>conf.int[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb497-8" data-line-number="8">rr22.test<span class="op">$</span>conf.int[<span class="dv">2</span>]</a></code></pre></div>
+<a class="sourceLine" id="cb497-8" data-line-number="8">rr22.test<span class="op">$</span>conf.int[<span class="dv">2</span>]</a></code></pre>
 <pre><code>## The following objects are masked from fem (pos = 3):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
@@ -497,11 +488,11 @@ tutorial except that the function now returns a list of values instead of format
 <pre><code>## NULL</code></pre>
 <pre><code>## NULL</code></pre>
 <p>The function returns a list of class <code>rr22</code>:</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="kw">class</span>(rr22.test)</a></code></pre></div>
+<pre class="sourceCode r" id="cb505"><code class="sourceCode r"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="kw">class</span>(rr22.test)</a></code></pre>
 <pre><code>## [1] &quot;rr22&quot;</code></pre>
 <p>The displayed output from the <code>rr22()</code> function is, however, not pretty:</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">print</span>(rr22.test)</a>
-<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="kw">rr22</span>(SEX, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb507"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">print</span>(rr22.test)</a>
+<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="kw">rr22</span>(SEX, LIFE)</a></code></pre>
 <pre><code>## $estimate
 ## [1] 2.054167
 ## 
@@ -519,20 +510,20 @@ tutorial except that the function now returns a list of values instead of format
 ## attr(,&quot;class&quot;)
 ## [1] &quot;rr22&quot;</code></pre>
 <p>This can be fixed by creating a new function:</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" data-line-number="1">print.rr22 &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre></div>
+<pre class="sourceCode r" id="cb510"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" data-line-number="1">print.rr22 &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre>
 <p>And start the function editor:</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="kw">fix</span>(print.rr22)</a></code></pre></div>
+<pre class="sourceCode r" id="cb511"><code class="sourceCode r"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="kw">fix</span>(print.rr22)</a></code></pre>
 <p>Now edit this function to make it do something useful:</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
+<pre class="sourceCode r" id="cb512"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
 <a class="sourceLine" id="cb512-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;RR     : &quot;</span>, x<span class="op">$</span>estimate, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
 <a class="sourceLine" id="cb512-3" data-line-number="3">      <span class="st">&quot;95% CI : &quot;</span>, x<span class="op">$</span>ci[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="op">$</span>ci[<span class="dv">2</span>], <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb512-4" data-line-number="4">}</a></code></pre></div>
+<a class="sourceLine" id="cb512-4" data-line-number="4">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>The function name <code>print.rr22()</code> indicates that this function contains the print method for objects of class <code>rr22</code>. All objects of class <code>rr22</code> will use the function <code>print.rr22()</code> instead of the standard <code>R</code> <code>print()</code> function to produce formatted output:</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="kw">rr22</span>(SEX, LIFE)</a>
+<pre class="sourceCode r" id="cb513"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="kw">rr22</span>(SEX, LIFE)</a>
 <a class="sourceLine" id="cb513-2" data-line-number="2">rr22.test &lt;-<span class="st"> </span><span class="kw">rr22</span>(SEX, LIFE)</a>
 <a class="sourceLine" id="cb513-3" data-line-number="3">rr22.test</a>
-<a class="sourceLine" id="cb513-4" data-line-number="4"><span class="kw">print</span>(rr22.test)</a></code></pre></div>
+<a class="sourceLine" id="cb513-4" data-line-number="4"><span class="kw">print</span>(rr22.test)</a></code></pre>
 <pre><code>## RR     : 2.054167
 ## 95% CI : 0.966417; 4.366232</code></pre>
 <pre><code>## RR     : 2.054167
@@ -540,10 +531,10 @@ tutorial except that the function now returns a list of values instead of format
 <pre><code>## RR     : 2.054167
 ## 95% CI : 0.966417; 4.366232</code></pre>
 <p>Note that we can still extract returned values from an <code>rr22</code> class object:</p>
-<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1">rr22.test<span class="op">$</span>estimate</a></code></pre></div>
+<pre class="sourceCode r" id="cb517"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1">rr22.test<span class="op">$</span>estimate</a></code></pre>
 <p>The <code>print.rr22()</code> function only controls the way an entire <code>rr22</code> object is displayed.</p>
 <p>You might like to use the <code>save()</code> function to save the <code>v2m.test()</code>, <code>rr22()</code>, and <code>print.rr22()</code> functions before quitting <code>R</code>. We can now quit <code>R</code>:</p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb518-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb518"><code class="sourceCode r"><a class="sourceLine" id="cb518-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-5" class="section level2">
 <h2><span class="header-section-number">7.1</span> Summary</h2>
