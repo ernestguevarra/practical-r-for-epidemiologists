@@ -681,7 +681,7 @@ You may need to resize the plot to display the x-axis labels correctly.
 You might like to use the `save()` function to save the `pareto()` function.
 
 
-## Confidence intervals or error bars
+## Adding confidence intervals or error bars on plots
 
 You may want to plot your data with confidence intervals or error bars. `R` does not have a function to do this but it is a relatively simple matter to write a function to do so. On the way we will use some of `R`s data management functions as well.
 
@@ -973,7 +973,7 @@ Let's try the `plot.ci()` function with the test data:
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci)
 ```
 
-Note how the function has used default values for the axis labels, chart titles, chart limits &c. 
+Note how the function has used default values for the axis labels, chart titles, chart limits etc. 
 
 We can override these default values if we need to:
 
@@ -1035,4 +1035,331 @@ plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci, type = "p")
 Try plotting the data for the marasmic patients using the `plot.ci()` function. 
 
 You might like to use the `save()` function to save the `plot.ci()` function.
+
+We can use a similar technique to add error bars to different types of plot. If we plot the weight velocities for oedematous patients receiving the high protein diet as a bar chart:
+
+```{r, eval = TRUE}
+barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
+        ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+```
+
+we could add error bars using the `arrows()` function as we did with a line plot: 
+
+```{r, eval = FALSE}
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
+       code = 3, angle = 90, length = 0.1)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
+        ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
+       code = 3, angle = 90, length = 0.1)
+```
+
+but this does not produce the expected results because the centres of the bars are not placed on the chart at the positions held in `oed.hp$day`. This is easily fixed as `barplot()` returns a numeric vector (or matrix, when `beside = TRUE`) containing the co-ordinates of the bar midpoints:
+
+```{r, eval = TRUE}
+bar.positions <- barplot(oed.hp$wt, names.arg = oed.hp$day,
+                         ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
+                         col = "white")
+
+bar.positions
+```
+
+We can now use the information stored in `bar.positions` to specify the positions of the error bars: 
+
+```{r, eval = FALSE}
+arrows(bar.positions, oed.hp$lci, bar.positions, oed.hp$uci,
+       code = 3, angle = 90, length = 0.1)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
+        ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+arrows(bar.positions, oed.hp$lci, bar.positions, oed.hp$uci,
+       code = 3, angle = 90, length = 0.1)
+```
+
+Armed with this information, we can write a function that we will be able to use whenever we need to plot a bar chart with error bars.
+
+Create a new function called `barplot.ci()`: 
+
+```{r, eval = FALSE}
+barplot.ci <- function() {}
+```
+
+This creates an empty function called `barplot.ci()`.
+
+Use the `fix()` function to edit the `barplot.ci()` function:
+
+```{r, eval = FALSE}
+fix(barplot.ci)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(y, bar.names, lci, uci,
+         ylim = c(min(lci), max(uci)),
+         xlab = deparse(substitute(bar.names)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab)) {
+     
+  bp <- barplot(y, names.arg = bar.names, ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot.ci <- function(y, bar.names, lci, uci,
+                       ylim = c(min(lci), max(uci)),
+                       xlab = deparse(substitute(bar.names)),
+                       ylab = deparse(substitute(y)),
+                       main = paste(ylab, "by", xlab)) {
+     
+  bp <- barplot(y, names.arg = bar.names, ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+Let's try the `barplot.ci()` function with the test data:
+
+```{r, eval = TRUE}
+barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
+```
+
+Try plotting the weight velocities for the marasmic patients receiving the high protein diet using the `barplot.ci()` function:
+
+```{r, eval = TRUE}
+barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
+```
+
+The chart looks wrong. This is because we have set the wrong limits for the y axis. The bars are drawn from zero to the data point but we have specified a limit for the y axis that is not constrained to include zero. This is easy to fix. Edit the `barplot.ci()` function to read:
+
+```{r, eval = FALSE}
+function(y, bar.names, lci, uci,
+         ylim = c(min(0, lci), max(0, uci)),
+         xlab = deparse(substitute(bar.names)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab)) {
+
+  bp <- barplot(y, names.arg = bar.names,  ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot.ci <- function(y, bar.names, lci, uci,
+         ylim = c(min(0, lci), max(0, uci)),
+         xlab = deparse(substitute(bar.names)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab)) {
+
+  bp <- barplot(y, names.arg = bar.names,  ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+Try plotting the data for the marasmic patients using the `barplot.ci()` function:
+
+```{r, eval = TRUE}
+barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
+```
+
+Check that the function still operates as expected with the data for oedematous patients:
+
+```{r, eval = TRUE}
+barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
+```
+
+The end of one of the error bars touches the x axis. This can also be fixed by slightly widening the limits for the y axis. It might also be useful to plot the centre position of each error bar. We can use the `points()` function to do this. Edit the `barplot.ci()` function to read:
+   
+```{r, eval = FALSE}
+function(y, bar.names, lci, uci,
+         ylim = c(min(0, lci), max(0, uci)),
+         xlab = deparse(substitute(bar.names)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab)) {
+     
+  ylim <- ylim * 1.1
+     
+  bp <- barplot(y, names.arg = bar.names, ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+     
+  points(bp, y)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot.ci <- function(y, bar.names, lci, uci,
+         ylim = c(min(0, lci), max(0, uci)),
+         xlab = deparse(substitute(bar.names)),
+         ylab = deparse(substitute(y)),
+         main = paste(ylab, "by", xlab)) {
+     
+  ylim <- ylim * 1.1
+     
+  bp <- barplot(y, names.arg = bar.names, ylim = ylim, xlab = xlab,
+                ylab = ylab, main = main, col = "white")
+     
+  arrows(bp, lci, bp, uci, code = 3, angle = 90, length = 0.1)
+     
+  points(bp, y)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+Check that the function works as expected:
+
+```{r, eval = FALSE}
+barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
+barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
+barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
+```
+
+The `barplot.ci()` function now works as expected with both sets of data. It is important when developing your own functions, to test them with different data so as to ensure that they work correctly with a wide range if data.
+
+You might like to use the `save()` function to save the `barplot.ci()` function.
+
+## Mesh map
+
+The fact that `R` provides flexible graphical functions means that, with little extra work, you can use these functions to present your data in appropriate and interesting ways rather than having to rely on a limited set of basic chart types.
+
+In this exercise we will use the `plot()` function to produce a simple *mesh-map*.
+
+The file `cover.dat` contains data from a coverage survey for a therapeutic feeding program (TFP) in central Malawi undertaken in March 2003. Data were collected using the *centric systematic area sampling* method to define sampling locations: A number of communities located closest to the centres of thirty 10 x 10 kilometre grid squares were sampled using active (investigative) case-finding.
+
+The columns in this dataset are as follows:
+
++-----------+----------------------------------------------------------------------------------------------------------+
+| **x**     | x position of grid square                                                                                |
++-----------+----------------------------------------------------------------------------------------------------------+
+| **y**     | y position of grid square                                                                                |
++-----------+----------------------------------------------------------------------------------------------------------+
+| **cases** | Number of cases found in sampled communities in.program Number of cases (from above) enrolled in the TFP |
++-----------+----------------------------------------------------------------------------------------------------------+
+
+Retrieve the dataset:
+
+```{r, eval = TRUE}
+cs <- read.table("cover.dat", header = TRUE)
+
+```
+
+Examine the dataset:
+
+```{r, eval = TRUE}
+cs
+```
+
+We should calculate the observed coverage for each grid square:
+
+```{r, eval = TRUE}
+cs$cvr <- cs$in.program / cs$cases
+cs
+```
+
+Note that some grid squares have zero coverage. It might be useful to use specific plotting characters (e.g. open and filled squares) to indicate zero and non-zero coverage. We can use the `ifelse()` function to do this:
+
+```{r, eval = TRUE}
+cs$cvr.pch <- ifelse(cs$cvr == 0, 0, 15)
+cs
+```
+
+A quick way of seeing the code associated with each plotting symbol is:
+
+```{r, eval = TRUE}
+plot(0:25, 0:25, pch = 0:25, cex = 2)
+```
+
+The size of the plotting symbol may be used to indicate the level of coverage in each quadrat but we must
+ensure that the symbol used for zero-coverage is not invisibly small:
+
+```{r, eval = TRUE}
+cs$cvr.cex <- ifelse(cs$cvr == 0, 1, 10 * cs$cvr)
+cs
+```
+
+We can now plot the data:
+
+```{r, eval = TRUE}
+par(pty="s")
+plot(cs$x, cs$y, cex = cs$cvr.cex, pch = cs$cvr.pch)
+```
+
+There are some problems with this plot:
+
+* The axes and labels distract from the data.
+
+* The distance between grid-square centres is wider in the *x* than in the *y* direction.
+
+* The colour (black) of the plotting symbols is too strong.
+
+All of these problems can be fixed by specifying values for `plot()` function parameters:
+
+```{r, eval = TRUE}
+plot(cs$x, cs$y,
+     cex = cs$cvr.cex,
+     pch = cs$cvr.pch,
+     xlab = "",
+     ylab = "",
+     axes = FALSE,
+     xlim = c(0,10),
+     ylim = c(0,10),
+     col = gray(0.5))
+```
+
+An alternative way of plotting this data is to use shades of grey (rather than the size of the plotting symbol) to represent the level of coverage in each grid-square:
+  
+```{r, eval = TRUE}
+plot(cs$x, cs$y,
+     cex = 5,
+     xlab = "",
+     ylab = "",
+     axes = FALSE,
+     pch = 15,
+     xlim = c(0, 10),
+     ylim = c(0, 10),
+     col = gray(1 - cs$cvr))
+```
+
+In this context it is useful to show the approximate location of therapeutic feeding centres:
+
+```{r, eval = TRUE}
+plot(cs$x, cs$y,
+     cex = cs$cvr.cex,
+     pch = cs$cvr.pch,
+     xlab = "",
+     ylab = "",
+     axes = FALSE,
+     xlim = c(0,10),
+     ylim = c(0,10),
+     col = gray(0.5))
+
+points(c(2.5, 4.5, 5.5), c(6.5, 8.25, 5), pch = 19, cex = 2)
+```
+
+The techniques introduced in this section allow you to write custom graphical functions but they can also be used to change the default behaviour of standard graphical functions.
+
+## Combining plots
 
