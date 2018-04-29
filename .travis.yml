@@ -7,3 +7,12 @@ cache:
 
 script:
   - Rscript -e 'bookdown::render_book("index.rmd")'
+  
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: f7f4f9604296bf77d0e22c6e89bd882ddcbe8e00 #$GITHUB_TOKEN
+  on:
+    branch: master
+  local_dir: public
+  fqdn: https://mystifying-khorana-d80ecb.netlify.com/ #travis-blogdown.yihui.name
