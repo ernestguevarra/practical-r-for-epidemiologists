@@ -15,4 +15,4 @@ deploy:
   on:
     branch: master
   local_dir: docs
-  fqdn: https://mystifying-khorana-d80ecb.netlify.com/ #travis-blogdown.yihui.name
+  fqdn: https://mystifying-khorana-d80ecb.netlify.com/
