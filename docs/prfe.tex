@@ -9649,9 +9649,9 @@ You may need to resize the plot to display the x-axis labels correctly.
 You might like to use the \texttt{save()} function to save the
 \texttt{pareto()} function.
 
-\hypertarget{confidence-intervals-or-error-bars}{%
-\section{Confidence intervals or error
-bars}\label{confidence-intervals-or-error-bars}}
+\hypertarget{adding-confidence-intervals-or-error-bars-on-plots}{%
+\section{Adding confidence intervals or error bars on
+plots}\label{adding-confidence-intervals-or-error-bars-on-plots}}
 
 You may want to plot your data with confidence intervals or error bars.
 \texttt{R} does not have a function to do this but it is a relatively
@@ -10297,6 +10297,240 @@ Try plotting the data for the marasmic patients using the
 
 You might like to use the \texttt{save()} function to save the
 \texttt{plot.ci()} function.
+
+We can use a similar technique to add error bars to different types of
+plot. If we plot the weight velocities for oedematous patients receiving
+the high protein diet as a bar chart:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{wt, }\DataTypeTok{names.arg =}\NormalTok{ oed.hp}\OperatorTok{$}\NormalTok{day, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{, }
+        \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{lci), }\KeywordTok{max}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{uci)))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-403-1.pdf}
+
+we could add error bars using the \texttt{arrows()} function as we did
+with a line plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{arrows}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{day, oed.hp}\OperatorTok{$}\NormalTok{lci, oed.hp}\OperatorTok{$}\NormalTok{day, oed.hp}\OperatorTok{$}\NormalTok{uci, }
+       \DataTypeTok{code =} \DecValTok{3}\NormalTok{, }\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{length =} \FloatTok{0.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-405-1.pdf}
+
+but this does not produce the expected results because the centres of
+the bars are not placed on the chart at the positions held in
+\texttt{oed.hp\$day}. This is easily fixed as \texttt{barplot()} returns
+a numeric vector (or matrix, when \texttt{beside\ =\ TRUE}) containing
+the co-ordinates of the bar midpoints:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bar.positions <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{wt, }\DataTypeTok{names.arg =}\NormalTok{ oed.hp}\OperatorTok{$}\NormalTok{day,}
+                         \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{lci), }\KeywordTok{max}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{uci)),}
+                         \DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-406-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{bar.positions}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       [,1]
+##  [1,]  0.7
+##  [2,]  1.9
+##  [3,]  3.1
+##  [4,]  4.3
+##  [5,]  5.5
+##  [6,]  6.7
+##  [7,]  7.9
+##  [8,]  9.1
+##  [9,] 10.3
+## [10,] 11.5
+## [11,] 12.7
+\end{verbatim}
+
+We can now use the information stored in \texttt{bar.positions} to
+specify the positions of the error bars:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{arrows}\NormalTok{(bar.positions, oed.hp}\OperatorTok{$}\NormalTok{lci, bar.positions, oed.hp}\OperatorTok{$}\NormalTok{uci,}
+       \DataTypeTok{code =} \DecValTok{3}\NormalTok{, }\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{length =} \FloatTok{0.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-408-1.pdf}
+
+Armed with this information, we can write a function that we will be
+able to use whenever we need to plot a bar chart with error bars.
+
+Create a new function called \texttt{barplot.ci()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{barplot.ci <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{() \{\}}
+\end{Highlighting}
+\end{Shaded}
+
+This creates an empty function called \texttt{barplot.ci()}.
+
+Use the \texttt{fix()} function to edit the \texttt{barplot.ci()}
+function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{fix}\NormalTok{(barplot.ci)}
+\end{Highlighting}
+\end{Shaded}
+
+Edit the function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(y, bar.names, lci, uci,}
+         \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(lci), }\KeywordTok{max}\NormalTok{(uci)),}
+         \DataTypeTok{xlab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(bar.names)),}
+         \DataTypeTok{ylab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(y)),}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(ylab, }\StringTok{"by"}\NormalTok{, xlab)) \{}
+     
+\NormalTok{  bp <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(y, }\DataTypeTok{names.arg =}\NormalTok{ bar.names, }\DataTypeTok{ylim =}\NormalTok{ ylim, }\DataTypeTok{xlab =}\NormalTok{ xlab,}
+                \DataTypeTok{ylab =}\NormalTok{ ylab, }\DataTypeTok{main =}\NormalTok{ main, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+     
+  \KeywordTok{arrows}\NormalTok{(bp, lci, bp, uci, }\DataTypeTok{code =} \DecValTok{3}\NormalTok{, }\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{length =} \FloatTok{0.1}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Let's try the \texttt{barplot.ci()} function with the test data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot.ci}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{wt, oed.hp}\OperatorTok{$}\NormalTok{day, oed.hp}\OperatorTok{$}\NormalTok{lci, oed.hp}\OperatorTok{$}\NormalTok{uci)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-413-1.pdf}
+
+Try plotting the weight velocities for the marasmic patients receiving
+the high protein diet using the \texttt{barplot.ci()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot.ci}\NormalTok{(mar.hp}\OperatorTok{$}\NormalTok{wt, mar.hp}\OperatorTok{$}\NormalTok{day, mar.hp}\OperatorTok{$}\NormalTok{lci, mar.hp}\OperatorTok{$}\NormalTok{uci)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-414-1.pdf}
+
+The chart looks wrong. This is because we have set the wrong limits for
+the y axis. The bars are drawn from zero to the data point but we have
+specified a limit for the y axis that is not constrained to include
+zero. This is easy to fix. Edit the \texttt{barplot.ci()} function to
+read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(y, bar.names, lci, uci,}
+         \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(}\DecValTok{0}\NormalTok{, lci), }\KeywordTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, uci)),}
+         \DataTypeTok{xlab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(bar.names)),}
+         \DataTypeTok{ylab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(y)),}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(ylab, }\StringTok{"by"}\NormalTok{, xlab)) \{}
+
+\NormalTok{  bp <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(y, }\DataTypeTok{names.arg =}\NormalTok{ bar.names,  }\DataTypeTok{ylim =}\NormalTok{ ylim, }\DataTypeTok{xlab =}\NormalTok{ xlab,}
+                \DataTypeTok{ylab =}\NormalTok{ ylab, }\DataTypeTok{main =}\NormalTok{ main, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+     
+  \KeywordTok{arrows}\NormalTok{(bp, lci, bp, uci, }\DataTypeTok{code =} \DecValTok{3}\NormalTok{, }\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{length =} \FloatTok{0.1}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Try plotting the data for the marasmic patients using the
+\texttt{barplot.ci()} function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot.ci}\NormalTok{(mar.hp}\OperatorTok{$}\NormalTok{wt, mar.hp}\OperatorTok{$}\NormalTok{day, mar.hp}\OperatorTok{$}\NormalTok{lci, mar.hp}\OperatorTok{$}\NormalTok{uci)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-417-1.pdf}
+
+Check that the function still operates as expected with the data for
+oedematous patients:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot.ci}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{wt, oed.hp}\OperatorTok{$}\NormalTok{day, oed.hp}\OperatorTok{$}\NormalTok{lci, oed.hp}\OperatorTok{$}\NormalTok{uci)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-418-1.pdf}
+
+The end of one of the error bars touches the x axis. This can also be
+fixed by slightly widening the limits for the y axis. It might also be
+useful to plot the centre position of each error bar. We can use the
+\texttt{points()} function to do this. Edit the \texttt{barplot.ci()}
+function to read:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{function}\NormalTok{(y, bar.names, lci, uci,}
+         \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\KeywordTok{min}\NormalTok{(}\DecValTok{0}\NormalTok{, lci), }\KeywordTok{max}\NormalTok{(}\DecValTok{0}\NormalTok{, uci)),}
+         \DataTypeTok{xlab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(bar.names)),}
+         \DataTypeTok{ylab =} \KeywordTok{deparse}\NormalTok{(}\KeywordTok{substitute}\NormalTok{(y)),}
+         \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(ylab, }\StringTok{"by"}\NormalTok{, xlab)) \{}
+     
+\NormalTok{  ylim <-}\StringTok{ }\NormalTok{ylim }\OperatorTok{*}\StringTok{ }\FloatTok{1.1}
+     
+\NormalTok{  bp <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(y, }\DataTypeTok{names.arg =}\NormalTok{ bar.names, }\DataTypeTok{ylim =}\NormalTok{ ylim, }\DataTypeTok{xlab =}\NormalTok{ xlab,}
+                \DataTypeTok{ylab =}\NormalTok{ ylab, }\DataTypeTok{main =}\NormalTok{ main, }\DataTypeTok{col =} \StringTok{"white"}\NormalTok{)}
+     
+  \KeywordTok{arrows}\NormalTok{(bp, lci, bp, uci, }\DataTypeTok{code =} \DecValTok{3}\NormalTok{, }\DataTypeTok{angle =} \DecValTok{90}\NormalTok{, }\DataTypeTok{length =} \FloatTok{0.1}\NormalTok{)}
+     
+  \KeywordTok{points}\NormalTok{(bp, y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have made the changes shown above, check your work, save the
+file, and quit the editor.
+
+Check that the function works as expected:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot.ci}\NormalTok{(oed.hp}\OperatorTok{$}\NormalTok{wt, oed.hp}\OperatorTok{$}\NormalTok{day, oed.hp}\OperatorTok{$}\NormalTok{lci, oed.hp}\OperatorTok{$}\NormalTok{uci)}
+\KeywordTok{barplot.ci}\NormalTok{(mar.hp}\OperatorTok{$}\NormalTok{wt, mar.hp}\OperatorTok{$}\NormalTok{day, mar.hp}\OperatorTok{$}\NormalTok{lci, mar.hp}\OperatorTok{$}\NormalTok{uci)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-422-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-422-2.pdf}
+
+The \texttt{barplot.ci()} function now works as expected with both sets
+of data. It is important when developing your own functions, to test
+them with different data so as to ensure that they work correctly with a
+wide range if data.
+
+You might like to use the \texttt{save()} function to save the
+\texttt{barplot.ci()} function.
 
 \hypertarget{exercise9}{%
 \chapter{Computer intensive methods}\label{exercise9}}
