@@ -356,3 +356,264 @@ pbinom(q = 14, size = 50, prob = 0.4)
 
 The sampling plan with $n = 50$ and $d = 14$ is, therefore, a reasonable candidate for a sampling plan intended to distinguish between populations with prevalences of less than or equal to 20% and populations with prevalences greater than or equal to 40%.
 
+There is no middle ground with LQAS sampling plans. Population are always classified as either high or low prevalence. Populations with prevalences between the upper and lower standards of the triage system are classified as high or low prevalence populations. The probability of a moderate prevalence population being classified as high or low prevalence is proportional to the proximity of the prevalence in that population to the triage standards. Moderate prevalence populations close to the upper standard will tend to be classified as high prevalence populations. Moderate prevalence populations close to the lower standard will tend to be classified as low prevalence populations. This behaviour is summarised by the operating characteristic (OC) curve for the sampling plan. For example:
+
+```{r, eval = TRUE}
+plot(seq(0, 0.6, 0.01),
+     pbinom(14, 50, seq(0, 0.6, 0.01), lower.tail = FALSE),
+     main = "OC Curve for n = 50, d = 14",
+     xlab = "Proportion diseased",
+     ylab = "Probability",
+     type = "l", lty = 2)
+```
+
+The data we will use for the simulation is stored in forty-eight separate files. These files contain the returns from whole community screens for active trachoma (TF/TI) in children undertaken as part of trachoma control activities in five African countries. Each file has the file suffix .sim. The name of the file reflects the country in which the data were collected. The data files are:
+
++--------------------+-----------+--------------------+
+| **File name**      | **Files** | **Origin**         |
++:===================+==========:+:===================+
+| **egyptXX.sim**    | 10        | Egypt              |
++--------------------+-----------+--------------------+
+| **gambiaXX.sim**   | 10        | Gambia             |
++--------------------+-----------+--------------------+
+| **ghanaXX.sim**    | 3         | Ghana              |
++--------------------+-----------+--------------------+
+| **tanzaniaXX.sim** | 14        | Tanzania           |
++--------------------+-----------+--------------------+
+| **togoXX.sim**     | 11        | Togo               |
++--------------------+-----------+--------------------+
+
+All of these data files have the same structure. The variables in the data files are:
+
++---------------+--------------------------------------------------+
+| **hh**        | Household identifier                             |
++---------------+--------------------------------------------------+
+| **sex**       | Sex of child (1=male, 2=female)                  |
++---------------+--------------------------------------------------+
+| **age**       | Age of child in years                            |
++---------------+--------------------------------------------------+
+| **tfti**      | Child has active (TF/TI) trachoma (0=no, 1=yes)  |
++---------------+--------------------------------------------------+
+
+Each row in these files represents a single child. For example:
+
+```{r, eval = TRUE}
+x <- read.table("gambia09.sim", header = TRUE)
+x[1:10, ]
+```
+
+Any rapid survey method that is appropriate for general use in developing countries is restricted to sampling `households` rather than `individuals`. Sampling households in order to sample individuals violates a principal requirement for a sample to be representative of the population from which it is drawn (i.e. that individuals are selected `independently` of each other). This lack of statistical independence amongst sampled individuals may invalidate standard approaches to selecting sampling plans leading to increased probabilities of error. This is likely to be a particular problem if cases tend to be clustered within households. Trachoma is an infectious disease that confers no lasting immunity in the host. Cases are, therefore, very likely to be clustered within households. One solution to this problem would be to sample (i.e. at random) a single child from each of the sampled households. This is not appropriate for active trachoma as the examination procedure often causes distress to younger children. This may influence survey staff to select older children, who tend to have a lower risk of infection, for examination. Sampling is, therefore, constrained to sampling all children in selected households.
+
+The purpose of the simulations presented here is to determine whether the LQAS method is robust to:
+
+
+1. The loss of sampling independence introduced by sampling households at random and examining all children in selected households for active trachoma.
+
+And:
+
+2. The slight increase in the maximum sample size (`n`) introduced by examining all children in selected households for active trachoma.
+
+Each row in the datasets we will be using represents an individual child. Since we will simulate sampling households rather than individual children we need to be able to convert the datasets from one row per child to one row per household. We will write a function to do this.
+
+Create a new function called `ind2hh()`: 
+
+```{r, eval = FALSE}
+ind2hh <- function() {}
+```
+
+This creates an empty function called `ind2hh()`. Use the `fix()` function to edit the `ind2hh()` function: 
+
+```{r, eval = FALSE}
+fix(ind2hh)
+```
+
+Edit the function to read:
+
+```{r, eval = FALSE}
+function(data) {
+  n.kids <- n.cases <- NULL
+  id <- unique(data$hh)
+  for(household in id) {
+    temp <- subset(data, data$hh == household)
+    n.kids <- c(n.kids, nrow(temp))
+    n.cases <- c(n.cases, sum(temp$tfti))
+  }
+  result <- as.data.frame(cbind(id, n.kids, n.cases))
+  return(result)
+}
+```
+
+```{r, echo = FALSE, eval = TRUE}
+ind2hh <- function(data) {
+  n.kids <- n.cases <- NULL
+  id <- unique(data$hh)
+  for(household in id) {
+    temp <- subset(data, data$hh == household)
+    n.kids <- c(n.kids, nrow(temp))
+    n.cases <- c(n.cases, sum(temp$tfti))
+  }
+  result <- as.data.frame(cbind(id, n.kids, n.cases))
+  return(result)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+Now we have created the `ind2hh()` function we should test it for correct operation. We will create a simple test data.frame (`test.df`) for this purpose:
+
+```{r, eval = TRUE}
+test.df <- as.data.frame(cbind(c(1, 1, 2, 2, 2),  c(1, 1, 1, 0 ,0)))
+names(test.df) <- c("hh", "tfti")
+test.df
+```
+
+The expected operation of the `ind2hh()` function given `test.df` as input is:
+
++-----+----------+
+| hh  | tfti     |
++-----+----------+
+| 1   | 1        |
++-----+----------+
+| 1   | 1        |
++-----+----------+
+| 2   | 1        |
++-----+----------+
+| 2   | 0        |
++-----+----------+
+| 2   | 0        |
++-----+----------+
+
+becomes
+
++-----+----------+----------+
+| id  | n.kids   | n.case   |
++-----+----------+----------+
+| 1   | 2        | 2        |
++-----+----------+----------+
+| 2   | 3        | 1        |
++-----+----------+----------+
+
+Confirm this behaviour:
+
+```{r, eval = FALSE}
+test.df
+ind2hh(test.df)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+test.df
+ind2hh(test.df)
+```
+
+We can apply this function to the datasets as required. For example:
+
+```{r, eval = FALSE}
+x <- read.table("gambia09.sim", header = TRUE)
+x
+x.hh <- ind2hh(x)
+x.hh
+```
+
+```{r, echo = FALSE, eval = TRUE}
+x <- read.table("gambia09.sim", header = TRUE)
+x
+x.hh <- ind2hh(x)
+x.hh
+```
+
+We will now write a function that will simulate a single LQAS survey. Create a new function called `lqas.run()`:
+
+```{r, eval = FALSE}
+lqas.run <- function() {}
+```
+
+This creates an empty function called `lqas.run()`.
+
+Use the `fix()` function to edit the `lqas.run()` function:
+
+```{r, eval = FALSE}
+fix(lqas.run)
+```
+
+
+Edit the function to read:
+
+```{r, echo = FALSE, eval = TRUE}
+lqas.run <- function(x, n, d) {
+  kids <- cases <- 0
+  y <- x[sample(1:nrow(x),replace = TRUE), ]
+  for(i in 1:nrow(y)) {
+    kids <- kids + y[i, ]$n.kids
+    cases <- cases + y[i, ]$n.cases
+    if(cases > d) {
+      outcome = 1
+       break
+    }
+    if(kids >= n & cases <= d) {
+      outcome = 0
+      break
+    }
+  }
+  result <- list(kids = kids, cases = cases, outcome = outcome)
+  return(result)
+}
+```
+
+Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+We should try this function on a low, a moderate, and a high prevalence dataset. To select suitable test datasets we need to know the prevalence in each dataset:
+
+```{r, eval = TRUE}
+for(i in dir(pattern = "\\.sim$")) {
+  data <- read.table(i, header = TRUE)
+  cat(i, ":", mean(data$tfti), "\n")
+}
+```
+
+The coding scheme used for the `tfti` variable (0=no, 1=yes) allows us to use the `mean()` function to calculate prevalence in these datasets.
+
+The pattern `"\\.sim$"` is a regular expression for files ending in .sim.
+
+If you want to use the `dir()` function to list files stored outside of the current working directory you will need to specify an appropriate value for the `path` parameter. On some systems you may also need to set the value of the `full.names` parameter to `TRUE`. For example:
+
+```{r, eval = FALSE}
+for(i in dir(path = "~/prfe", pattern = "\\.sim$", full.names = TRUE)) {
+  data <- read.table(i, header = TRUE)
+  cat(i, ":", mean(data$tfti), "\n")
+}
+```
+
+cycles through all files ending in `.sim` (specified by giving the value `"\\.sim$"` to the `pattern` parameter) that are stored the `prfe` directory under the users home directory (specified by giving the value `"~/prfe"` to the `path` parameter) on UNIX systems. You **cannot** usefully specify a URL for the `path` parameter of the `dir()` function.
+
+We will use `tanzania04.sim` as an example of a low prevalence dataset:
+
+```{r, eval = TRUE}
+x <- read.table("tanzania04.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.run(x = x.hh, n = 50, d = 14)
+```
+
+Repeat the last function call several times. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.
+
+The function should, for most calls, return:
+
+```
+$outcome
+[1] 0
+```
+
+We will use `tanzania08.sim` as an example of a high prevalence dataset:
+
+```{r, eval = TRUE}
+x <- read.table("tanzania08.sim", header = TRUE)
+x.hh <- ind2hh(x)
+lqas.run(x = x.hh, n = 50, d = 14)
+```
+
+Repeat the last function call several times. The function should, for most calls, return:
+
+```
+$outcome
+[1] 1
+```
+
