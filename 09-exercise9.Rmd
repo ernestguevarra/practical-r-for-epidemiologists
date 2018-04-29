@@ -1,5 +1,7 @@
 # Computer intensive methods {#exercise9}
 
+## Estimation
+
 Estimation involves the calculation of a measure with some sense of precision based upon sampling variation.
 
 Only a few estimators (e.g. the sample mean from a normal population) have exact formulae that may be used to estimate sampling variation. Typically, estimates of variability are based upon approximations informed by expected or postulated properties of the sampled population. The development of variance formulae for some measures may require in-depth statistical and mathematical knowledge or may even be impossible to derive.
@@ -121,4 +123,236 @@ A 99% confidence interval can also be extracted from `x2` using the `quantile()`
 quantile(x2, c(0.005, 0.995))
 ```
 
+As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the `salex` dataset which we used in exercise 2 and exercise 3:
+
+```{r, eval = TRUE}
+salex <- read.table("salex.dat",  header = TRUE, na.strings = "9")
+table(salex$EGGS, salex$ILL)
+```
+
+We should set up our estimator function to calculate an odds ratio from a two-by-two table:
+
+```{r, eval = TRUE}
+or <- function(x) {(x[1,1] / x[1,2]) / (x[2,1] / x[2,2])}
+```
+
+We should test this:
+
+```{r, eval = TRUE}   
+or(table(salex$EGGS, salex$ILL))
+```
+
+The problem is to take a bootstrap replicate from two vectors in a data.frame. This can be achieved by using `sample()` to create a vector of row indices and then use this sample of indices to select replicates from the data.frame:
+   
+```{r, eval = TRUE}
+boot <- NULL
+for(i in 1:1000) {
+  sampled.rows <- sample(1:nrow(salex), replace = TRUE)
+  x <- salex[sampled.rows, "EGGS"]
+  y <- salex[sampled.rows, "ILL"]
+  boot[i] <- or(table(x, y))
+}
+```
+
+The vector `boot` now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the `median()` and `quantile()` functions
+
+```{r, eval = FALSE}   
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+```{r, echo = FALSE, eval = TRUE}   
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of `boot` that are not (`!=`) infinite (`Inf`):
+
+```{r, eval = FALSE}
+boot <- boot[boot != Inf]
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+boot <- boot[boot != Inf]
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+Another way to avoid this problem is to use an `adjusted odds ratio` calculated by adding 0.5 to each cell of the two-by-two table:
+
+```{r, eval = FALSE}
+boot <- NULL
+for(i in 1:1000) {
+  sampled.rows <- sample(1:nrow(salex), replace = TRUE)
+  x <- salex[sampled.rows, "EGGS"]
+  y <- salex[sampled.rows, "ILL"]
+  boot[i] <- or(table(x, y) + 0.5)
+  }
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+```{r, echo = FALSE, eval = TRUE}
+boot <- NULL
+for(i in 1:1000) {
+  sampled.rows <- sample(1:nrow(salex), replace = TRUE)
+  x <- salex[sampled.rows, "EGGS"]
+  y <- salex[sampled.rows, "ILL"]
+  boot[i] <- or(table(x, y) + 0.5)
+  }
+median(boot)
+quantile(boot, c(0.025, 0.975))
+```
+
+This procedure is preferred when working with sparse tables.
+
+
+## Hypothesis testing
+
+Computer-intensive methods also offer a general approach to statistical hypothesis testing. To illustrate this we will use *computer based simulation* to investigate spatial clustering around a point.
+
+Before continuing, we will retrieve a dataset:
+
+```{r, eval = TRUE}
+waste <- read.table("waste.dat", header = TRUE)
+```
+
+The file `waste.dat` contains the location of twenty-three recent cases of childhood cancer in 5 by 5 km square surrounding an industrial waste disposal site. The columns in the dataset are:
+
++----------+------------------------------+
+| **x**    | The x location of cases      |
++----------+------------------------------+
+| **y**    | The y location of cases      |
++----------+------------------------------+
+
+The `x` and `y` variables have been transformed to lie between 0 and 1 with the industrial waste disposal site centrally located (i.e. at `x` = 0.5, `y` = 0.5).
+
+Plot the data and the location of the industrial waste disposal site on the same chart:
+
+```{r, eval = TRUE}
+plot(waste$x, waste$y, xlim = c(0, 1), ylim = c(0, 1))
+points(0.5, 0.5, pch = 3)
+```
+
+We can calculate the distance of each point from the industrial waste disposal site using Pythagoras' Theorem:
+
+```{r, eval = TRUE}
+distance.obs <- sqrt((waste$x - 0.5) ^ 2 + (waste$y - 0.5) ^ 2)
+```
+
+The observed mean distance or each case from the industrial waste disposal site is:
+
+```{r, eval = TRUE}   
+mean(distance.obs)
+```
+
+To test whether this distance is unlikely to have arisen by chance (i.e. evidence of spatial clustering) we need to simulate the distribution of distances when no spatial pattern exists:
+
+```{r, eval = TRUE}   
+r <- 10000
+x.sim <- matrix(runif(r * 23), 23, r)
+y.sim <- matrix(runif(r * 23), 23, r)
+distance.run <- sqrt((x.sim - 0.5)^2 + (y.sim - 0.5)^2)
+distance.sim <- apply(distance.run, 2, mean)
+hist(distance.sim, breaks = 20)
+abline(v = mean(distance.obs), lty = 3)
+```
+
+The probability (i.e. the *p-value*) of observing a mean distance smaller than the *observed mean* distance under the null hypothesis can be estimated as the number of estimates of the mean distance under the null hypothesis falling below the observed mean divided by the total number of estimates of the mean distance under the null hypothesis:
+
+```{r, eval = TRUE}
+m <- mean(distance.obs)
+z <- ifelse(distance.sim < m, 1, 0)
+sum(z) / r
+```
+
+You might like to repeat this exercise using the harmonic mean distance and the median distance.
+
+We can check if this method is capable of detecting a simple cluster using simulated data:
+
+```{r, eval = TRUE}
+x <- rnorm(23, mean = 0.5, sd = 0.2)
+y <- rnorm(23, mean = 0.5, sd = 0.2)
+plot(x, y, xlim = c(0, 1), ylim = c(0, 1))
+points(0.5, 0.5, pch = 3)
+```
+
+We need to recalculate the distance of each simulated case from the industrial waste disposal site:
+
+```{r, eval = TRUE}
+distance.obs <- sqrt((x - 0.5) ^ 2 + (y - 0.5) ^ 2)
+```
+
+The observed mean distance of each case from the industrial waste disposal site is:
+   
+```{r, eval = TRUE}   
+mean(distance.obs)
+```
+
+We can use the the simulated null hypothesis data to test for spatial clustering:
+
+```{r, eval = TRUE}
+m <- mean(distance.obs)
+z <- ifelse(distance.sim < m, 1, 0)
+sum(z) / r
+```
+
+We should also check if the procedure can detect a plume of cases, such as might be created by a prevailing wind at a waste incineration site, in a similar way:
+
+```{r, eval = TRUE}
+x <- rnorm(23, 0.25, 0.1) + 0.5
+y <- rnorm(23, 0.25, 0.1) + 0.5
+plot(x, y, xlim = c(0, 1), ylim = c(0, 1))
+points(0.5, 0.5, pch = 3)
+distance.obs <- sqrt((x - 0.5)^2 + (y - 0.5)^2)
+m <- mean(distance.obs)
+z <- ifelse(distance.sim < m, 1, 0)
+sum(z) / r
+```
+
+The method is not capable of detecting plumes.
+
+You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.
+
+## Simulating processes
+
+In the previous example we simulated the expected distribution of data under the *null hypothesis*. Computer based simulations are not limited to simulating data. They can also be used to simulate processes.
+
+In this example we will simulate the behaviour of the *lot quality assurance sampling* (LQAS) survey method when sampling constraints lead to a loss of sampling independence. In this example the sampling process is simulated and applied to real-world data.
+
+LQAS is a small-sample classification technique that is widely used in manufacturing industry to judge the quality of a batch of manufactured items. In this context, LQAS is used to identify batches that are likely to contain an unacceptably large number of defective items. In the public health context, LQAS may be used to identify communities with unacceptably low levels of service (e.g. vaccine) coverage or worrying levels of disease prevalence.
+
+The LQAS method produces data that is easy to analyse. Data analysis is performed as data is collected and consists solely of counting the number of *defects* (e.g. children with a specific disease) in the sample and checking whether a predetermined threshold value has been exceeded. This combination of data collection and data analysis is called a *sampling plan*. LQAS sampling plans are developed by specifying:
+
+
+- **A TRIAGE SYSTEM**: A classification system that defines *high*, *moderate*, and *low* categories of the prevalence of the phenomenon of interest.
+
+- **ACCEPTABLE PROBABILITIES OF ERROR**: There are two probabilities of error. These are termed provider *probability of error* (PPE) and *consumer probability of error* (CPE):
+
+    - **Provider Probability of Error (PPE)**: The risk that the survey will indicate that prevalence is *high* when it is, in fact, *low*. PPE is analogous to *type I* ($\alpha$) error in statistical hypothesis testing.
+    
+    
+    - **Consumer Probability of Error (CPE)**: The risk that the survey will indicate that prevalence is *low* when it is, in fact, *high*. CPE is analogous to *type II* ($\beta$) error in statistical hypothesis testing.
+    
+Once the upper and lower levels of the triage system and acceptable levels of error have been decided, a set of probability tables are constructed that are used to select a maximum sample size (`n`) and the number of defects or cases (`d`) that are allowed in the sample of `n` subjects before deciding that a population is a high prevalence population. The combination of maximum sample size (`n`) and number of defects (`d`) form the stopping rules of the sampling plan. Sampling stops when either the maximum sample size (`n`) is met or the allowable number of defects (`d`) is exceeded:
+
+* If `d` is exceeded then the population is classified as high prevalence.
+
+* If `n` is met without d being exceeded then the population is classified as low prevalence.
+
+The values of `n` and `d` used in a sampling plan depend upon the threshold values used in the triage system and the acceptable levels of error. The values of `n` and `d` used in a sampling plan are calculated using binomial probabilities. For example, the probabilities of finding 14 or fewer cases ($d = 14$) in a sample of 50 individuals ($n = 50$) from populations with prevalences of either 20% or 40% are:
+
+```{r, eval = FALSE}
+pbinom(q = 14, size = 50, prob = 0.2)
+pbinom(q = 14, size = 50, prob = 0.4)
+```
+
+```{r, echo = FALSE, eval = TRUE}
+pbinom(q = 14, size = 50, prob = 0.2)
+pbinom(q = 14, size = 50, prob = 0.4)
+```
+
+The sampling plan with $n = 50$ and $d = 14$ is, therefore, a reasonable candidate for a sampling plan intended to distinguish between populations with prevalences of less than or equal to 20% and populations with prevalences greater than or equal to 40%.
 
