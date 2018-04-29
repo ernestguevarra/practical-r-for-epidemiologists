@@ -1299,4 +1299,69 @@ cam.rule <- function(V, N, S, E, W, x, y, t) {
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
+We need to specify values for the transmission pressure (`TP`) and the proportion of the population that is immune (`IM`):
+
+```{r, eval = TRUE}
+TP <- 0.2
+IM <- 0.4
+```
+
+And define the initial state of the CAM:
+
+```{r, eval = TRUE}
+cases <- matrix(0, nrow = 19, ncol = 19)
+cases[10, 10] <- 1
+immune <- matrix(rbinom(361, 1, IM), nrow = 19, ncol = 19)
+immune[10,10] <- 0
+cam.state <- list(grid = cases, immune = immune)
+```
+
+We can display the distribution of immune cells using the `image()` function: 
+
+```{r, eval = TRUE}
+image(cam.state$immune, main = "Immune",
+      col = c("wheat", "navy"), axes = FALSE)
+```
+
+We can now run the simulation:
+
+```{r, eval = TRUE}
+cam.run(steps = 30)
+```
+
+The number of infected cells is:
+
+```{r, eval = TRUE}
+sum(cam.state$grid)
+```
+
+A better summary is the proportion of susceptible (i.e. non-immune) cells that become infected during a run:
+
+```{r, eval = TRUE}
+sum(cam.state$grid) / (361 - sum(cam.state$immune))
+```
+
+We can use this model to investigate the effect of different proportions of the population that are immune by systematically altering the value assigned to `IM`:
+
+```{r, eval = TRUE}
+immune.p <- vector(mode = "numeric")
+infected.p <- vector(mode = "numeric")
+
+for(IM in seq(0, 0.8, 0.05)) {
+  cases <-  matrix(0, nrow = 19, ncol = 19)
+  cases[10, 10] <- 1
+  immune <- matrix(rbinom(361, 1, IM), nrow = 19, ncol = 19)
+  immune[10,10] <- 0
+  cam.state <- list(grid = cases, immune = immune)
+  cam.run(steps = 30)
+  graphics.off()
+  immune.p <- c(immune.p, sum(cam.state$immune) / 361)
+  infected.p <- c(infected.p,
+                  sum(cam.state$grid) / (361 - sum(cam.state$immune)))
+}
+
+plot(immune.p, infected.p)
+```
+
+In practice we would run the simulation many times for each value of `IM` and plot (e.g.) the median proportion of susceptible (i.e. non-immune) cells that become infected.
 
