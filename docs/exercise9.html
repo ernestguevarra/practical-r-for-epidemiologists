@@ -196,11 +196,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 10.46</code></pre>
 <p>The <code>sample()</code> function can be used to select a bootstrap <code>replicate</code>:</p>
 <pre class="sourceCode r" id="cb701"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">sample</span>(x, <span class="kw">length</span>(x), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<pre><code>## [1] 12.2 12.2 10.4 10.4  8.4</code></pre>
+<pre><code>## [1] 10.4 10.4 14.0  8.4 10.4</code></pre>
 <p>Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The <code>length()</code> parameter is not required for taking bootstrap replicates and can be omitted.</p>
 <p>It is possible to apply a summary measure to a replicate:</p>
 <pre class="sourceCode r" id="cb703"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a></code></pre>
-<pre><code>## [1] 10.24</code></pre>
+<pre><code>## [1] 9.12</code></pre>
 <p>Enter this command several times. A bootstrap estimate of the mean of <code>x</code> can be made by repeating this process many times and taking the <code>median</code> of the means for each replicate.</p>
 <p>One way of doing this is to create a matrix where each column contains a bootstrap replicate and then use the <code>apply()</code> and <code>mean()</code> functions to get at the estimate.</p>
 <p>First create the matrix of replicates. Here we take ten replicates:</p>
@@ -208,18 +208,18 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb705-2" data-line-number="2">             <span class="dt">nrow =</span> <span class="kw">length</span>(x), <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb705-3" data-line-number="3">x1</a></code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]  7.3 14.0  7.3  7.3 10.4 10.4  8.4  7.3 14.0    14
-## [2,] 10.4  8.4 10.4 10.4  7.3  8.4 14.0  8.4  7.3    14
-## [3,] 10.4  8.4  8.4 12.2 12.2 10.4  7.3 12.2 12.2    14
-## [4,] 12.2  8.4 10.4 14.0 10.4 10.4  7.3 14.0  8.4    14
-## [5,] 12.2 10.4 12.2 12.2  7.3 14.0  7.3 14.0 12.2    14</code></pre>
+## [1,]  8.4 12.2  8.4 14.0  7.3 12.2  7.3  7.3  8.4  12.2
+## [2,] 14.0  8.4 12.2 10.4 10.4 10.4 14.0 10.4  7.3  12.2
+## [3,]  8.4 12.2  7.3 14.0  7.3 12.2  7.3  8.4  7.3   8.4
+## [4,]  8.4 12.2  8.4  8.4 14.0 14.0 14.0 12.2  8.4  12.2
+## [5,] 10.4  8.4  7.3 14.0  7.3  7.3 10.4 12.2 14.0  10.4</code></pre>
 <p>Then calculate and store the means of each replicate. We can do this using the <code>apply()</code> function to apply the <code>mean()</code> function to the columns of matrix <code>x1</code>:</p>
 <pre class="sourceCode r" id="cb707"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, mean)</a>
 <a class="sourceLine" id="cb707-2" data-line-number="2">x2</a></code></pre>
-<pre><code>##  [1] 10.50  9.92  9.74 11.22  9.52 10.72  8.86 11.18 10.82 14.00</code></pre>
+<pre><code>##  [1]  9.92 10.68  8.72 12.16  9.26 11.22 10.60 10.10  9.08 11.08</code></pre>
 <p>The bootstrap estimate of the mean is:</p>
 <pre class="sourceCode r" id="cb709"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 10.61</code></pre>
+<pre><code>## [1] 10.35</code></pre>
 <p>The bootstrap estimate may differ somewhat from the mean of <code>x</code>:</p>
 <pre class="sourceCode r" id="cb711"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">mean</span>(x)</a></code></pre>
 <pre><code>## [1] 10.46</code></pre>
@@ -247,15 +247,15 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb719-4" data-line-number="4">             <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> replicates)</a>
 <a class="sourceLine" id="cb719-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, h.mean)</a>
 <a class="sourceLine" id="cb719-6" data-line-number="6"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 33.70437</code></pre>
+<pre><code>## [1] 33.63518</code></pre>
 <p>A 95% confidence interval can be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb721"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
 <pre><code>##     2.5%    97.5% 
-## 27.81072 40.11521</code></pre>
+## 27.83036 40.35514</code></pre>
 <p>A 99% confidence interval can also be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb723"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</a></code></pre>
 <pre><code>##     0.5%    99.5% 
-## 26.51233 42.21521</code></pre>
+## 26.34123 42.19094</code></pre>
 <p>As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the <code>salex</code> dataset which we used in exercise 2 and exercise 3:</p>
 <pre class="sourceCode r" id="cb725"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>,  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
 <a class="sourceLine" id="cb725-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL)</a></code></pre>
@@ -279,16 +279,16 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The vector <code>boot</code> now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the <code>median()</code> and <code>quantile()</code> functions</p>
 <pre class="sourceCode r" id="cb731"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb731-2" data-line-number="2"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.02885</code></pre>
+<pre><code>## [1] 14.12143</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.758523 67.562500</code></pre>
+##  4.483769 59.502778</code></pre>
 <p>This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of <code>boot</code> that are not (<code>!=</code>) infinite (<code>Inf</code>):</p>
 <pre class="sourceCode r" id="cb734"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">boot &lt;-<span class="st"> </span>boot[boot <span class="op">!=</span><span class="st"> </span><span class="ot">Inf</span>]</a>
 <a class="sourceLine" id="cb734-2" data-line-number="2"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14</code></pre>
+<pre><code>## [1] 14.12143</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.751894 67.468333</code></pre>
+##  4.483769 59.502778</code></pre>
 <p>Another way to avoid this problem is to use an <code>adjusted odds ratio</code> calculated by adding 0.5 to each cell of the two-by-two table:</p>
 <pre class="sourceCode r" id="cb737"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
 <a class="sourceLine" id="cb737-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
@@ -299,9 +299,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb737-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb737-8" data-line-number="8"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb737-9" data-line-number="9"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 12.4771</code></pre>
+<pre><code>## [1] 12.61519</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.632618 49.268471</code></pre>
+##  4.311753 46.660121</code></pre>
 <p>This procedure is preferred when working with sparse tables.</p>
 </div>
 <div id="hypothesis-testing" class="section level2">
@@ -349,7 +349,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb746"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb746-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb746-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.1009</code></pre>
+<pre><code>## [1] 0.0992</code></pre>
 <p>You might like to repeat this exercise using the harmonic mean distance and the median distance.</p>
 <p>We can check if this method is capable of detecting a simple cluster using simulated data:</p>
 <pre class="sourceCode r" id="cb748"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
@@ -361,7 +361,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb749"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
 <p>The observed mean distance of each case from the industrial waste disposal site is:</p>
 <pre class="sourceCode r" id="cb750"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
-<pre><code>## [1] 0.2257237</code></pre>
+<pre><code>## [1] 0.2668568</code></pre>
 <p>We can use the the simulated null hypothesis data to test for spatial clustering:</p>
 <pre class="sourceCode r" id="cb752"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb752-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
@@ -377,7 +377,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb755-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb755-3" data-line-number="3">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb755-4" data-line-number="4"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.1029</code></pre>
+<pre><code>## [1] 0.2232</code></pre>
 <p>The method is not capable of detecting plumes.</p>
 <p>You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.</p>
 </div>
@@ -406,6 +406,674 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 0.9392779</code></pre>
 <pre><code>## [1] 0.05395503</code></pre>
 <p>The sampling plan with <span class="math inline">\(n = 50\)</span> and <span class="math inline">\(d = 14\)</span> is, therefore, a reasonable candidate for a sampling plan intended to distinguish between populations with prevalences of less than or equal to 20% and populations with prevalences greater than or equal to 40%.</p>
+<p>There is no middle ground with LQAS sampling plans. Population are always classified as either high or low prevalence. Populations with prevalences between the upper and lower standards of the triage system are classified as high or low prevalence populations. The probability of a moderate prevalence population being classified as high or low prevalence is proportional to the proximity of the prevalence in that population to the triage standards. Moderate prevalence populations close to the upper standard will tend to be classified as high prevalence populations. Moderate prevalence populations close to the lower standard will tend to be classified as low prevalence populations. This behaviour is summarised by the operating characteristic (OC) curve for the sampling plan. For example:</p>
+<pre class="sourceCode r" id="cb760"><code class="sourceCode r"><a class="sourceLine" id="cb760-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb760-2" data-line-number="2">     <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.6</span>, <span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb760-3" data-line-number="3">     <span class="dt">main =</span> <span class="st">&quot;OC Curve for n = 50, d = 14&quot;</span>,</a>
+<a class="sourceLine" id="cb760-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion diseased&quot;</span>,</a>
+<a class="sourceLine" id="cb760-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>,</a>
+<a class="sourceLine" id="cb760-6" data-line-number="6">     <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-484-1.png" width="672" /></p>
+<p>The data we will use for the simulation is stored in forty-eight separate files. These files contain the returns from whole community screens for active trachoma (TF/TI) in children undertaken as part of trachoma control activities in five African countries. Each file has the file suffix .sim. The name of the file reflects the country in which the data were collected. The data files are:</p>
+<table style="width:75%;">
+<colgroup>
+<col width="29%" />
+<col width="16%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><strong>File name</strong></th>
+<th align="right"><strong>Files</strong></th>
+<th align="left"><strong>Origin</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>egyptXX.sim</strong></td>
+<td align="right">10</td>
+<td align="left">Egypt</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>gambiaXX.sim</strong></td>
+<td align="right">10</td>
+<td align="left">Gambia</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>ghanaXX.sim</strong></td>
+<td align="right">3</td>
+<td align="left">Ghana</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>tanzaniaXX.sim</strong></td>
+<td align="right">14</td>
+<td align="left">Tanzania</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>togoXX.sim</strong></td>
+<td align="right">11</td>
+<td align="left">Togo</td>
+</tr>
+</tbody>
+</table>
+<p>All of these data files have the same structure. The variables in the data files are:</p>
+<table style="width:93%;">
+<colgroup>
+<col width="22%" />
+<col width="70%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>hh</strong></td>
+<td>Household identifier</td>
+</tr>
+<tr class="even">
+<td><strong>sex</strong></td>
+<td>Sex of child (1=male, 2=female)</td>
+</tr>
+<tr class="odd">
+<td><strong>age</strong></td>
+<td>Age of child in years</td>
+</tr>
+<tr class="even">
+<td><strong>tfti</strong></td>
+<td>Child has active (TF/TI) trachoma (0=no, 1=yes)</td>
+</tr>
+</tbody>
+</table>
+<p>Each row in these files represents a single child. For example:</p>
+<pre class="sourceCode r" id="cb761"><code class="sourceCode r"><a class="sourceLine" id="cb761-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gambia09.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb761-2" data-line-number="2">x[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
+<pre><code>##         hh sex age tfti
+## 1  4008001   1   6    1
+## 2  4008001   1   3    1
+## 3  4008002   1   8    1
+## 4  4008002   1   6    0
+## 5  4008003   1   8    0
+## 6  4008003   1   1    0
+## 7  4008004   1   7    0
+## 8  4008004   1   4    0
+## 9  4008004   1   2    0
+## 10 4008004   1   2    0</code></pre>
+<p>Any rapid survey method that is appropriate for general use in developing countries is restricted to sampling <code>households</code> rather than <code>individuals</code>. Sampling households in order to sample individuals violates a principal requirement for a sample to be representative of the population from which it is drawn (i.e. that individuals are selected <code>independently</code> of each other). This lack of statistical independence amongst sampled individuals may invalidate standard approaches to selecting sampling plans leading to increased probabilities of error. This is likely to be a particular problem if cases tend to be clustered within households. Trachoma is an infectious disease that confers no lasting immunity in the host. Cases are, therefore, very likely to be clustered within households. One solution to this problem would be to sample (i.e. at random) a single child from each of the sampled households. This is not appropriate for active trachoma as the examination procedure often causes distress to younger children. This may influence survey staff to select older children, who tend to have a lower risk of infection, for examination. Sampling is, therefore, constrained to sampling all children in selected households.</p>
+<p>The purpose of the simulations presented here is to determine whether the LQAS method is robust to:</p>
+<ol style="list-style-type: decimal">
+<li>The loss of sampling independence introduced by sampling households at random and examining all children in selected households for active trachoma.</li>
+</ol>
+<p>And:</p>
+<ol start="2" style="list-style-type: decimal">
+<li>The slight increase in the maximum sample size (<code>n</code>) introduced by examining all children in selected households for active trachoma.</li>
+</ol>
+<p>Each row in the datasets we will be using represents an individual child. Since we will simulate sampling households rather than individual children we need to be able to convert the datasets from one row per child to one row per household. We will write a function to do this.</p>
+<p>Create a new function called <code>ind2hh()</code>:</p>
+<pre class="sourceCode r" id="cb763"><code class="sourceCode r"><a class="sourceLine" id="cb763-1" data-line-number="1">ind2hh &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>ind2hh()</code>. Use the <code>fix()</code> function to edit the <code>ind2hh()</code> function:</p>
+<pre class="sourceCode r" id="cb764"><code class="sourceCode r"><a class="sourceLine" id="cb764-1" data-line-number="1"><span class="kw">fix</span>(ind2hh)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb765"><code class="sourceCode r"><a class="sourceLine" id="cb765-1" data-line-number="1"><span class="cf">function</span>(data) {</a>
+<a class="sourceLine" id="cb765-2" data-line-number="2">  n.kids &lt;-<span class="st"> </span>n.cases &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb765-3" data-line-number="3">  id &lt;-<span class="st"> </span><span class="kw">unique</span>(data<span class="op">$</span>hh)</a>
+<a class="sourceLine" id="cb765-4" data-line-number="4">  <span class="cf">for</span>(household <span class="cf">in</span> id) {</a>
+<a class="sourceLine" id="cb765-5" data-line-number="5">    temp &lt;-<span class="st"> </span><span class="kw">subset</span>(data, data<span class="op">$</span>hh <span class="op">==</span><span class="st"> </span>household)</a>
+<a class="sourceLine" id="cb765-6" data-line-number="6">    n.kids &lt;-<span class="st"> </span><span class="kw">c</span>(n.kids, <span class="kw">nrow</span>(temp))</a>
+<a class="sourceLine" id="cb765-7" data-line-number="7">    n.cases &lt;-<span class="st"> </span><span class="kw">c</span>(n.cases, <span class="kw">sum</span>(temp<span class="op">$</span>tfti))</a>
+<a class="sourceLine" id="cb765-8" data-line-number="8">  }</a>
+<a class="sourceLine" id="cb765-9" data-line-number="9">  result &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(id, n.kids, n.cases))</a>
+<a class="sourceLine" id="cb765-10" data-line-number="10">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb765-11" data-line-number="11">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>Now we have created the <code>ind2hh()</code> function we should test it for correct operation. We will create a simple test data.frame (<code>test.df</code>) for this purpose:</p>
+<pre class="sourceCode r" id="cb766"><code class="sourceCode r"><a class="sourceLine" id="cb766-1" data-line-number="1">test.df &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>),  <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span> ,<span class="dv">0</span>)))</a>
+<a class="sourceLine" id="cb766-2" data-line-number="2"><span class="kw">names</span>(test.df) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hh&quot;</span>, <span class="st">&quot;tfti&quot;</span>)</a>
+<a class="sourceLine" id="cb766-3" data-line-number="3">test.df</a></code></pre>
+<pre><code>##   hh tfti
+## 1  1    1
+## 2  1    1
+## 3  2    1
+## 4  2    0
+## 5  2    0</code></pre>
+<p>The expected operation of the <code>ind2hh()</code> function given <code>test.df</code> as input is:</p>
+<table style="width:24%;">
+<colgroup>
+<col width="8%" />
+<col width="15%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>hh</td>
+<td>tfti</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>becomes</p>
+<table style="width:39%;">
+<colgroup>
+<col width="8%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>id</td>
+<td>n.kids</td>
+<td>n.case</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>3</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Confirm this behaviour:</p>
+<pre class="sourceCode r" id="cb768"><code class="sourceCode r"><a class="sourceLine" id="cb768-1" data-line-number="1">test.df</a>
+<a class="sourceLine" id="cb768-2" data-line-number="2"><span class="kw">ind2hh</span>(test.df)</a></code></pre>
+<pre><code>##   hh tfti
+## 1  1    1
+## 2  1    1
+## 3  2    1
+## 4  2    0
+## 5  2    0</code></pre>
+<pre><code>##   id n.kids n.cases
+## 1  1      2       2
+## 2  2      3       1</code></pre>
+<p>We can apply this function to the datasets as required. For example:</p>
+<pre class="sourceCode r" id="cb771"><code class="sourceCode r"><a class="sourceLine" id="cb771-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gambia09.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb771-2" data-line-number="2">x</a>
+<a class="sourceLine" id="cb771-3" data-line-number="3">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb771-4" data-line-number="4">x.hh</a></code></pre>
+<pre><code>##          hh sex age tfti
+## 1   4008001   1   6    1
+## 2   4008001   1   3    1
+## 3   4008002   1   8    1
+## 4   4008002   1   6    0
+## 5   4008003   1   8    0
+## 6   4008003   1   1    0
+## 7   4008004   1   7    0
+## 8   4008004   1   4    0
+## 9   4008004   1   2    0
+## 10  4008004   1   2    0
+## 11  4008004   1   4    0
+## 12  4008005   1   1    0
+## 13  4008006   1   7    0
+## 14  4008006   1   5    0
+## 15  4008007   1   5    0
+## 16  4008007   1   9    0
+## 17  4008007   1   9    0
+## 18  4008008   1   9    1
+## 19  4008008   1   8    0
+## 20  4008008   1   1    0
+## 21  4008009   1   4    1
+## 22  4008009   1   2    0
+## 23  4008010   1   7    1
+## 24  4008010   1   7    0
+## 25  4008010   1   9    0
+## 26  4008010   1   2    0
+## 27  4008011   1   5    0
+## 28  4008011   1   8    0
+## 29  4008011   1   5    0
+## 30  4008012   1   9    1
+## 31  4008013   1   3    1
+## 32  4008013   1   7    1
+## 33  4008013   1   5    1
+## 34  4008013   1   2    0
+## 35  4008013   1   3    0
+## 36  4008013   1   7    0
+## 37  4008014   1   9    1
+## 38  4008014   1   1    1
+## 39  4008014   1   7    1
+## 40  4008015   1   5    1
+## 41  4008015   1   6    1
+## 42  4008015   1   1    1
+## 43  4008015   1   5    1
+## 44  4008015   1   7    0
+## 45  4008015   1   2    0
+## 46  4008015   1   9    0
+## 47  4008016   1   9    1
+## 48  4008016   1   7    1
+## 49  4008016   1   9    1
+## 50  4008016   1   4    1
+## 51  4008016   1   7    1
+## 52  4008016   1   5    1
+## 53  4008016   1   8    1
+## 54  4008017   1   5    1
+## 55  4008017   1   8    0
+## 56  4008018   1   5    0
+## 57  4008018   1   2    0
+## 58  4008019   1   4    1
+## 59  4008019   1   6    0
+## 60  4008020   1   1    0
+## 61  4008020   1   4    1
+## 62  4008020   1   2    0
+## 63  4008021   1   3    0
+## 64  4008021   1   7    0
+## 65  4008021   1   9    1
+## 66  4008021   1   2    0
+## 67  4008022   1   5    0
+## 68  4008022   1   8    0
+## 69  4008022   1   5    0
+## 70  4008023   1   6    1
+## 71  4008023   1   3    1
+## 72  4008024   1   2    1
+## 73  4008024   1   5    1
+## 74  4008024   1   2    0
+## 75  4008024   1   3    0
+## 76  4008024   1   8    0
+## 77  4008025   1   3    0
+## 78  4008025   1   8    0
+## 79  4008026   1   6    1
+## 80  4008026   1   8    0
+## 81  4008026   1   1    0
+## 82  4008026   1   7    0
+## 83  4008027   1   4    0
+## 84  4008027   1   7    0
+## 85  4008027   1   2    0
+## 86  4008027   1   2    0
+## 87  4008027   1   1    0
+## 88  4008028   1   4    0
+## 89  4008028   1   5    0
+## 90  4008028   1   7    0
+## 91  4008029   1   5    0
+## 92  4008029   1   3    0
+## 93  4008029   1   6    0
+## 94  4108001   1   6    1
+## 95  4108001   1   3    1
+## 96  4108002   1   8    1
+## 97  4108002   1   6    0
+## 98  4108003   1   8    0
+## 99  4108003   1   1    0
+## 100 4108004   1   7    0
+## 101 4108004   1   4    0
+## 102 4108004   1   2    0
+## 103 4108004   1   2    0
+## 104 4108004   1   4    0
+## 105 4108005   1   1    0
+## 106 4108006   1   7    0
+## 107 4108006   1   5    0
+## 108 4108007   1   5    0
+## 109 4108007   1   9    0
+## 110 4108007   1   9    0
+## 111 4108008   1   9    1
+## 112 4108008   1   8    0
+## 113 4108008   1   1    0
+## 114 4108009   1   4    1
+## 115 4108009   1   2    0
+## 116 4108010   1   7    1
+## 117 4108010   1   7    0
+## 118 4108010   1   9    0
+## 119 4108010   1   2    0
+## 120 4108011   1   5    0
+## 121 4108011   1   8    0
+## 122 4108011   1   5    0
+## 123 4108012   1   9    1
+## 124 4108013   1   3    1
+## 125 4108013   1   7    1
+## 126 4108013   1   5    1
+## 127 4108013   1   2    0
+## 128 4108013   1   3    0
+## 129 4108013   1   7    0
+## 130 4108014   1   9    1
+## 131 4108014   1   1    1
+## 132 4108014   1   7    1
+## 133 4108015   1   5    1
+## 134 4108015   1   6    1
+## 135 4108015   1   1    1
+## 136 4108015   1   5    1
+## 137 4108015   1   7    0
+## 138 4108015   1   2    0
+## 139 4108015   1   9    0
+## 140 4108016   1   9    1
+## 141 4108016   1   7    1
+## 142 4108016   1   9    1
+## 143 4108016   1   4    1
+## 144 4108016   1   7    1
+## 145 4108016   1   5    1
+## 146 4108016   1   8    1
+## 147 4108017   1   5    1
+## 148 4108017   1   8    0
+## 149 4108018   1   5    0
+## 150 4108018   1   2    0
+## 151 4108019   1   4    1
+## 152 4108019   1   6    0
+## 153 4108020   1   1    0
+## 154 4108020   1   4    1
+## 155 4108020   1   2    0
+## 156 4108021   1   3    0
+## 157 4108021   1   7    0
+## 158 4108021   1   9    1
+## 159 4108021   1   2    0
+## 160 4108022   1   5    0
+## 161 4108022   1   8    0
+## 162 4108022   1   5    0
+## 163 4108023   1   6    1
+## 164 4108023   1   3    1
+## 165 4108024   1   2    1
+## 166 4108024   1   5    1
+## 167 4108024   1   2    0
+## 168 4108024   1   3    0
+## 169 4108024   1   8    0
+## 170 4108025   1   3    0
+## 171 4108025   1   8    0
+## 172 4108026   1   6    1
+## 173 4108026   1   8    0
+## 174 4108026   1   1    0
+## 175 4108026   1   7    0
+## 176 4108027   1   4    0
+## 177 4108027   1   7    0
+## 178 4108027   1   2    0
+## 179 4108027   1   2    0
+## 180 4108027   1   1    0
+## 181 4108028   1   4    0
+## 182 4108028   1   5    0
+## 183 4108028   1   7    0
+## 184 4108029   1   5    0
+## 185 4108029   1   3    0
+## 186 4108029   1   6    0
+## 187 4208001   1   6    1
+## 188 4208001   1   3    1
+## 189 4208002   1   8    1
+## 190 4208002   1   6    0
+## 191 4208003   1   8    0
+## 192 4208003   1   1    0
+## 193 4208004   1   7    0
+## 194 4208004   1   4    0
+## 195 4008004   1   2    0
+## 196 4208004   1   2    0
+## 197 4208004   1   4    0
+## 198 4208005   1   1    0
+## 199 4208006   1   7    0
+## 200 4208006   1   5    0
+## 201 4208007   1   5    0
+## 202 4208007   1   9    0
+## 203 4208007   1   9    0
+## 204 4208008   1   9    1
+## 205 4208008   1   8    0
+## 206 4208008   1   1    0
+## 207 4208009   1   4    1
+## 208 4208009   1   2    0
+## 209 4208010   1   7    1
+## 210 4208010   1   7    0
+## 211 4208010   1   9    0
+## 212 4208010   1   2    0
+## 213 4208011   1   5    0
+## 214 4208011   1   8    0
+## 215 4208011   1   5    0
+## 216 4208012   1   9    1
+## 217 4208013   1   3    1
+## 218 4208013   1   7    1
+## 219 4208013   1   5    1
+## 220 4208013   1   2    0
+## 221 4208013   1   3    0
+## 222 4208013   1   7    0
+## 223 4208014   1   9    1
+## 224 4208014   1   1    1
+## 225 4208014   1   7    1
+## 226 4208015   1   5    1
+## 227 4208015   1   6    1
+## 228 4208015   1   1    1
+## 229 4208015   1   5    1
+## 230 4208015   1   7    0
+## 231 4208015   1   2    0
+## 232 4208015   1   9    0
+## 233 4208016   1   9    1
+## 234 4208016   1   7    1
+## 235 4208016   1   9    1
+## 236 4208016   1   4    1
+## 237 4208016   1   7    1
+## 238 4208016   1   5    1
+## 239 4208016   1   8    1
+## 240 4208017   1   5    1
+## 241 4208017   1   8    0
+## 242 4208018   1   5    0
+## 243 4208018   1   2    0
+## 244 4208019   1   4    1
+## 245 4208019   1   6    0
+## 246 4208020   1   1    0
+## 247 4208020   1   4    1
+## 248 4208020   1   2    0
+## 249 4208021   1   3    0
+## 250 4208021   1   7    0
+## 251 4208021   1   9    1
+## 252 4208021   1   2    0
+## 253 4208022   1   5    0
+## 254 4208022   1   8    0
+## 255 4208022   1   5    0
+## 256 4208023   1   6    1
+## 257 4208023   1   3    1
+## 258 4208024   1   2    1
+## 259 4208024   1   5    1
+## 260 4208024   1   2    0
+## 261 4208024   1   3    0
+## 262 4208024   1   8    0
+## 263 4208025   1   3    0
+## 264 4208025   1   8    0
+## 265 4208026   1   6    1
+## 266 4208026   1   8    0
+## 267 4208026   1   1    0
+## 268 4208026   1   7    0
+## 269 4208027   1   4    0
+## 270 4208027   1   7    0
+## 271 4208027   1   2    0
+## 272 4208027   1   2    0
+## 273 4208027   1   1    0
+## 274 4208028   1   4    0
+## 275 4208028   1   5    0
+## 276 4208028   1   7    0
+## 277 4208029   1   5    0
+## 278 4208029   1   3    0
+## 279 4208029   1   6    0</code></pre>
+<pre><code>##         id n.kids n.cases
+## 1  4008001      2       2
+## 2  4008002      2       1
+## 3  4008003      2       0
+## 4  4008004      6       0
+## 5  4008005      1       0
+## 6  4008006      2       0
+## 7  4008007      3       0
+## 8  4008008      3       1
+## 9  4008009      2       1
+## 10 4008010      4       1
+## 11 4008011      3       0
+## 12 4008012      1       1
+## 13 4008013      6       3
+## 14 4008014      3       3
+## 15 4008015      7       4
+## 16 4008016      7       7
+## 17 4008017      2       1
+## 18 4008018      2       0
+## 19 4008019      2       1
+## 20 4008020      3       1
+## 21 4008021      4       1
+## 22 4008022      3       0
+## 23 4008023      2       2
+## 24 4008024      5       2
+## 25 4008025      2       0
+## 26 4008026      4       1
+## 27 4008027      5       0
+## 28 4008028      3       0
+## 29 4008029      3       0
+## 30 4108001      2       2
+## 31 4108002      2       1
+## 32 4108003      2       0
+## 33 4108004      5       0
+## 34 4108005      1       0
+## 35 4108006      2       0
+## 36 4108007      3       0
+## 37 4108008      3       1
+## 38 4108009      2       1
+## 39 4108010      4       1
+## 40 4108011      3       0
+## 41 4108012      1       1
+## 42 4108013      6       3
+## 43 4108014      3       3
+## 44 4108015      7       4
+## 45 4108016      7       7
+## 46 4108017      2       1
+## 47 4108018      2       0
+## 48 4108019      2       1
+## 49 4108020      3       1
+## 50 4108021      4       1
+## 51 4108022      3       0
+## 52 4108023      2       2
+## 53 4108024      5       2
+## 54 4108025      2       0
+## 55 4108026      4       1
+## 56 4108027      5       0
+## 57 4108028      3       0
+## 58 4108029      3       0
+## 59 4208001      2       2
+## 60 4208002      2       1
+## 61 4208003      2       0
+## 62 4208004      4       0
+## 63 4208005      1       0
+## 64 4208006      2       0
+## 65 4208007      3       0
+## 66 4208008      3       1
+## 67 4208009      2       1
+## 68 4208010      4       1
+## 69 4208011      3       0
+## 70 4208012      1       1
+## 71 4208013      6       3
+## 72 4208014      3       3
+## 73 4208015      7       4
+## 74 4208016      7       7
+## 75 4208017      2       1
+## 76 4208018      2       0
+## 77 4208019      2       1
+## 78 4208020      3       1
+## 79 4208021      4       1
+## 80 4208022      3       0
+## 81 4208023      2       2
+## 82 4208024      5       2
+## 83 4208025      2       0
+## 84 4208026      4       1
+## 85 4208027      5       0
+## 86 4208028      3       0
+## 87 4208029      3       0</code></pre>
+<p>We will now write a function that will simulate a single LQAS survey. Create a new function called <code>lqas.run()</code>:</p>
+<pre class="sourceCode r" id="cb774"><code class="sourceCode r"><a class="sourceLine" id="cb774-1" data-line-number="1">lqas.run &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>lqas.run()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>lqas.run()</code> function:</p>
+<pre class="sourceCode r" id="cb775"><code class="sourceCode r"><a class="sourceLine" id="cb775-1" data-line-number="1"><span class="kw">fix</span>(lqas.run)</a></code></pre>
+<p>Edit the function to read:</p>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We should try this function on a low, a moderate, and a high prevalence dataset. To select suitable test datasets we need to know the prevalence in each dataset:</p>
+<pre class="sourceCode r" id="cb776"><code class="sourceCode r"><a class="sourceLine" id="cb776-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.sim$&quot;</span>)) {</a>
+<a class="sourceLine" id="cb776-2" data-line-number="2">  data &lt;-<span class="st"> </span><span class="kw">read.table</span>(i, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb776-3" data-line-number="3">  <span class="kw">cat</span>(i, <span class="st">&quot;:&quot;</span>, <span class="kw">mean</span>(data<span class="op">$</span>tfti), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb776-4" data-line-number="4">}</a></code></pre>
+<pre><code>## egypt01.sim : 0.5913978 
+## egypt02.sim : 0.09243697 
+## egypt03.sim : 0.343949 
+## egypt04.sim : 0.2546584 
+## egypt05.sim : 0.1354839 
+## egypt06.sim : 0.6993464 
+## egypt07.sim : 0.09815951 
+## egypt08.sim : 0.5668449 
+## egypt09.sim : 0.5251799 
+## egypt10.sim : 0.4343434 
+## gambia01.sim : 0.08510638 
+## gambia02.sim : 0.2517483 
+## gambia03.sim : 0.1730769 
+## gambia04.sim : 0.1866667 
+## gambia05.sim : 0.1264368 
+## gambia06.sim : 0.5180952 
+## gambia07.sim : 0.3876652 
+## gambia08.sim : 0.310559 
+## gambia09.sim : 0.3548387 
+## gambia10.sim : 0.3358491 
+## ghana01.sim : 0.0990099 
+## ghana02.sim : 0.2162162 
+## ghana03.sim : 0.2781955 
+## tanzania01.sim : 0.4672897 
+## tanzania02.sim : 0.4563107 
+## tanzania03.sim : 0.1025641 
+## tanzania04.sim : 0.1724138 
+## tanzania05.sim : 0.6962963 
+## tanzania06.sim : 0.3092784 
+## tanzania07.sim : 0.3727273 
+## tanzania08.sim : 0.4454545 
+## tanzania09.sim : 0.2146893 
+## tanzania10.sim : 0.5925926 
+## tanzania11.sim : 0.2544379 
+## tanzania12.sim : 0.5619835 
+## tanzania13.sim : 0.5086207 
+## tanzania14.sim : 0.4105263 
+## togo01.sim : 0.254902 
+## togo02.sim : 0.1692308 
+## togo03.sim : 0.2147651 
+## togo04.sim : 0.1265823 
+## togo05.sim : 0.1098266 
+## togo06.sim : 0.2677165 
+## togo07.sim : 0.3244681 
+## togo08.sim : 0.3125 
+## togo09.sim : 0.125 
+## togo10.sim : 0.04385965 
+## togo11.sim : 0.08609272</code></pre>
+<p>The coding scheme used for the <code>tfti</code> variable (0=no, 1=yes) allows us to use the <code>mean()</code> function to calculate prevalence in these datasets.</p>
+<p>The pattern <code>&quot;\\.sim$&quot;</code> is a regular expression for files ending in .sim.</p>
+<p>If you want to use the <code>dir()</code> function to list files stored outside of the current working directory you will need to specify an appropriate value for the <code>path</code> parameter. On some systems you may also need to set the value of the <code>full.names</code> parameter to <code>TRUE</code>. For example:</p>
+<pre class="sourceCode r" id="cb778"><code class="sourceCode r"><a class="sourceLine" id="cb778-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">dir</span>(<span class="dt">path =</span> <span class="st">&quot;~/prfe&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.sim$&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)) {</a>
+<a class="sourceLine" id="cb778-2" data-line-number="2">  data &lt;-<span class="st"> </span><span class="kw">read.table</span>(i, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb778-3" data-line-number="3">  <span class="kw">cat</span>(i, <span class="st">&quot;:&quot;</span>, <span class="kw">mean</span>(data<span class="op">$</span>tfti), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb778-4" data-line-number="4">}</a></code></pre>
+<p>cycles through all files ending in <code>.sim</code> (specified by giving the value <code>&quot;\\.sim$&quot;</code> to the <code>pattern</code> parameter) that are stored the <code>prfe</code> directory under the users home directory (specified by giving the value <code>&quot;~/prfe&quot;</code> to the <code>path</code> parameter) on UNIX systems. You <strong>cannot</strong> usefully specify a URL for the <code>path</code> parameter of the <code>dir()</code> function.</p>
+<p>We will use <code>tanzania04.sim</code> as an example of a low prevalence dataset:</p>
+<pre class="sourceCode r" id="cb779"><code class="sourceCode r"><a class="sourceLine" id="cb779-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania04.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb779-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb779-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
+<pre><code>## $kids
+## [1] 52
+## 
+## $cases
+## [1] 7
+## 
+## $outcome
+## [1] 0</code></pre>
+<p>Repeat the last function call several times. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.</p>
+<p>The function should, for most calls, return:</p>
+<pre><code>$outcome
+[1] 0</code></pre>
+<p>We will use <code>tanzania08.sim</code> as an example of a high prevalence dataset:</p>
+<pre class="sourceCode r" id="cb782"><code class="sourceCode r"><a class="sourceLine" id="cb782-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania08.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb782-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb782-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
+<pre><code>## $kids
+## [1] 51
+## 
+## $cases
+## [1] 11
+## 
+## $outcome
+## [1] 0</code></pre>
+<p>Repeat the last function call several times. The function should, for most calls, return:</p>
+<pre><code>$outcome
+[1] 1</code></pre>
 
 </div>
 </div>
