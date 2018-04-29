@@ -1,4 +1,4 @@
-# What now? {#whatnow}
+# What now? {-}
 
 Now that you have had a taste of using `R` you will be able to decide whether it meets your requirements for a data-analysis system.
 
