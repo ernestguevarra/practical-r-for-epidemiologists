@@ -1,1 +1,9 @@
 # What now? {#whatnow}
+
+Now that you have had a taste of using `R` you will be able to decide whether it meets your requirements for a data-analysis system.
+
+The file `R-intro.pdf` which is installed with the `R` system contains the document *‘An Introduction to `R`’*. This document provides a solid introduction to `R`.
+
+The file `refman.pdf` which is also installed with the `R` system contains the document *‘The `R` reference index’*. This document provides a complete function-by-function reference to the `R` base system and several standard function libraries (packages).
+
+Other documents are available from the `R` Website: [http://www.r-project.org/](http://www.r-project.org/)
