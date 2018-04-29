@@ -160,6 +160,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="10.1" data-path="exercise9.html"><a href="exercise9.html#estimation"><i class="fa fa-check"></i><b>10.1</b> Estimation</a></li>
 <li class="chapter" data-level="10.2" data-path="exercise9.html"><a href="exercise9.html#hypothesis-testing"><i class="fa fa-check"></i><b>10.2</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="10.3" data-path="exercise9.html"><a href="exercise9.html#simulating-processes"><i class="fa fa-check"></i><b>10.3</b> Simulating processes</a></li>
+<li class="chapter" data-level="10.4" data-path="exercise9.html"><a href="exercise9.html#cellular-automata-machines"><i class="fa fa-check"></i><b>10.4</b> Cellular automata machines</a></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
@@ -196,7 +197,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 10.46</code></pre>
 <p>The <code>sample()</code> function can be used to select a bootstrap <code>replicate</code>:</p>
 <pre class="sourceCode r" id="cb701"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">sample</span>(x, <span class="kw">length</span>(x), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<pre><code>## [1] 10.4 10.4 14.0  8.4 10.4</code></pre>
+<pre><code>## [1] 14.0  7.3 10.4 14.0  7.3</code></pre>
 <p>Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The <code>length()</code> parameter is not required for taking bootstrap replicates and can be omitted.</p>
 <p>It is possible to apply a summary measure to a replicate:</p>
 <pre class="sourceCode r" id="cb703"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a></code></pre>
@@ -208,18 +209,18 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb705-2" data-line-number="2">             <span class="dt">nrow =</span> <span class="kw">length</span>(x), <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb705-3" data-line-number="3">x1</a></code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]  8.4 12.2  8.4 14.0  7.3 12.2  7.3  7.3  8.4  12.2
-## [2,] 14.0  8.4 12.2 10.4 10.4 10.4 14.0 10.4  7.3  12.2
-## [3,]  8.4 12.2  7.3 14.0  7.3 12.2  7.3  8.4  7.3   8.4
-## [4,]  8.4 12.2  8.4  8.4 14.0 14.0 14.0 12.2  8.4  12.2
-## [5,] 10.4  8.4  7.3 14.0  7.3  7.3 10.4 12.2 14.0  10.4</code></pre>
+## [1,] 12.2  7.3  7.3  7.3  8.4 12.2 10.4 10.4  7.3  14.0
+## [2,]  7.3 14.0 12.2 14.0 14.0  7.3 10.4 10.4 10.4  10.4
+## [3,]  8.4 10.4 14.0  8.4 12.2  8.4 12.2  8.4 14.0   8.4
+## [4,]  8.4 12.2  8.4  7.3 14.0 14.0  8.4  7.3  7.3  12.2
+## [5,] 10.4 10.4 12.2 14.0 12.2 12.2  7.3 14.0 10.4   7.3</code></pre>
 <p>Then calculate and store the means of each replicate. We can do this using the <code>apply()</code> function to apply the <code>mean()</code> function to the columns of matrix <code>x1</code>:</p>
 <pre class="sourceCode r" id="cb707"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, mean)</a>
 <a class="sourceLine" id="cb707-2" data-line-number="2">x2</a></code></pre>
-<pre><code>##  [1]  9.92 10.68  8.72 12.16  9.26 11.22 10.60 10.10  9.08 11.08</code></pre>
+<pre><code>##  [1]  9.34 10.86 10.82 10.20 12.16 10.82  9.74 10.10  9.88 10.46</code></pre>
 <p>The bootstrap estimate of the mean is:</p>
 <pre class="sourceCode r" id="cb709"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 10.35</code></pre>
+<pre><code>## [1] 10.33</code></pre>
 <p>The bootstrap estimate may differ somewhat from the mean of <code>x</code>:</p>
 <pre class="sourceCode r" id="cb711"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">mean</span>(x)</a></code></pre>
 <pre><code>## [1] 10.46</code></pre>
@@ -247,15 +248,15 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb719-4" data-line-number="4">             <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> replicates)</a>
 <a class="sourceLine" id="cb719-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, h.mean)</a>
 <a class="sourceLine" id="cb719-6" data-line-number="6"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 33.63518</code></pre>
+<pre><code>## [1] 33.71924</code></pre>
 <p>A 95% confidence interval can be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb721"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
 <pre><code>##     2.5%    97.5% 
-## 27.83036 40.35514</code></pre>
+## 27.68420 40.40827</code></pre>
 <p>A 99% confidence interval can also be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb723"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</a></code></pre>
 <pre><code>##     0.5%    99.5% 
-## 26.34123 42.19094</code></pre>
+## 26.14855 42.28978</code></pre>
 <p>As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the <code>salex</code> dataset which we used in exercise 2 and exercise 3:</p>
 <pre class="sourceCode r" id="cb725"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>,  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
 <a class="sourceLine" id="cb725-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL)</a></code></pre>
@@ -279,16 +280,16 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The vector <code>boot</code> now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the <code>median()</code> and <code>quantile()</code> functions</p>
 <pre class="sourceCode r" id="cb731"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb731-2" data-line-number="2"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.12143</code></pre>
-<pre><code>##      2.5%     97.5% 
-##  4.483769 59.502778</code></pre>
+<pre><code>## [1] 14.16025</code></pre>
+<pre><code>##     2.5%    97.5% 
+##  4.42963 61.94286</code></pre>
 <p>This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of <code>boot</code> that are not (<code>!=</code>) infinite (<code>Inf</code>):</p>
 <pre class="sourceCode r" id="cb734"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">boot &lt;-<span class="st"> </span>boot[boot <span class="op">!=</span><span class="st"> </span><span class="ot">Inf</span>]</a>
 <a class="sourceLine" id="cb734-2" data-line-number="2"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.12143</code></pre>
-<pre><code>##      2.5%     97.5% 
-##  4.483769 59.502778</code></pre>
+<pre><code>## [1] 14.15686</code></pre>
+<pre><code>##     2.5%    97.5% 
+##  4.42849 60.57143</code></pre>
 <p>Another way to avoid this problem is to use an <code>adjusted odds ratio</code> calculated by adding 0.5 to each cell of the two-by-two table:</p>
 <pre class="sourceCode r" id="cb737"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
 <a class="sourceLine" id="cb737-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
@@ -299,9 +300,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb737-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb737-8" data-line-number="8"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb737-9" data-line-number="9"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 12.61519</code></pre>
+<pre><code>## [1] 12.68242</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.311753 46.660121</code></pre>
+##  4.479899 49.594156</code></pre>
 <p>This procedure is preferred when working with sparse tables.</p>
 </div>
 <div id="hypothesis-testing" class="section level2">
@@ -349,7 +350,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb746"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb746-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb746-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.0992</code></pre>
+<pre><code>## [1] 0.1</code></pre>
 <p>You might like to repeat this exercise using the harmonic mean distance and the median distance.</p>
 <p>We can check if this method is capable of detecting a simple cluster using simulated data:</p>
 <pre class="sourceCode r" id="cb748"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
@@ -361,7 +362,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb749"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
 <p>The observed mean distance of each case from the industrial waste disposal site is:</p>
 <pre class="sourceCode r" id="cb750"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
-<pre><code>## [1] 0.2668568</code></pre>
+<pre><code>## [1] 0.2483719</code></pre>
 <p>We can use the the simulated null hypothesis data to test for spatial clustering:</p>
 <pre class="sourceCode r" id="cb752"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb752-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
@@ -377,7 +378,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb755-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb755-3" data-line-number="3">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb755-4" data-line-number="4"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.2232</code></pre>
+<pre><code>## [1] 0.4359</code></pre>
 <p>The method is not capable of detecting plumes.</p>
 <p>You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.</p>
 </div>
@@ -1048,10 +1049,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb779-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb779-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 52
+## [1] 51
 ## 
 ## $cases
-## [1] 7
+## [1] 2
 ## 
 ## $outcome
 ## [1] 0</code></pre>
@@ -1064,16 +1065,509 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb782-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb782-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 51
+## [1] 41
+## 
+## $cases
+## [1] 16
+## 
+## $outcome
+## [1] 1</code></pre>
+<p>Repeat the last function call several times. The function should, for most calls, return:</p>
+<pre><code>$outcome
+[1] 1</code></pre>
+<p>We will use <code>tanzania06.sim</code> as an example of a moderate prevalence dataset:</p>
+<pre class="sourceCode r" id="cb785"><code class="sourceCode r"><a class="sourceLine" id="cb785-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania06.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb785-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb785-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
+<pre><code>## $kids
+## [1] 53
 ## 
 ## $cases
 ## [1] 11
 ## 
 ## $outcome
 ## [1] 0</code></pre>
-<p>Repeat the last function call several times. The function should, for most calls, return:</p>
+<p>Repeat the last function call several times. The function should return:</p>
+<pre><code>$outcome
+[1] 0</code></pre>
+<p>And:</p>
 <pre><code>$outcome
 [1] 1</code></pre>
+<p>In roughly equal proportion.</p>
+<p>The simulation will require repeated sampling from the same dataset. We need to write a function to do this.</p>
+<p>Create a new function called <code>lqas.simul()</code>:</p>
+<pre class="sourceCode r" id="cb789"><code class="sourceCode r"><a class="sourceLine" id="cb789-1" data-line-number="1">lqas.simul &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>lqas.simul()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>lqas.simul()</code> function:</p>
+<pre class="sourceCode r" id="cb790"><code class="sourceCode r"><a class="sourceLine" id="cb790-1" data-line-number="1"><span class="kw">fix</span>(lqas.simul)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb791"><code class="sourceCode r"><a class="sourceLine" id="cb791-1" data-line-number="1"><span class="cf">function</span>(x, n, d, runs) {</a>
+<a class="sourceLine" id="cb791-2" data-line-number="2">  all &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</a>
+<a class="sourceLine" id="cb791-3" data-line-number="3">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>runs) {</a>
+<a class="sourceLine" id="cb791-4" data-line-number="4">    run &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">lqas.run</span>(x, n ,d))</a>
+<a class="sourceLine" id="cb791-5" data-line-number="5">    all &lt;-<span class="st"> </span><span class="kw">rbind</span>(all, run)</a>
+<a class="sourceLine" id="cb791-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb791-7" data-line-number="7">  p &lt;-<span class="st"> </span><span class="kw">sum</span>(x<span class="op">$</span>n.cases) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(x<span class="op">$</span>n.kids)</a>
+<a class="sourceLine" id="cb791-8" data-line-number="8">  asn &lt;-<span class="st"> </span><span class="kw">mean</span>(all<span class="op">$</span>kids)</a>
+<a class="sourceLine" id="cb791-9" data-line-number="9">  p.high &lt;-<span class="st"> </span><span class="kw">mean</span>(all<span class="op">$</span>outcome)</a>
+<a class="sourceLine" id="cb791-10" data-line-number="10">  result &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">p =</span> p, <span class="dt">asn =</span> asn, <span class="dt">p.high =</span> p.high)</a>
+<a class="sourceLine" id="cb791-11" data-line-number="11">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb791-12" data-line-number="12">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We can test this function with the same three test datasets:</p>
+<pre class="sourceCode r" id="cb792"><code class="sourceCode r"><a class="sourceLine" id="cb792-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania04.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb792-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb792-3" data-line-number="3"><span class="kw">lqas.simul</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>, <span class="dt">runs =</span> <span class="dv">250</span>)</a>
+<a class="sourceLine" id="cb792-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb792-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania08.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb792-6" data-line-number="6">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb792-7" data-line-number="7"><span class="kw">lqas.simul</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>, <span class="dt">runs =</span> <span class="dv">250</span>)</a>
+<a class="sourceLine" id="cb792-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb792-9" data-line-number="9">x &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tanzania06.sim&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb792-10" data-line-number="10">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb792-11" data-line-number="11"><span class="kw">lqas.simul</span>( <span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>, <span class="dt">runs =</span> <span class="dv">250</span>)</a></code></pre>
+<pre><code>## $p
+## [1] 0.1724138
+## 
+## $asn
+## [1] 50.696
+## 
+## $p.high
+## [1] 0.032</code></pre>
+<pre><code>## $p
+## [1] 0.4454545
+## 
+## $asn
+## [1] 33.88
+## 
+## $p.high
+## [1] 0.992</code></pre>
+<pre><code>## $p
+## [1] 0.3092784
+## 
+## $asn
+## [1] 46.316
+## 
+## $p.high
+## [1] 0.588</code></pre>
+<p>The simulation consists of applying this function to each of the datasets in turn and collating the results. We will create a function to do this.</p>
+<p>Create a new function called <code>main.simul()</code>:</p>
+<pre class="sourceCode r" id="cb796"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" data-line-number="1">main.simul &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>main.simul()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>main.simul()</code> function:</p>
+<pre class="sourceCode r" id="cb797"><code class="sourceCode r"><a class="sourceLine" id="cb797-1" data-line-number="1"><span class="kw">fix</span>(main.simul)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb798"><code class="sourceCode r"><a class="sourceLine" id="cb798-1" data-line-number="1"><span class="cf">function</span>(n, d, runs) {</a>
+<a class="sourceLine" id="cb798-2" data-line-number="2">  result &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</a>
+<a class="sourceLine" id="cb798-3" data-line-number="3">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.sim$&quot;</span>)) {</a>
+<a class="sourceLine" id="cb798-4" data-line-number="4">    <span class="kw">cat</span>(<span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb798-5" data-line-number="5">    x &lt;-<span class="st"> </span><span class="kw">read.table</span>(i, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb798-6" data-line-number="6">    y &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb798-7" data-line-number="7">    z &lt;-<span class="st"> </span><span class="kw">lqas.simul</span>(y, n, d, runs)</a>
+<a class="sourceLine" id="cb798-8" data-line-number="8">    z<span class="op">$</span>file.name &lt;-<span class="st"> </span>i</a>
+<a class="sourceLine" id="cb798-9" data-line-number="9">    result &lt;-<span class="st"> </span><span class="kw">rbind</span>(result, <span class="kw">as.data.frame</span>(z))</a>
+<a class="sourceLine" id="cb798-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb798-11" data-line-number="11">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb798-12" data-line-number="12">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We are now ready to run the simulation:</p>
+<pre class="sourceCode r" id="cb799"><code class="sourceCode r"><a class="sourceLine" id="cb799-1" data-line-number="1">z1 &lt;-<span class="st"> </span><span class="kw">main.simul</span>(<span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>, <span class="dt">runs =</span> <span class="dv">250</span>)</a></code></pre>
+<pre><code>## ................................................</code></pre>
+<p>Progress of the simulation is shown by a lengthening line of dots. Each dot represents one community screening file processed. The <code>&gt;</code> prompt will be displayed when the simulation has finished running.</p>
+<p>The returned data.frame object (<code>z1</code>) contains the results of the simulation:</p>
+<pre class="sourceCode r" id="cb801"><code class="sourceCode r"><a class="sourceLine" id="cb801-1" data-line-number="1">z1</a></code></pre>
+<pre><code>##             p    asn p.high      file.name
+## 1  0.59139785 26.380  1.000    egypt01.sim
+## 2  0.09243697 50.752  0.000    egypt02.sim
+## 3  0.34394904 43.504  0.796    egypt03.sim
+## 4  0.25465839 49.436  0.280    egypt04.sim
+## 5  0.13548387 50.668  0.004    egypt05.sim
+## 6  0.69934641 23.012  1.000    egypt06.sim
+## 7  0.09815951 50.692  0.000    egypt07.sim
+## 8  0.56684492 27.488  1.000    egypt08.sim
+## 9  0.52517986 29.340  1.000    egypt09.sim
+## 10 0.43434343 34.660  0.992    egypt10.sim
+## 11 0.08510638 51.564  0.000   gambia01.sim
+## 12 0.25174825 50.140  0.340   gambia02.sim
+## 13 0.17307692 51.792  0.052   gambia03.sim
+## 14 0.18666667 51.356  0.080   gambia04.sim
+## 15 0.12643678 52.296  0.020   gambia05.sim
+## 16 0.51809524 32.516  0.992   gambia06.sim
+## 17 0.38766520 40.872  0.948   gambia07.sim
+## 18 0.31055901 46.416  0.632   gambia08.sim
+## 19 0.35483871 42.088  0.784   gambia09.sim
+## 20 0.33584906 45.048  0.688   gambia10.sim
+## 21 0.09900990 51.924  0.000    ghana01.sim
+## 22 0.21621622 51.420  0.172    ghana02.sim
+## 23 0.27819549 48.944  0.448    ghana03.sim
+## 24 0.46728972 33.176  0.988 tanzania01.sim
+## 25 0.45631068 33.352  0.992 tanzania02.sim
+## 26 0.10256410 50.840  0.000 tanzania03.sim
+## 27 0.17241379 50.784  0.024 tanzania04.sim
+## 28 0.69629630 22.544  1.000 tanzania05.sim
+## 29 0.30927835 45.820  0.592 tanzania06.sim
+## 30 0.37272727 40.500  0.884 tanzania07.sim
+## 31 0.44545455 33.888  0.984 tanzania08.sim
+## 32 0.21468927 50.444  0.116 tanzania09.sim
+## 33 0.59259259 25.840  1.000 tanzania10.sim
+## 34 0.25443787 49.000  0.344 tanzania11.sim
+## 35 0.56198347 29.164  1.000 tanzania12.sim
+## 36 0.50862069 30.272  1.000 tanzania13.sim
+## 37 0.41052632 36.940  0.980 tanzania14.sim
+## 38 0.25490196 49.592  0.332     togo01.sim
+## 39 0.16923077 55.240  0.052     togo02.sim
+## 40 0.21476510 51.372  0.180     togo03.sim
+## 41 0.12658228 51.868  0.020     togo04.sim
+## 42 0.10982659 52.928  0.000     togo05.sim
+## 43 0.26771654 47.180  0.468     togo06.sim
+## 44 0.32446809 45.736  0.644     togo07.sim
+## 45 0.31250000 45.980  0.604     togo08.sim
+## 46 0.12500000 51.452  0.004     togo09.sim
+## 47 0.04385965 52.676  0.000     togo10.sim
+## 48 0.08609272 52.148  0.000     togo11.sim</code></pre>
+<p>We can examine the prevalences in the test datasets:</p>
+<pre class="sourceCode r" id="cb803"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb803-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb803-3" data-line-number="3"><span class="kw">hist</span>(z1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb803-4" data-line-number="4">     <span class="dt">main =</span> <span class="st">&quot;Prevalence in test datasets&quot;</span>,</a>
+<a class="sourceLine" id="cb803-5" data-line-number="5">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-516-1.png" width="672" /></p>
+<p>If you are using a Macintosh computer then you can use <code>quartz()</code> instead of <code>x11()</code>. This will give better results.</p>
+<p>We examine the sample size required to make classifications at different levels of prevalence as <em>anaverage sample number</em> (ASN) curve:</p>
+<pre class="sourceCode r" id="cb804"><code class="sourceCode r"><a class="sourceLine" id="cb804-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb804-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb804-3" data-line-number="3"><span class="kw">plot</span>(z1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb804-4" data-line-number="4">     z1<span class="op">$</span>asn,</a>
+<a class="sourceLine" id="cb804-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;ASN Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb804-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb804-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Sample size required&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-518-1.png" width="672" /></p>
+<p>We can examine the performance of the sampling plan by plotting its <em>operating characteristic</em> (OC) curve:</p>
+<pre class="sourceCode r" id="cb805"><code class="sourceCode r"><a class="sourceLine" id="cb805-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb805-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb805-3" data-line-number="3"><span class="kw">plot</span>(z1<span class="op">$</span>p,</a>
+<a class="sourceLine" id="cb805-4" data-line-number="4">     z1<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb805-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;OC Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb805-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb805-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-520-1.png" width="672" /></p>
+<p>Before closing the OC curve plot, we can compare the simulation results with the expected <em>operating characteristic</em> (OC) curve under ideal sampling conditions:</p>
+<pre class="sourceCode r" id="cb806"><code class="sourceCode r"><a class="sourceLine" id="cb806-1" data-line-number="1"><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(z1<span class="op">$</span>p), <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb806-2" data-line-number="2">      <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>,<span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(z1<span class="op">$</span>p),<span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb806-3" data-line-number="3">      <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-522-1.png" width="672" /></p>
+<p>The LQAS method appears to be robust to the loss of sampling variation introduced by the proposed sampling constraints. There is, however, some deviation from the expected <em>operating characteristic</em> (OC) curve at lower prevalences:</p>
+<pre class="sourceCode r" id="cb807"><code class="sourceCode r"><a class="sourceLine" id="cb807-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb807-2" data-line-number="2"><span class="kw">plot</span>(z1<span class="op">$</span>p, z1<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb807-3" data-line-number="3">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>),</a>
+<a class="sourceLine" id="cb807-4" data-line-number="4">     <span class="dt">main =</span> <span class="st">&quot;OC Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb807-5" data-line-number="5">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb807-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>)</a>
+<a class="sourceLine" id="cb807-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb807-8" data-line-number="8"><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>, <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb807-9" data-line-number="9">      <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>, <span class="kw">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>, <span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb807-10" data-line-number="10">      <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-524-1.png" width="672" /></p>
+<p>This deviation from the expected <em>operating characteristic</em> (OC) curve is likely to be due to a few very large households in which many of the children have active trachoma. You can check this by examining the <code>p.high</code> (i.e. the probability of a classification as high prevalence) column in <code>z1</code>, and household size and trachoma status in the individual data files that return higher than expected values for <code>p.high</code>. The <code>ind2hh()</code> function is likely to prove useful in this context.</p>
+<p>The observed deviation from the expected <em>operating characteristic</em> (OC) curve is small but it is important, in the resource-constrained context of trachoma-endemic countries, to minimise the false positive rate in order to ensure that resources are devoted to communities that need them most.</p>
+<p>We might be able to improve the performance of the survey method in this regard by restricting the sample so that only younger children are examined. This will have the effect of reducing the number of children examined in each household. It also has the benefit of making the surveys simpler and quicker since younger children will tend to be closer to home than older children.</p>
+<p>The range of ages in the datasets can be found using:</p>
+<pre class="sourceCode r" id="cb808"><code class="sourceCode r"><a class="sourceLine" id="cb808-1" data-line-number="1"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.sim$&quot;</span>)) {</a>
+<a class="sourceLine" id="cb808-2" data-line-number="2">  x &lt;-<span class="st"> </span><span class="kw">read.table</span>(i, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb808-3" data-line-number="3">  <span class="kw">cat</span>(i, <span class="st">&quot;:&quot;</span>, <span class="kw">range</span>(x<span class="op">$</span>age), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
+<a class="sourceLine" id="cb808-4" data-line-number="4">}</a></code></pre>
+<pre><code>## egypt01.sim : 1 10 
+## egypt02.sim : 2 8 
+## egypt03.sim : 2 10 
+## egypt04.sim : 1 10 
+## egypt05.sim : 2 6 
+## egypt06.sim : 2 10 
+## egypt07.sim : 2 6 
+## egypt08.sim : 2 10 
+## egypt09.sim : 2 10 
+## egypt10.sim : 2 10 
+## gambia01.sim : 1 9 
+## gambia02.sim : 1 9 
+## gambia03.sim : 1 9 
+## gambia04.sim : 1 9 
+## gambia05.sim : 1 9 
+## gambia06.sim : 1 9 
+## gambia07.sim : 1 9 
+## gambia08.sim : 1 9 
+## gambia09.sim : 1 9 
+## gambia10.sim : 1 9 
+## ghana01.sim : 1 10 
+## ghana02.sim : 1 10 
+## ghana03.sim : 1 10 
+## tanzania01.sim : 1 10 
+## tanzania02.sim : 1 10 
+## tanzania03.sim : 1 10 
+## tanzania04.sim : 1 10 
+## tanzania05.sim : 1 10 
+## tanzania06.sim : 1 10 
+## tanzania07.sim : 1 10 
+## tanzania08.sim : 1 10 
+## tanzania09.sim : 1 10 
+## tanzania10.sim : 1 10 
+## tanzania11.sim : 1 10 
+## tanzania12.sim : 1 10 
+## tanzania13.sim : 1 10 
+## tanzania14.sim : 1 10 
+## togo01.sim : 1 10 
+## togo02.sim : 1 10 
+## togo03.sim : 1 10 
+## togo04.sim : 1 10 
+## togo05.sim : 1 10 
+## togo06.sim : 1 10 
+## togo07.sim : 1 10 
+## togo08.sim : 1 10 
+## togo09.sim : 1 10 
+## togo10.sim : 1 10 
+## togo11.sim : 1 10</code></pre>
+<p>We will investigate the effect of restricting the sample to children aged between two and five years. Use the fix() function to edit the <code>main.simul()</code> function:</p>
+<pre class="sourceCode r" id="cb810"><code class="sourceCode r"><a class="sourceLine" id="cb810-1" data-line-number="1"><span class="kw">fix</span>(main.simul)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb811"><code class="sourceCode r"><a class="sourceLine" id="cb811-1" data-line-number="1"><span class="cf">function</span>(n, d, runs) {</a>
+<a class="sourceLine" id="cb811-2" data-line-number="2">  result &lt;-<span class="st"> </span><span class="kw">data.frame</span>()</a>
+<a class="sourceLine" id="cb811-3" data-line-number="3">  <span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">dir</span>(<span class="dt">pattern =</span> <span class="st">&quot;</span><span class="ch">\\</span><span class="st">.sim$&quot;</span>)) {</a>
+<a class="sourceLine" id="cb811-4" data-line-number="4">    <span class="kw">cat</span>(<span class="st">&quot;.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb811-5" data-line-number="5">    x &lt;-<span class="st"> </span><span class="kw">read.table</span>(i, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb811-6" data-line-number="6">    x &lt;-<span class="st"> </span><span class="kw">subset</span>(x, age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>age <span class="op">&lt;=</span><span class="st"> </span><span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb811-7" data-line-number="7">    y &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
+<a class="sourceLine" id="cb811-8" data-line-number="8">    z &lt;-<span class="st"> </span><span class="kw">lqas.simul</span>(y, n, d, runs) z<span class="op">$</span>file.name &lt;-<span class="st"> </span>i</a>
+<a class="sourceLine" id="cb811-9" data-line-number="9">    result &lt;-<span class="st"> </span><span class="kw">rbind</span>(result, <span class="kw">as.data.frame</span>(z))</a>
+<a class="sourceLine" id="cb811-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb811-11" data-line-number="11">  <span class="kw">return</span>(result)</a>
+<a class="sourceLine" id="cb811-12" data-line-number="12">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>We are now ready to run the simulation again:</p>
+<pre class="sourceCode r" id="cb812"><code class="sourceCode r"><a class="sourceLine" id="cb812-1" data-line-number="1">z2 &lt;-<span class="st"> </span><span class="kw">main.simul</span>(<span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>, <span class="dt">runs =</span> <span class="dv">250</span>)</a></code></pre>
+<pre><code>## ................................................</code></pre>
+<p>The data.frame object <code>z2</code> contains the results of the simulation:</p>
+<pre class="sourceCode r" id="cb814"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" data-line-number="1">z2</a></code></pre>
+<pre><code>##             p    asn p.high      file.name
+## 1  0.59139785 26.164  1.000    egypt01.sim
+## 2  0.09243697 50.840  0.000    egypt02.sim
+## 3  0.34394904 43.112  0.768    egypt03.sim
+## 4  0.25465839 49.364  0.252    egypt04.sim
+## 5  0.13548387 50.688  0.008    egypt05.sim
+## 6  0.69934641 23.148  1.000    egypt06.sim
+## 7  0.09815951 50.680  0.000    egypt07.sim
+## 8  0.56684492 27.028  1.000    egypt08.sim
+## 9  0.52517986 29.640  1.000    egypt09.sim
+## 10 0.43434343 34.660  0.992    egypt10.sim
+## 11 0.08510638 51.604  0.000   gambia01.sim
+## 12 0.25174825 48.772  0.388   gambia02.sim
+## 13 0.17307692 51.988  0.056   gambia03.sim
+## 14 0.18666667 51.500  0.092   gambia04.sim
+## 15 0.12643678 52.060  0.020   gambia05.sim
+## 16 0.51809524 32.080  0.996   gambia06.sim
+## 17 0.38766520 41.468  0.916   gambia07.sim
+## 18 0.31055901 46.412  0.632   gambia08.sim
+## 19 0.35483871 43.480  0.724   gambia09.sim
+## 20 0.33584906 45.736  0.648   gambia10.sim
+## 21 0.09900990 52.232  0.000    ghana01.sim
+## 22 0.21621622 51.260  0.212    ghana02.sim
+## 23 0.27819549 48.172  0.548    ghana03.sim
+## 24 0.46728972 33.360  0.980 tanzania01.sim
+## 25 0.45631068 33.648  1.000 tanzania02.sim
+## 26 0.10256410 50.720  0.000 tanzania03.sim
+## 27 0.17241379 50.728  0.044 tanzania04.sim
+## 28 0.69629630 22.524  1.000 tanzania05.sim
+## 29 0.30927835 45.368  0.632 tanzania06.sim
+## 30 0.37272727 40.424  0.896 tanzania07.sim
+## 31 0.44545455 34.816  0.980 tanzania08.sim
+## 32 0.21468927 50.376  0.120 tanzania09.sim
+## 33 0.59259259 25.960  1.000 tanzania10.sim
+## 34 0.25443787 49.408  0.268 tanzania11.sim
+## 35 0.56198347 29.380  1.000 tanzania12.sim
+## 36 0.50862069 30.988  1.000 tanzania13.sim
+## 37 0.41052632 37.544  0.976 tanzania14.sim
+## 38 0.25490196 49.844  0.340     togo01.sim
+## 39 0.16923077 55.236  0.032     togo02.sim
+## 40 0.21476510 50.412  0.224     togo03.sim
+## 41 0.12658228 51.984  0.008     togo04.sim
+## 42 0.10982659 52.904  0.000     togo05.sim
+## 43 0.26771654 48.488  0.384     togo06.sim
+## 44 0.32446809 44.812  0.656     togo07.sim
+## 45 0.31250000 45.416  0.680     togo08.sim
+## 46 0.12500000 51.460  0.000     togo09.sim
+## 47 0.04385965 52.432  0.000     togo10.sim
+## 48 0.08609272 52.352  0.000     togo11.sim</code></pre>
+<p>We can examine the performance of the sampling plan on the age-restricted datasets by plotting its <em>operating characteristic</em> (OC) curve and comparing the simulation results with the expected <em>operating characteristic</em> (OC) curve under ideal sampling conditions:</p>
+<pre class="sourceCode r" id="cb816"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb816-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb816-3" data-line-number="3"><span class="kw">plot</span>(z2<span class="op">$</span>p, z2<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb816-4" data-line-number="4">     <span class="dt">main =</span> <span class="st">&quot;OC Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb816-5" data-line-number="5">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb816-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;Probability &quot;</span>)</a>
+<a class="sourceLine" id="cb816-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb816-8" data-line-number="8"><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(z2<span class="op">$</span>p), <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb816-9" data-line-number="9">      <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="kw">max</span>(z2<span class="op">$</span>p), <span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb816-10" data-line-number="10">      <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-531-1.png" width="672" /></p>
+<p>Remember that if you are using a Macintosh computer then you can use quartz() instead of x11(). This will give better results.</p>
+<p>We should also take a closer look at the range of prevalences where the deviation from the expected <em>operating characteristic</em> (OC) curve was largest and most problematic in the previous simulation:</p>
+<pre class="sourceCode r" id="cb817"><code class="sourceCode r"><a class="sourceLine" id="cb817-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb817-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb817-3" data-line-number="3"><span class="kw">plot</span>(z2<span class="op">$</span>p, z2<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb817-4" data-line-number="4">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>),</a>
+<a class="sourceLine" id="cb817-5" data-line-number="5">     <span class="dt">main =</span> <span class="st">&quot;OC Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb817-6" data-line-number="6">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb817-7" data-line-number="7">     <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>)</a>
+<a class="sourceLine" id="cb817-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb817-9" data-line-number="9"><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>, <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb817-10" data-line-number="10">      <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>, <span class="kw">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.35</span>, <span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb817-11" data-line-number="11">      <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-533-1.png" width="672" /></p>
+<p>We can compare the behaviour of the sampling plan in the unrestricted and age-restricted datasets:</p>
+<pre class="sourceCode r" id="cb818"><code class="sourceCode r"><a class="sourceLine" id="cb818-1" data-line-number="1"><span class="kw">x11</span>()</a>
+<a class="sourceLine" id="cb818-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb818-3" data-line-number="3"><span class="kw">plot</span>(z1<span class="op">$</span>p, z1<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb818-4" data-line-number="4">     <span class="dt">main =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb818-5" data-line-number="5">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb818-6" data-line-number="6">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb818-7" data-line-number="7">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb818-8" data-line-number="8">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.8</span>))</a>
+<a class="sourceLine" id="cb818-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb818-10" data-line-number="10"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb818-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb818-12" data-line-number="12"><span class="kw">plot</span>(z2<span class="op">$</span>p, z2<span class="op">$</span>p.high,</a>
+<a class="sourceLine" id="cb818-13" data-line-number="13">     <span class="dt">main =</span> <span class="st">&quot;OC Curve&quot;</span>,</a>
+<a class="sourceLine" id="cb818-14" data-line-number="14">     <span class="dt">xlab =</span> <span class="st">&quot;Proportion TF/TI&quot;</span>,</a>
+<a class="sourceLine" id="cb818-15" data-line-number="15">     <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>,</a>
+<a class="sourceLine" id="cb818-16" data-line-number="16">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.8</span>),</a>
+<a class="sourceLine" id="cb818-17" data-line-number="17">     <span class="dt">pch =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb818-18" data-line-number="18">   </a>
+<a class="sourceLine" id="cb818-19" data-line-number="19"><span class="kw">lines</span>(<span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.8</span>, <span class="fl">0.01</span>),</a>
+<a class="sourceLine" id="cb818-20" data-line-number="20">      <span class="kw">pbinom</span>(<span class="dv">14</span>, <span class="dv">50</span>, <span class="kw">seq</span>(<span class="dv">0</span>, <span class="fl">0.8</span>, <span class="fl">0.01</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>),</a>
+<a class="sourceLine" id="cb818-21" data-line-number="21">      <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p>Restricting the sample to children aged between two and five years (inclusive) appears to have improved the behaviour of the survey method by lowering the false positive rate to close to expected behaviour under ideal sampling condition. Process simulation has allowed us to improve the performance of the survey method without expensive and lengthy field-work. In practice, the method would now be validated in the field probably by repeated sampling of communities in which prevalence is known from house-to-house screening.</p>
+</div>
+<div id="cellular-automata-machines" class="section level2">
+<h2><span class="header-section-number">10.4</span> Cellular automata machines</h2>
+<p><em>Cellular automata machines</em> are simple computing devices that are commonly used to simulate social, biological, and physical processes. Despite their simplicity, cellular automata machines are general purpose computing devices. This means that they may be used for any <em>computable</em> problem.</p>
+<p>The way that problems are specified to cellular automata machines make them simple to program for some types of problem and difficult to program for other types of problem. In this exercise we will explore the use of cellular automata machines to create a simple model of epidemic spread.</p>
+<p>Cellular automata machines model a universe in which space is represented by a uniform grid, time advances in steps, and the laws of the universe are represented by a set of rules which compute the future state of each cell of the grid from its current state and from the current state of its neighbouring cells.</p>
+<p>Typically, a cellular automata machine has the following features:</p>
+<ol style="list-style-type: decimal">
+<li><p>It consists of a large number of identical cells arranged in a regular grid. The grid is a two-dimensional projection of a torus (a ring-doughnut shaped surface) and has no edges.</p></li>
+<li><p>Each cell can be in one of a limited number of states.</p></li>
+<li><p>Time advances through the simulation in steps. At each time-step, the state of a cell may change.</p></li>
+<li><p>The state of a cell after each time-step is determined by a set of rules that define how the future state of a cell depends on the current state of the cell and the current state of its immediate neighbours. This set of rules is used to update the state of every cell in the grid at each time-step. Since the rules refer only to the state of an individual cell and its immediate neighbours, cellular automata machines are best suited to modelling situations where local interactions give rise to global phenomena.</p></li>
+</ol>
+<p>In this exercise we will simulate a cellular automata machine using <code>R</code> and then use the simulated machine to simulate epidemic spread. We will use three functions to simulate the cellular automata machine (CAM):</p>
+<ul>
+<li><p><strong>cam.run():</strong> This function will display the initial state of the CAM, examine each cell in the CAM grid, apply the CAM rule-set to each cell, update the CAM grid, and display the state of the CAM at each time-step.</p></li>
+<li><p><strong>cam.state.display():</strong> This function will display the state of the CAM at each time-step. It will be implemented using the <code>image()</code> function to plot the contents of matrices held in the <code>cam.state</code> list object (see below). This function will be developed as we refine the epidemic model.</p></li>
+<li><p><strong>cam.rule():</strong> This function will contain the rule-set. It will be implemented using <code>ifelse()</code> functions to codify rules. This function will also be developed as we refine the epidemic model.</p></li>
+</ul>
+<p>The current and future states of the CAM will be held in two <em>global</em> list objects:</p>
+<ul>
+<li><p><strong>cam.state:</strong> This object will contain the current state of the CAM and must contain a matrix object
+called grid.</p></li>
+<li><p><strong>cam.state.new:</strong> This object will contain the the state of the CAM at the next time-step as defined
+by the the rule-set.</p></li>
+</ul>
+<p>Other <em>global</em> objects will be defined as required.</p>
+<p>Create a new function called <code>cam.run():</code></p>
+<pre class="sourceCode r" id="cb819"><code class="sourceCode r"><a class="sourceLine" id="cb819-1" data-line-number="1">cam.run &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>cam.run()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>cam.run()</code> function:</p>
+<pre class="sourceCode r" id="cb820"><code class="sourceCode r"><a class="sourceLine" id="cb820-1" data-line-number="1"><span class="kw">fix</span>(cam.run)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb821"><code class="sourceCode r"><a class="sourceLine" id="cb821-1" data-line-number="1"><span class="cf">function</span>(steps) {</a>
+<a class="sourceLine" id="cb821-2" data-line-number="2">  cam.state.new &lt;&lt;-<span class="st"> </span>cam.state</a>
+<a class="sourceLine" id="cb821-3" data-line-number="3">  <span class="kw">cam.state.display</span>(<span class="dt">t =</span> <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb821-4" data-line-number="4">  mx &lt;-<span class="st"> </span><span class="kw">nrow</span>(cam.state<span class="op">$</span>grid)</a>
+<a class="sourceLine" id="cb821-5" data-line-number="5">  my &lt;-<span class="st"> </span><span class="kw">ncol</span>(cam.state<span class="op">$</span>grid)</a>
+<a class="sourceLine" id="cb821-6" data-line-number="6">  <span class="cf">for</span>(t <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>steps) {</a>
+<a class="sourceLine" id="cb821-7" data-line-number="7">    <span class="cf">for</span>(y <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>my) {</a>
+<a class="sourceLine" id="cb821-8" data-line-number="8">      <span class="cf">for</span>(x <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>mx) {</a>
+<a class="sourceLine" id="cb821-9" data-line-number="9">        V &lt;-<span class="st"> </span>cam.state<span class="op">$</span>grid[x, y]</a>
+<a class="sourceLine" id="cb821-10" data-line-number="10">        N &lt;-<span class="st"> </span>cam.state<span class="op">$</span>grid[x, <span class="kw">ifelse</span>(y <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, my, y <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)]</a>
+<a class="sourceLine" id="cb821-11" data-line-number="11">        S &lt;-<span class="st"> </span>cam.state<span class="op">$</span>grid[x, <span class="kw">ifelse</span>(y <span class="op">==</span><span class="st"> </span>my, <span class="dv">1</span>, y <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)]</a>
+<a class="sourceLine" id="cb821-12" data-line-number="12">        E &lt;-<span class="st"> </span>cam.state<span class="op">$</span>grid[<span class="kw">ifelse</span>(x <span class="op">==</span><span class="st"> </span>mx, <span class="dv">1</span>, x <span class="op">+</span><span class="st"> </span><span class="dv">1</span>), y]</a>
+<a class="sourceLine" id="cb821-13" data-line-number="13">        W &lt;-<span class="st"> </span>cam.state<span class="op">$</span>grid[<span class="kw">ifelse</span>(x <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, mx, x <span class="op">-</span><span class="st"> </span><span class="dv">1</span>), y]</a>
+<a class="sourceLine" id="cb821-14" data-line-number="14">        <span class="kw">cam.rule</span>(V, N, S, E, W, x, y, t)</a>
+<a class="sourceLine" id="cb821-15" data-line-number="15">        }</a>
+<a class="sourceLine" id="cb821-16" data-line-number="16">      }</a>
+<a class="sourceLine" id="cb821-17" data-line-number="17">      cam.state &lt;&lt;-<span class="st"> </span>cam.state.new</a>
+<a class="sourceLine" id="cb821-18" data-line-number="18">      <span class="kw">cam.state.display</span>(t)</a>
+<a class="sourceLine" id="cb821-19" data-line-number="19">  }</a>
+<a class="sourceLine" id="cb821-20" data-line-number="20">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the</p>
+<p>Note that when we assign anything to the state of the CAM (held in <code>cam.state</code> and <code>cam.state.new</code>) we use the <code>&lt;&lt;-</code> (instead of the usual <code>&lt;-</code>) assignment operator. This operator allows assignment to objects outside of the function in the global environment.</p>
+<p>Objects that are stored in the <em>global</em> environment are available to all functions.</p>
+<p>Create a new function called <code>cam.state.display()</code>:</p>
+<pre class="sourceCode r" id="cb822"><code class="sourceCode r"><a class="sourceLine" id="cb822-1" data-line-number="1">cam.state.display &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>cam.state.display()</code>.</p>
+<p>Use the <code>fix()</code> function to edit the <code>cam.state.display()</code> function:</p>
+<pre class="sourceCode r" id="cb823"><code class="sourceCode r"><a class="sourceLine" id="cb823-1" data-line-number="1"><span class="kw">fix</span>(cam.state.display)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb824"><code class="sourceCode r"><a class="sourceLine" id="cb824-1" data-line-number="1"><span class="cf">function</span>(t) {</a>
+<a class="sourceLine" id="cb824-2" data-line-number="2">  <span class="cf">if</span>(t <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb824-3" data-line-number="3">    <span class="kw">x11</span>(); <span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb824-4" data-line-number="4">  }</a>
+<a class="sourceLine" id="cb824-5" data-line-number="5">  <span class="kw">image</span>(cam.state<span class="op">$</span>grid, <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Infected at :&quot;</span>, t),</a>
+<a class="sourceLine" id="cb824-6" data-line-number="6">        <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;wheat&quot;</span>, <span class="st">&quot;navy&quot;</span>), <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb824-7" data-line-number="7">}</a></code></pre>
+<p>Remember that if you are using a Macintosh computer then you can use <code>quartz()</code> instead of <code>x11()</code>. This will give better results.</p>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>The <code>cam.rule()</code> function contains the rules of the CAM universe.</p>
+<p>We will start with a very simple <em>infection</em> rule:</p>
+<ul>
+<li><p>Each cell can be either <em>infected</em> or <em>not-infected</em>.</p></li>
+<li><p>If a cell is already <em>infected</em> it will remain <em>infected</em>.</p></li>
+<li><p>If a cell is <em>not-infected</em> then it will change its state to <em>infected</em> based on the state of its neighbours: If a neighbouring cell is <em>infected</em> it will infect the cell with a fixed probability or <em>transmission</em> pressure.</p></li>
+</ul>
+<p>Create a new function called <code>cam.rule()</code>:</p>
+<pre class="sourceCode r" id="cb825"><code class="sourceCode r"><a class="sourceLine" id="cb825-1" data-line-number="1">cam.rule &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<p>This creates an empty function called <code>cam.rule()</code>. Use the <code>fix()</code> function to edit the <code>cam.rule()</code> function:</p>
+<pre class="sourceCode r" id="cb826"><code class="sourceCode r"><a class="sourceLine" id="cb826-1" data-line-number="1"><span class="kw">fix</span>(cam.rule)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb827"><code class="sourceCode r"><a class="sourceLine" id="cb827-1" data-line-number="1"><span class="cf">function</span>(V, N, S, E, W, x, y, t) {</a>
+<a class="sourceLine" id="cb827-2" data-line-number="2">  tp &lt;-<span class="st"> </span><span class="kw">c</span>(N, S, E, W) <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">4</span>, <span class="dv">1</span>, TP)</a>
+<a class="sourceLine" id="cb827-3" data-line-number="3">  cam.state.new<span class="op">$</span>grid[x, y] &lt;&lt;-<span class="st"> </span><span class="kw">ifelse</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span><span class="kw">sum</span>(tp) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb827-4" data-line-number="4">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor. The basic CAM machine is now complete.</p>
+<p>We need to specify a value for the transmission pressure (<code>TP</code>):</p>
+<pre class="sourceCode r" id="cb828"><code class="sourceCode r"><a class="sourceLine" id="cb828-1" data-line-number="1">TP &lt;-<span class="st"> </span><span class="fl">0.2</span></a></code></pre>
+<p>And define the initial state of the CAM:</p>
+<pre class="sourceCode r" id="cb829"><code class="sourceCode r"><a class="sourceLine" id="cb829-1" data-line-number="1">cases &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb829-2" data-line-number="2">cases[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb829-3" data-line-number="3">cam.state &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">grid =</span> cases)</a></code></pre>
+<p>We can now run the simulation:</p>
+<pre class="sourceCode r" id="cb830"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">20</span>)</a></code></pre>
+<p>The number of infected cells is:</p>
+<pre class="sourceCode r" id="cb831"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid)</a></code></pre>
+<pre><code>## [1] 112</code></pre>
+<p>We can use this model to investigate the effect of different transmission pressures by systematically altering the transmission pressure specified in <code>TP</code>:</p>
+<pre class="sourceCode r" id="cb833"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" data-line-number="1">cases &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
+<a class="sourceLine" id="cb833-2" data-line-number="2">cases[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb833-3" data-line-number="3">cam.state.initial &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">grid =</span> cases)</a>
+<a class="sourceLine" id="cb833-4" data-line-number="4">pressure &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
+<a class="sourceLine" id="cb833-5" data-line-number="5">infected &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
+<a class="sourceLine" id="cb833-6" data-line-number="6">   </a>
+<a class="sourceLine" id="cb833-7" data-line-number="7"><span class="cf">for</span>(TP <span class="cf">in</span> <span class="kw">seq</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>, <span class="fl">0.05</span>)) {</a>
+<a class="sourceLine" id="cb833-8" data-line-number="8">  cam.state &lt;-<span class="st"> </span>cam.state.initial</a>
+<a class="sourceLine" id="cb833-9" data-line-number="9">  <span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb833-10" data-line-number="10">  <span class="kw">graphics.off</span>()</a>
+<a class="sourceLine" id="cb833-11" data-line-number="11">  pressure &lt;-<span class="st"> </span><span class="kw">c</span>(pressure, TP)</a>
+<a class="sourceLine" id="cb833-12" data-line-number="12">  infected &lt;-<span class="st"> </span><span class="kw">c</span>(infected, <span class="kw">sum</span>(cam.state<span class="op">$</span>grid))</a>
+<a class="sourceLine" id="cb833-13" data-line-number="13">  }</a>
+<a class="sourceLine" id="cb833-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb833-15" data-line-number="15"><span class="kw">plot</span>(pressure, infected)</a></code></pre>
+<p>In practice we would run the simulation many times for each transmission pressure and plot (e.g.) the median number of infected cells found at the end of each run of the model.</p>
+<p>We can extend the model to include host immunity by specifying a new layer of cells (i.e. for host immunity) and modifying the CAM rule-set appropriately.</p>
+<p>Use the <code>fix()</code> function to edit the <code>cam.rule()</code> function:</p>
+<pre class="sourceCode r" id="cb834"><code class="sourceCode r"><a class="sourceLine" id="cb834-1" data-line-number="1"><span class="kw">fix</span>(cam.rule)</a></code></pre>
+<p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb835"><code class="sourceCode r"><a class="sourceLine" id="cb835-1" data-line-number="1"><span class="cf">function</span>(V, N, S, E, W, x, y, t) {</a>
+<a class="sourceLine" id="cb835-2" data-line-number="2">  tp &lt;-<span class="st"> </span><span class="kw">c</span>(N, S, E, W) <span class="op">*</span><span class="st"> </span><span class="kw">rbinom</span>(<span class="dv">4</span>, <span class="dv">1</span>, TP)</a>
+<a class="sourceLine" id="cb835-3" data-line-number="3">  cam.state.new<span class="op">$</span>grid[x, y] &lt;&lt;-<span class="st"> </span><span class="kw">ifelse</span>(V <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">|</span><span class="st"> </span>(<span class="kw">sum</span>(tp) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>cam.state<span class="op">$</span>immune[x, y] <span class="op">!=</span><span class="st"> </span><span class="dv">1</span>), <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb835-4" data-line-number="4">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 
 </div>
 </div>
