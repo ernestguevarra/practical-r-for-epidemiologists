@@ -1174,7 +1174,7 @@ function(t) {
 ```{r, echo = FALSE, eval = TRUE}
 cam.state.display <- function(t) {
   if(t == 0) {
-    par(pty = "s")
+    x11(); par(pty = "s")
   }
   image(cam.state$grid, main = paste("Infected at :", t),
         col = c("wheat", "navy"), axes = FALSE)
@@ -1549,7 +1549,7 @@ function(t) {
 ```{r, echo = FALSE, eval = TRUE}
 cam.state.display <- function(t) {
   if(t == 0) {
-    #x11(width = 9, height = 9)
+    x11(width = 9, height = 9)
     par(mfrow = c(2, 2))
     par(pty = "s")
   }
