@@ -980,7 +980,7 @@ lines(seq(0, max(z2$p), 0.01),
       lty = 3)
 ```
 
-Remember that if you are using a Macintosh computer then you can use quartz() instead of x11(). This will give better results.
+Remember that if you are using a Macintosh computer then you can use `quartz()` instead of `x11()`. This will give better results.
 
 We should also take a closer look at the range of prevalences where the deviation from the expected *operating characteristic* (OC) curve was largest and most problematic in the previous simulation:
 
@@ -1174,7 +1174,7 @@ function(t) {
 ```{r, echo = FALSE, eval = TRUE}
 cam.state.display <- function(t) {
   if(t == 0) {
-    x11(); par(pty = "s")
+    par(pty = "s")
   }
   image(cam.state$grid, main = paste("Infected at :", t),
         col = c("wheat", "navy"), axes = FALSE)
@@ -1549,7 +1549,7 @@ function(t) {
 ```{r, echo = FALSE, eval = TRUE}
 cam.state.display <- function(t) {
   if(t == 0) {
-    x11(width = 9, height = 9)
+    #x11(width = 9, height = 9)
     par(mfrow = c(2, 2))
     par(pty = "s")
   }
