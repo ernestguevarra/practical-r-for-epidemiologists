@@ -156,7 +156,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="9.5" data-path="exercise8.html"><a href="exercise8.html#combining-plots"><i class="fa fa-check"></i><b>9.5</b> Combining plots</a></li>
 <li class="chapter" data-level="9.6" data-path="exercise8.html"><a href="exercise8.html#summary-7"><i class="fa fa-check"></i><b>9.6</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a></li>
+<li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a><ul>
+<li class="chapter" data-level="10.1" data-path="exercise9.html"><a href="exercise9.html#estimation"><i class="fa fa-check"></i><b>10.1</b> Estimation</a></li>
+<li class="chapter" data-level="10.2" data-path="exercise9.html"><a href="exercise9.html#hypothesis-testing"><i class="fa fa-check"></i><b>10.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="10.3" data-path="exercise9.html"><a href="exercise9.html#simulating-processes"><i class="fa fa-check"></i><b>10.3</b> Simulating processes</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
 <li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
@@ -180,6 +184,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
             <section class="normal" id="section-">
 <div id="exercise9" class="section level1">
 <h1><span class="header-section-number">10</span> Computer intensive methods</h1>
+<div id="estimation" class="section level2">
+<h2><span class="header-section-number">10.1</span> Estimation</h2>
 <p>Estimation involves the calculation of a measure with some sense of precision based upon sampling variation.</p>
 <p>Only a few estimators (e.g. the sample mean from a normal population) have exact formulae that may be used to estimate sampling variation. Typically, estimates of variability are based upon approximations informed by expected or postulated properties of the sampled population. The development of variance formulae for some measures may require in-depth statistical and mathematical knowledge or may even be impossible to derive.</p>
 <p><em>Bootstrap</em> methods are computer-intensive methods that can provide estimates and measures of precision (e.g. confidence intervals) without resort to theoretical models, higher mathematics, or assumptions about the sampled population. They rely on repeated sampling, sometimes called <em>resampling</em>, of the observed data.</p>
@@ -190,11 +196,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 10.46</code></pre>
 <p>The <code>sample()</code> function can be used to select a bootstrap <code>replicate</code>:</p>
 <pre class="sourceCode r" id="cb701"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">sample</span>(x, <span class="kw">length</span>(x), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<pre><code>## [1] 10.4  7.3 10.4 12.2 10.4</code></pre>
+<pre><code>## [1] 12.2 12.2 10.4 10.4  8.4</code></pre>
 <p>Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The <code>length()</code> parameter is not required for taking bootstrap replicates and can be omitted.</p>
 <p>It is possible to apply a summary measure to a replicate:</p>
 <pre class="sourceCode r" id="cb703"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a></code></pre>
-<pre><code>## [1] 9.52</code></pre>
+<pre><code>## [1] 10.24</code></pre>
 <p>Enter this command several times. A bootstrap estimate of the mean of <code>x</code> can be made by repeating this process many times and taking the <code>median</code> of the means for each replicate.</p>
 <p>One way of doing this is to create a matrix where each column contains a bootstrap replicate and then use the <code>apply()</code> and <code>mean()</code> functions to get at the estimate.</p>
 <p>First create the matrix of replicates. Here we take ten replicates:</p>
@@ -202,18 +208,18 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb705-2" data-line-number="2">             <span class="dt">nrow =</span> <span class="kw">length</span>(x), <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb705-3" data-line-number="3">x1</a></code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,] 10.4 14.0  8.4  8.4 10.4  7.3 12.2 14.0  8.4   7.3
-## [2,]  8.4 10.4  7.3 10.4 10.4  8.4 14.0  7.3 14.0  14.0
-## [3,] 12.2  7.3 14.0  7.3  8.4 14.0 10.4  7.3  7.3   7.3
-## [4,] 14.0  7.3 10.4  7.3 14.0 10.4  7.3  7.3 14.0   7.3
-## [5,] 12.2 12.2  7.3 10.4  8.4 14.0 14.0 14.0 14.0  10.4</code></pre>
+## [1,]  7.3 14.0  7.3  7.3 10.4 10.4  8.4  7.3 14.0    14
+## [2,] 10.4  8.4 10.4 10.4  7.3  8.4 14.0  8.4  7.3    14
+## [3,] 10.4  8.4  8.4 12.2 12.2 10.4  7.3 12.2 12.2    14
+## [4,] 12.2  8.4 10.4 14.0 10.4 10.4  7.3 14.0  8.4    14
+## [5,] 12.2 10.4 12.2 12.2  7.3 14.0  7.3 14.0 12.2    14</code></pre>
 <p>Then calculate and store the means of each replicate. We can do this using the <code>apply()</code> function to apply the <code>mean()</code> function to the columns of matrix <code>x1</code>:</p>
 <pre class="sourceCode r" id="cb707"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, mean)</a>
 <a class="sourceLine" id="cb707-2" data-line-number="2">x2</a></code></pre>
-<pre><code>##  [1] 11.44 10.24  9.48  8.76 10.32 10.82 11.58  9.98 11.54  9.26</code></pre>
+<pre><code>##  [1] 10.50  9.92  9.74 11.22  9.52 10.72  8.86 11.18 10.82 14.00</code></pre>
 <p>The bootstrap estimate of the mean is:</p>
 <pre class="sourceCode r" id="cb709"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 10.28</code></pre>
+<pre><code>## [1] 10.61</code></pre>
 <p>The bootstrap estimate may differ somewhat from the mean of <code>x</code>:</p>
 <pre class="sourceCode r" id="cb711"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">mean</span>(x)</a></code></pre>
 <pre><code>## [1] 10.46</code></pre>
@@ -241,16 +247,167 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb719-4" data-line-number="4">             <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> replicates)</a>
 <a class="sourceLine" id="cb719-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, h.mean)</a>
 <a class="sourceLine" id="cb719-6" data-line-number="6"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 33.76302</code></pre>
+<pre><code>## [1] 33.70437</code></pre>
 <p>A 95% confidence interval can be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb721"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
 <pre><code>##     2.5%    97.5% 
-## 27.68790 40.39696</code></pre>
+## 27.81072 40.11521</code></pre>
 <p>A 99% confidence interval can also be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb723"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</a></code></pre>
 <pre><code>##     0.5%    99.5% 
-## 26.03381 42.02555</code></pre>
+## 26.51233 42.21521</code></pre>
+<p>As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the <code>salex</code> dataset which we used in exercise 2 and exercise 3:</p>
+<pre class="sourceCode r" id="cb725"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>,  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
+<a class="sourceLine" id="cb725-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL)</a></code></pre>
+<pre><code>##    
+##      1  2
+##   1 40  6
+##   2 10 20</code></pre>
+<p>We should set up our estimator function to calculate an odds ratio from a two-by-two table:</p>
+<pre class="sourceCode r" id="cb727"><code class="sourceCode r"><a class="sourceLine" id="cb727-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="cf">function</span>(x) {(x[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">1</span>,<span class="dv">2</span>]) <span class="op">/</span><span class="st"> </span>(x[<span class="dv">2</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">2</span>,<span class="dv">2</span>])}</a></code></pre>
+<p>We should test this:</p>
+<pre class="sourceCode r" id="cb728"><code class="sourceCode r"><a class="sourceLine" id="cb728-1" data-line-number="1"><span class="kw">or</span>(<span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL))</a></code></pre>
+<pre><code>## [1] 13.33333</code></pre>
+<p>The problem is to take a bootstrap replicate from two vectors in a data.frame. This can be achieved by using <code>sample()</code> to create a vector of row indices and then use this sample of indices to select replicates from the data.frame:</p>
+<pre class="sourceCode r" id="cb730"><code class="sourceCode r"><a class="sourceLine" id="cb730-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb730-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
+<a class="sourceLine" id="cb730-3" data-line-number="3">  sampled.rows &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(salex), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb730-4" data-line-number="4">  x &lt;-<span class="st"> </span>salex[sampled.rows, <span class="st">&quot;EGGS&quot;</span>]</a>
+<a class="sourceLine" id="cb730-5" data-line-number="5">  y &lt;-<span class="st"> </span>salex[sampled.rows, <span class="st">&quot;ILL&quot;</span>]</a>
+<a class="sourceLine" id="cb730-6" data-line-number="6">  boot[i] &lt;-<span class="st"> </span><span class="kw">or</span>(<span class="kw">table</span>(x, y))</a>
+<a class="sourceLine" id="cb730-7" data-line-number="7">}</a></code></pre>
+<p>The vector <code>boot</code> now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the <code>median()</code> and <code>quantile()</code> functions</p>
+<pre class="sourceCode r" id="cb731"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">median</span>(boot)</a>
+<a class="sourceLine" id="cb731-2" data-line-number="2"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
+<pre><code>## [1] 14.02885</code></pre>
+<pre><code>##      2.5%     97.5% 
+##  4.758523 67.562500</code></pre>
+<p>This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of <code>boot</code> that are not (<code>!=</code>) infinite (<code>Inf</code>):</p>
+<pre class="sourceCode r" id="cb734"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">boot &lt;-<span class="st"> </span>boot[boot <span class="op">!=</span><span class="st"> </span><span class="ot">Inf</span>]</a>
+<a class="sourceLine" id="cb734-2" data-line-number="2"><span class="kw">median</span>(boot)</a>
+<a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
+<pre><code>## [1] 14</code></pre>
+<pre><code>##      2.5%     97.5% 
+##  4.751894 67.468333</code></pre>
+<p>Another way to avoid this problem is to use an <code>adjusted odds ratio</code> calculated by adding 0.5 to each cell of the two-by-two table:</p>
+<pre class="sourceCode r" id="cb737"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb737-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
+<a class="sourceLine" id="cb737-3" data-line-number="3">  sampled.rows &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(salex), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb737-4" data-line-number="4">  x &lt;-<span class="st"> </span>salex[sampled.rows, <span class="st">&quot;EGGS&quot;</span>]</a>
+<a class="sourceLine" id="cb737-5" data-line-number="5">  y &lt;-<span class="st"> </span>salex[sampled.rows, <span class="st">&quot;ILL&quot;</span>]</a>
+<a class="sourceLine" id="cb737-6" data-line-number="6">  boot[i] &lt;-<span class="st"> </span><span class="kw">or</span>(<span class="kw">table</span>(x, y) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb737-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb737-8" data-line-number="8"><span class="kw">median</span>(boot)</a>
+<a class="sourceLine" id="cb737-9" data-line-number="9"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
+<pre><code>## [1] 12.4771</code></pre>
+<pre><code>##      2.5%     97.5% 
+##  4.632618 49.268471</code></pre>
+<p>This procedure is preferred when working with sparse tables.</p>
+</div>
+<div id="hypothesis-testing" class="section level2">
+<h2><span class="header-section-number">10.2</span> Hypothesis testing</h2>
+<p>Computer-intensive methods also offer a general approach to statistical hypothesis testing. To illustrate this we will use <em>computer based simulation</em> to investigate spatial clustering around a point.</p>
+<p>Before continuing, we will retrieve a dataset:</p>
+<pre class="sourceCode r" id="cb740"><code class="sourceCode r"><a class="sourceLine" id="cb740-1" data-line-number="1">waste &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;waste.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p>The file <code>waste.dat</code> contains the location of twenty-three recent cases of childhood cancer in 5 by 5 km square surrounding an industrial waste disposal site. The columns in the dataset are:</p>
+<table style="width:58%;">
+<colgroup>
+<col width="15%" />
+<col width="43%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>x</strong></td>
+<td>The x location of cases</td>
+</tr>
+<tr class="even">
+<td><strong>y</strong></td>
+<td>The y location of cases</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>x</code> and <code>y</code> variables have been transformed to lie between 0 and 1 with the industrial waste disposal site centrally located (i.e. at <code>x</code> = 0.5, <code>y</code> = 0.5).</p>
+<p>Plot the data and the location of the industrial waste disposal site on the same chart:</p>
+<pre class="sourceCode r" id="cb741"><code class="sourceCode r"><a class="sourceLine" id="cb741-1" data-line-number="1"><span class="kw">plot</span>(waste<span class="op">$</span>x, waste<span class="op">$</span>y, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb741-2" data-line-number="2"><span class="kw">points</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-472-1.png" width="672" /></p>
+<p>We can calculate the distance of each point from the industrial waste disposal site using Pythagoras’ Theorem:</p>
+<pre class="sourceCode r" id="cb742"><code class="sourceCode r"><a class="sourceLine" id="cb742-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((waste<span class="op">$</span>x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(waste<span class="op">$</span>y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
+<p>The observed mean distance or each case from the industrial waste disposal site is:</p>
+<pre class="sourceCode r" id="cb743"><code class="sourceCode r"><a class="sourceLine" id="cb743-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
+<pre><code>## [1] 0.3444118</code></pre>
+<p>To test whether this distance is unlikely to have arisen by chance (i.e. evidence of spatial clustering) we need to simulate the distribution of distances when no spatial pattern exists:</p>
+<pre class="sourceCode r" id="cb745"><code class="sourceCode r"><a class="sourceLine" id="cb745-1" data-line-number="1">r &lt;-<span class="st"> </span><span class="dv">10000</span></a>
+<a class="sourceLine" id="cb745-2" data-line-number="2">x.sim &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(r <span class="op">*</span><span class="st"> </span><span class="dv">23</span>), <span class="dv">23</span>, r)</a>
+<a class="sourceLine" id="cb745-3" data-line-number="3">y.sim &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">runif</span>(r <span class="op">*</span><span class="st"> </span><span class="dv">23</span>), <span class="dv">23</span>, r)</a>
+<a class="sourceLine" id="cb745-4" data-line-number="4">distance.run &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x.sim <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y.sim <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb745-5" data-line-number="5">distance.sim &lt;-<span class="st"> </span><span class="kw">apply</span>(distance.run, <span class="dv">2</span>, mean)</a>
+<a class="sourceLine" id="cb745-6" data-line-number="6"><span class="kw">hist</span>(distance.sim, <span class="dt">breaks =</span> <span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb745-7" data-line-number="7"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">mean</span>(distance.obs), <span class="dt">lty =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-475-1.png" width="672" /></p>
+<p>The probability (i.e. the <em>p-value</em>) of observing a mean distance smaller than the <em>observed mean</em> distance under the null hypothesis can be estimated as the number of estimates of the mean distance under the null hypothesis falling below the observed mean divided by the total number of estimates of the mean distance under the null hypothesis:</p>
+<pre class="sourceCode r" id="cb746"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
+<a class="sourceLine" id="cb746-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb746-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
+<pre><code>## [1] 0.1009</code></pre>
+<p>You might like to repeat this exercise using the harmonic mean distance and the median distance.</p>
+<p>We can check if this method is capable of detecting a simple cluster using simulated data:</p>
+<pre class="sourceCode r" id="cb748"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb748-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb748-3" data-line-number="3"><span class="kw">plot</span>(x, y, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb748-4" data-line-number="4"><span class="kw">points</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-477-1.png" width="672" /></p>
+<p>We need to recalculate the distance of each simulated case from the industrial waste disposal site:</p>
+<pre class="sourceCode r" id="cb749"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
+<p>The observed mean distance of each case from the industrial waste disposal site is:</p>
+<pre class="sourceCode r" id="cb750"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
+<pre><code>## [1] 0.2257237</code></pre>
+<p>We can use the the simulated null hypothesis data to test for spatial clustering:</p>
+<pre class="sourceCode r" id="cb752"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
+<a class="sourceLine" id="cb752-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb752-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>We should also check if the procedure can detect a plume of cases, such as might be created by a prevailing wind at a waste incineration site, in a similar way:</p>
+<pre class="sourceCode r" id="cb754"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb754-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
+<a class="sourceLine" id="cb754-3" data-line-number="3"><span class="kw">plot</span>(x, y, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb754-4" data-line-number="4"><span class="kw">points</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-481-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb755"><code class="sourceCode r"><a class="sourceLine" id="cb755-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>)<span class="op">^</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb755-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
+<a class="sourceLine" id="cb755-3" data-line-number="3">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb755-4" data-line-number="4"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
+<pre><code>## [1] 0.1029</code></pre>
+<p>The method is not capable of detecting plumes.</p>
+<p>You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.</p>
+</div>
+<div id="simulating-processes" class="section level2">
+<h2><span class="header-section-number">10.3</span> Simulating processes</h2>
+<p>In the previous example we simulated the expected distribution of data under the <em>null hypothesis</em>. Computer based simulations are not limited to simulating data. They can also be used to simulate processes.</p>
+<p>In this example we will simulate the behaviour of the <em>lot quality assurance sampling</em> (LQAS) survey method when sampling constraints lead to a loss of sampling independence. In this example the sampling process is simulated and applied to real-world data.</p>
+<p>LQAS is a small-sample classification technique that is widely used in manufacturing industry to judge the quality of a batch of manufactured items. In this context, LQAS is used to identify batches that are likely to contain an unacceptably large number of defective items. In the public health context, LQAS may be used to identify communities with unacceptably low levels of service (e.g. vaccine) coverage or worrying levels of disease prevalence.</p>
+<p>The LQAS method produces data that is easy to analyse. Data analysis is performed as data is collected and consists solely of counting the number of <em>defects</em> (e.g. children with a specific disease) in the sample and checking whether a predetermined threshold value has been exceeded. This combination of data collection and data analysis is called a <em>sampling plan</em>. LQAS sampling plans are developed by specifying:</p>
+<ul>
+<li><p><strong>A TRIAGE SYSTEM</strong>: A classification system that defines <em>high</em>, <em>moderate</em>, and <em>low</em> categories of the prevalence of the phenomenon of interest.</p></li>
+<li><p><strong>ACCEPTABLE PROBABILITIES OF ERROR</strong>: There are two probabilities of error. These are termed provider <em>probability of error</em> (PPE) and <em>consumer probability of error</em> (CPE):</p>
+<ul>
+<li><p><strong>Provider Probability of Error (PPE)</strong>: The risk that the survey will indicate that prevalence is <em>high</em> when it is, in fact, <em>low</em>. PPE is analogous to <em>type I</em> (<span class="math inline">\(\alpha\)</span>) error in statistical hypothesis testing.</p></li>
+<li><p><strong>Consumer Probability of Error (CPE)</strong>: The risk that the survey will indicate that prevalence is <em>low</em> when it is, in fact, <em>high</em>. CPE is analogous to <em>type II</em> (<span class="math inline">\(\beta\)</span>) error in statistical hypothesis testing.</p></li>
+</ul></li>
+</ul>
+<p>Once the upper and lower levels of the triage system and acceptable levels of error have been decided, a set of probability tables are constructed that are used to select a maximum sample size (<code>n</code>) and the number of defects or cases (<code>d</code>) that are allowed in the sample of <code>n</code> subjects before deciding that a population is a high prevalence population. The combination of maximum sample size (<code>n</code>) and number of defects (<code>d</code>) form the stopping rules of the sampling plan. Sampling stops when either the maximum sample size (<code>n</code>) is met or the allowable number of defects (<code>d</code>) is exceeded:</p>
+<ul>
+<li><p>If <code>d</code> is exceeded then the population is classified as high prevalence.</p></li>
+<li><p>If <code>n</code> is met without d being exceeded then the population is classified as low prevalence.</p></li>
+</ul>
+<p>The values of <code>n</code> and <code>d</code> used in a sampling plan depend upon the threshold values used in the triage system and the acceptable levels of error. The values of <code>n</code> and <code>d</code> used in a sampling plan are calculated using binomial probabilities. For example, the probabilities of finding 14 or fewer cases (<span class="math inline">\(d = 14\)</span>) in a sample of 50 individuals (<span class="math inline">\(n = 50\)</span>) from populations with prevalences of either 20% or 40% are:</p>
+<pre class="sourceCode r" id="cb757"><code class="sourceCode r"><a class="sourceLine" id="cb757-1" data-line-number="1"><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">14</span>, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">prob =</span> <span class="fl">0.2</span>)</a>
+<a class="sourceLine" id="cb757-2" data-line-number="2"><span class="kw">pbinom</span>(<span class="dt">q =</span> <span class="dv">14</span>, <span class="dt">size =</span> <span class="dv">50</span>, <span class="dt">prob =</span> <span class="fl">0.4</span>)</a></code></pre>
+<pre><code>## [1] 0.9392779</code></pre>
+<pre><code>## [1] 0.05395503</code></pre>
+<p>The sampling plan with <span class="math inline">\(n = 50\)</span> and <span class="math inline">\(d = 14\)</span> is, therefore, a reasonable candidate for a sampling plan intended to distinguish between populations with prevalences of less than or equal to 20% and populations with prevalences greater than or equal to 40%.</p>
 
+</div>
 </div>
             </section>
 
@@ -299,6 +456,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -156,7 +156,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="9.5" data-path="exercise8.html"><a href="exercise8.html#combining-plots"><i class="fa fa-check"></i><b>9.5</b> Combining plots</a></li>
 <li class="chapter" data-level="9.6" data-path="exercise8.html"><a href="exercise8.html#summary-7"><i class="fa fa-check"></i><b>9.6</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a></li>
+<li class="chapter" data-level="10" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>10</b> Computer intensive methods</a><ul>
+<li class="chapter" data-level="10.1" data-path="exercise9.html"><a href="exercise9.html#estimation"><i class="fa fa-check"></i><b>10.1</b> Estimation</a></li>
+<li class="chapter" data-level="10.2" data-path="exercise9.html"><a href="exercise9.html#hypothesis-testing"><i class="fa fa-check"></i><b>10.2</b> Hypothesis testing</a></li>
+<li class="chapter" data-level="10.3" data-path="exercise9.html"><a href="exercise9.html#simulating-processes"><i class="fa fa-check"></i><b>10.3</b> Simulating processes</a></li>
+</ul></li>
 <li class="chapter" data-level="11" data-path="whatnow.html"><a href="whatnow.html"><i class="fa fa-check"></i><b>11</b> What now?</a></li>
 <li class="divider"></li>
 <li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
@@ -817,6 +821,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
