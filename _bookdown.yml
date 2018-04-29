@@ -2,5 +2,5 @@ book_filename: "prfe"
 delete_merged_file: true
 language:
   ui:
-    chapter_name: ""
+    chapter_name: "Exercise "
 output_dir: "docs"
