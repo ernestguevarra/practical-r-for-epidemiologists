@@ -11,8 +11,8 @@
 
   <meta property="og:title" content="Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="http://guevarra.io/prfe/" />
-  <meta property="og:image" content="http://guevarra.io/prfe/images/bookcover.jpg" />
+  <meta property="og:url" content="https://guevarra.io/practical-r-for-epidemiologists/" />
+  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists/images/bookcover.jpg" />
   <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="github-repo" content="ernestguevarra/practical-r-for-epidemiologists" />
 
@@ -20,7 +20,7 @@
   <meta name="twitter:title" content="Practical R for Epidemiologists" />
   
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
-  <meta name="twitter:image" content="http://guevarra.io/prfe/images/bookcover.jpg" />
+  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists/images/bookcover.jpg" />
 
 <meta name="author" content="Mark Myatt and Ernest Guevarra">
 
@@ -133,7 +133,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="chapter" data-level="" data-path="introducing-r.html"><a href="introducing-r.html"><i class="fa fa-check"></i>Introducing R</a><ul>
-<li class="chapter" data-level="0.1" data-path="introducing-r.html"><a href="introducing-r.html#retrieving-data"><i class="fa fa-check"></i><b>0.1</b> Retrieving data</a></li>
+<li class="chapter" data-level="" data-path="introducing-r.html"><a href="introducing-r.html#retrieving-data"><i class="fa fa-check"></i>Retrieving data</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>1</b> Getting acquainted with R</a><ul>
 <li class="chapter" data-level="1.1" data-path="exercise1.html"><a href="exercise1.html#summary"><i class="fa fa-check"></i><b>1.1</b> Summary</a></li>
@@ -277,6 +277,7 @@ called <code>fem</code>.</p>
 </tr>
 </tbody>
 </table>
+
 <p>The first ten records of the <code>fem</code> data.frame are:</p>
 <pre><code>##    ID AGE  IQ ANX DEP SLP SEX LIFE    WT
 ## 1   1  39  94   2   2   2   1    1  2.23
@@ -289,6 +290,7 @@ called <code>fem</code>.</p>
 ## 8   8  39  87   3   2   2   1    2  1.59
 ## 9   9  35 -99   3   2   2   1    1 -0.55
 ## 10 10  33  92   2   2   2   1    1  0.36</code></pre>
+<p> </p>
 <p>You may check this by asking <code>R</code> to display all columns of the first ten records in the <code>fem</code> data.frame:</p>
 <pre class="sourceCode r" id="cb33"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
 <pre><code>##    ID AGE  IQ ANX DEP SLP SEX LIFE    WT
@@ -302,8 +304,10 @@ called <code>fem</code>.</p>
 ## 8   8  39  87   3   2   2   1    2  1.59
 ## 9   9  35 -99   3   2   2   1    1 -0.55
 ## 10 10  33  92   2   2   2   1    1  0.36</code></pre>
+<p> </p>
 <p>The space after the comma is optional. You can think of it as a <em>placeholder</em> for where you would specify the indexes for columns you wanted to display. For example:</p>
 <pre class="sourceCode r" id="cb35"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre>
+<p> </p>
 <p>displays the first ten rows and the second, third and fourth columns of the <code>fem</code> data.frame:</p>
 <pre><code>##    AGE  IQ ANX
 ## 1   39  94   2
@@ -316,6 +320,7 @@ called <code>fem</code>.</p>
 ## 8   39  87   3
 ## 9   35 -99   3
 ## 10  33  92   2</code></pre>
+<p> </p>
 <p><code>NA</code> is a special value meaning <em>not available</em> or <em>missing</em>.</p>
 <p>You can access the contents of a single column by name:</p>
 <pre class="sourceCode r" id="cb37"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
@@ -326,8 +331,10 @@ called <code>fem</code>.</p>
 ##  [69]  85  92  96  90  87  95  95  87  95  88  94 -99 -99  87  92  86  93
 ##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
+<p> </p>
 <pre class="sourceCode r" id="cb39"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">fem<span class="op">$</span>IQ[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre>
 <pre><code>##  [1]  94  89  83  99  94  90  94  87 -99  92</code></pre>
+<p> </p>
 <p>The <code>$</code> sign is used to separate the name of the data.frame and the name of the column of interest. Note that <code>R</code> is case-sensitive so that <code>IQ</code> and <code>iq</code> are <strong><em>not</em></strong> the same.</p>
 <p>You can also access rows, columns, and individual cells by specifying row and column positions. For example, the <code>IQ</code> column is the third column in the <code>fem</code> data.frame:</p>
 <pre class="sourceCode r" id="cb41"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">fem[ ,<span class="dv">3</span>]</a></code></pre>
@@ -338,14 +345,18 @@ called <code>fem</code>.</p>
 ##  [69]  85  92  96  90  87  95  95  87  95  88  94 -99 -99  87  92  86  93
 ##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
+<p> </p>
 <pre class="sourceCode r" id="cb43"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fem[<span class="dv">9</span>, ]</a></code></pre>
 <pre><code>##   ID AGE  IQ ANX DEP SLP SEX LIFE    WT
 ## 9  9  35 -99   3   2   2   1    1 -0.55</code></pre>
+<p> </p>
 <pre class="sourceCode r" id="cb45"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">fem[<span class="dv">9</span>,<span class="dv">3</span>]</a></code></pre>
 <pre><code>## [1] -99</code></pre>
+<p> </p>
 <p>There are missing values in the <code>IQ</code> column which are all coded as <strong>-99</strong>. Before proceeding we must set these to
 the special <code>NA</code> value:</p>
 <pre class="sourceCode r" id="cb47"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">fem<span class="op">$</span>IQ[fem<span class="op">$</span>IQ <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre>
+<p> </p>
 <p>The term inside the square brackets is also an index. This type of index is used to refer to subsets of data held in an object that meet a particular condition. In this case we are instructing <code>R</code> to set the contents of the <code>IQ</code> variable to <code>NA</code> if the contents of the <code>IQ</code> variable is <strong>-99</strong>.</p>
 <p>Check that this has worked:</p>
 <pre class="sourceCode r" id="cb48"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
@@ -356,16 +367,20 @@ the special <code>NA</code> value:</p>
 ##  [69]  85  92  96  90  87  95  95  87  95  88  94  NA  NA  87  92  86  93
 ##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
 ## [103]  NA  96  97  92  92  98  91  91  89  94  90  96  87  86  89  NA</code></pre>
+<p> </p>
 <p>We can now compare the groups who have and have not considered suicide. For example:</p>
 <pre class="sourceCode r" id="cb50"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">by</span>(fem<span class="op">$</span>IQ, fem<span class="op">$</span>LIFE, summary)</a></code></pre>
+<p> </p>
 <p>Look at the help for the <code>by()</code> function:</p>
 <pre class="sourceCode r" id="cb51"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">help</span>(by)</a></code></pre>
+<p> </p>
 <p>Note that you may use <code>?by</code> as a shortcut for <code>help(by)</code>.</p>
 <p>The <code>by()</code> function applies another function (in this case the <code>summary()</code> function) to a column in a
 data.frame (in this case <code>fem$IQ</code>) split by the value of another variable (in this case <code>fem$LIFE</code>).</p>
 <p>It can be tedious to always have to specify a data.frame each time we want to use a particular variable. We can
 fix this problem by ‘attaching’ the data.frame:</p>
 <pre class="sourceCode r" id="cb52"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">attach</span>(fem)</a></code></pre>
+<p> </p>
 <p>We can now refer to the columns in the <code>fem</code> data.frame without having to specify the name of the data.frame. This time we will produce summary statistics for <code>WT</code> by <code>LIFE</code>:</p>
 <pre class="sourceCode r" id="cb53"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, summary)</a></code></pre>
 <pre><code>## LIFE: 1
@@ -375,29 +390,36 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## LIFE: 2
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 ## -1.6800 -0.4500  0.6400  0.6404  1.5000  2.9500       7</code></pre>
+<p> </p>
 <p>We can view the same data as a box and whisker plot:</p>
 <pre class="sourceCode r" id="cb55"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p> </p>
 <p>We can add axis labels and a title to the graph:</p>
 <pre class="sourceCode r" id="cb56"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE,</a>
 <a class="sourceLine" id="cb56-2" data-line-number="2">        <span class="dt">xlab =</span> <span class="st">&quot;Life&quot;</span>,</a>
 <a class="sourceLine" id="cb56-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Weight&quot;</span>,</a>
 <a class="sourceLine" id="cb56-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Weight BY Life&quot;</span>)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p> </p>
 <p>A more descriptive title might be “Weight Change BY Considered Suicide”.</p>
 <p>The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.</p>
 <p>We can look at the distribution as histograms:</p>
 <pre class="sourceCode r" id="cb57"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p> </p>
 <pre class="sourceCode r" id="cb58"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<p> </p>
 <p>and check the assumption of normality using quantile-quantile plots:</p>
 <pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<p> </p>
 <pre class="sourceCode r" id="cb60"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a>
 <a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<p> </p>
 <p>or by using a formal test:</p>
 <pre class="sourceCode r" id="cb61"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <pre><code>## 
@@ -405,12 +427,14 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  WT[LIFE == 1]
 ## W = 0.98038, p-value = 0.4336</code></pre>
+<p> </p>
 <pre class="sourceCode r" id="cb63"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  WT[LIFE == 2]
 ## W = 0.97155, p-value = 0.3292</code></pre>
+<p> </p>
 <p>Remember that we can use the <code>by()</code> function to apply a function to a data.frame, including statistical functions such as <code>shapiro.test()</code>:</p>
 <pre class="sourceCode r" id="cb65"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, shapiro.test)</a></code></pre>
 <pre><code>## LIFE: 1
@@ -427,6 +451,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  dd[x, ]
 ## W = 0.97155, p-value = 0.3292</code></pre>
+<p> </p>
 <p>We can also test whether the variances differ significantly using <em>Bartlett’s test</em> for the homogeneity of variances:</p>
 <pre class="sourceCode r" id="cb67"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT, LIFE)</a></code></pre>
 <pre><code>## 
@@ -434,6 +459,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  WT and LIFE
 ## Bartlett&#39;s K-squared = 0.32408, df = 1, p-value = 0.5692</code></pre>
+<p> </p>
 <p>There is no significant difference between the two variances.</p>
 <p>Many functions in <code>R</code> have a <em>formula interface</em> that may be used to specify multiple variables and the relations between multiple variables. We could have used the formula interface with the <code>bartlett.test()</code> function:</p>
 <pre class="sourceCode r" id="cb69"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
@@ -442,6 +468,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  WT by LIFE
 ## Bartlett&#39;s K-squared = 0.32408, df = 1, p-value = 0.5692</code></pre>
+<p> </p>
 <p>Having checked the normality and homogeneity of variance assumptions we can proceed to carry out a <code>t-test</code>:</p>
 <pre class="sourceCode r" id="cb71"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <pre><code>## 
@@ -455,6 +482,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ## mean in group 1 mean in group 2 
 ##       0.7867213       0.6404444</code></pre>
+<p> </p>
 <p>There is no evidence that the two groups differ in weight change in the previous six months.</p>
 <p>We could still have performed a <code>t-test</code> if the variances were not homogenous by setting the <strong>var.equal</strong> parameter of the <code>t.test()</code> function to <strong>FALSE</strong>:</p>
 <pre class="sourceCode r" id="cb73"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a></code></pre>
@@ -469,6 +497,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ## mean in group 1 mean in group 2 
 ##       0.7867213       0.6404444</code></pre>
+<p> </p>
 <p>or performed a non-parametric test:</p>
 <pre class="sourceCode r" id="cb75"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">wilcox.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <pre><code>## 
@@ -477,6 +506,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## data:  WT by LIFE
 ## W = 1488, p-value = 0.4622
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p> </p>
 <p>An alternative, and more general, non-parametric test is:</p>
 <pre class="sourceCode r" id="cb77"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">kruskal.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <pre><code>## 
@@ -484,6 +514,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  WT by LIFE
 ## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603</code></pre>
+<p> </p>
 <p>We can use the <code>table()</code> function to examine the differences in depression between the two groups:</p>
 <pre class="sourceCode r" id="cb79"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">table</span>(DEP, LIFE)</a></code></pre>
 <pre><code>##    LIFE
@@ -491,6 +522,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ##   1  0 26
 ##   2 42 24
 ##   3 16  1</code></pre>
+<p> </p>
 <p>The two distributions look very different from each other. We can test this using a chi-square test on the table:</p>
 <pre class="sourceCode r" id="cb81"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(DEP, LIFE))</a></code></pre>
 <pre><code>## 
@@ -498,6 +530,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  table(DEP, LIFE)
 ## X-squared = 43.876, df = 2, p-value = 2.968e-10</code></pre>
+<p> </p>
 <p>Note that we passed the output of the <code>table()</code> function directly to the <code>chisq.test()</code> function. We could have saved the table as an object first and then passed the object to the <code>chisq.test()</code> function:</p>
 <pre class="sourceCode r" id="cb83"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(DEP, LIFE)</a>
 <a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">chisq.test</span>(tab)</a></code></pre>
@@ -506,6 +539,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## 
 ## data:  tab
 ## X-squared = 43.876, df = 2, p-value = 2.968e-10</code></pre>
+<p> </p>
 <p>The <code>tab</code> object contains the output of the <code>table()</code> function:</p>
 <pre class="sourceCode r" id="cb85"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre>
 <pre><code>## [1] &quot;table&quot;</code></pre>
@@ -515,6 +549,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ##   1  0 26
 ##   2 42 24
 ##   3 16  1</code></pre>
+<p> </p>
 <p>We can pass this table object to another function. For example:</p>
 <pre class="sourceCode r" id="cb89"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre>
 <pre><code>## 
@@ -523,11 +558,14 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## data:  tab
 ## p-value = 1.316e-12
 ## alternative hypothesis: two.sided</code></pre>
+<p> </p>
 <p>When we are finished with the tab object we can delete it using the <code>rm()</code> function:</p>
 <pre class="sourceCode r" id="cb91"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
+<p> </p>
 <p>You can see a list of available objects using the <code>ls()</code> function:</p>
 <pre class="sourceCode r" id="cb92"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
 <pre><code>## [1] &quot;fem&quot;</code></pre>
+<p> </p>
 <p>This should just show the <code>fem</code> object.</p>
 <p>We can examine the association between loss of interest in sex and considering suicide in the same way:</p>
 <pre class="sourceCode r" id="cb94"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(SEX, LIFE)</a>
@@ -548,8 +586,10 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ## odds ratio 
 ##   3.620646</code></pre>
+<p> </p>
 <p>Note that with a two-by-two table the <code>fisher.test()</code> function produces an estimate of, and confidence intervals for, the odds ratio. Again, we will delete the <code>tab</code> object:</p>
 <pre class="sourceCode r" id="cb98"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
+<p> </p>
 <p>We could have performed the Fisher exact test without creating the tab object by passing the output of the <code>table()</code> function directly to the <code>fisher.test()</code> function:</p>
 <pre class="sourceCode r" id="cb99"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(SEX, LIFE))</a></code></pre>
 <pre><code>## 
@@ -563,13 +603,16 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ## odds ratio 
 ##   3.620646</code></pre>
+<p> </p>
 <p>Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.</p>
 <p>We can explore the correlation between two variables using the <code>cor()</code> function:</p>
 <pre class="sourceCode r" id="cb101"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">cor</span>(IQ, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>## [1] -0.2917158</code></pre>
+<p> </p>
 <p>or by using a scatter plot:</p>
 <pre class="sourceCode r" id="cb103"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">plot</span>(IQ, WT)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-64-1.png" width="672" /></p>
+<p> </p>
 <p>and by a formal test:</p>
 <pre class="sourceCode r" id="cb104"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">cor.test</span>(IQ, WT)</a></code></pre>
 <pre><code>## 
@@ -583,6 +626,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ##        cor 
 ## -0.2917158</code></pre>
+<p> </p>
 <p>With some functions you can pass an entire data.frame rather than a list of variables:</p>
 <pre class="sourceCode r" id="cb106"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">cor</span>(fem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>##               ID         AGE            IQ         ANX           DEP
@@ -607,6 +651,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## WT   -0.009259774 -0.02782651 -0.05860533  1.000000000</code></pre>
 <pre class="sourceCode r" id="cb108"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="kw">pairs</span>(fem)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
+<p> </p>
 <p>The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding <code>cbind()</code> function:</p>
 <pre class="sourceCode r" id="cb109"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">newfem &lt;-<span class="st"> </span><span class="kw">cbind</span>(AGE, IQ, WT)</a>
 <a class="sourceLine" id="cb109-2" data-line-number="2"><span class="kw">cor</span>(newfem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
@@ -616,8 +661,10 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## WT   0.4157441 -0.2917158  1.0000000</code></pre>
 <pre class="sourceCode r" id="cb111"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">pairs</span>(newfem)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-67-1.png" width="672" /></p>
+<p> </p>
 <p>When we have finished with the <code>newfem</code> object we can delete it:</p>
 <pre class="sourceCode r" id="cb112"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">rm</span>(newfem)</a></code></pre>
+<p> </p>
 <p>There was no real need to create the <code>newfem</code> object as we could have fed the output of the <code>cbind()</code> function directly to the <code>cor()</code> or <code>pairs()</code> function:</p>
 <pre class="sourceCode r" id="cb113"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">cbind</span>(AGE, IQ, WT), <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>##            AGE         IQ         WT
@@ -626,10 +673,12 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## WT   0.4157441 -0.2917158  1.0000000</code></pre>
 <pre class="sourceCode r" id="cb115"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">pairs</span>(<span class="kw">cbind</span>(AGE, IQ, WT))</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
+<p> </p>
 <p>It is, however, easier to work with the <code>newfem</code> object rather than having to retype the <code>cbind()</code> function. This is particularly true if you wanted to continue with an analysis of just the three variables.</p>
 <p>The relationship between <code>AGE</code> and <code>WT</code> can be plotted using the <code>plot()</code> function:</p>
 <pre class="sourceCode r" id="cb116"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-70-1.png" width="672" /></p>
+<p> </p>
 <p>And tested using the <code>cor()</code> and <code>cor.test()</code> functions:</p>
 <pre class="sourceCode r" id="cb117"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">cor</span>(AGE, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>## [1] 0.4157441</code></pre>
@@ -645,6 +694,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ##       cor 
 ## 0.4157441</code></pre>
+<p> </p>
 <p>Or by using the linear modelling <code>lm()</code> function:</p>
 <pre class="sourceCode r" id="cb121"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE))</a></code></pre>
 <pre><code>## 
@@ -666,9 +716,11 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ##   (11 observations deleted due to missingness)
 ## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
 ## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06</code></pre>
+<p> </p>
 <p>We use the <code>summary()</code> function here to extract summary information from the output of the <code>lm()</code> function.</p>
 <p>It is often more useful to use <code>lm()</code> to create an object:</p>
 <pre class="sourceCode r" id="cb123"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a></code></pre>
+<p> </p>
 <p>And use the output in other functions:</p>
 <pre class="sourceCode r" id="cb124"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">summary</span>(fem.lm)</a></code></pre>
 <pre><code>## 
@@ -693,34 +745,41 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <pre class="sourceCode r" id="cb126"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a>
 <a class="sourceLine" id="cb126-2" data-line-number="2"><span class="kw">abline</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p> </p>
 <p>In this case we are passing the intercept and slope information held in the <code>fem.lm</code> object to the <code>abline()</code> function which draws a regression line. The <code>abline()</code> function adds to an existing plot. This means that you need to keep the scatter plot of <code>AGE</code> and <code>WT</code> open before issuing the <code>abline()</code> function call.</p>
 <p>A useful function to apply to the <code>fem.lm</code> object is <code>plot()</code> which produces diagnostic plots of the linear model:</p>
 <pre class="sourceCode r" id="cb127"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">plot</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-75-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-75-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-75-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-75-4.png" width="672" /></p>
+<p> </p>
 <p>Objects created by the <code>lm()</code> function (or any of the modelling functions) can use up a lot of memory so we should remove them when we no longer need them:</p>
 <pre class="sourceCode r" id="cb128"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">rm</span>(fem.lm)</a></code></pre>
+<p> </p>
 <p>It might be interesting to see whether a similar relationship exists between <code>AGE</code> and <code>WT</code> for those who have and have not considered suicide. This can be done using the <code>coplot()</code> function:</p>
 <pre class="sourceCode r" id="cb129"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE))</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <pre><code>## 
 ##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115</code></pre>
+<p> </p>
 <p>The two plots looks similar. We could also use <code>coplot()</code> to investigate the relationship between <code>AGE</code> and <code>WT</code> for categories of both <code>LIFE</code> and <code>SEX</code>:</p>
 <pre class="sourceCode r" id="cb131"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE) <span class="op">*</span><span class="st"> </span><span class="kw">as.factor</span>(SEX))</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-78-1.png" width="672" /></p>
 <pre><code>## 
 ##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115</code></pre>
+<p> </p>
 <p>although the numbers are too small for this to be useful here.</p>
 <p>We used the <code>as.factor()</code> function with the <code>coplot()</code> function to ensure that <code>R</code> was aware that the <code>LIFE</code>
 and <code>SEX</code> columns hold categorical data.</p>
 <p>We can check the way variables are stored using the <code>data.class()</code> function:</p>
 <pre class="sourceCode r" id="cb133"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw">data.class</span>(fem<span class="op">$</span>SEX)</a></code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
+<p> </p>
 <p>We can ‘apply’ this function to all columns in a data.frame using the <code>sapply()</code> function:</p>
 <pre class="sourceCode r" id="cb135"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw">sapply</span>(fem, data.class)</a></code></pre>
 <pre><code>##        ID       AGE        IQ       ANX       DEP       SLP       SEX 
 ## &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; 
 ##      LIFE        WT 
 ## &quot;numeric&quot; &quot;numeric&quot;</code></pre>
+<p> </p>
 <p>The <code>sapply()</code> function is part of a group of functions that apply a specified function to data objects:</p>
 <table>
 <colgroup>
@@ -768,10 +827,13 @@ and <code>SEX</code> columns hold categorical data.</p>
 ## sample estimates:
 ##       tau 
 ## 0.4950723</code></pre>
+<p> </p>
 <p>Before we finish we should save the <code>fem</code> data.frame so that next time we want to use it we will not have to bother with recoding the missing values to the special <code>NA</code> value. This is done with the <code>write.table()</code> function:</p>
 <pre class="sourceCode r" id="cb139"><code class="sourceCode r"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">write.table</span>(fem, <span class="dt">file =</span> <span class="st">&quot;newfem.dat&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre>
+<p> </p>
 <p>Everything in <code>R</code> is either a function or an object. Even the command to quit <code>R</code> is a function:</p>
 <pre class="sourceCode r" id="cb140"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p> </p>
 <p>When you call the <code>q()</code> function you will be asked if you want to save the workspace image. If you save the workspace image then all of the objects and functions currently available to you will be saved. These will then be automatically restored the next time you start <code>R</code> in the current working directory.</p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary" class="section level2">

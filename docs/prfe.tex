@@ -1,4 +1,4 @@
-\documentclass[12pt,]{book}
+\documentclass[12pt,a4paper]{book}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -21,7 +21,7 @@
 \usepackage{microtype}
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=2cm]{geometry}
 \usepackage{hyperref}
 \PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
 \hypersetup{unicode=true,
@@ -135,6 +135,10 @@
 \usepackage{color}
 \usepackage{tcolorbox}
 \usepackage{float}
+\usepackage{setspace}
+
+\onehalfspacing
+
 \graphicspath{ {images/} }
 
 \newenvironment{rmdremind}
@@ -493,8 +497,11 @@ database connectivity) and \textbf{SQL} data sources, \textbf{EpiInfo},
 \textbf{EpiData}, \textbf{Minitab}, \textbf{SPSS}, \textbf{SAS},
 \textbf{S-Plus}, and \textbf{Stata} format files.
 
+\newpage
+
 \hypertarget{retrieving-data}{%
-\section{Retrieving data}\label{retrieving-data}}
+\section*{Retrieving data}\label{retrieving-data}}
+\addcontentsline{toc}{section}{Retrieving data}
 
 All of the exercises in this manual assume that the necessary data files
 are located in the current working directory. All of the data files that
@@ -586,8 +593,8 @@ example, that you can use the \texttt{read.table()} function specifying
 ``\url{http://www.brixtonhealth.com/prfe/fem.dat}''
 
 as the \texttt{URL} to retrieve the data that is stored in the file
-named \texttt{fem.dat} which is stored in the \texttt{/prfe} directory
-of this guide's GitLab repository.
+named \texttt{fem.dat} which is stored in the \texttt{data/} directory
+of this guide's GitHub repository.
 
 \hypertarget{exercise1}{%
 \chapter{Getting acquainted with R}\label{exercise1}}
@@ -773,6 +780,8 @@ Weight change (kg) in previous 6 months\strut
 \bottomrule
 \end{longtable}
 
+\newpage
+
 The first ten records of the \texttt{fem} data.frame are:
 
 \begin{verbatim}
@@ -788,6 +797,8 @@ The first ten records of the \texttt{fem} data.frame are:
 ## 9   9  35 -99   3   2   2   1    1 -0.55
 ## 10 10  33  92   2   2   2   1    1  0.36
 \end{verbatim}
+
+~
 
 You may check this by asking \texttt{R} to display all columns of the
 first ten records in the \texttt{fem} data.frame:
@@ -812,6 +823,8 @@ first ten records in the \texttt{fem} data.frame:
 ## 10 10  33  92   2   2   2   1    1  0.36
 \end{verbatim}
 
+~
+
 The space after the comma is optional. You can think of it as a
 \emph{placeholder} for where you would specify the indexes for columns
 you wanted to display. For example:
@@ -821,6 +834,8 @@ you wanted to display. For example:
 \NormalTok{fem[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{,}\DecValTok{2}\OperatorTok{:}\DecValTok{4}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 displays the first ten rows and the second, third and fourth columns of
 the \texttt{fem} data.frame:
@@ -838,6 +853,8 @@ the \texttt{fem} data.frame:
 ## 9   35 -99   3
 ## 10  33  92   2
 \end{verbatim}
+
+~
 
 \texttt{NA} is a special value meaning \emph{not available} or
 \emph{missing}.
@@ -860,6 +877,8 @@ You can access the contents of a single column by name:
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99
 \end{verbatim}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fem}\OperatorTok{$}\NormalTok{IQ[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{]}
@@ -869,6 +888,8 @@ You can access the contents of a single column by name:
 \begin{verbatim}
 ##  [1]  94  89  83  99  94  90  94  87 -99  92
 \end{verbatim}
+
+~
 
 The \texttt{\$} sign is used to separate the name of the data.frame and
 the name of the column of interest. Note that \texttt{R} is
@@ -895,6 +916,8 @@ third column in the \texttt{fem} data.frame:
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99
 \end{verbatim}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fem[}\DecValTok{9}\NormalTok{, ]}
@@ -906,6 +929,8 @@ third column in the \texttt{fem} data.frame:
 ## 9  9  35 -99   3   2   2   1    1 -0.55
 \end{verbatim}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{fem[}\DecValTok{9}\NormalTok{,}\DecValTok{3}\NormalTok{]}
@@ -916,6 +941,8 @@ third column in the \texttt{fem} data.frame:
 ## [1] -99
 \end{verbatim}
 
+~
+
 There are missing values in the \texttt{IQ} column which are all coded
 as \textbf{-99}. Before proceeding we must set these to the special
 \texttt{NA} value:
@@ -925,6 +952,8 @@ as \textbf{-99}. Before proceeding we must set these to the special
 \NormalTok{fem}\OperatorTok{$}\NormalTok{IQ[fem}\OperatorTok{$}\NormalTok{IQ }\OperatorTok{==}\StringTok{ }\DecValTok{-99}\NormalTok{] <-}\StringTok{ }\OtherTok{NA}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 The term inside the square brackets is also an index. This type of index
 is used to refer to subsets of data held in an object that meet a
@@ -950,6 +979,8 @@ Check that this has worked:
 ## [103]  NA  96  97  92  92  98  91  91  89  94  90  96  87  86  89  NA
 \end{verbatim}
 
+~
+
 We can now compare the groups who have and have not considered suicide.
 For example:
 
@@ -959,6 +990,8 @@ For example:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Look at the help for the \texttt{by()} function:
 
 \begin{Shaded}
@@ -966,6 +999,8 @@ Look at the help for the \texttt{by()} function:
 \KeywordTok{help}\NormalTok{(by)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 Note that you may use \texttt{?by} as a shortcut for \texttt{help(by)}.
 
@@ -1008,6 +1043,8 @@ want to use a particular variable. We can fix this problem by
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT
 \end{verbatim}
 
+~
+
 We can now refer to the columns in the \texttt{fem} data.frame without
 having to specify the name of the data.frame. This time we will produce
 summary statistics for \texttt{WT} by \texttt{LIFE}:
@@ -1028,6 +1065,8 @@ summary statistics for \texttt{WT} by \texttt{LIFE}:
 ## -1.6800 -0.4500  0.6400  0.6404  1.5000  2.9500       7
 \end{verbatim}
 
+~
+
 We can view the same data as a box and whisker plot:
 
 \begin{Shaded}
@@ -1037,6 +1076,8 @@ We can view the same data as a box and whisker plot:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-39-1.pdf}
+
+~
 
 We can add axis labels and a title to the graph:
 
@@ -1050,6 +1091,8 @@ We can add axis labels and a title to the graph:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-40-1.pdf}
+
+~
 
 A more descriptive title might be ``Weight Change BY Considered
 Suicide''.
@@ -1068,6 +1111,8 @@ We can look at the distribution as histograms:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-41-1.pdf}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{hist}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
@@ -1075,6 +1120,8 @@ We can look at the distribution as histograms:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-42-1.pdf}
+
+~
 
 and check the assumption of normality using quantile-quantile plots:
 
@@ -1087,6 +1134,8 @@ and check the assumption of normality using quantile-quantile plots:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-43-1.pdf}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{qqnorm}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
@@ -1095,6 +1144,8 @@ and check the assumption of normality using quantile-quantile plots:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-44-1.pdf}
+
+~
 
 or by using a formal test:
 
@@ -1112,6 +1163,8 @@ or by using a formal test:
 ## W = 0.98038, p-value = 0.4336
 \end{verbatim}
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{shapiro.test}\NormalTok{(WT[LIFE }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{])}
@@ -1125,6 +1178,8 @@ or by using a formal test:
 ## data:  WT[LIFE == 2]
 ## W = 0.97155, p-value = 0.3292
 \end{verbatim}
+
+~
 
 Remember that we can use the \texttt{by()} function to apply a function
 to a data.frame, including statistical functions such as
@@ -1153,6 +1208,8 @@ to a data.frame, including statistical functions such as
 ## W = 0.97155, p-value = 0.3292
 \end{verbatim}
 
+~
+
 We can also test whether the variances differ significantly using
 \emph{Bartlett's test} for the homogeneity of variances:
 
@@ -1169,6 +1226,8 @@ We can also test whether the variances differ significantly using
 ## data:  WT and LIFE
 ## Bartlett's K-squared = 0.32408, df = 1, p-value = 0.5692
 \end{verbatim}
+
+~
 
 There is no significant difference between the two variances.
 
@@ -1190,6 +1249,8 @@ variables. We could have used the formula interface with the
 ## data:  WT by LIFE
 ## Bartlett's K-squared = 0.32408, df = 1, p-value = 0.5692
 \end{verbatim}
+
+~
 
 Having checked the normality and homogeneity of variance assumptions we
 can proceed to carry out a \texttt{t-test}:
@@ -1213,6 +1274,8 @@ can proceed to carry out a \texttt{t-test}:
 ## mean in group 1 mean in group 2 
 ##       0.7867213       0.6404444
 \end{verbatim}
+
+~
 
 There is no evidence that the two groups differ in weight change in the
 previous six months.
@@ -1241,6 +1304,8 @@ not homogenous by setting the \textbf{var.equal} parameter of the
 ##       0.7867213       0.6404444
 \end{verbatim}
 
+~
+
 or performed a non-parametric test:
 
 \begin{Shaded}
@@ -1258,6 +1323,8 @@ or performed a non-parametric test:
 ## alternative hypothesis: true location shift is not equal to 0
 \end{verbatim}
 
+~
+
 An alternative, and more general, non-parametric test is:
 
 \begin{Shaded}
@@ -1273,6 +1340,8 @@ An alternative, and more general, non-parametric test is:
 ## data:  WT by LIFE
 ## Kruskal-Wallis chi-squared = 0.54521, df = 1, p-value = 0.4603
 \end{verbatim}
+
+~
 
 We can use the \texttt{table()} function to examine the differences in
 depression between the two groups:
@@ -1291,6 +1360,8 @@ depression between the two groups:
 ##   3 16  1
 \end{verbatim}
 
+~
+
 The two distributions look very different from each other. We can test
 this using a chi-square test on the table:
 
@@ -1307,6 +1378,8 @@ this using a chi-square test on the table:
 ## data:  table(DEP, LIFE)
 ## X-squared = 43.876, df = 2, p-value = 2.968e-10
 \end{verbatim}
+
+~
 
 Note that we passed the output of the \texttt{table()} function directly
 to the \texttt{chisq.test()} function. We could have saved the table as
@@ -1327,6 +1400,8 @@ function:
 ## data:  tab
 ## X-squared = 43.876, df = 2, p-value = 2.968e-10
 \end{verbatim}
+
+~
 
 The \texttt{tab} object contains the output of the \texttt{table()}
 function:
@@ -1355,6 +1430,8 @@ function:
 ##   3 16  1
 \end{verbatim}
 
+~
+
 We can pass this table object to another function. For example:
 
 \begin{Shaded}
@@ -1372,6 +1449,8 @@ We can pass this table object to another function. For example:
 ## alternative hypothesis: two.sided
 \end{verbatim}
 
+~
+
 When we are finished with the tab object we can delete it using the
 \texttt{rm()} function:
 
@@ -1380,6 +1459,8 @@ When we are finished with the tab object we can delete it using the
 \KeywordTok{rm}\NormalTok{(tab)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 You can see a list of available objects using the \texttt{ls()}
 function:
@@ -1393,6 +1474,8 @@ function:
 \begin{verbatim}
 ## [1] "fem"
 \end{verbatim}
+
+~
 
 This should just show the \texttt{fem} object.
 
@@ -1433,6 +1516,8 @@ considering suicide in the same way:
 ##   3.620646
 \end{verbatim}
 
+~
+
 Note that with a two-by-two table the \texttt{fisher.test()} function
 produces an estimate of, and confidence intervals for, the odds ratio.
 Again, we will delete the \texttt{tab} object:
@@ -1442,6 +1527,8 @@ Again, we will delete the \texttt{tab} object:
 \KeywordTok{rm}\NormalTok{(tab)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 We could have performed the Fisher exact test without creating the tab
 object by passing the output of the \texttt{table()} function directly
@@ -1467,6 +1554,8 @@ to the \texttt{fisher.test()} function:
 ##   3.620646
 \end{verbatim}
 
+~
+
 Choose whichever method you find easiest but remember that it is easy to
 save the results of any function for later use.
 
@@ -1483,6 +1572,8 @@ We can explore the correlation between two variables using the
 ## [1] -0.2917158
 \end{verbatim}
 
+~
+
 or by using a scatter plot:
 
 \begin{Shaded}
@@ -1492,6 +1583,8 @@ or by using a scatter plot:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-64-1.pdf}
+
+~
 
 and by a formal test:
 
@@ -1514,6 +1607,8 @@ and by a formal test:
 ##        cor 
 ## -0.2917158
 \end{verbatim}
+
+~
 
 With some functions you can pass an entire data.frame rather than a list
 of variables:
@@ -1555,6 +1650,8 @@ of variables:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-66-1.pdf}
 
+~
+
 The output can be a little confusing particularly if it includes
 categorical or record identifying variables. To avoid this we can create
 a new object that contains only the columns we are interested in using
@@ -1582,6 +1679,8 @@ the column binding \texttt{cbind()} function:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-67-1.pdf}
 
+~
+
 When we have finished with the \texttt{newfem} object we can delete it:
 
 \begin{Shaded}
@@ -1589,6 +1688,8 @@ When we have finished with the \texttt{newfem} object we can delete it:
 \KeywordTok{rm}\NormalTok{(newfem)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 There was no real need to create the \texttt{newfem} object as we could
 have fed the output of the \texttt{cbind()} function directly to the
@@ -1615,6 +1716,8 @@ have fed the output of the \texttt{cbind()} function directly to the
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-69-1.pdf}
 
+~
+
 It is, however, easier to work with the \texttt{newfem} object rather
 than having to retype the \texttt{cbind()} function. This is
 particularly true if you wanted to continue with an analysis of just the
@@ -1630,6 +1733,8 @@ using the \texttt{plot()} function:
 \end{Shaded}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-70-1.pdf}
+
+~
 
 And tested using the \texttt{cor()} and \texttt{cor.test()} functions:
 
@@ -1663,6 +1768,8 @@ And tested using the \texttt{cor()} and \texttt{cor.test()} functions:
 ## 0.4157441
 \end{verbatim}
 
+~
+
 Or by using the linear modelling \texttt{lm()} function:
 
 \begin{Shaded}
@@ -1693,6 +1800,8 @@ Or by using the linear modelling \texttt{lm()} function:
 ## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06
 \end{verbatim}
 
+~
+
 We use the \texttt{summary()} function here to extract summary
 information from the output of the \texttt{lm()} function.
 
@@ -1703,6 +1812,8 @@ It is often more useful to use \texttt{lm()} to create an object:
 \NormalTok{fem.lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(WT }\OperatorTok{~}\StringTok{ }\NormalTok{AGE)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 And use the output in other functions:
 
@@ -1743,6 +1854,8 @@ And use the output in other functions:
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1.pdf}
 
+~
+
 In this case we are passing the intercept and slope information held in
 the \texttt{fem.lm} object to the \texttt{abline()} function which draws
 a regression line. The \texttt{abline()} function adds to an existing
@@ -1763,6 +1876,8 @@ A useful function to apply to the \texttt{fem.lm} object is
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-75-3.pdf}
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-75-4.pdf}
 
+~
+
 Objects created by the \texttt{lm()} function (or any of the modelling
 functions) can use up a lot of memory so we should remove them when we
 no longer need them:
@@ -1772,6 +1887,8 @@ no longer need them:
 \KeywordTok{rm}\NormalTok{(fem.lm)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 It might be interesting to see whether a similar relationship exists
 between \texttt{AGE} and \texttt{WT} for those who have and have not
@@ -1791,6 +1908,8 @@ function:
 ##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115
 \end{verbatim}
 
+~
+
 The two plots looks similar. We could also use \texttt{coplot()} to
 investigate the relationship between \texttt{AGE} and \texttt{WT} for
 categories of both \texttt{LIFE} and \texttt{SEX}:
@@ -1807,6 +1926,8 @@ categories of both \texttt{LIFE} and \texttt{SEX}:
 ## 
 ##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115
 \end{verbatim}
+
+~
 
 although the numbers are too small for this to be useful here.
 
@@ -1827,6 +1948,8 @@ We can check the way variables are stored using the
 ## [1] "numeric"
 \end{verbatim}
 
+~
+
 We can `apply' this function to all columns in a data.frame using the
 \texttt{sapply()} function:
 
@@ -1842,6 +1965,8 @@ We can `apply' this function to all columns in a data.frame using the
 ##      LIFE        WT 
 ## "numeric" "numeric"
 \end{verbatim}
+
+~
 
 The \texttt{sapply()} function is part of a group of functions that
 apply a specified function to data objects:
@@ -1915,6 +2040,8 @@ is \emph{Kendall's tau}. This can be obtained using:
 ## 0.4950723
 \end{verbatim}
 
+~
+
 Before we finish we should save the \texttt{fem} data.frame so that next
 time we want to use it we will not have to bother with recoding the
 missing values to the special \texttt{NA} value. This is done with the
@@ -1926,6 +2053,8 @@ missing values to the special \texttt{NA} value. This is done with the
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Everything in \texttt{R} is either a function or an object. Even the
 command to quit \texttt{R} is a function:
 
@@ -1934,6 +2063,8 @@ command to quit \texttt{R} is a function:
 \KeywordTok{q}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 When you call the \texttt{q()} function you will be asked if you want to
 save the workspace image. If you save the workspace image then all of
@@ -11173,7 +11304,7 @@ The \texttt{sample()} function can be used to select a bootstrap
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  7.3 12.2  7.3 12.2  7.3
+## [1]  8.4 14.0 14.0  7.3 10.4
 \end{verbatim}
 
 Enter this command several times to see some more bootstrap replicates.
@@ -11191,7 +11322,7 @@ It is possible to apply a summary measure to a replicate:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 9.48
+## [1] 12.16
 \end{verbatim}
 
 Enter this command several times. A bootstrap estimate of the mean of
@@ -11214,11 +11345,11 @@ First create the matrix of replicates. Here we take ten replicates:
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,] 10.4 10.4 10.4 14.0  7.3 10.4 12.2  8.4  7.3   8.4
-## [2,]  8.4 14.0 12.2 12.2 10.4  7.3  7.3 12.2  7.3   7.3
-## [3,]  8.4  7.3 12.2 14.0 14.0  7.3 12.2  8.4  7.3  10.4
-## [4,]  7.3 12.2 12.2 12.2  7.3 14.0  8.4  7.3  8.4  12.2
-## [5,] 14.0 12.2 10.4  7.3  8.4  7.3 12.2 10.4 10.4   7.3
+## [1,] 12.2 12.2  8.4 10.4 10.4 14.0  7.3 10.4 10.4   7.3
+## [2,]  7.3 10.4  8.4 12.2 14.0 14.0  8.4 12.2 12.2  12.2
+## [3,] 12.2 12.2  7.3  7.3 10.4 14.0 12.2 12.2 10.4  14.0
+## [4,] 10.4  8.4 12.2  7.3  7.3  8.4  8.4  7.3  7.3   8.4
+## [5,]  7.3  7.3 10.4 12.2 10.4 10.4 10.4 10.4 10.4  14.0
 \end{verbatim}
 
 Then calculate and store the means of each replicate. We can do this
@@ -11233,7 +11364,7 @@ function to the columns of matrix \texttt{x1}:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1]  9.70 11.22 11.48 11.94  9.48  9.26 10.46  9.34  8.14  9.12
+##  [1]  9.88 10.10  9.34  9.88 10.50 12.16  9.34 10.50 10.14 11.18
 \end{verbatim}
 
 The bootstrap estimate of the mean is:
@@ -11245,7 +11376,7 @@ The bootstrap estimate of the mean is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 9.59
+## [1] 10.12
 \end{verbatim}
 
 The bootstrap estimate may differ somewhat from the mean of \texttt{x}:
@@ -11339,7 +11470,7 @@ relatively simple to solve using bootstrap methods:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 33.70543
+## [1] 33.69001
 \end{verbatim}
 
 A 95\% confidence interval can be extracted from \texttt{x2} using the
@@ -11353,7 +11484,7 @@ A 95\% confidence interval can be extracted from \texttt{x2} using the
 
 \begin{verbatim}
 ##     2.5%    97.5% 
-## 27.85822 40.25508
+## 27.77638 40.20026
 \end{verbatim}
 
 A 99\% confidence interval can also be extracted from \texttt{x2} using
@@ -11367,7 +11498,7 @@ the \texttt{quantile()} function:
 
 \begin{verbatim}
 ##     0.5%    99.5% 
-## 26.49493 42.47791
+## 26.28707 41.92980
 \end{verbatim}
 
 As a final example of the bootstrap method we will use the method to
@@ -11440,12 +11571,12 @@ interval may be obtained using the \texttt{median()} and
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.10644
+## [1] 13.75714
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  5.061875 52.501389
+##  4.592127 57.629167
 \end{verbatim}
 
 This approach may fail when some tables have cells that contain zero.
@@ -11463,12 +11594,12 @@ those values of \texttt{boot} that are not (\texttt{!=}) infinite
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.10644
+## [1] 13.71131
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  5.061875 52.501389
+##  4.585205 55.290625
 \end{verbatim}
 
 Another way to avoid this problem is to use an
@@ -11490,12 +11621,12 @@ the two-by-two table:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 12.67251
+## [1] 12.75681
 \end{verbatim}
 
 \begin{verbatim}
-##      2.5%     97.5% 
-##  4.454446 48.763187
+##     2.5%    97.5% 
+##  4.58436 53.56000
 \end{verbatim}
 
 This procedure is preferred when working with sparse tables.
@@ -11605,7 +11736,7 @@ number of estimates of the mean distance under the null hypothesis:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0969
+## [1] 0.1016
 \end{verbatim}
 
 You might like to repeat this exercise using the harmonic mean distance
@@ -11644,7 +11775,7 @@ disposal site is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2567557
+## [1] 0.2481574
 \end{verbatim}
 
 We can use the the simulated null hypothesis data to test for spatial
@@ -11687,7 +11818,7 @@ in a similar way:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5922
+## [1] 0.0927
 \end{verbatim}
 
 The method is not capable of detecting plumes.
@@ -12645,7 +12776,7 @@ dataset:
 ## [1] 51
 ## 
 ## $cases
-## [1] 8
+## [1] 13
 ## 
 ## $outcome
 ## [1] 0
@@ -12675,7 +12806,7 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 31
+## [1] 36
 ## 
 ## $cases
 ## [1] 16
@@ -12705,13 +12836,13 @@ prevalence dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 43
+## [1] 52
 ## 
 ## $cases
-## [1] 16
+## [1] 12
 ## 
 ## $outcome
-## [1] 1
+## [1] 0
 \end{verbatim}
 
 Repeat the last function call several times. The function should return:
@@ -12797,10 +12928,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.728
+## [1] 50.588
 ## 
 ## $p.high
-## [1] 0.016
+## [1] 0.02
 \end{verbatim}
 
 \begin{verbatim}
@@ -12808,7 +12939,7 @@ We can test this function with the same three test datasets:
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 34.528
+## [1] 34.28
 ## 
 ## $p.high
 ## [1] 0.984
@@ -12819,10 +12950,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 45.632
+## [1] 45.38
 ## 
 ## $p.high
-## [1] 0.628
+## [1] 0.604
 \end{verbatim}
 
 The simulation consists of applying this function to each of the
@@ -12898,54 +13029,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 25.552  1.000    egypt01.sim
-## 2  0.09243697 50.720  0.000    egypt02.sim
-## 3  0.34394904 44.028  0.764    egypt03.sim
-## 4  0.25465839 48.928  0.280    egypt04.sim
-## 5  0.13548387 50.648  0.000    egypt05.sim
-## 6  0.69934641 22.660  1.000    egypt06.sim
-## 7  0.09815951 50.708  0.000    egypt07.sim
-## 8  0.56684492 26.948  1.000    egypt08.sim
-## 9  0.52517986 28.532  1.000    egypt09.sim
-## 10 0.43434343 35.284  0.988    egypt10.sim
-## 11 0.08510638 51.480  0.000   gambia01.sim
-## 12 0.25174825 50.040  0.348   gambia02.sim
-## 13 0.17307692 51.916  0.036   gambia03.sim
-## 14 0.18666667 51.760  0.048   gambia04.sim
-## 15 0.12643678 52.300  0.020   gambia05.sim
-## 16 0.51809524 32.352  1.000   gambia06.sim
-## 17 0.38766520 39.920  0.924   gambia07.sim
-## 18 0.31055901 46.656  0.664   gambia08.sim
-## 19 0.35483871 42.612  0.800   gambia09.sim
-## 20 0.33584906 45.120  0.688   gambia10.sim
-## 21 0.09900990 52.312  0.000    ghana01.sim
-## 22 0.21621622 51.232  0.176    ghana02.sim
-## 23 0.27819549 48.516  0.476    ghana03.sim
-## 24 0.46728972 33.488  0.980 tanzania01.sim
-## 25 0.45631068 33.840  1.000 tanzania02.sim
-## 26 0.10256410 50.716  0.000 tanzania03.sim
-## 27 0.17241379 50.588  0.024 tanzania04.sim
-## 28 0.69629630 22.364  1.000 tanzania05.sim
-## 29 0.30927835 45.764  0.608 tanzania06.sim
-## 30 0.37272727 39.660  0.876 tanzania07.sim
-## 31 0.44545455 33.940  0.980 tanzania08.sim
-## 32 0.21468927 50.236  0.164 tanzania09.sim
-## 33 0.59259259 25.796  1.000 tanzania10.sim
-## 34 0.25443787 48.724  0.308 tanzania11.sim
-## 35 0.56198347 29.744  1.000 tanzania12.sim
-## 36 0.50862069 30.600  1.000 tanzania13.sim
-## 37 0.41052632 36.776  0.968 tanzania14.sim
-## 38 0.25490196 49.008  0.384     togo01.sim
-## 39 0.16923077 55.720  0.080     togo02.sim
-## 40 0.21476510 50.664  0.200     togo03.sim
-## 41 0.12658228 52.032  0.016     togo04.sim
-## 42 0.10982659 52.888  0.000     togo05.sim
-## 43 0.26771654 47.360  0.436     togo06.sim
-## 44 0.32446809 44.788  0.664     togo07.sim
-## 45 0.31250000 45.292  0.664     togo08.sim
-## 46 0.12500000 51.444  0.000     togo09.sim
-## 47 0.04385965 52.140  0.000     togo10.sim
-## 48 0.08609272 52.524  0.000     togo11.sim
+## 1  0.59139785 26.228  1.000    egypt01.sim
+## 2  0.09243697 50.772  0.000    egypt02.sim
+## 3  0.34394904 43.476  0.784    egypt03.sim
+## 4  0.25465839 49.072  0.324    egypt04.sim
+## 5  0.13548387 50.696  0.000    egypt05.sim
+## 6  0.69934641 22.784  1.000    egypt06.sim
+## 7  0.09815951 50.788  0.000    egypt07.sim
+## 8  0.56684492 26.988  1.000    egypt08.sim
+## 9  0.52517986 28.828  1.000    egypt09.sim
+## 10 0.43434343 35.380  0.988    egypt10.sim
+## 11 0.08510638 51.692  0.000   gambia01.sim
+## 12 0.25174825 49.260  0.384   gambia02.sim
+## 13 0.17307692 51.784  0.080   gambia03.sim
+## 14 0.18666667 51.736  0.072   gambia04.sim
+## 15 0.12643678 52.140  0.036   gambia05.sim
+## 16 0.51809524 33.028  1.000   gambia06.sim
+## 17 0.38766520 41.080  0.928   gambia07.sim
+## 18 0.31055901 47.372  0.608   gambia08.sim
+## 19 0.35483871 43.560  0.744   gambia09.sim
+## 20 0.33584906 45.040  0.684   gambia10.sim
+## 21 0.09900990 52.148  0.004    ghana01.sim
+## 22 0.21621622 51.316  0.156    ghana02.sim
+## 23 0.27819549 48.620  0.492    ghana03.sim
+## 24 0.46728972 33.688  0.984 tanzania01.sim
+## 25 0.45631068 33.364  1.000 tanzania02.sim
+## 26 0.10256410 50.708  0.000 tanzania03.sim
+## 27 0.17241379 50.584  0.032 tanzania04.sim
+## 28 0.69629630 22.548  1.000 tanzania05.sim
+## 29 0.30927835 44.744  0.648 tanzania06.sim
+## 30 0.37272727 39.728  0.896 tanzania07.sim
+## 31 0.44545455 34.516  0.992 tanzania08.sim
+## 32 0.21468927 50.060  0.156 tanzania09.sim
+## 33 0.59259259 26.112  1.000 tanzania10.sim
+## 34 0.25443787 48.496  0.340 tanzania11.sim
+## 35 0.56198347 29.388  1.000 tanzania12.sim
+## 36 0.50862069 30.256  1.000 tanzania13.sim
+## 37 0.41052632 36.472  0.976 tanzania14.sim
+## 38 0.25490196 49.540  0.356     togo01.sim
+## 39 0.16923077 55.216  0.080     togo02.sim
+## 40 0.21476510 50.840  0.196     togo03.sim
+## 41 0.12658228 51.916  0.016     togo04.sim
+## 42 0.10982659 53.152  0.000     togo05.sim
+## 43 0.26771654 47.420  0.424     togo06.sim
+## 44 0.32446809 45.776  0.672     togo07.sim
+## 45 0.31250000 45.460  0.704     togo08.sim
+## 46 0.12500000 51.360  0.000     togo09.sim
+## 47 0.04385965 52.376  0.000     togo10.sim
+## 48 0.08609272 52.092  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the prevalences in the test datasets:
@@ -13174,54 +13305,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 26.320  1.000    egypt01.sim
-## 2  0.09243697 50.880  0.000    egypt02.sim
-## 3  0.34394904 43.332  0.808    egypt03.sim
-## 4  0.25465839 48.876  0.324    egypt04.sim
-## 5  0.13548387 50.640  0.004    egypt05.sim
-## 6  0.69934641 22.308  1.000    egypt06.sim
-## 7  0.09815951 50.712  0.000    egypt07.sim
-## 8  0.56684492 27.668  1.000    egypt08.sim
-## 9  0.52517986 29.904  1.000    egypt09.sim
-## 10 0.43434343 35.544  0.996    egypt10.sim
-## 11 0.08510638 51.652  0.000   gambia01.sim
-## 12 0.25174825 49.416  0.348   gambia02.sim
-## 13 0.17307692 52.240  0.064   gambia03.sim
-## 14 0.18666667 51.760  0.044   gambia04.sim
-## 15 0.12643678 52.356  0.024   gambia05.sim
-## 16 0.51809524 33.188  1.000   gambia06.sim
-## 17 0.38766520 41.404  0.928   gambia07.sim
-## 18 0.31055901 46.468  0.612   gambia08.sim
-## 19 0.35483871 42.244  0.772   gambia09.sim
-## 20 0.33584906 44.448  0.704   gambia10.sim
-## 21 0.09900990 52.228  0.000    ghana01.sim
-## 22 0.21621622 51.352  0.188    ghana02.sim
-## 23 0.27819549 48.808  0.472    ghana03.sim
-## 24 0.46728972 32.872  0.992 tanzania01.sim
-## 25 0.45631068 33.528  1.000 tanzania02.sim
-## 26 0.10256410 50.808  0.000 tanzania03.sim
-## 27 0.17241379 50.700  0.016 tanzania04.sim
-## 28 0.69629630 22.796  1.000 tanzania05.sim
-## 29 0.30927835 45.880  0.544 tanzania06.sim
-## 30 0.37272727 39.868  0.888 tanzania07.sim
-## 31 0.44545455 34.592  0.980 tanzania08.sim
-## 32 0.21468927 50.440  0.104 tanzania09.sim
-## 33 0.59259259 26.316  1.000 tanzania10.sim
-## 34 0.25443787 48.608  0.320 tanzania11.sim
-## 35 0.56198347 29.868  1.000 tanzania12.sim
-## 36 0.50862069 30.384  0.992 tanzania13.sim
-## 37 0.41052632 37.328  0.960 tanzania14.sim
-## 38 0.25490196 48.648  0.452     togo01.sim
-## 39 0.16923077 55.412  0.060     togo02.sim
-## 40 0.21476510 51.124  0.196     togo03.sim
-## 41 0.12658228 52.008  0.016     togo04.sim
-## 42 0.10982659 52.964  0.000     togo05.sim
-## 43 0.26771654 47.828  0.412     togo06.sim
-## 44 0.32446809 43.828  0.708     togo07.sim
-## 45 0.31250000 45.636  0.632     togo08.sim
-## 46 0.12500000 51.292  0.004     togo09.sim
-## 47 0.04385965 51.948  0.000     togo10.sim
-## 48 0.08609272 52.348  0.000     togo11.sim
+## 1  0.59139785 26.272  1.000    egypt01.sim
+## 2  0.09243697 50.720  0.000    egypt02.sim
+## 3  0.34394904 43.868  0.776    egypt03.sim
+## 4  0.25465839 48.644  0.304    egypt04.sim
+## 5  0.13548387 50.724  0.004    egypt05.sim
+## 6  0.69934641 22.704  1.000    egypt06.sim
+## 7  0.09815951 50.828  0.000    egypt07.sim
+## 8  0.56684492 27.572  1.000    egypt08.sim
+## 9  0.52517986 29.288  0.996    egypt09.sim
+## 10 0.43434343 35.344  0.988    egypt10.sim
+## 11 0.08510638 51.812  0.000   gambia01.sim
+## 12 0.25174825 49.904  0.348   gambia02.sim
+## 13 0.17307692 52.036  0.056   gambia03.sim
+## 14 0.18666667 51.624  0.060   gambia04.sim
+## 15 0.12643678 52.296  0.028   gambia05.sim
+## 16 0.51809524 32.256  0.996   gambia06.sim
+## 17 0.38766520 41.992  0.932   gambia07.sim
+## 18 0.31055901 46.660  0.632   gambia08.sim
+## 19 0.35483871 41.960  0.776   gambia09.sim
+## 20 0.33584906 44.088  0.716   gambia10.sim
+## 21 0.09900990 52.348  0.000    ghana01.sim
+## 22 0.21621622 51.096  0.196    ghana02.sim
+## 23 0.27819549 49.376  0.504    ghana03.sim
+## 24 0.46728972 33.176  0.996 tanzania01.sim
+## 25 0.45631068 33.360  1.000 tanzania02.sim
+## 26 0.10256410 50.636  0.000 tanzania03.sim
+## 27 0.17241379 50.704  0.028 tanzania04.sim
+## 28 0.69629630 22.480  1.000 tanzania05.sim
+## 29 0.30927835 45.524  0.608 tanzania06.sim
+## 30 0.37272727 39.816  0.892 tanzania07.sim
+## 31 0.44545455 33.832  0.988 tanzania08.sim
+## 32 0.21468927 50.424  0.100 tanzania09.sim
+## 33 0.59259259 25.828  1.000 tanzania10.sim
+## 34 0.25443787 49.320  0.268 tanzania11.sim
+## 35 0.56198347 29.496  1.000 tanzania12.sim
+## 36 0.50862069 31.320  0.996 tanzania13.sim
+## 37 0.41052632 37.712  0.956 tanzania14.sim
+## 38 0.25490196 49.440  0.420     togo01.sim
+## 39 0.16923077 55.512  0.032     togo02.sim
+## 40 0.21476510 50.712  0.212     togo03.sim
+## 41 0.12658228 51.964  0.004     togo04.sim
+## 42 0.10982659 52.952  0.000     togo05.sim
+## 43 0.26771654 47.852  0.400     togo06.sim
+## 44 0.32446809 44.968  0.724     togo07.sim
+## 45 0.31250000 44.944  0.684     togo08.sim
+## 46 0.12500000 51.476  0.000     togo09.sim
+## 47 0.04385965 52.084  0.000     togo10.sim
+## 48 0.08609272 52.468  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the performance of the sampling plan on the
@@ -13572,7 +13703,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 128
+## [1] 92
 \end{verbatim}
 
 We can use this model to investigate the effect of different
@@ -13681,7 +13812,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 13
+## [1] 49
 \end{verbatim}
 
 A better summary is the proportion of susceptible (i.e.~non-immune)
@@ -13694,7 +13825,7 @@ cells that become infected during a run:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0631068
+## [1] 0.2121212
 \end{verbatim}
 
 We can use this model to investigate the effect of different proportions
@@ -14001,7 +14132,7 @@ cells that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.937931
+## [1] 0.8188153
 \end{verbatim}
 
 We can use this model to test the effect of an intervention such as
@@ -14060,7 +14191,7 @@ that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.003484321
+## [1] 0.2886598
 \end{verbatim}
 
 We have developed a simple but realistic model of epidemic spread using
