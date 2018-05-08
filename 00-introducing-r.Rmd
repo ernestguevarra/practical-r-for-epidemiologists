@@ -106,8 +106,9 @@ format:
 
 `R` has facilities for working with files in different formats including (through the use of extension packages) **ODBC** (open database connectivity) and **SQL** data sources, **EpiInfo**, **EpiData**, **Minitab**, **SPSS**, **SAS**, **S-Plus**, and **Stata** format files.
 
+\newpage
 
-## Retrieving data
+## Retrieving data {-}
 
 All of the exercises in this manual assume that the necessary data files are located in the current working directory.
 All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from:
@@ -164,4 +165,4 @@ All of the data files used in this section are stored in the `/prfe` directory B
 
 "http://www.brixtonhealth.com/prfe/fem.dat"
 
-as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `/prfe` directory of this guide's GitLab repository.
+as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `data/` directory of this guide's GitHub repository.
