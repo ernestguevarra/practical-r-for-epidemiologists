@@ -5,5 +5,12 @@ cache:
   directories:
     - _bookdown_files
 
+addons:
+   apt:
+     packages:
+       - libgsl0-dev # for topicmodels
+       - libxml2-dev # for XML, a dependency of quanteda
+       - xorg openbox
+
 script:
   - Rscript -e 'bookdown::render_book("index.rmd")'
