@@ -6,8 +6,10 @@ date: "`r Sys.Date()`"
 knit: "bookdown::render_book"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
+geometry: margin=2cm
 documentclass: book
-bibliography: [book.bib]
+classoption: a4paper
+bibliography: ["book.bib""]
 biblio-style: apalike
 link-citations: TRUE
 links-as-notes: FALSE
