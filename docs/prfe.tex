@@ -1845,6 +1845,8 @@ And use the output in other functions:
 ## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06
 \end{verbatim}
 
+\newpage
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{plot}\NormalTok{(AGE, WT)}
@@ -1852,7 +1854,7 @@ And use the output in other functions:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-1} \end{center}
 
 ~
 
@@ -1871,15 +1873,15 @@ A useful function to apply to the \texttt{fem.lm} object is
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-76-1} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-2} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-76-2} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-3} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-76-3} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-4} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-76-4} \end{center}
 
-~
+\newpage
 
 Objects created by the \texttt{lm()} function (or any of the modelling
 functions) can use up a lot of memory so we should remove them when we
@@ -1890,8 +1892,6 @@ no longer need them:
 \KeywordTok{rm}\NormalTok{(fem.lm)}
 \end{Highlighting}
 \end{Shaded}
-
-~
 
 It might be interesting to see whether a similar relationship exists
 between \texttt{AGE} and \texttt{WT} for those who have and have not
@@ -1904,14 +1904,14 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-77-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-78-1} \end{center}
 
 \begin{verbatim}
 ## 
 ##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115
 \end{verbatim}
 
-~
+\newpage
 
 The two plots looks similar. We could also use \texttt{coplot()} to
 investigate the relationship between \texttt{AGE} and \texttt{WT} for
@@ -1923,7 +1923,7 @@ categories of both \texttt{LIFE} and \texttt{SEX}:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-78-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-79-1} \end{center}
 
 \begin{verbatim}
 ## 
@@ -6257,7 +6257,7 @@ distribution before doing anything with it:
 ##  61 129 133  71  25   6   6   2   2
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-206-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-207-1.pdf}
 
 The distribution of \texttt{PARTNERS} is severely non-normal. Instead of
 attempting to transform the variable we will produce summary statistics
@@ -6320,7 +6320,7 @@ graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-210-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-211-1.pdf}
 
 There appears to be an association between the number of sexual
 \texttt{PARTNERS} in the previous twelve months and positive
@@ -6357,7 +6357,7 @@ to represent this table graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-212-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-213-1.pdf}
 
 The \emph{chi-square test for trend} is an appropriate test to perform
 on this data. The \texttt{prop.trend.test()} function that performs the
@@ -7218,7 +7218,7 @@ survival curves:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-232-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-233-1.pdf}
 
 We can make it easier to distinguish between the two lines by specifying
 a width for each line using thelwd parameter of the \texttt{plot()}
@@ -7230,7 +7230,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-233-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-234-1.pdf}
 
 It would also be useful to add a legend:
 
@@ -7240,7 +7240,7 @@ It would also be useful to add a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-235-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-236-1.pdf}
 
 If there is only one survival curve to plot then plotting a
 \texttt{survfit} object will plot the survival curve with 95\%
@@ -7254,7 +7254,7 @@ be disappointing:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-236-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-237-1.pdf}
 
 Plots can be improved by specifying different colours for each curve:
 
@@ -7264,7 +7264,7 @@ Plots can be improved by specifying different colours for each curve:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-237-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-238-1.pdf}
 
 We can perform a formal test of the two survival times using the
 \texttt{survdiff()} function:
@@ -8302,7 +8302,7 @@ with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-286-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-287-1.pdf}
 
 The resulting plot is rather plain and lacks meaningful titles and axis
 labels. Use the \texttt{fix()} function to edit the \texttt{ba.plot()}
@@ -8351,7 +8351,7 @@ Lets try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-290-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-291-1.pdf}
 
 We may also specify a title for the plot using the title parameter:
 
@@ -8361,7 +8361,7 @@ We may also specify a title for the plot using the title parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-291-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-292-1.pdf}
 
 We can now edit the function to calculate and plot mean, difference, and
 the limits of agreement. Use the \texttt{fix()} function to edit the
@@ -8430,7 +8430,7 @@ Lets try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-296-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-297-1.pdf}
 
 The function is almost complete. All that remains to do is to label the
 lines with the values of the mean difference and the limits of
@@ -8488,7 +8488,7 @@ Let's try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-300-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-301-1.pdf}
 
 The graphical function is now complete.
 
@@ -8586,7 +8586,7 @@ Let's try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-308-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-309-1.pdf}
 
 \begin{verbatim}
 ## Mean difference     : -2.117647
@@ -8612,7 +8612,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-310-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-311-1.pdf}
 
 \begin{verbatim}
 ## Mean difference     : -2.117647
@@ -8776,7 +8776,7 @@ the \texttt{plot()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-314-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-315-1.pdf}
 
 The problem with this plot is that it does not treat the data as a time
 series. Adding the \texttt{Time} variable to the plot does not solve the
@@ -8788,7 +8788,7 @@ problem:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-315-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-316-1.pdf}
 
 Because \texttt{Time} is a factor variable. If you convert \texttt{Time}
 to a character variable using \texttt{as.character()} or prevent
@@ -8828,7 +8828,7 @@ We can now plot \texttt{cases.ts} as a time series:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-318-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-319-1.pdf}
 
 We might want to explore the association between the \texttt{Rain} and
 \texttt{Cases} variables. A simple scatter plot is not particularly
@@ -8840,7 +8840,7 @@ informative:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-319-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-320-1.pdf}
 
 It is better to treat both variables as time series (which they are) and
 use the built-in \texttt{plot()} methods for objects of class
@@ -8853,7 +8853,7 @@ use the built-in \texttt{plot()} methods for objects of class
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-320-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-321-1.pdf}
 
 The association between the \texttt{Rain} and \texttt{Cases} variables
 is now clearer with the number of malaria cases peaking shortly after
@@ -8882,7 +8882,7 @@ one chart per row. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-322-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-323-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8890,7 +8890,7 @@ one chart per row. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-322-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-323-2.pdf}
 
 We will want to have tick-marks on the x-axis of each for each record.
 We can set the number of tick-marks on axes by setting the \texttt{lab}
@@ -8914,7 +8914,7 @@ and a label length of seven. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-324-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8922,7 +8922,7 @@ and a label length of seven. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-324-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-2.pdf}
 
 The problem with these charts is that the month and year are not
 displayed on the x-axis. We can get round this by plotting a chart
@@ -8936,7 +8936,7 @@ without axes and then specifying the axes and labels directly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-326-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8946,7 +8946,7 @@ without axes and then specifying the axes and labels directly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-326-2.pdf}
 
 The resulting charts now look much better (you may need to resize the
 plot to display the x-axis labels correctly) but it would be nice to be
@@ -8973,7 +8973,7 @@ the two lines on the same graph:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-327-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-1.pdf}
 
 The problem with this is that the ranges of the two variables are
 different and the \texttt{plot()} function automatically sets the y-axis
@@ -8989,7 +8989,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-329-1.pdf}
 
 We can improve the chart by adding a legend:
 
@@ -8999,7 +8999,7 @@ We can improve the chart by adding a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-330-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-1.pdf}
 
 We could continue to improve the chart (e.g.~by adding labels for the
 x-axis tick-marks taken from the \texttt{Time} variable, specifying more
@@ -9020,7 +9020,7 @@ do this by plotting one chart on top of another by using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-332-1.pdf}
 
 This chart is much clearer but there are still some improvements that
 could be made:
@@ -9071,7 +9071,7 @@ Try this now:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-332-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-333-1.pdf}
 
 Now that we know how to create a two-axis chart, we can write a function
 that we will be able to use whenever we need to plot two variables on
@@ -9148,8 +9148,8 @@ Let's try the \texttt{plot2var()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-339-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-339-2.pdf}
 
 Note how the function has used default values for the axis labels and
 chart title. We can override these default values if we want to:
@@ -9161,7 +9161,7 @@ chart title. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-339-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-340-1.pdf}
 
 You might like to use the \texttt{save()} function to save the
 \texttt{plot2var()} function.
@@ -9304,7 +9304,7 @@ many ages are biased towards full years:
 ##  7  5  8 15  3 21  1  3  5  1 45  1  1 48  1  2 24  1 80  2  1  9 67  4 83
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-344-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-345-1.pdf}
 
 So we will centre the age-groups around the months representing full
 years:
@@ -9382,7 +9382,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-348-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-349-1.pdf}
 
 The default behaviour of the \texttt{barplot()} function is to produce
 stacked bars. We can set the \texttt{beside} parameter to display the
@@ -9394,7 +9394,7 @@ bars side-by-side:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-349-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-350-1.pdf}
 
 We can also use the \texttt{horiz} parameter to present the data as
 horizontal bars:
@@ -9405,7 +9405,7 @@ horizontal bars:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-350-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-351-1.pdf}
 
 In order to centre the bars around zero we need to make one column of
 the summary data table contain negative numbers:
@@ -9450,7 +9450,7 @@ the summary data table contain negative numbers:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-351-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-352-1.pdf}
 
 This is looking better.
 
@@ -9463,7 +9463,7 @@ of bars using thespace parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-352-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-353-1.pdf}
 
 The axis labels are wrong but we can fix that using the
 \texttt{names.arg} parameter:
@@ -9476,7 +9476,7 @@ The axis labels are wrong but we can fix that using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-353-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-354-1.pdf}
 
 The chart can still be improved upon by making the fill-colour of each
 bar white and by expanding the x-axis slightly:
@@ -9489,7 +9489,7 @@ bar white and by expanding the x-axis slightly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-354-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-355-1.pdf}
 
 The chart would be better if the x-axis displayed only positive numbers:
 
@@ -9504,7 +9504,7 @@ The chart would be better if the x-axis displayed only positive numbers:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-355-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-356-1.pdf}
 
 Now we know how to create a population pyramid, we can write a function
 that we will be able to use whenever we need to plot a population
@@ -9579,7 +9579,7 @@ function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-360-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-361-1.pdf}
 
 Note how the function has used default values for the axis labels and
 chart titles. We can override these default values if we want to:
@@ -9591,7 +9591,7 @@ chart titles. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-361-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-362-1.pdf}
 
 You might like to use the \texttt{save()} function to save the
 \texttt{pyramid.plot()} function.
@@ -9703,9 +9703,9 @@ the \texttt{barplot()} function instead of the variable name:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-3.pdf}
 
 Creating a Pareto chart only requires us to sort the summary data. We do
 this using the \texttt{rev()} and \texttt{sort()} functions:
@@ -9716,7 +9716,7 @@ this using the \texttt{rev()} and \texttt{sort()} functions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-367-1.pdf}
 
 Having to specify \texttt{rev(sort(table(variable)))} each time we want
 to produce a \emph{Pareto} plot is rather tedious but now that we know
@@ -9767,7 +9767,7 @@ Let's try the \texttt{pareto()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-371-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-372-1.pdf}
 
 Note how the function has used default values for the axis labels and
 chart titles. We can override these default values if we want to:
@@ -9779,7 +9779,7 @@ chart titles. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-372-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-373-1.pdf}
 
 Note that we can use value labels if the variable we plot is a factor
 with value labels as levels rather than a simple numeric vector:
@@ -9801,7 +9801,7 @@ with value labels as levels rather than a simple numeric vector:
 ##         32         90          5          4         21          0
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-374-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-375-1.pdf}
 
 You may need to resize the plot to display the x-axis labels correctly.
 
@@ -10138,7 +10138,7 @@ We can now plot the data for one arm of the trial:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-383-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-384-1.pdf}
 
 We can add error bars using the \texttt{arrows()} function:
 
@@ -10148,7 +10148,7 @@ We can add error bars using the \texttt{arrows()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-385-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-386-1.pdf}
 
 The scale of the y axis is wrong because the \texttt{plot()} function
 automatically scales axes to the ranges of the x and y data it is given.
@@ -10164,7 +10164,7 @@ parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-387-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-388-1.pdf}
 
 The plot might also be improved by adding plotting symbols:
 
@@ -10174,7 +10174,7 @@ The plot might also be improved by adding plotting symbols:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-389-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-390-1.pdf}
 
 The axis titles (\texttt{oed.hp\$day} and \texttt{oed.hp\$wt}) are the
 column (variable) names.
@@ -10196,7 +10196,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-391-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-392-1.pdf}
 
 Now that we know how to plot error bars, we can write a function that we
 will be able to use whenever we need to plot data with error bars.
@@ -10397,7 +10397,7 @@ Let's try the \texttt{plot.ci()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-396-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-397-1.pdf}
 
 Note how the function has used default values for the axis labels, chart
 titles, chart limits etc.
@@ -10413,7 +10413,7 @@ We can override these default values if we need to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-397-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-398-1.pdf}
 
 Do not close the plot window.
 
@@ -10428,7 +10428,7 @@ We should also check that we can plot another data series on this chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-399-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-400-1.pdf}
 
 We can also add a legend:
 
@@ -10439,7 +10439,7 @@ We can also add a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-401-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-402-1.pdf}
 
 We should also check that we can produce plots of unconnected points:
 
@@ -10449,7 +10449,7 @@ We should also check that we can produce plots of unconnected points:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-402-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-403-1.pdf}
 
 Try plotting the data for the marasmic patients using the
 \texttt{plot.ci()} function.
@@ -10468,7 +10468,7 @@ the high protein diet as a bar chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-403-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-404-1.pdf}
 
 we could add error bars using the \texttt{arrows()} function as we did
 with a line plot:
@@ -10480,7 +10480,7 @@ with a line plot:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-405-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-406-1.pdf}
 
 but this does not produce the expected results because the centres of
 the bars are not placed on the chart at the positions held in
@@ -10496,7 +10496,7 @@ the co-ordinates of the bar midpoints:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-406-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-407-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -10529,7 +10529,7 @@ specify the positions of the error bars:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-408-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-409-1.pdf}
 
 Armed with this information, we can write a function that we will be
 able to use whenever we need to plot a bar chart with error bars.
@@ -10582,7 +10582,7 @@ Let's try the \texttt{barplot.ci()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-413-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-414-1.pdf}
 
 Try plotting the weight velocities for the marasmic patients receiving
 the high protein diet using the \texttt{barplot.ci()} function:
@@ -10593,7 +10593,7 @@ the high protein diet using the \texttt{barplot.ci()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-414-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-415-1.pdf}
 
 The chart looks wrong. This is because we have set the wrong limits for
 the y axis. The bars are drawn from zero to the data point but we have
@@ -10629,7 +10629,7 @@ Try plotting the data for the marasmic patients using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-417-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-418-1.pdf}
 
 Check that the function still operates as expected with the data for
 oedematous patients:
@@ -10640,7 +10640,7 @@ oedematous patients:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-418-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-419-1.pdf}
 
 The end of one of the error bars touches the x axis. This can also be
 fixed by slightly widening the limits for the y axis. It might also be
@@ -10680,8 +10680,8 @@ Check that the function works as expected:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-422-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-422-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-423-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-423-2.pdf}
 
 The \texttt{barplot.ci()} function now works as expected with both sets
 of data. It is important when developing your own functions, to test
@@ -10879,7 +10879,7 @@ A quick way of seeing the code associated with each plotting symbol is:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-427-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-428-1.pdf}
 
 The size of the plotting symbol may be used to indicate the level of
 coverage in each quadrat but we must ensure that the symbol used for
@@ -10935,7 +10935,7 @@ We can now plot the data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-429-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-430-1.pdf}
 
 There are some problems with this plot:
 
@@ -10966,7 +10966,7 @@ All of these problems can be fixed by specifying values for
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-430-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-431-1.pdf}
 
 An alternative way of plotting this data is to use shades of grey
 (rather than the size of the plotting symbol) to represent the level of
@@ -10986,7 +10986,7 @@ coverage in each grid-square:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-431-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-432-1.pdf}
 
 In this context it is useful to show the approximate location of
 therapeutic feeding centres:
@@ -11007,7 +11007,7 @@ therapeutic feeding centres:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-432-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-1.pdf}
 
 The techniques introduced in this section allow you to write custom
 graphical functions but they can also be used to change the default
@@ -11076,10 +11076,10 @@ applied to a fitted object:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-434-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-434-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-434-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-434-4.pdf}
 
 Each of the diagnostic plots are presented as a separate chart. We could
 use the \texttt{mfrow} parameter of the \texttt{par()} function to
@@ -11092,7 +11092,7 @@ present all four diagnostic plots on a single chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-434-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-435-1.pdf}
 
 It might improve the appearance of the chart if each of the diagnostic
 plots were square rather than rectangular:
@@ -11105,7 +11105,7 @@ plots were square rather than rectangular:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-435-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-436-1.pdf}
 
 It might improve the appearance of the chart if smaller text and symbols
 were used:
@@ -11119,7 +11119,7 @@ were used:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-436-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-1.pdf}
 
 Graphical parameters set using the \texttt{par()} function affect all
 subsequent plot commands and must be reset explicitly:
@@ -11131,10 +11131,10 @@ subsequent plot commands and must be reset explicitly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-438-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-438-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-438-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-438-4.pdf}
 
 It is possible to save graphical parameters into an \texttt{R} object
 and use this object to restore original graphical parameters:
@@ -11149,12 +11149,12 @@ and use this object to restore original graphical parameters:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-439-1.pdf}
-
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-440-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-440-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-440-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-440-4.pdf}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-441-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-441-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-441-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-441-4.pdf}
 
 The ability to save and apply graphical parameters means that you can
 create a library of graphical parameter sets that can be applied with
@@ -11174,17 +11174,17 @@ the \texttt{par()} function as required:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-4.pdf}
-
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-443-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-4.pdf}
 
 \includegraphics{prfe_files/figure-latex/unnamed-chunk-444-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-444-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-444-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-444-4.pdf}
+
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-4.pdf}
 
 \texttt{R} produces warning messages when you save and restore graphical
 parameters in this way. This is because some graphical parameters are
@@ -11205,10 +11205,10 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-4.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -11217,7 +11217,7 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-5.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-5.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -11226,10 +11226,10 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-6.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-7.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-8.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-9.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-6.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-7.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-8.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-9.pdf}
 
 Graphical parameter sets, like any other \texttt{R} object, may be saved
 and loaded using the \texttt{save()} and \texttt{load()} functions.
@@ -11307,7 +11307,7 @@ The \texttt{sample()} function can be used to select a bootstrap
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.0  8.4 12.2 14.0 14.0
+## [1] 14.0  8.4  8.4 10.4 12.2
 \end{verbatim}
 
 Enter this command several times to see some more bootstrap replicates.
@@ -11325,7 +11325,7 @@ It is possible to apply a summary measure to a replicate:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.5
+## [1] 10.06
 \end{verbatim}
 
 Enter this command several times. A bootstrap estimate of the mean of
@@ -11348,11 +11348,11 @@ First create the matrix of replicates. Here we take ten replicates:
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,] 14.0 10.4 14.0 12.2 10.4  8.4 14.0 12.2 10.4  12.2
-## [2,] 12.2 14.0  8.4 10.4  8.4  8.4 12.2 12.2  8.4  14.0
-## [3,] 14.0  8.4 10.4 10.4  7.3 14.0 14.0 12.2  8.4   8.4
-## [4,]  8.4 10.4 12.2  8.4 10.4  8.4 12.2 14.0  7.3  12.2
-## [5,]  7.3 10.4  8.4  7.3 12.2 12.2 12.2  7.3  8.4  10.4
+## [1,] 14.0 14.0 10.4 10.4  7.3 12.2 12.2  8.4  8.4  10.4
+## [2,] 14.0 10.4 12.2  7.3 10.4 14.0  7.3  8.4 12.2  12.2
+## [3,] 12.2 12.2 12.2 12.2 10.4 12.2  8.4  8.4  7.3  10.4
+## [4,] 10.4 12.2 12.2  7.3 10.4 10.4 12.2  8.4 12.2  12.2
+## [5,] 12.2  8.4 10.4  7.3 10.4 10.4 10.4 10.4 12.2   7.3
 \end{verbatim}
 
 Then calculate and store the means of each replicate. We can do this
@@ -11367,7 +11367,7 @@ function to the columns of matrix \texttt{x1}:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] 11.18 10.72 10.68  9.74  9.74 10.28 12.92 11.58  8.58 11.44
+##  [1] 12.56 11.44 11.48  8.90  9.78 11.84 10.10  8.80 10.46 10.50
 \end{verbatim}
 
 The bootstrap estimate of the mean is:
@@ -11379,7 +11379,7 @@ The bootstrap estimate of the mean is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.7
+## [1] 10.48
 \end{verbatim}
 
 The bootstrap estimate may differ somewhat from the mean of \texttt{x}:
@@ -11407,7 +11407,7 @@ we take 5000 replicates:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.42
+## [1] 10.46
 \end{verbatim}
 
 This is a pretty useless example as estimating the mean / standard
@@ -11473,7 +11473,7 @@ relatively simple to solve using bootstrap methods:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 33.635
+## [1] 33.59034
 \end{verbatim}
 
 A 95\% confidence interval can be extracted from \texttt{x2} using the
@@ -11487,7 +11487,7 @@ A 95\% confidence interval can be extracted from \texttt{x2} using the
 
 \begin{verbatim}
 ##     2.5%    97.5% 
-## 27.92743 40.17981
+## 27.89177 40.34553
 \end{verbatim}
 
 A 99\% confidence interval can also be extracted from \texttt{x2} using
@@ -11501,7 +11501,7 @@ the \texttt{quantile()} function:
 
 \begin{verbatim}
 ##     0.5%    99.5% 
-## 26.45750 42.10368
+## 26.37928 42.20182
 \end{verbatim}
 
 As a final example of the bootstrap method we will use the method to
@@ -11574,12 +11574,12 @@ interval may be obtained using the \texttt{median()} and
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.3
+## [1] 14.61538
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  4.870635 65.004167
+##  4.713095 61.888839
 \end{verbatim}
 
 This approach may fail when some tables have cells that contain zero.
@@ -11597,12 +11597,12 @@ those values of \texttt{boot} that are not (\texttt{!=}) infinite
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.3
+## [1] 14.61538
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  4.868315 64.509375
+##  4.711905 61.875000
 \end{verbatim}
 
 Another way to avoid this problem is to use an
@@ -11624,12 +11624,12 @@ the two-by-two table:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 12.92
+## [1] 12.47368
 \end{verbatim}
 
 \begin{verbatim}
-##     2.5%    97.5% 
-##  4.28749 43.07514
+##      2.5%     97.5% 
+##  4.550267 47.061816
 \end{verbatim}
 
 This procedure is preferred when working with sparse tables.
@@ -11682,7 +11682,7 @@ the same chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-472-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-473-1.pdf}
 
 We can calculate the distance of each point from the industrial waste
 disposal site using Pythagoras' Theorem:
@@ -11722,7 +11722,7 @@ distribution of distances when no spatial pattern exists:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-475-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-476-1.pdf}
 
 The probability (i.e.~the \emph{p-value}) of observing a mean distance
 smaller than the \emph{observed mean} distance under the null hypothesis
@@ -11739,7 +11739,7 @@ number of estimates of the mean distance under the null hypothesis:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1054
+## [1] 0.1031
 \end{verbatim}
 
 You might like to repeat this exercise using the harmonic mean distance
@@ -11757,7 +11757,7 @@ using simulated data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-477-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-478-1.pdf}
 
 We need to recalculate the distance of each simulated case from the
 industrial waste disposal site:
@@ -11778,7 +11778,7 @@ disposal site is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2466923
+## [1] 0.3040121
 \end{verbatim}
 
 We can use the the simulated null hypothesis data to test for spatial
@@ -11793,7 +11793,7 @@ clustering:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0
+## [1] 0.0052
 \end{verbatim}
 
 We should also check if the procedure can detect a plume of cases, such
@@ -11809,7 +11809,7 @@ in a similar way:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-481-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-482-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -11821,7 +11821,7 @@ in a similar way:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.507
+## [1] 0.22
 \end{verbatim}
 
 The method is not capable of detecting plumes.
@@ -11953,7 +11953,7 @@ for the sampling plan. For example:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-484-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-485-1.pdf}
 
 The data we will use for the simulation is stored in forty-eight
 separate files. These files contain the returns from whole community
@@ -12776,10 +12776,10 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 50
+## [1] 51
 ## 
 ## $cases
-## [1] 5
+## [1] 9
 ## 
 ## $outcome
 ## [1] 0
@@ -12809,10 +12809,10 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 41
+## [1] 36
 ## 
 ## $cases
-## [1] 15
+## [1] 16
 ## 
 ## $outcome
 ## [1] 1
@@ -12839,10 +12839,10 @@ prevalence dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 23
+## [1] 53
 ## 
 ## $cases
-## [1] 16
+## [1] 17
 ## 
 ## $outcome
 ## [1] 1
@@ -12931,10 +12931,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.832
+## [1] 50.8
 ## 
 ## $p.high
-## [1] 0.012
+## [1] 0.028
 \end{verbatim}
 
 \begin{verbatim}
@@ -12942,10 +12942,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 34.44
+## [1] 33.672
 ## 
 ## $p.high
-## [1] 0.976
+## [1] 0.984
 \end{verbatim}
 
 \begin{verbatim}
@@ -12953,10 +12953,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 45.928
+## [1] 44.896
 ## 
 ## $p.high
-## [1] 0.584
+## [1] 0.66
 \end{verbatim}
 
 The simulation consists of applying this function to each of the
@@ -13032,54 +13032,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 26.196  1.000    egypt01.sim
-## 2  0.09243697 50.804  0.000    egypt02.sim
-## 3  0.34394904 43.908  0.744    egypt03.sim
-## 4  0.25465839 48.600  0.332    egypt04.sim
-## 5  0.13548387 50.544  0.004    egypt05.sim
-## 6  0.69934641 22.300  1.000    egypt06.sim
-## 7  0.09815951 50.736  0.000    egypt07.sim
-## 8  0.56684492 27.464  1.000    egypt08.sim
-## 9  0.52517986 29.704  1.000    egypt09.sim
-## 10 0.43434343 35.324  0.992    egypt10.sim
-## 11 0.08510638 51.608  0.000   gambia01.sim
-## 12 0.25174825 49.672  0.388   gambia02.sim
-## 13 0.17307692 52.076  0.056   gambia03.sim
-## 14 0.18666667 51.560  0.068   gambia04.sim
-## 15 0.12643678 52.532  0.028   gambia05.sim
-## 16 0.51809524 32.896  1.000   gambia06.sim
-## 17 0.38766520 41.368  0.916   gambia07.sim
-## 18 0.31055901 46.792  0.692   gambia08.sim
-## 19 0.35483871 42.520  0.760   gambia09.sim
-## 20 0.33584906 45.092  0.692   gambia10.sim
-## 21 0.09900990 51.976  0.000    ghana01.sim
-## 22 0.21621622 51.400  0.156    ghana02.sim
-## 23 0.27819549 48.740  0.484    ghana03.sim
-## 24 0.46728972 33.288  0.988 tanzania01.sim
-## 25 0.45631068 34.020  0.996 tanzania02.sim
-## 26 0.10256410 50.600  0.008 tanzania03.sim
-## 27 0.17241379 50.636  0.044 tanzania04.sim
-## 28 0.69629630 22.260  1.000 tanzania05.sim
-## 29 0.30927835 46.140  0.604 tanzania06.sim
-## 30 0.37272727 40.872  0.908 tanzania07.sim
-## 31 0.44545455 34.700  0.988 tanzania08.sim
-## 32 0.21468927 50.272  0.140 tanzania09.sim
-## 33 0.59259259 26.004  1.000 tanzania10.sim
-## 34 0.25443787 48.716  0.356 tanzania11.sim
-## 35 0.56198347 29.064  1.000 tanzania12.sim
-## 36 0.50862069 30.176  0.996 tanzania13.sim
-## 37 0.41052632 37.604  0.960 tanzania14.sim
-## 38 0.25490196 48.948  0.364     togo01.sim
-## 39 0.16923077 55.296  0.060     togo02.sim
-## 40 0.21476510 50.668  0.176     togo03.sim
-## 41 0.12658228 51.740  0.008     togo04.sim
-## 42 0.10982659 52.704  0.004     togo05.sim
-## 43 0.26771654 47.096  0.476     togo06.sim
-## 44 0.32446809 45.172  0.664     togo07.sim
-## 45 0.31250000 44.948  0.680     togo08.sim
-## 46 0.12500000 51.308  0.000     togo09.sim
-## 47 0.04385965 52.220  0.000     togo10.sim
-## 48 0.08609272 52.524  0.000     togo11.sim
+## 1  0.59139785 26.300  1.000    egypt01.sim
+## 2  0.09243697 50.848  0.000    egypt02.sim
+## 3  0.34394904 43.028  0.824    egypt03.sim
+## 4  0.25465839 48.980  0.348    egypt04.sim
+## 5  0.13548387 50.688  0.004    egypt05.sim
+## 6  0.69934641 22.368  1.000    egypt06.sim
+## 7  0.09815951 50.716  0.000    egypt07.sim
+## 8  0.56684492 27.020  1.000    egypt08.sim
+## 9  0.52517986 29.060  1.000    egypt09.sim
+## 10 0.43434343 35.532  0.992    egypt10.sim
+## 11 0.08510638 51.604  0.000   gambia01.sim
+## 12 0.25174825 49.076  0.360   gambia02.sim
+## 13 0.17307692 51.880  0.068   gambia03.sim
+## 14 0.18666667 51.792  0.076   gambia04.sim
+## 15 0.12643678 52.288  0.024   gambia05.sim
+## 16 0.51809524 32.616  1.000   gambia06.sim
+## 17 0.38766520 41.236  0.920   gambia07.sim
+## 18 0.31055901 46.884  0.600   gambia08.sim
+## 19 0.35483871 41.216  0.760   gambia09.sim
+## 20 0.33584906 45.164  0.672   gambia10.sim
+## 21 0.09900990 52.044  0.004    ghana01.sim
+## 22 0.21621622 51.468  0.164    ghana02.sim
+## 23 0.27819549 48.644  0.504    ghana03.sim
+## 24 0.46728972 33.044  0.980 tanzania01.sim
+## 25 0.45631068 33.780  0.992 tanzania02.sim
+## 26 0.10256410 50.676  0.000 tanzania03.sim
+## 27 0.17241379 50.624  0.036 tanzania04.sim
+## 28 0.69629630 22.604  1.000 tanzania05.sim
+## 29 0.30927835 45.648  0.644 tanzania06.sim
+## 30 0.37272727 39.060  0.892 tanzania07.sim
+## 31 0.44545455 34.592  0.980 tanzania08.sim
+## 32 0.21468927 50.392  0.120 tanzania09.sim
+## 33 0.59259259 25.932  1.000 tanzania10.sim
+## 34 0.25443787 48.528  0.312 tanzania11.sim
+## 35 0.56198347 29.184  1.000 tanzania12.sim
+## 36 0.50862069 30.168  0.992 tanzania13.sim
+## 37 0.41052632 36.852  0.964 tanzania14.sim
+## 38 0.25490196 48.552  0.364     togo01.sim
+## 39 0.16923077 55.304  0.048     togo02.sim
+## 40 0.21476510 50.804  0.216     togo03.sim
+## 41 0.12658228 51.952  0.000     togo04.sim
+## 42 0.10982659 53.404  0.000     togo05.sim
+## 43 0.26771654 47.516  0.440     togo06.sim
+## 44 0.32446809 45.416  0.644     togo07.sim
+## 45 0.31250000 45.708  0.620     togo08.sim
+## 46 0.12500000 51.340  0.000     togo09.sim
+## 47 0.04385965 52.612  0.000     togo10.sim
+## 48 0.08609272 52.124  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the prevalences in the test datasets:
@@ -13094,7 +13094,7 @@ We can examine the prevalences in the test datasets:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-516-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-517-1.pdf}
 
 If you are using a Macintosh computer then you can use \texttt{quartz()}
 instead of \texttt{x11()}. This will give better results.
@@ -13114,7 +13114,7 @@ levels of prevalence as \emph{anaverage sample number} (ASN) curve:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-518-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-519-1.pdf}
 
 We can examine the performance of the sampling plan by plotting its
 \emph{operating characteristic} (OC) curve:
@@ -13131,7 +13131,7 @@ We can examine the performance of the sampling plan by plotting its
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-520-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-521-1.pdf}
 
 Before closing the OC curve plot, we can compare the simulation results
 with the expected \emph{operating characteristic} (OC) curve under ideal
@@ -13145,7 +13145,7 @@ sampling conditions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-522-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-523-1.pdf}
 
 The LQAS method appears to be robust to the loss of sampling variation
 introduced by the proposed sampling constraints. There is, however, some
@@ -13167,7 +13167,7 @@ at lower prevalences:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-524-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-525-1.pdf}
 
 This deviation from the expected \emph{operating characteristic} (OC)
 curve is likely to be due to a few very large households in which many
@@ -13308,54 +13308,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 26.396  1.000    egypt01.sim
-## 2  0.09243697 50.820  0.000    egypt02.sim
-## 3  0.34394904 42.152  0.820    egypt03.sim
-## 4  0.25465839 49.208  0.296    egypt04.sim
-## 5  0.13548387 50.536  0.004    egypt05.sim
-## 6  0.69934641 23.020  1.000    egypt06.sim
-## 7  0.09815951 50.668  0.000    egypt07.sim
-## 8  0.56684492 26.712  1.000    egypt08.sim
-## 9  0.52517986 29.580  1.000    egypt09.sim
-## 10 0.43434343 35.416  0.992    egypt10.sim
-## 11 0.08510638 51.452  0.000   gambia01.sim
-## 12 0.25174825 49.896  0.340   gambia02.sim
-## 13 0.17307692 52.060  0.056   gambia03.sim
-## 14 0.18666667 51.960  0.052   gambia04.sim
-## 15 0.12643678 52.184  0.032   gambia05.sim
-## 16 0.51809524 32.440  1.000   gambia06.sim
-## 17 0.38766520 40.960  0.952   gambia07.sim
-## 18 0.31055901 46.672  0.588   gambia08.sim
-## 19 0.35483871 43.000  0.756   gambia09.sim
-## 20 0.33584906 45.032  0.676   gambia10.sim
-## 21 0.09900990 52.084  0.000    ghana01.sim
-## 22 0.21621622 51.676  0.124    ghana02.sim
-## 23 0.27819549 49.308  0.472    ghana03.sim
-## 24 0.46728972 32.844  0.988 tanzania01.sim
-## 25 0.45631068 34.332  0.992 tanzania02.sim
-## 26 0.10256410 50.728  0.000 tanzania03.sim
-## 27 0.17241379 50.432  0.052 tanzania04.sim
-## 28 0.69629630 22.444  1.000 tanzania05.sim
-## 29 0.30927835 46.360  0.596 tanzania06.sim
-## 30 0.37272727 40.168  0.912 tanzania07.sim
-## 31 0.44545455 34.440  0.992 tanzania08.sim
-## 32 0.21468927 50.380  0.120 tanzania09.sim
-## 33 0.59259259 26.436  1.000 tanzania10.sim
-## 34 0.25443787 49.144  0.316 tanzania11.sim
-## 35 0.56198347 29.420  0.996 tanzania12.sim
-## 36 0.50862069 30.128  0.996 tanzania13.sim
-## 37 0.41052632 37.376  0.964 tanzania14.sim
-## 38 0.25490196 48.776  0.412     togo01.sim
-## 39 0.16923077 55.140  0.080     togo02.sim
-## 40 0.21476510 50.452  0.188     togo03.sim
-## 41 0.12658228 52.140  0.008     togo04.sim
-## 42 0.10982659 53.084  0.000     togo05.sim
-## 43 0.26771654 47.372  0.416     togo06.sim
-## 44 0.32446809 45.296  0.672     togo07.sim
-## 45 0.31250000 45.508  0.632     togo08.sim
-## 46 0.12500000 51.520  0.000     togo09.sim
-## 47 0.04385965 52.148  0.000     togo10.sim
-## 48 0.08609272 52.284  0.000     togo11.sim
+## 1  0.59139785 26.428  1.000    egypt01.sim
+## 2  0.09243697 50.880  0.000    egypt02.sim
+## 3  0.34394904 42.548  0.760    egypt03.sim
+## 4  0.25465839 48.952  0.312    egypt04.sim
+## 5  0.13548387 50.632  0.016    egypt05.sim
+## 6  0.69934641 22.580  1.000    egypt06.sim
+## 7  0.09815951 50.680  0.000    egypt07.sim
+## 8  0.56684492 26.680  1.000    egypt08.sim
+## 9  0.52517986 29.516  1.000    egypt09.sim
+## 10 0.43434343 34.936  1.000    egypt10.sim
+## 11 0.08510638 51.612  0.000   gambia01.sim
+## 12 0.25174825 49.824  0.324   gambia02.sim
+## 13 0.17307692 51.912  0.072   gambia03.sim
+## 14 0.18666667 51.780  0.056   gambia04.sim
+## 15 0.12643678 52.088  0.008   gambia05.sim
+## 16 0.51809524 32.800  1.000   gambia06.sim
+## 17 0.38766520 41.164  0.928   gambia07.sim
+## 18 0.31055901 47.072  0.628   gambia08.sim
+## 19 0.35483871 43.120  0.748   gambia09.sim
+## 20 0.33584906 45.096  0.660   gambia10.sim
+## 21 0.09900990 52.116  0.000    ghana01.sim
+## 22 0.21621622 51.504  0.196    ghana02.sim
+## 23 0.27819549 49.000  0.528    ghana03.sim
+## 24 0.46728972 32.976  0.988 tanzania01.sim
+## 25 0.45631068 34.104  0.992 tanzania02.sim
+## 26 0.10256410 50.792  0.000 tanzania03.sim
+## 27 0.17241379 50.608  0.032 tanzania04.sim
+## 28 0.69629630 23.244  1.000 tanzania05.sim
+## 29 0.30927835 44.996  0.612 tanzania06.sim
+## 30 0.37272727 41.176  0.872 tanzania07.sim
+## 31 0.44545455 34.444  0.972 tanzania08.sim
+## 32 0.21468927 50.580  0.120 tanzania09.sim
+## 33 0.59259259 25.936  1.000 tanzania10.sim
+## 34 0.25443787 48.852  0.292 tanzania11.sim
+## 35 0.56198347 29.160  1.000 tanzania12.sim
+## 36 0.50862069 30.872  1.000 tanzania13.sim
+## 37 0.41052632 37.240  0.980 tanzania14.sim
+## 38 0.25490196 49.500  0.328     togo01.sim
+## 39 0.16923077 55.640  0.084     togo02.sim
+## 40 0.21476510 51.032  0.176     togo03.sim
+## 41 0.12658228 52.252  0.004     togo04.sim
+## 42 0.10982659 52.976  0.000     togo05.sim
+## 43 0.26771654 47.936  0.424     togo06.sim
+## 44 0.32446809 44.680  0.724     togo07.sim
+## 45 0.31250000 45.564  0.660     togo08.sim
+## 46 0.12500000 51.400  0.000     togo09.sim
+## 47 0.04385965 52.408  0.000     togo10.sim
+## 48 0.08609272 52.488  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the performance of the sampling plan on the
@@ -13379,7 +13379,7 @@ conditions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-531-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-532-1.pdf}
 
 Remember that if you are using a Macintosh computer then you can use
 \texttt{quartz()} instead of \texttt{x11()}. This will give better
@@ -13405,7 +13405,7 @@ was largest and most problematic in the previous simulation:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-533-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-534-1.pdf}
 
 We can compare the behaviour of the sampling plan in the unrestricted
 and age-restricted datasets:
@@ -13706,7 +13706,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 112
+## [1] 128
 \end{verbatim}
 
 We can use this model to investigate the effect of different
@@ -13796,7 +13796,7 @@ We can display the distribution of immune cells using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-557-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-558-1.pdf}
 
 We can now run the simulation:
 
@@ -13815,7 +13815,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10
+## [1] 49
 \end{verbatim}
 
 A better summary is the proportion of susceptible (i.e.~non-immune)
@@ -13828,7 +13828,7 @@ cells that become infected during a run:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.04784689
+## [1] 0.2300469
 \end{verbatim}
 
 We can use this model to investigate the effect of different proportions
@@ -13934,7 +13934,7 @@ us to plot an epidemic curve from the model:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-569-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-570-1.pdf}
 
 Remember, if you are using a Macintosh computer then you can use
 \texttt{quartz()} instead of \texttt{x11()}. This will give better
@@ -13949,7 +13949,7 @@ same data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-570-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-571-1.pdf}
 
 The colour of each cell reflects the time-step of infection (i.e.~the
 darker cells were infected before the lighter cells).
@@ -14135,7 +14135,7 @@ cells that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.8666667
+## [1] 0.8585859
 \end{verbatim}
 
 We can use this model to test the effect of an intervention such as
@@ -14194,7 +14194,7 @@ that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1418182
+## [1] 0.01754386
 \end{verbatim}
 
 We have developed a simple but realistic model of epidemic spread using

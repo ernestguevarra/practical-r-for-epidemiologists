@@ -282,7 +282,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The function calculates the mean and the difference of the two measures and then plots the results. Lets try the
 <code>ba.plot()</code> function with the test data:</p>
 <pre class="sourceCode r" id="cb529"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-286-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-287-1.png" width="672" /></p>
 <p>The resulting plot is rather plain and lacks meaningful titles and axis labels. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <pre class="sourceCode r" id="cb530"><code class="sourceCode r"><a class="sourceLine" id="cb530-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
@@ -299,10 +299,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>We have added a new parameter (<code>title</code>) to the function and given this a default value of <code>Bland and Altman Plot</code>. Adding <code>title</code> as a parameter means that we will be able to specify a title for the plot when we call the function. We have also used the function combination <code>deparse(substitute())</code> to retrieve the names of the vectors passed to parameters <code>a</code> and <code>b</code>. The <code>paste()</code> function pastes pieces of text together. It is used here to create the text for the axis labels used with the <code>plot()</code> function.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
 <pre class="sourceCode r" id="cb532"><code class="sourceCode r"><a class="sourceLine" id="cb532-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-290-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-291-1.png" width="672" /></p>
 <p>We may also specify a title for the plot using the title parameter:</p>
 <pre class="sourceCode r" id="cb533"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-291-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-292-1.png" width="672" /></p>
 <p>We can now edit the function to calculate and plot mean, difference, and the limits of agreement. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <pre class="sourceCode r" id="cb534"><code class="sourceCode r"><a class="sourceLine" id="cb534-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
@@ -332,7 +332,7 @@ these parameters using:</p>
 <p>These parameters can be specified for almost all graphical functions.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
 <pre class="sourceCode r" id="cb537"><code class="sourceCode r"><a class="sourceLine" id="cb537-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span>  <span class="st">&quot;Difference vs. mean for PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-296-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-297-1.png" width="672" /></p>
 <p>The function is almost complete. All that remains to do is to label the lines with the values of the mean difference and the limits of agreement.</p>
 <p>Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <pre class="sourceCode r" id="cb538"><code class="sourceCode r"><a class="sourceLine" id="cb538-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
@@ -363,7 +363,7 @@ these parameters using:</p>
 We have used the <code>round()</code> function to limit the display of the mean difference and the limits of agreement to one decimal place and used the <code>text()</code> function to display these (rounded) values. The <code>adj</code> parameter to the <code>text()</code> function controls the position and justification of text.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
 <pre class="sourceCode r" id="cb540"><code class="sourceCode r"><a class="sourceLine" id="cb540-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-300-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-301-1.png" width="672" /></p>
 <p>The graphical function is now complete.</p>
 <p>One improvement that we could make is for the function to produce a chart and return the values of the mean difference and the limits of agreement.</p>
 <p>We would do this in exactly the same way as we would with a non-graphical function. We would return the mean difference and the limits of agreement as members of a list.</p>
@@ -410,7 +410,7 @@ We have used the <code>round()</code> function to limit the display of the mean 
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
 <pre class="sourceCode r" id="cb546"><code class="sourceCode r"><a class="sourceLine" id="cb546-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-308-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <p>The function produces the plot and returns the mean difference and limits of agreement as a list of class <code>ba</code> which is formatted and printed by the <code>print.ba()</code> function.</p>
@@ -422,7 +422,7 @@ We have used the <code>round()</code> function to limit the display of the mean 
 <a class="sourceLine" id="cb548-5" data-line-number="5">ba.test<span class="op">$</span>limits</a>
 <a class="sourceLine" id="cb548-6" data-line-number="6">ba.test<span class="op">$</span>limits[<span class="dv">1</span>]</a>
 <a class="sourceLine" id="cb548-7" data-line-number="7">ba.test<span class="op">$</span>limits[<span class="dv">2</span>]</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-310-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-311-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <pre><code>## Mean difference     : -2.117647
