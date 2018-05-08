@@ -533,8 +533,13 @@ fem.lm <- lm(WT ~ AGE)
 
 And use the output in other functions:
 
-```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+```{r, eval = TRUE}
 summary(fem.lm)
+```
+
+\newpage
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(AGE, WT)
 abline(fem.lm)
 ```
@@ -549,7 +554,7 @@ A useful function to apply to the `fem.lm` object is `plot()` which produces dia
 plot(fem.lm)
 ```
 
-&nbsp;
+\newpage
 
 Objects created by the `lm()` function (or any of the modelling functions) can use up a lot of memory so we should remove them when we no longer need them:
 
@@ -557,15 +562,13 @@ Objects created by the `lm()` function (or any of the modelling functions) can u
 rm(fem.lm)
 ```
 
-&nbsp;
-
 It might be interesting to see whether a similar relationship exists between `AGE` and `WT` for those who have and have not considered suicide. This can be done using the `coplot()` function:
 
 ```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 coplot(WT ~ AGE | as.factor(LIFE))
 ```
 
-&nbsp;
+\newpage
 
 The two plots looks similar. We could also use `coplot()` to investigate the relationship between `AGE` and `WT` for categories of both `LIFE` and `SEX`:
 
