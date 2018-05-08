@@ -129,7 +129,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2018-04-29}
+  \date{2018-05-08}
 
 \usepackage{booktabs}
 \usepackage{color}
@@ -11173,7 +11173,7 @@ The \texttt{sample()} function can be used to select a bootstrap
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.4 10.4 14.0 12.2  8.4
+## [1]  7.3 12.2  7.3 12.2  7.3
 \end{verbatim}
 
 Enter this command several times to see some more bootstrap replicates.
@@ -11191,7 +11191,7 @@ It is possible to apply a summary measure to a replicate:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 9.96
+## [1] 9.48
 \end{verbatim}
 
 Enter this command several times. A bootstrap estimate of the mean of
@@ -11214,11 +11214,11 @@ First create the matrix of replicates. Here we take ten replicates:
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,] 12.2  8.4 12.2 14.0  8.4  7.3 12.2 14.0  8.4  10.4
-## [2,]  8.4  8.4 10.4 10.4  8.4 12.2  7.3  7.3 12.2   7.3
-## [3,] 14.0 14.0  7.3 14.0  7.3 14.0  7.3  7.3 12.2  10.4
-## [4,] 14.0  8.4 10.4 14.0 10.4  7.3 12.2 10.4  7.3   8.4
-## [5,]  7.3 14.0  7.3  7.3 12.2  8.4 14.0 14.0 10.4  12.2
+## [1,] 10.4 10.4 10.4 14.0  7.3 10.4 12.2  8.4  7.3   8.4
+## [2,]  8.4 14.0 12.2 12.2 10.4  7.3  7.3 12.2  7.3   7.3
+## [3,]  8.4  7.3 12.2 14.0 14.0  7.3 12.2  8.4  7.3  10.4
+## [4,]  7.3 12.2 12.2 12.2  7.3 14.0  8.4  7.3  8.4  12.2
+## [5,] 14.0 12.2 10.4  7.3  8.4  7.3 12.2 10.4 10.4   7.3
 \end{verbatim}
 
 Then calculate and store the means of each replicate. We can do this
@@ -11233,7 +11233,7 @@ function to the columns of matrix \texttt{x1}:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] 11.18 10.64  9.52 11.94  9.34  9.84 10.60 10.60 10.10  9.74
+##  [1]  9.70 11.22 11.48 11.94  9.48  9.26 10.46  9.34  8.14  9.12
 \end{verbatim}
 
 The bootstrap estimate of the mean is:
@@ -11245,7 +11245,7 @@ The bootstrap estimate of the mean is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.35
+## [1] 9.59
 \end{verbatim}
 
 The bootstrap estimate may differ somewhat from the mean of \texttt{x}:
@@ -11339,7 +11339,7 @@ relatively simple to solve using bootstrap methods:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 33.67052
+## [1] 33.70543
 \end{verbatim}
 
 A 95\% confidence interval can be extracted from \texttt{x2} using the
@@ -11353,7 +11353,7 @@ A 95\% confidence interval can be extracted from \texttt{x2} using the
 
 \begin{verbatim}
 ##     2.5%    97.5% 
-## 27.92762 40.14266
+## 27.85822 40.25508
 \end{verbatim}
 
 A 99\% confidence interval can also be extracted from \texttt{x2} using
@@ -11367,7 +11367,7 @@ the \texttt{quantile()} function:
 
 \begin{verbatim}
 ##     0.5%    99.5% 
-## 26.58872 41.77778
+## 26.49493 42.47791
 \end{verbatim}
 
 As a final example of the bootstrap method we will use the method to
@@ -11440,12 +11440,12 @@ interval may be obtained using the \texttt{median()} and
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 13.8
+## [1] 14.10644
 \end{verbatim}
 
 \begin{verbatim}
-##     2.5%    97.5% 
-##  4.94625 60.00937
+##      2.5%     97.5% 
+##  5.061875 52.501389
 \end{verbatim}
 
 This approach may fail when some tables have cells that contain zero.
@@ -11463,12 +11463,12 @@ those values of \texttt{boot} that are not (\texttt{!=}) infinite
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 13.74545
+## [1] 14.10644
 \end{verbatim}
 
 \begin{verbatim}
-##   2.5%  97.5% 
-##  4.935 57.175
+##      2.5%     97.5% 
+##  5.061875 52.501389
 \end{verbatim}
 
 Another way to avoid this problem is to use an
@@ -11490,12 +11490,12 @@ the two-by-two table:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 12.58388
+## [1] 12.67251
 \end{verbatim}
 
 \begin{verbatim}
-##     2.5%    97.5% 
-##  4.42205 53.13052
+##      2.5%     97.5% 
+##  4.454446 48.763187
 \end{verbatim}
 
 This procedure is preferred when working with sparse tables.
@@ -11605,7 +11605,7 @@ number of estimates of the mean distance under the null hypothesis:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1036
+## [1] 0.0969
 \end{verbatim}
 
 You might like to repeat this exercise using the harmonic mean distance
@@ -11644,7 +11644,7 @@ disposal site is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2771018
+## [1] 0.2567557
 \end{verbatim}
 
 We can use the the simulated null hypothesis data to test for spatial
@@ -11659,7 +11659,7 @@ clustering:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 6e-04
+## [1] 0
 \end{verbatim}
 
 We should also check if the procedure can detect a plume of cases, such
@@ -11687,7 +11687,7 @@ in a similar way:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.5698
+## [1] 0.5922
 \end{verbatim}
 
 The method is not capable of detecting plumes.
@@ -12642,7 +12642,7 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 52
+## [1] 51
 ## 
 ## $cases
 ## [1] 8
@@ -12675,7 +12675,7 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 46
+## [1] 31
 ## 
 ## $cases
 ## [1] 16
@@ -12705,13 +12705,13 @@ prevalence dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 50
+## [1] 43
 ## 
 ## $cases
-## [1] 10
+## [1] 16
 ## 
 ## $outcome
-## [1] 0
+## [1] 1
 \end{verbatim}
 
 Repeat the last function call several times. The function should return:
@@ -12797,10 +12797,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.684
+## [1] 50.728
 ## 
 ## $p.high
-## [1] 0.028
+## [1] 0.016
 \end{verbatim}
 
 \begin{verbatim}
@@ -12808,7 +12808,7 @@ We can test this function with the same three test datasets:
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 34.324
+## [1] 34.528
 ## 
 ## $p.high
 ## [1] 0.984
@@ -12819,10 +12819,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 45.964
+## [1] 45.632
 ## 
 ## $p.high
-## [1] 0.604
+## [1] 0.628
 \end{verbatim}
 
 The simulation consists of applying this function to each of the
@@ -12898,54 +12898,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 26.276  1.000    egypt01.sim
-## 2  0.09243697 50.824  0.000    egypt02.sim
-## 3  0.34394904 43.024  0.784    egypt03.sim
-## 4  0.25465839 49.316  0.260    egypt04.sim
-## 5  0.13548387 50.764  0.000    egypt05.sim
-## 6  0.69934641 22.452  1.000    egypt06.sim
-## 7  0.09815951 50.696  0.000    egypt07.sim
-## 8  0.56684492 27.616  1.000    egypt08.sim
-## 9  0.52517986 29.400  1.000    egypt09.sim
-## 10 0.43434343 35.420  0.996    egypt10.sim
-## 11 0.08510638 51.720  0.000   gambia01.sim
-## 12 0.25174825 49.760  0.388   gambia02.sim
-## 13 0.17307692 52.064  0.052   gambia03.sim
-## 14 0.18666667 51.680  0.080   gambia04.sim
-## 15 0.12643678 52.316  0.028   gambia05.sim
-## 16 0.51809524 33.320  1.000   gambia06.sim
-## 17 0.38766520 41.180  0.920   gambia07.sim
-## 18 0.31055901 46.292  0.684   gambia08.sim
-## 19 0.35483871 43.084  0.744   gambia09.sim
-## 20 0.33584906 45.088  0.676   gambia10.sim
-## 21 0.09900990 52.172  0.000    ghana01.sim
-## 22 0.21621622 51.536  0.184    ghana02.sim
-## 23 0.27819549 48.704  0.484    ghana03.sim
-## 24 0.46728972 32.796  0.996 tanzania01.sim
-## 25 0.45631068 33.392  1.000 tanzania02.sim
-## 26 0.10256410 50.780  0.000 tanzania03.sim
-## 27 0.17241379 50.644  0.032 tanzania04.sim
-## 28 0.69629630 22.648  1.000 tanzania05.sim
-## 29 0.30927835 45.932  0.592 tanzania06.sim
-## 30 0.37272727 40.024  0.912 tanzania07.sim
-## 31 0.44545455 34.424  0.984 tanzania08.sim
-## 32 0.21468927 50.200  0.112 tanzania09.sim
-## 33 0.59259259 26.116  1.000 tanzania10.sim
-## 34 0.25443787 48.940  0.280 tanzania11.sim
-## 35 0.56198347 29.916  1.000 tanzania12.sim
-## 36 0.50862069 31.352  1.000 tanzania13.sim
-## 37 0.41052632 37.372  0.980 tanzania14.sim
-## 38 0.25490196 48.880  0.356     togo01.sim
-## 39 0.16923077 54.660  0.084     togo02.sim
-## 40 0.21476510 50.536  0.240     togo03.sim
-## 41 0.12658228 52.128  0.008     togo04.sim
-## 42 0.10982659 52.768  0.004     togo05.sim
-## 43 0.26771654 47.848  0.420     togo06.sim
-## 44 0.32446809 45.504  0.672     togo07.sim
-## 45 0.31250000 44.952  0.632     togo08.sim
-## 46 0.12500000 51.240  0.000     togo09.sim
-## 47 0.04385965 52.752  0.000     togo10.sim
-## 48 0.08609272 52.432  0.000     togo11.sim
+## 1  0.59139785 25.552  1.000    egypt01.sim
+## 2  0.09243697 50.720  0.000    egypt02.sim
+## 3  0.34394904 44.028  0.764    egypt03.sim
+## 4  0.25465839 48.928  0.280    egypt04.sim
+## 5  0.13548387 50.648  0.000    egypt05.sim
+## 6  0.69934641 22.660  1.000    egypt06.sim
+## 7  0.09815951 50.708  0.000    egypt07.sim
+## 8  0.56684492 26.948  1.000    egypt08.sim
+## 9  0.52517986 28.532  1.000    egypt09.sim
+## 10 0.43434343 35.284  0.988    egypt10.sim
+## 11 0.08510638 51.480  0.000   gambia01.sim
+## 12 0.25174825 50.040  0.348   gambia02.sim
+## 13 0.17307692 51.916  0.036   gambia03.sim
+## 14 0.18666667 51.760  0.048   gambia04.sim
+## 15 0.12643678 52.300  0.020   gambia05.sim
+## 16 0.51809524 32.352  1.000   gambia06.sim
+## 17 0.38766520 39.920  0.924   gambia07.sim
+## 18 0.31055901 46.656  0.664   gambia08.sim
+## 19 0.35483871 42.612  0.800   gambia09.sim
+## 20 0.33584906 45.120  0.688   gambia10.sim
+## 21 0.09900990 52.312  0.000    ghana01.sim
+## 22 0.21621622 51.232  0.176    ghana02.sim
+## 23 0.27819549 48.516  0.476    ghana03.sim
+## 24 0.46728972 33.488  0.980 tanzania01.sim
+## 25 0.45631068 33.840  1.000 tanzania02.sim
+## 26 0.10256410 50.716  0.000 tanzania03.sim
+## 27 0.17241379 50.588  0.024 tanzania04.sim
+## 28 0.69629630 22.364  1.000 tanzania05.sim
+## 29 0.30927835 45.764  0.608 tanzania06.sim
+## 30 0.37272727 39.660  0.876 tanzania07.sim
+## 31 0.44545455 33.940  0.980 tanzania08.sim
+## 32 0.21468927 50.236  0.164 tanzania09.sim
+## 33 0.59259259 25.796  1.000 tanzania10.sim
+## 34 0.25443787 48.724  0.308 tanzania11.sim
+## 35 0.56198347 29.744  1.000 tanzania12.sim
+## 36 0.50862069 30.600  1.000 tanzania13.sim
+## 37 0.41052632 36.776  0.968 tanzania14.sim
+## 38 0.25490196 49.008  0.384     togo01.sim
+## 39 0.16923077 55.720  0.080     togo02.sim
+## 40 0.21476510 50.664  0.200     togo03.sim
+## 41 0.12658228 52.032  0.016     togo04.sim
+## 42 0.10982659 52.888  0.000     togo05.sim
+## 43 0.26771654 47.360  0.436     togo06.sim
+## 44 0.32446809 44.788  0.664     togo07.sim
+## 45 0.31250000 45.292  0.664     togo08.sim
+## 46 0.12500000 51.444  0.000     togo09.sim
+## 47 0.04385965 52.140  0.000     togo10.sim
+## 48 0.08609272 52.524  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the prevalences in the test datasets:
@@ -13174,54 +13174,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 25.752  1.000    egypt01.sim
-## 2  0.09243697 50.828  0.000    egypt02.sim
-## 3  0.34394904 43.048  0.776    egypt03.sim
-## 4  0.25465839 49.188  0.308    egypt04.sim
-## 5  0.13548387 50.756  0.000    egypt05.sim
-## 6  0.69934641 22.508  1.000    egypt06.sim
-## 7  0.09815951 50.740  0.000    egypt07.sim
-## 8  0.56684492 27.296  1.000    egypt08.sim
-## 9  0.52517986 29.356  1.000    egypt09.sim
-## 10 0.43434343 34.776  0.980    egypt10.sim
-## 11 0.08510638 51.500  0.000   gambia01.sim
-## 12 0.25174825 49.524  0.336   gambia02.sim
-## 13 0.17307692 51.724  0.064   gambia03.sim
-## 14 0.18666667 51.548  0.100   gambia04.sim
-## 15 0.12643678 52.160  0.028   gambia05.sim
-## 16 0.51809524 32.688  1.000   gambia06.sim
-## 17 0.38766520 42.024  0.900   gambia07.sim
-## 18 0.31055901 47.180  0.604   gambia08.sim
-## 19 0.35483871 42.116  0.796   gambia09.sim
-## 20 0.33584906 44.092  0.688   gambia10.sim
-## 21 0.09900990 52.240  0.000    ghana01.sim
-## 22 0.21621622 51.296  0.168    ghana02.sim
-## 23 0.27819549 48.372  0.492    ghana03.sim
-## 24 0.46728972 32.712  0.984 tanzania01.sim
-## 25 0.45631068 33.812  1.000 tanzania02.sim
-## 26 0.10256410 50.788  0.000 tanzania03.sim
-## 27 0.17241379 50.624  0.032 tanzania04.sim
-## 28 0.69629630 22.712  1.000 tanzania05.sim
-## 29 0.30927835 45.412  0.628 tanzania06.sim
-## 30 0.37272727 40.760  0.888 tanzania07.sim
-## 31 0.44545455 34.440  0.996 tanzania08.sim
-## 32 0.21468927 50.588  0.124 tanzania09.sim
-## 33 0.59259259 26.300  1.000 tanzania10.sim
-## 34 0.25443787 48.832  0.292 tanzania11.sim
-## 35 0.56198347 29.956  1.000 tanzania12.sim
-## 36 0.50862069 29.940  0.996 tanzania13.sim
-## 37 0.41052632 37.276  0.980 tanzania14.sim
-## 38 0.25490196 49.284  0.404     togo01.sim
-## 39 0.16923077 55.296  0.088     togo02.sim
-## 40 0.21476510 51.240  0.176     togo03.sim
-## 41 0.12658228 52.196  0.012     togo04.sim
-## 42 0.10982659 52.816  0.000     togo05.sim
-## 43 0.26771654 48.160  0.384     togo06.sim
-## 44 0.32446809 45.112  0.672     togo07.sim
-## 45 0.31250000 45.052  0.648     togo08.sim
-## 46 0.12500000 51.624  0.004     togo09.sim
-## 47 0.04385965 52.432  0.000     togo10.sim
-## 48 0.08609272 52.232  0.000     togo11.sim
+## 1  0.59139785 26.320  1.000    egypt01.sim
+## 2  0.09243697 50.880  0.000    egypt02.sim
+## 3  0.34394904 43.332  0.808    egypt03.sim
+## 4  0.25465839 48.876  0.324    egypt04.sim
+## 5  0.13548387 50.640  0.004    egypt05.sim
+## 6  0.69934641 22.308  1.000    egypt06.sim
+## 7  0.09815951 50.712  0.000    egypt07.sim
+## 8  0.56684492 27.668  1.000    egypt08.sim
+## 9  0.52517986 29.904  1.000    egypt09.sim
+## 10 0.43434343 35.544  0.996    egypt10.sim
+## 11 0.08510638 51.652  0.000   gambia01.sim
+## 12 0.25174825 49.416  0.348   gambia02.sim
+## 13 0.17307692 52.240  0.064   gambia03.sim
+## 14 0.18666667 51.760  0.044   gambia04.sim
+## 15 0.12643678 52.356  0.024   gambia05.sim
+## 16 0.51809524 33.188  1.000   gambia06.sim
+## 17 0.38766520 41.404  0.928   gambia07.sim
+## 18 0.31055901 46.468  0.612   gambia08.sim
+## 19 0.35483871 42.244  0.772   gambia09.sim
+## 20 0.33584906 44.448  0.704   gambia10.sim
+## 21 0.09900990 52.228  0.000    ghana01.sim
+## 22 0.21621622 51.352  0.188    ghana02.sim
+## 23 0.27819549 48.808  0.472    ghana03.sim
+## 24 0.46728972 32.872  0.992 tanzania01.sim
+## 25 0.45631068 33.528  1.000 tanzania02.sim
+## 26 0.10256410 50.808  0.000 tanzania03.sim
+## 27 0.17241379 50.700  0.016 tanzania04.sim
+## 28 0.69629630 22.796  1.000 tanzania05.sim
+## 29 0.30927835 45.880  0.544 tanzania06.sim
+## 30 0.37272727 39.868  0.888 tanzania07.sim
+## 31 0.44545455 34.592  0.980 tanzania08.sim
+## 32 0.21468927 50.440  0.104 tanzania09.sim
+## 33 0.59259259 26.316  1.000 tanzania10.sim
+## 34 0.25443787 48.608  0.320 tanzania11.sim
+## 35 0.56198347 29.868  1.000 tanzania12.sim
+## 36 0.50862069 30.384  0.992 tanzania13.sim
+## 37 0.41052632 37.328  0.960 tanzania14.sim
+## 38 0.25490196 48.648  0.452     togo01.sim
+## 39 0.16923077 55.412  0.060     togo02.sim
+## 40 0.21476510 51.124  0.196     togo03.sim
+## 41 0.12658228 52.008  0.016     togo04.sim
+## 42 0.10982659 52.964  0.000     togo05.sim
+## 43 0.26771654 47.828  0.412     togo06.sim
+## 44 0.32446809 43.828  0.708     togo07.sim
+## 45 0.31250000 45.636  0.632     togo08.sim
+## 46 0.12500000 51.292  0.004     togo09.sim
+## 47 0.04385965 51.948  0.000     togo10.sim
+## 48 0.08609272 52.348  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the performance of the sampling plan on the
@@ -13572,7 +13572,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 162
+## [1] 128
 \end{verbatim}
 
 We can use this model to investigate the effect of different
@@ -13681,7 +13681,7 @@ The number of infected cells is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 29
+## [1] 13
 \end{verbatim}
 
 A better summary is the proportion of susceptible (i.e.~non-immune)
@@ -13694,7 +13694,7 @@ cells that become infected during a run:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.127193
+## [1] 0.0631068
 \end{verbatim}
 
 We can use this model to investigate the effect of different proportions
@@ -14001,7 +14001,7 @@ cells that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.3127148
+## [1] 0.937931
 \end{verbatim}
 
 We can use this model to test the effect of an intervention such as
@@ -14060,7 +14060,7 @@ that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.02061856
+## [1] 0.003484321
 \end{verbatim}
 
 We have developed a simple but realistic model of epidemic spread using

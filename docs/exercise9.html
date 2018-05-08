@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt and Ernest Guevarra">
 
 
-<meta name="date" content="2018-04-29">
+<meta name="date" content="2018-05-08">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,6 +47,15 @@
 
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-118912078-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-118912078-1');
+</script>
 
 
 <style type="text/css">
@@ -198,11 +207,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>## [1] 10.46</code></pre>
 <p>The <code>sample()</code> function can be used to select a bootstrap <code>replicate</code>:</p>
 <pre class="sourceCode r" id="cb701"><code class="sourceCode r"><a class="sourceLine" id="cb701-1" data-line-number="1"><span class="kw">sample</span>(x, <span class="kw">length</span>(x), <span class="dt">replace =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<pre><code>## [1] 12.2 10.4  8.4 14.0 10.4</code></pre>
+<pre><code>## [1] 8.4 8.4 7.3 7.3 7.3</code></pre>
 <p>Enter this command several times to see some more bootstrap replicates. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time. The <code>length()</code> parameter is not required for taking bootstrap replicates and can be omitted.</p>
 <p>It is possible to apply a summary measure to a replicate:</p>
 <pre class="sourceCode r" id="cb703"><code class="sourceCode r"><a class="sourceLine" id="cb703-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">sample</span>(x, <span class="dt">replace =</span> <span class="ot">TRUE</span>))</a></code></pre>
-<pre><code>## [1] 10.86</code></pre>
+<pre><code>## [1] 9.74</code></pre>
 <p>Enter this command several times. A bootstrap estimate of the mean of <code>x</code> can be made by repeating this process many times and taking the <code>median</code> of the means for each replicate.</p>
 <p>One way of doing this is to create a matrix where each column contains a bootstrap replicate and then use the <code>apply()</code> and <code>mean()</code> functions to get at the estimate.</p>
 <p>First create the matrix of replicates. Here we take ten replicates:</p>
@@ -210,18 +219,18 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb705-2" data-line-number="2">             <span class="dt">nrow =</span> <span class="kw">length</span>(x), <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb705-3" data-line-number="3">x1</a></code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,] 14.0 12.2  8.4 10.4 10.4  7.3 14.0 12.2  8.4   7.3
-## [2,] 14.0 10.4  8.4 14.0  8.4 12.2  8.4  7.3 12.2   7.3
-## [3,]  8.4 12.2  8.4 14.0  7.3 10.4 14.0 10.4  8.4  10.4
-## [4,] 12.2 10.4  8.4 14.0  8.4  8.4  7.3 14.0 12.2   8.4
-## [5,]  8.4 12.2  8.4 10.4 10.4 10.4 14.0 12.2 14.0   7.3</code></pre>
+## [1,]  7.3 14.0  8.4  7.3 10.4 12.2  8.4  7.3 12.2  12.2
+## [2,] 10.4  7.3  7.3 12.2  8.4  8.4  8.4 12.2 14.0   8.4
+## [3,]  8.4 10.4 10.4  8.4  8.4 14.0 10.4 12.2 10.4   7.3
+## [4,]  7.3 10.4 12.2 14.0 10.4 10.4  8.4 12.2 14.0  14.0
+## [5,] 12.2 10.4  8.4  8.4  7.3 14.0 12.2 10.4 14.0  12.2</code></pre>
 <p>Then calculate and store the means of each replicate. We can do this using the <code>apply()</code> function to apply the <code>mean()</code> function to the columns of matrix <code>x1</code>:</p>
 <pre class="sourceCode r" id="cb707"><code class="sourceCode r"><a class="sourceLine" id="cb707-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, mean)</a>
 <a class="sourceLine" id="cb707-2" data-line-number="2">x2</a></code></pre>
-<pre><code>##  [1] 11.40 11.48  8.40 12.56  8.98  9.74 11.54 11.22 11.04  8.14</code></pre>
+<pre><code>##  [1]  9.12 10.50  9.34 10.06  8.98 11.80  9.56 10.86 12.92 10.82</code></pre>
 <p>The bootstrap estimate of the mean is:</p>
 <pre class="sourceCode r" id="cb709"><code class="sourceCode r"><a class="sourceLine" id="cb709-1" data-line-number="1"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 11.13</code></pre>
+<pre><code>## [1] 10.28</code></pre>
 <p>The bootstrap estimate may differ somewhat from the mean of <code>x</code>:</p>
 <pre class="sourceCode r" id="cb711"><code class="sourceCode r"><a class="sourceLine" id="cb711-1" data-line-number="1"><span class="kw">mean</span>(x)</a></code></pre>
 <pre><code>## [1] 10.46</code></pre>
@@ -249,15 +258,15 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb719-4" data-line-number="4">             <span class="dt">nrow =</span> n, <span class="dt">ncol =</span> replicates)</a>
 <a class="sourceLine" id="cb719-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">apply</span>(x1, <span class="dv">2</span>, h.mean)</a>
 <a class="sourceLine" id="cb719-6" data-line-number="6"><span class="kw">median</span>(x2)</a></code></pre>
-<pre><code>## [1] 33.7246</code></pre>
+<pre><code>## [1] 33.72519</code></pre>
 <p>A 95% confidence interval can be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb721"><code class="sourceCode r"><a class="sourceLine" id="cb721-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
 <pre><code>##     2.5%    97.5% 
-## 27.75684 40.25590</code></pre>
+## 27.78323 40.25330</code></pre>
 <p>A 99% confidence interval can also be extracted from <code>x2</code> using the <code>quantile()</code> function:</p>
 <pre class="sourceCode r" id="cb723"><code class="sourceCode r"><a class="sourceLine" id="cb723-1" data-line-number="1"><span class="kw">quantile</span>(x2, <span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.995</span>))</a></code></pre>
 <pre><code>##     0.5%    99.5% 
-## 26.08265 42.24557</code></pre>
+## 26.30456 41.96647</code></pre>
 <p>As a final example of the bootstrap method we will use the method to obtain an estimate of an odds ratio from a two-by-two table. We will work with the <code>salex</code> dataset which we used in exercise 2 and exercise 3:</p>
 <pre class="sourceCode r" id="cb725"><code class="sourceCode r"><a class="sourceLine" id="cb725-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>,  <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
 <a class="sourceLine" id="cb725-2" data-line-number="2"><span class="kw">table</span>(salex<span class="op">$</span>EGGS, salex<span class="op">$</span>ILL)</a></code></pre>
@@ -281,16 +290,16 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The vector <code>boot</code> now contains the odds ratios calculated from 1000 replicates. Estimates of the odds ratio and its 95% confidence interval may be obtained using the <code>median()</code> and <code>quantile()</code> functions</p>
 <pre class="sourceCode r" id="cb731"><code class="sourceCode r"><a class="sourceLine" id="cb731-1" data-line-number="1"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb731-2" data-line-number="2"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.0625</code></pre>
-<pre><code>##  2.5% 97.5% 
-##   5.0  60.5</code></pre>
+<pre><code>## [1] 13.775</code></pre>
+<pre><code>##     2.5%    97.5% 
+##  4.92105 62.26823</code></pre>
 <p>This approach may fail when some tables have cells that contain zero. Infinite values arise due to division by zero when calculating the odds ratio for some replicates. We can avoid this problem by selecting only those values of <code>boot</code> that are not (<code>!=</code>) infinite (<code>Inf</code>):</p>
 <pre class="sourceCode r" id="cb734"><code class="sourceCode r"><a class="sourceLine" id="cb734-1" data-line-number="1">boot &lt;-<span class="st"> </span>boot[boot <span class="op">!=</span><span class="st"> </span><span class="ot">Inf</span>]</a>
 <a class="sourceLine" id="cb734-2" data-line-number="2"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb734-3" data-line-number="3"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 14.0625</code></pre>
-<pre><code>##  2.5% 97.5% 
-##   5.0  60.5</code></pre>
+<pre><code>## [1] 13.75</code></pre>
+<pre><code>##      2.5%     97.5% 
+##  4.918576 57.527778</code></pre>
 <p>Another way to avoid this problem is to use an <code>adjusted odds ratio</code> calculated by adding 0.5 to each cell of the two-by-two table:</p>
 <pre class="sourceCode r" id="cb737"><code class="sourceCode r"><a class="sourceLine" id="cb737-1" data-line-number="1">boot &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
 <a class="sourceLine" id="cb737-2" data-line-number="2"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">1000</span>) {</a>
@@ -301,9 +310,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb737-7" data-line-number="7">  }</a>
 <a class="sourceLine" id="cb737-8" data-line-number="8"><span class="kw">median</span>(boot)</a>
 <a class="sourceLine" id="cb737-9" data-line-number="9"><span class="kw">quantile</span>(boot, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</a></code></pre>
-<pre><code>## [1] 12.7927</code></pre>
+<pre><code>## [1] 13.00364</code></pre>
 <pre><code>##      2.5%     97.5% 
-##  4.578753 45.511189</code></pre>
+##  4.711719 45.338471</code></pre>
 <p>This procedure is preferred when working with sparse tables.</p>
 </div>
 <div id="hypothesis-testing" class="section level2">
@@ -351,7 +360,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb746"><code class="sourceCode r"><a class="sourceLine" id="cb746-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb746-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb746-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.0993</code></pre>
+<pre><code>## [1] 0.1029</code></pre>
 <p>You might like to repeat this exercise using the harmonic mean distance and the median distance.</p>
 <p>We can check if this method is capable of detecting a simple cluster using simulated data:</p>
 <pre class="sourceCode r" id="cb748"><code class="sourceCode r"><a class="sourceLine" id="cb748-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="dt">mean =</span> <span class="fl">0.5</span>, <span class="dt">sd =</span> <span class="fl">0.2</span>)</a>
@@ -363,12 +372,12 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre class="sourceCode r" id="cb749"><code class="sourceCode r"><a class="sourceLine" id="cb749-1" data-line-number="1">distance.obs &lt;-<span class="st"> </span><span class="kw">sqrt</span>((x <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span> <span class="op">+</span><span class="st"> </span>(y <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
 <p>The observed mean distance of each case from the industrial waste disposal site is:</p>
 <pre class="sourceCode r" id="cb750"><code class="sourceCode r"><a class="sourceLine" id="cb750-1" data-line-number="1"><span class="kw">mean</span>(distance.obs)</a></code></pre>
-<pre><code>## [1] 0.2993445</code></pre>
+<pre><code>## [1] 0.225183</code></pre>
 <p>We can use the the simulated null hypothesis data to test for spatial clustering:</p>
 <pre class="sourceCode r" id="cb752"><code class="sourceCode r"><a class="sourceLine" id="cb752-1" data-line-number="1">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb752-2" data-line-number="2">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb752-3" data-line-number="3"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.0035</code></pre>
+<pre><code>## [1] 0</code></pre>
 <p>We should also check if the procedure can detect a plume of cases, such as might be created by a prevailing wind at a waste incineration site, in a similar way:</p>
 <pre class="sourceCode r" id="cb754"><code class="sourceCode r"><a class="sourceLine" id="cb754-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
 <a class="sourceLine" id="cb754-2" data-line-number="2">y &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">23</span>, <span class="fl">0.25</span>, <span class="fl">0.1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
@@ -379,7 +388,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb755-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">mean</span>(distance.obs)</a>
 <a class="sourceLine" id="cb755-3" data-line-number="3">z &lt;-<span class="st"> </span><span class="kw">ifelse</span>(distance.sim <span class="op">&lt;</span><span class="st"> </span>m, <span class="dv">1</span>, <span class="dv">0</span>)</a>
 <a class="sourceLine" id="cb755-4" data-line-number="4"><span class="kw">sum</span>(z) <span class="op">/</span><span class="st"> </span>r</a></code></pre>
-<pre><code>## [1] 0.0834</code></pre>
+<pre><code>## [1] 0.7942</code></pre>
 <p>The method is not capable of detecting plumes.</p>
 <p>You might like to try adapting the simulation code presented here to provide a method capable of detecting plumes of cases.</p>
 </div>
@@ -1050,10 +1059,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb779-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb779-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 50
+## [1] 51
 ## 
 ## $cases
-## [1] 11
+## [1] 6
 ## 
 ## $outcome
 ## [1] 0</code></pre>
@@ -1066,7 +1075,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb782-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb782-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 42
+## [1] 37
 ## 
 ## $cases
 ## [1] 15
@@ -1081,13 +1090,13 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb785-2" data-line-number="2">x.hh &lt;-<span class="st"> </span><span class="kw">ind2hh</span>(x)</a>
 <a class="sourceLine" id="cb785-3" data-line-number="3"><span class="kw">lqas.run</span>(<span class="dt">x =</span> x.hh, <span class="dt">n =</span> <span class="dv">50</span>, <span class="dt">d =</span> <span class="dv">14</span>)</a></code></pre>
 <pre><code>## $kids
-## [1] 50
+## [1] 34
 ## 
 ## $cases
-## [1] 13
+## [1] 15
 ## 
 ## $outcome
-## [1] 0</code></pre>
+## [1] 1</code></pre>
 <p>Repeat the last function call several times. The function should return:</p>
 <pre><code>$outcome
 [1] 0</code></pre>
@@ -1131,26 +1140,26 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.668
+## [1] 50.588
 ## 
 ## $p.high
-## [1] 0.016</code></pre>
+## [1] 0.044</code></pre>
 <pre><code>## $p
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 34.052
+## [1] 34.436
 ## 
 ## $p.high
-## [1] 0.972</code></pre>
+## [1] 0.992</code></pre>
 <pre><code>## $p
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 44.884
+## [1] 45.596
 ## 
 ## $p.high
-## [1] 0.656</code></pre>
+## [1] 0.628</code></pre>
 <p>The simulation consists of applying this function to each of the datasets in turn and collating the results. We will create a function to do this.</p>
 <p>Create a new function called <code>main.simul()</code>:</p>
 <pre class="sourceCode r" id="cb796"><code class="sourceCode r"><a class="sourceLine" id="cb796-1" data-line-number="1">main.simul &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
@@ -1178,54 +1187,54 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The returned data.frame object (<code>z1</code>) contains the results of the simulation:</p>
 <pre class="sourceCode r" id="cb801"><code class="sourceCode r"><a class="sourceLine" id="cb801-1" data-line-number="1">z1</a></code></pre>
 <pre><code>##             p    asn p.high      file.name
-## 1  0.59139785 26.088  1.000    egypt01.sim
-## 2  0.09243697 50.784  0.000    egypt02.sim
-## 3  0.34394904 42.340  0.840    egypt03.sim
-## 4  0.25465839 49.068  0.332    egypt04.sim
-## 5  0.13548387 50.656  0.004    egypt05.sim
-## 6  0.69934641 22.796  1.000    egypt06.sim
-## 7  0.09815951 50.684  0.000    egypt07.sim
-## 8  0.56684492 27.684  1.000    egypt08.sim
-## 9  0.52517986 29.500  1.000    egypt09.sim
-## 10 0.43434343 35.244  0.988    egypt10.sim
-## 11 0.08510638 51.472  0.000   gambia01.sim
-## 12 0.25174825 49.620  0.372   gambia02.sim
-## 13 0.17307692 52.116  0.056   gambia03.sim
-## 14 0.18666667 51.688  0.072   gambia04.sim
-## 15 0.12643678 51.968  0.024   gambia05.sim
-## 16 0.51809524 32.476  1.000   gambia06.sim
-## 17 0.38766520 40.820  0.932   gambia07.sim
-## 18 0.31055901 47.076  0.620   gambia08.sim
-## 19 0.35483871 41.716  0.792   gambia09.sim
-## 20 0.33584906 43.796  0.720   gambia10.sim
-## 21 0.09900990 52.396  0.000    ghana01.sim
-## 22 0.21621622 51.536  0.156    ghana02.sim
-## 23 0.27819549 49.884  0.460    ghana03.sim
-## 24 0.46728972 33.268  0.996 tanzania01.sim
-## 25 0.45631068 33.480  1.000 tanzania02.sim
-## 26 0.10256410 50.848  0.004 tanzania03.sim
-## 27 0.17241379 50.632  0.052 tanzania04.sim
-## 28 0.69629630 22.756  1.000 tanzania05.sim
-## 29 0.30927835 45.568  0.600 tanzania06.sim
-## 30 0.37272727 39.984  0.864 tanzania07.sim
-## 31 0.44545455 34.320  0.992 tanzania08.sim
-## 32 0.21468927 50.312  0.104 tanzania09.sim
-## 33 0.59259259 25.880  1.000 tanzania10.sim
-## 34 0.25443787 48.796  0.316 tanzania11.sim
-## 35 0.56198347 28.788  1.000 tanzania12.sim
-## 36 0.50862069 30.560  1.000 tanzania13.sim
-## 37 0.41052632 37.632  0.968 tanzania14.sim
-## 38 0.25490196 50.148  0.348     togo01.sim
-## 39 0.16923077 55.276  0.104     togo02.sim
-## 40 0.21476510 50.800  0.224     togo03.sim
-## 41 0.12658228 52.136  0.008     togo04.sim
-## 42 0.10982659 53.216  0.000     togo05.sim
-## 43 0.26771654 47.664  0.408     togo06.sim
-## 44 0.32446809 46.280  0.628     togo07.sim
-## 45 0.31250000 45.608  0.632     togo08.sim
-## 46 0.12500000 51.504  0.000     togo09.sim
-## 47 0.04385965 52.072  0.000     togo10.sim
-## 48 0.08609272 52.516  0.000     togo11.sim</code></pre>
+## 1  0.59139785 26.188  1.000    egypt01.sim
+## 2  0.09243697 50.680  0.000    egypt02.sim
+## 3  0.34394904 43.512  0.764    egypt03.sim
+## 4  0.25465839 49.032  0.340    egypt04.sim
+## 5  0.13548387 50.784  0.008    egypt05.sim
+## 6  0.69934641 22.492  1.000    egypt06.sim
+## 7  0.09815951 50.724  0.000    egypt07.sim
+## 8  0.56684492 27.440  1.000    egypt08.sim
+## 9  0.52517986 29.028  1.000    egypt09.sim
+## 10 0.43434343 35.328  0.988    egypt10.sim
+## 11 0.08510638 51.464  0.000   gambia01.sim
+## 12 0.25174825 48.860  0.392   gambia02.sim
+## 13 0.17307692 52.088  0.100   gambia03.sim
+## 14 0.18666667 51.680  0.068   gambia04.sim
+## 15 0.12643678 51.896  0.044   gambia05.sim
+## 16 0.51809524 32.108  1.000   gambia06.sim
+## 17 0.38766520 40.140  0.960   gambia07.sim
+## 18 0.31055901 47.140  0.652   gambia08.sim
+## 19 0.35483871 42.420  0.800   gambia09.sim
+## 20 0.33584906 45.352  0.700   gambia10.sim
+## 21 0.09900990 52.064  0.000    ghana01.sim
+## 22 0.21621622 51.276  0.196    ghana02.sim
+## 23 0.27819549 48.324  0.492    ghana03.sim
+## 24 0.46728972 32.588  1.000 tanzania01.sim
+## 25 0.45631068 33.584  1.000 tanzania02.sim
+## 26 0.10256410 50.820  0.000 tanzania03.sim
+## 27 0.17241379 50.816  0.020 tanzania04.sim
+## 28 0.69629630 22.668  1.000 tanzania05.sim
+## 29 0.30927835 45.984  0.596 tanzania06.sim
+## 30 0.37272727 40.728  0.812 tanzania07.sim
+## 31 0.44545455 34.644  0.988 tanzania08.sim
+## 32 0.21468927 50.440  0.156 tanzania09.sim
+## 33 0.59259259 26.184  1.000 tanzania10.sim
+## 34 0.25443787 48.412  0.304 tanzania11.sim
+## 35 0.56198347 28.840  1.000 tanzania12.sim
+## 36 0.50862069 30.576  0.996 tanzania13.sim
+## 37 0.41052632 37.076  0.980 tanzania14.sim
+## 38 0.25490196 48.932  0.416     togo01.sim
+## 39 0.16923077 55.680  0.072     togo02.sim
+## 40 0.21476510 51.016  0.176     togo03.sim
+## 41 0.12658228 52.124  0.020     togo04.sim
+## 42 0.10982659 52.916  0.004     togo05.sim
+## 43 0.26771654 47.976  0.440     togo06.sim
+## 44 0.32446809 45.600  0.668     togo07.sim
+## 45 0.31250000 45.248  0.656     togo08.sim
+## 46 0.12500000 51.332  0.004     togo09.sim
+## 47 0.04385965 52.500  0.000     togo10.sim
+## 48 0.08609272 52.200  0.000     togo11.sim</code></pre>
 <p>We can examine the prevalences in the test datasets:</p>
 <pre class="sourceCode r" id="cb803"><code class="sourceCode r"><a class="sourceLine" id="cb803-1" data-line-number="1"><span class="kw">x11</span>()</a>
 <a class="sourceLine" id="cb803-2" data-line-number="2"></a>
@@ -1347,54 +1356,54 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>The data.frame object <code>z2</code> contains the results of the simulation:</p>
 <pre class="sourceCode r" id="cb814"><code class="sourceCode r"><a class="sourceLine" id="cb814-1" data-line-number="1">z2</a></code></pre>
 <pre><code>##             p    asn p.high      file.name
-## 1  0.59139785 26.800  1.000    egypt01.sim
-## 2  0.09243697 50.736  0.000    egypt02.sim
-## 3  0.34394904 43.368  0.784    egypt03.sim
-## 4  0.25465839 48.864  0.336    egypt04.sim
-## 5  0.13548387 50.652  0.004    egypt05.sim
-## 6  0.69934641 22.616  1.000    egypt06.sim
-## 7  0.09815951 50.748  0.000    egypt07.sim
-## 8  0.56684492 27.164  0.996    egypt08.sim
-## 9  0.52517986 29.308  1.000    egypt09.sim
-## 10 0.43434343 35.824  0.988    egypt10.sim
-## 11 0.08510638 51.736  0.000   gambia01.sim
-## 12 0.25174825 48.780  0.376   gambia02.sim
-## 13 0.17307692 51.992  0.060   gambia03.sim
-## 14 0.18666667 51.856  0.072   gambia04.sim
-## 15 0.12643678 52.304  0.024   gambia05.sim
-## 16 0.51809524 33.016  0.992   gambia06.sim
-## 17 0.38766520 41.788  0.920   gambia07.sim
-## 18 0.31055901 46.632  0.652   gambia08.sim
-## 19 0.35483871 43.304  0.736   gambia09.sim
-## 20 0.33584906 44.152  0.672   gambia10.sim
-## 21 0.09900990 52.312  0.000    ghana01.sim
-## 22 0.21621622 51.076  0.200    ghana02.sim
-## 23 0.27819549 48.824  0.520    ghana03.sim
-## 24 0.46728972 32.932  0.988 tanzania01.sim
-## 25 0.45631068 33.920  0.996 tanzania02.sim
-## 26 0.10256410 50.800  0.000 tanzania03.sim
-## 27 0.17241379 50.604  0.032 tanzania04.sim
-## 28 0.69629630 22.368  1.000 tanzania05.sim
-## 29 0.30927835 46.148  0.568 tanzania06.sim
-## 30 0.37272727 39.552  0.880 tanzania07.sim
-## 31 0.44545455 34.176  0.988 tanzania08.sim
-## 32 0.21468927 50.420  0.116 tanzania09.sim
-## 33 0.59259259 26.208  1.000 tanzania10.sim
-## 34 0.25443787 49.168  0.344 tanzania11.sim
-## 35 0.56198347 28.828  1.000 tanzania12.sim
-## 36 0.50862069 30.784  0.992 tanzania13.sim
-## 37 0.41052632 37.772  0.952 tanzania14.sim
-## 38 0.25490196 49.016  0.372     togo01.sim
-## 39 0.16923077 55.492  0.072     togo02.sim
-## 40 0.21476510 50.584  0.196     togo03.sim
-## 41 0.12658228 52.016  0.004     togo04.sim
-## 42 0.10982659 52.972  0.004     togo05.sim
-## 43 0.26771654 47.948  0.424     togo06.sim
-## 44 0.32446809 44.992  0.680     togo07.sim
-## 45 0.31250000 45.228  0.644     togo08.sim
-## 46 0.12500000 51.344  0.000     togo09.sim
-## 47 0.04385965 52.388  0.000     togo10.sim
-## 48 0.08609272 52.576  0.000     togo11.sim</code></pre>
+## 1  0.59139785 26.224  1.000    egypt01.sim
+## 2  0.09243697 50.920  0.000    egypt02.sim
+## 3  0.34394904 42.684  0.800    egypt03.sim
+## 4  0.25465839 48.968  0.372    egypt04.sim
+## 5  0.13548387 50.728  0.004    egypt05.sim
+## 6  0.69934641 22.512  1.000    egypt06.sim
+## 7  0.09815951 50.800  0.000    egypt07.sim
+## 8  0.56684492 27.872  1.000    egypt08.sim
+## 9  0.52517986 29.676  1.000    egypt09.sim
+## 10 0.43434343 35.060  0.988    egypt10.sim
+## 11 0.08510638 51.480  0.000   gambia01.sim
+## 12 0.25174825 49.340  0.376   gambia02.sim
+## 13 0.17307692 52.208  0.044   gambia03.sim
+## 14 0.18666667 51.660  0.104   gambia04.sim
+## 15 0.12643678 52.232  0.024   gambia05.sim
+## 16 0.51809524 32.728  1.000   gambia06.sim
+## 17 0.38766520 40.880  0.904   gambia07.sim
+## 18 0.31055901 47.068  0.608   gambia08.sim
+## 19 0.35483871 42.892  0.760   gambia09.sim
+## 20 0.33584906 44.224  0.744   gambia10.sim
+## 21 0.09900990 52.056  0.000    ghana01.sim
+## 22 0.21621622 51.504  0.200    ghana02.sim
+## 23 0.27819549 48.400  0.504    ghana03.sim
+## 24 0.46728972 33.048  0.980 tanzania01.sim
+## 25 0.45631068 34.232  0.996 tanzania02.sim
+## 26 0.10256410 50.664  0.000 tanzania03.sim
+## 27 0.17241379 50.616  0.032 tanzania04.sim
+## 28 0.69629630 22.476  1.000 tanzania05.sim
+## 29 0.30927835 46.540  0.516 tanzania06.sim
+## 30 0.37272727 40.448  0.868 tanzania07.sim
+## 31 0.44545455 33.848  0.984 tanzania08.sim
+## 32 0.21468927 50.112  0.132 tanzania09.sim
+## 33 0.59259259 25.764  1.000 tanzania10.sim
+## 34 0.25443787 49.216  0.328 tanzania11.sim
+## 35 0.56198347 29.468  1.000 tanzania12.sim
+## 36 0.50862069 30.372  1.000 tanzania13.sim
+## 37 0.41052632 36.804  0.968 tanzania14.sim
+## 38 0.25490196 49.024  0.360     togo01.sim
+## 39 0.16923077 55.000  0.084     togo02.sim
+## 40 0.21476510 50.636  0.244     togo03.sim
+## 41 0.12658228 52.144  0.012     togo04.sim
+## 42 0.10982659 53.020  0.000     togo05.sim
+## 43 0.26771654 47.720  0.468     togo06.sim
+## 44 0.32446809 45.140  0.712     togo07.sim
+## 45 0.31250000 45.376  0.640     togo08.sim
+## 46 0.12500000 51.396  0.000     togo09.sim
+## 47 0.04385965 51.944  0.000     togo10.sim
+## 48 0.08609272 52.116  0.000     togo11.sim</code></pre>
 <p>We can examine the performance of the sampling plan on the age-restricted datasets by plotting its <em>operating characteristic</em> (OC) curve and comparing the simulation results with the expected <em>operating characteristic</em> (OC) curve under ideal sampling conditions:</p>
 <pre class="sourceCode r" id="cb816"><code class="sourceCode r"><a class="sourceLine" id="cb816-1" data-line-number="1"><span class="kw">x11</span>()</a>
 <a class="sourceLine" id="cb816-2" data-line-number="2"></a>
@@ -1542,7 +1551,7 @@ by the the rule-set.</p></li>
 <pre class="sourceCode r" id="cb830"><code class="sourceCode r"><a class="sourceLine" id="cb830-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">20</span>)</a></code></pre>
 <p>The number of infected cells is:</p>
 <pre class="sourceCode r" id="cb831"><code class="sourceCode r"><a class="sourceLine" id="cb831-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid)</a></code></pre>
-<pre><code>## [1] 108</code></pre>
+<pre><code>## [1] 122</code></pre>
 <p>We can use this model to investigate the effect of different transmission pressures by systematically altering the transmission pressure specified in <code>TP</code>:</p>
 <pre class="sourceCode r" id="cb833"><code class="sourceCode r"><a class="sourceLine" id="cb833-1" data-line-number="1">cases &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="dv">19</span>, <span class="dt">ncol =</span> <span class="dv">19</span>)</a>
 <a class="sourceLine" id="cb833-2" data-line-number="2">cases[<span class="dv">10</span>, <span class="dv">10</span>] &lt;-<span class="st"> </span><span class="dv">1</span></a>
@@ -1586,10 +1595,10 @@ by the the rule-set.</p></li>
 <pre class="sourceCode r" id="cb839"><code class="sourceCode r"><a class="sourceLine" id="cb839-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">30</span>)</a></code></pre>
 <p>The number of infected cells is:</p>
 <pre class="sourceCode r" id="cb840"><code class="sourceCode r"><a class="sourceLine" id="cb840-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid)</a></code></pre>
-<pre><code>## [1] 46</code></pre>
+<pre><code>## [1] 27</code></pre>
 <p>A better summary is the proportion of susceptible (i.e. non-immune) cells that become infected during a run:</p>
 <pre class="sourceCode r" id="cb842"><code class="sourceCode r"><a class="sourceLine" id="cb842-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>grid) <span class="op">/</span><span class="st"> </span>(<span class="dv">361</span> <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(cam.state<span class="op">$</span>immune))</a></code></pre>
-<pre><code>## [1] 0.2053571</code></pre>
+<pre><code>## [1] 0.1279621</code></pre>
 <p>We can use this model to investigate the effect of different proportions of the population that are immune by systematically altering the value assigned to <code>IM</code>:</p>
 <pre class="sourceCode r" id="cb844"><code class="sourceCode r"><a class="sourceLine" id="cb844-1" data-line-number="1">immune.p &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
 <a class="sourceLine" id="cb844-2" data-line-number="2">infected.p &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;numeric&quot;</span>)</a>
@@ -1728,7 +1737,7 @@ immune (<code>IM</code>):</p>
 <pre class="sourceCode r" id="cb860"><code class="sourceCode r"><a class="sourceLine" id="cb860-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">200</span>)</a></code></pre>
 <p>We can now calculate the proportion of susceptible (i.e. non-immune) cells that become infected:</p>
 <pre class="sourceCode r" id="cb861"><code class="sourceCode r"><a class="sourceLine" id="cb861-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>infected) <span class="op">/</span><span class="st"> </span>susceptibles</a></code></pre>
-<pre><code>## [1] 0.970297</code></pre>
+<pre><code>## [1] 0.8356164</code></pre>
 <p>We can use this model to test the effect of an intervention such as isolating an infected cell for a short period after clinical features first appear. We can do this, imperfectly because it does not allow us to specify compliance, by shortening the infectious period to include only the non-symptomatic time-steps and one time- step after clinical features have appeared:</p>
 <pre class="sourceCode r" id="cb863"><code class="sourceCode r"><a class="sourceLine" id="cb863-1" data-line-number="1">INFECTIOUS &lt;-<span class="st"> </span><span class="dv">8</span><span class="op">:</span><span class="dv">11</span></a></code></pre>
 <p>resetting the initial state of the CAM:</p>
@@ -1748,7 +1757,7 @@ immune (<code>IM</code>):</p>
 <pre class="sourceCode r" id="cb866"><code class="sourceCode r"><a class="sourceLine" id="cb866-1" data-line-number="1"><span class="kw">cam.run</span>(<span class="dt">steps =</span> <span class="dv">200</span>)</a></code></pre>
 <p>And recalculating the proportion of susceptible (i.e. non-immune) cells that become infected:</p>
 <pre class="sourceCode r" id="cb867"><code class="sourceCode r"><a class="sourceLine" id="cb867-1" data-line-number="1"><span class="kw">sum</span>(cam.state<span class="op">$</span>infected) <span class="op">/</span><span class="st"> </span>susceptibles</a></code></pre>
-<pre><code>## [1] 0.2775801</code></pre>
+<pre><code>## [1] 0.05172414</code></pre>
 <p>We have developed a simple but realistic model of epidemic spread using a cellular automata machine. Such a model could be used to investigate the relative effect of model parameters (e.g. initial proportion immune, initial number of infective cells, transmission pressure, etc.) on epidemic spread by changing a single parameter at a time and running the simulation. Since the model is <em>stochastic</em>, the effect of each parameter change would be simulated many times and suitable summaries calculated.</p>
 <p>The model could be improved by, for example:</p>
 <ul>
