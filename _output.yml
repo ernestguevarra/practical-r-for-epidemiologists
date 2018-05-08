@@ -3,6 +3,8 @@ bookdown::gitbook:
   css: style.css
   fig_caption: yes
   split_by: chapter
+  includes:
+    in_header: google_analytics.html
   config:
     toc:
       collapse: section
