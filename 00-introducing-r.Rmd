@@ -14,9 +14,13 @@
 
 `R` is a language based product. This means that you interact with `R` by typing commands such as: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 table(SEX, LIFE)
 ```
+
+&nbsp;
 
 rather than by using menus, dialog boxes, selection lists, and buttons. This may seem to be a drawback but it means that the system is considerably more flexible than one that relies on menus, buttons, and boxes. It also means that every stage of your data management and analysis can be recorded and edited and re-run at a later date. It also provides an audit trail for quality control purposes.
 
@@ -30,53 +34,80 @@ This is also the best place to get extension packages and documentation. You may
 
 Even though `R` is a free package it is more powerful than most commercial packages. Many of the modern procedures found in commercial packages were first developed and tested using `R` or **S-Plus** (the commercial equivalent of `R`).
 
-
 When you start `R` it will issue a prompt when it expects user input. The default prompt is:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 >
 ```
 
+&nbsp;
+
 This is where you type commands that call functions that instruct `R` to (e.g.) read a data file, recode data, produce a table, or fit a regression. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 > table(SEX, LIFE)
 ```
 
+&nbsp;
+
 If a command you type is not complete then the prompt will change to:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 +
 ```
 
+&nbsp;
+
 on subsequent lines until the command is complete:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 > table(
 + SEX, LIFE +)
 ```
 
+&nbsp;
+
 The `>` and `+` prompts are not shown in the example commands in the rest of this material.
 
 The example commands in this material are often broken into shorter lines and indented for ease of understanding. The code still works as lines are split in places where `R` knows that a line is not complete. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 table(SEX,
       LIFE)
 ```
 
+&nbsp;
+
 could be entered on a single line as:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 table(SEX, LIFE)
 ```
 
+&nbsp;
+
 In this example `R` knows that the command is not complete until the brackets are closed. The following example could also be written on one line:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 salex.lreg.coeffs <-
   coef(summary(salex.lreg))
 ```
+
+&nbsp;
 
 In this case `R` knows that the `<-` operator at the end of the first line needs further input.
 
