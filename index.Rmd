@@ -23,7 +23,7 @@ description: "This guide is intended as a practical introduction to using the R 
 
 # Welcome {-}
 
-![](images/bookcover_medium.jpg)
+![](images/bookcover.jpg)
 
 This is the website for *Practical R for Epidemiologists*. Visit the [GitHub repository for this site](https://github.com/ernestguevarra/practical-r-for-epidemiologists) or buy it as a [Kindle ebook on Amazon](https://www.amazon.co.uk/Practical-R-Epidemiologists-Mark-Myatt-ebook/dp/B00DQATKIE/ref=sr_1_1?ie=UTF8&qid=1524423427&sr=8-1&keywords=practical+r+for+epidemiologists).
 
@@ -34,26 +34,50 @@ These notes are intended as a practical introduction to using the `R` environmen
 
 These notes are split into ten sections:
 
+&nbsp;
+
 **Introduction**: You are reading this section now!
+
+&nbsp;
 
 **Introducing R**: Some information about the `R` system, the way the `R` system works, how to get a copy of `R`, and how to start `R`.
 
+&nbsp;
+
 **Exercise 1**: Read a dataset, producing descriptive statistics, charts, and perform simple statistical inference. The aim of the exercise is for you to become familiar with `R` and some basic `R` functions and objects.
+
+&nbsp;
 
 **Exercise 2**: In this exercise we explore how to manipulate `R` objects and how to write functions that can manipulate and extract data and information from `R` objects and produce useful analyses.
 
+&nbsp;
+
 **Exercise 3**: In this exercise we explore how `R` handles generalised linear models using the example of logistic regression as well as seeing how `R` can perform stratified (i.e. Mantel-Haenszel) analysis as well as analysing data arising from matched case-control studies.
+
+&nbsp;
 
 **Exercise 4**: In this exercise we use `R` to analyse a small dataset using the methods introduced in the previous exercises.
 
+&nbsp;
+
 **Exercise 5**: In this exercise we explore how `R` can be extended using add-in packages. Specifically, we will use an add-in package to perform a survival analysis.
+
+&nbsp;
 
 **Exercise 6**: In this exercise we explore how to make your own `R` functions behave like `R` objects so that they return a data-structure that can be manipulated or interrogated by other `R` functions.
 
+&nbsp;
+
 **Exercise 7**: In this exercise we explore how you can use `R` to produce custom graphical functions.
+
+&nbsp;
 
 **Exercise 8**: In this exercise we explore some more graphical functions and create custom graphical functions that produce two variable plots, pyramid charts, Pareto charts, charts with error bars, and simple mesh-maps.
 
+&nbsp;
+
 **Exercise 9**: In this exercise we explore ways of implementing computer-intensive methods, such as the bootstrap and computer based simulation, using standard `R` functions.
+
+&nbsp;
 
 If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider following this material.
