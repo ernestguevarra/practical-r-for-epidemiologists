@@ -7,11 +7,17 @@ opts_knit$set(root.dir = "data/")
 
 In this exercise we will explore how `R` handles generalised linear models using the example of logistic regression. We will continue using the `salex` dataset. Start `R` and retrieve the `salex` dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
 ```
 
+&nbsp;
+
 When we analysed this data using two-by-two tables and examining the risk ratio and 95% confidence interval associated with each exposure we found many significant positive associations:
+
+&nbsp;
 
 +---------------+----------+--------------------+
 | **Variable**  | **RR**   | **95% CI**         |
@@ -33,15 +39,27 @@ When we analysed this data using two-by-two tables and examining the risk ratio 
 | CHOCOLATE     | 1.39     | 1.05, 1.87         |
 +---------------+----------+--------------------+
 
+&nbsp;
+
 Some of these associations may be due to *confounding* in the data. We can use logistic regression to help us identify independent associations.
 
 Logistic regression requires the dependent variable to be either 0 or 1. In order to perform a logistic regression we must first recode the `ILL` variable so that 0=no and 1=yes:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 table(salex$ILL)
 salex$ILL[salex$ILL == 2] <- 0
 table(salex$ILL)
 ```
+
+```{r, echo = FALSE, eval = TRUE}
+table(salex$ILL)
+salex$ILL[salex$ILL == 2] <- 0
+table(salex$ILL)
+```
+
+&nbsp;
 
 We could work with our data as it is but if we wanted to calculate odds ratios and confidence intervals we would calculate their reciprocals (i.e. odds ratios for non-exposure rather than for exposure). This is because of the way the data has been coded (1=yes, 2=no).
 
@@ -49,12 +67,16 @@ In order to calculate meaningful odds ratios the exposure variables should also 
 
 We could issue a series of commands similar to the one we have just used to recode the `ILL` variable. This is both tedious and unnecessary as the structure of the dataset (i.e. all variables are coded identically) allows us to recode all variables with a single command:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
 salex[1:5, ]
 salex <- 2 - salex
 salex[1:5, ]
 ```
+
+&nbsp;
 
 ***WARNING*** : The `attach()` function works with a copy of the data.frame rather than the original data.frame. Commands that manipulate variables in a data.frame may not work as expected if the data.frame has been attached using the `attach()` function.
 
@@ -64,28 +86,40 @@ Many `R` users avoid using the `attach()` function altogether.
 
 We can now use the generalised linear model `glm()` function to specify the logistic regression model:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 salex.lreg <- glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA +
                   RICE + LETTUCE + COLESLAW + CHOCOLATE,
                   family = binomial(logit), data = salex)
 ```
 
+&nbsp;
+
 The method used by the `glm()` function is defined by the `family` parameter. Here we specify `binomial` errors and a `logit` (logistic) linking function.
 
 We have saved the output of the `glm()` function in the `salex.lreg` object. We can examine some basic information about the specified model using the `summary()` function:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 summary(salex.lreg)
 ```
+
+&nbsp;
 
 We will use *backwards elimination* to remove non-significant variables from the logistic regression model. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.
 
 `CHOCOLATE` is the least significant variable in the model so we will remove this variable from the model. Storing the output of the `glm()` function is useful as it allows us to use the `update()` function to add, remove, or modify variables without having to describe the model in full:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 salex.lreg <- update(salex.lreg, . ~ . - CHOCOLATE)
 summary(salex.lreg)
 ```
+
+&nbsp;
 
 `RICE` is now the least significant variable in the model so we will remove this variable from the model: 
 

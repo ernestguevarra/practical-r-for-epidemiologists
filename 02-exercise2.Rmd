@@ -9,16 +9,29 @@ In this exercise we will explore how to manipulate `R` objects and how to write 
 
 Before we go any further we should start `R` and retrieve a dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 salex <- read.table("salex.dat", header = TRUE, na.strings = "9")
 ```
 
+&nbsp;
+
 Missing values are coded as 9 throughout this dataset so we can use the `na.strings` parameter of the `read.table()` function to replace all 9’s with the special `NA` code when we retrieve the dataset. Check that this works by examining the `salex` data.frame:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 salex
 names(salex)
 ```
+
+```{r, echo = FALSE, eval = TRUE}
+head(salex)
+names(salex)
+```
+
+&nbsp;
 
 This data comes from a food-borne outbreak. On Saturday 17th October 1992, eighty-two people attended a buffet meal at a sports club. Within fourteen to twenty-four hours, fifty-one of the participants developed diarrhoea, with nausea, vomiting, abdominal pain and fever.
 
@@ -64,93 +77,155 @@ The columns in the dataset are as follows:
 
 Data is available for seventy-seven of the eighty-two people who attended the sports club buffet. All of the variables are coded 1=yes, 2=no.
 
+\newpage
+
 We can use the `attach()` function to make it easier to access our data: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 attach(salex)
 ```
 
+&nbsp;
+
 The two-by-two table is a basic epidemiological tool. In analysing data from a food-borne outbreak collected as a retrospective cohort study, for example, we would tabulate each exposure (suspect foodstuffs) against the outcome (illness) and calculate risk ratios and confidence intervals. `R` has no explicit function to calculate risk ratios from two-by-two tables but we can easily write one ourselves.
 
 The first step in writing such a function would be to create the two-by-two table. This can be done with the `table()` function. We will use a table of `HAM` by `ILL` as an illustration:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 table(HAM, ILL)
 ```
 
+&nbsp;
+
 This command produces the following output:
+
+&nbsp;
 
 ```{r, echo = FALSE, eval = TRUE}
 table(HAM, ILL)
 ```
 
+&nbsp;
+
 We can manipulate the output directly but it is easier if we instruct `R` to save the output of the `table()` function in an object:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab <- table(HAM, ILL)
 ```
 
+\newpage
+
 The `tab` object contains the output of the `table()` function:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab
 ```
 
+&nbsp;
+
 As it is stored in an object we can examine its contents on an item by item basis.
 
 The `tab` object is an object of class `table`:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 class(tab)
 ```
 
+&nbsp;
+
 We can extract data from a table object by using indices or row and column co-ordinates:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 tab[1,1]
 tab[1,2]
 tab[2,1]
 ```
 
+```{r, echo = FALSE, eval = TRUE}
+tab[1,1]
+tab[1,2]
+tab[2,1]
+```
+
+&nbsp;
+
 The numbers in the square brackets refer to the ***position*** (as row and column co-ordinates) of the data item in the table **_not_** the ***values*** of the variables. We can extract data using the values of the row and column variables by enclosing the index values in double quotes ("). For example:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab["1","1"]
 ```
 
+\newpage
+
 The two methods of extracting data may be combined. For example:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab[1,"1"]
 ```
 
+&nbsp;
+
 We can calculate a risk ratio using the extracted data:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 (tab[1,1]/(tab[1,1]+tab[1,2]))/(tab[2,1]/(tab[2,1]+tab[2,2]))
 ```
 
+&nbsp;
+
 Which returns a risk ratio of
+
+&nbsp;
 
 ```{r, echo = FALSE, eval = TRUE}
 2.044444
 ```
 
+&nbsp;
+
 This is a tedious calculation to have to type in every time you need to calculate a risk ratio from a two-by-two table. It would be better to have a function that calculates and displays the risk ratio automatically. Fortunately, `R` allows us to do just that.
 
 The `function()` function allows us to create new functions in `R`:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 tab2by2 <- function(exposure, outcome) {}
 ```
 
+&nbsp;
+
 This creates an empty function called `tab2by2` that expects two parameters called `exposure` and `outcome`. We could type the whole function in at the `R` command prompt but it is easier to use a text editor:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(tab2by2)
 ```
 
+&nbsp;
+
 This will start an editor with the empty `tab2by2()` function already loaded. We can now edit this function to make it do something useful:
+
+\newpage
 
 ```{r, eval = FALSE}
 function(exposure, outcome)
@@ -179,6 +254,8 @@ tab2by2 <- function(exposure, outcome) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 Before proceeding we should examine the `tab2by2()` function to make sure we understand what the function will do:
 
@@ -194,33 +271,53 @@ Before proceeding we should examine the `tab2by2()` function to make sure we und
 
 * The final two lines print the contents of the `tab` and `rr` objects. 
 
+\newpage
+
 Let's try the `tab2by2()` function with our test data:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab2by2(HAM, ILL)
 ```
 
+&nbsp;
+
 The `tab2by2()` function displays a table of `HAM` by `ILL` followed by the risk ratio calculated from the data in the table.
 
 Try producing another table:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab2by2(PASTA, ILL)
 ```
 
+&nbsp;
+
 Have a look at the `R` objects available to you: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 ls()
 ```
 
+&nbsp;
+
 Note that there are no `a`, `b`, `c`, `d`, or `rr` objects. 
 
+\newpage
+
 Examine the `tab` object:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab
 ```
+
+&nbsp;
 
 This is the table of `HAM` by `ILL` that you created earlier **_not_** the table of `PASTA` by `ILL` that was created by the `tab2by2()` function.
 
@@ -230,31 +327,47 @@ When a function completes its work, all of the objects that are local to that fu
 
 Just to prove that `tab` in the `tab2by2()` function exists only in the `tab2by2()` function we can delete the tab object from the `R` workspace:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 rm(tab)
 ```
 
 Now try another call to the `tab2by2()` function: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 tab2by2(FRUIT, ILL)
 ```
 
+\newpage
+
 Now list the `R` objects available to you: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 ls()
 ```
 
+&nbsp;
+
 Note that there are no `tab`, `a`, `b`, `c`, `d`, or `rr` objects.
 
 The `tab2by2()` function is very limited. It only displays a table and calculates and displays a simple ratio. A more useful function would also calculate and display a confidence interval for the risk ratio. This is what we will do now. Use the `fix()` function to edit the `tab2by2()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(tab2by2)
 ```
 
+&nbsp;
+
 We can now edit this function to calculate and display a 95% confidence interval for the risk ratio.
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(exposure, outcome) {
@@ -291,20 +404,32 @@ tab2by2 <- function(exposure, outcome) {
   print(uci.rr)
 }
 ```
+
+\newpage
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor. We should test our revised function:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 tab2by2(EGGS, ILL)
 ```
 
+&nbsp;
+
 which produces the following output:
+
+&nbsp;
 
 ```{r, echo = FALSE, eval = TRUE}
 tab2by2(EGGS, ILL)
 ```
 
+&nbsp;
+
 The function works but the output could be improved. Use the `fix()` function to edit the `tab2by2()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(exposure, outcome) {
@@ -340,37 +465,59 @@ tab2by2 <- function(exposure, outcome) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, save the file and quit the editor.
 
+\newpage
+
 Now we can test our function again:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 tab2by2(EGGS, ILL)
 ```
 
+&nbsp;
+
 Which produces the following output:
+
+&nbsp;
 
 ```{r, echo = FALSE, eval = TRUE}
 tab2by2(EGGS, ILL)
 ```
 
+&nbsp;
+
 The `tab2by2()` function displays output but does not behave like a standard `R` function in the sense that you cannot save the results of the `tab2by2()` function into an object:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 test2by2 <- tab2by2(EGGS, ILL)
 ```
 
+&nbsp;
+
 displays output but does not save anything in the `test2by2` object: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 test2by2
 ```
+
+\newpage
 
 The returned value (`NULL`) means that `test2by2` is an empty object. We will not worry about this at the moment as the `tab2by2()` function is good-enough for our current purposes. In Exercise 6 we will explore how to make our own functions behave like standard `R` functions.
 
 We will now add the calculation of the odds ratio and its 95% confidence interval to the `tab2by2()` function using the `fix()` function.
 
 There are two ways of doing this. We could either calculate the odds ratio from the table and use (e.g.) the method of Woolf to calculate the confidence interval:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 or <- (a / b) / (c / d)
@@ -381,7 +528,11 @@ cat("\nOR     :", or,
     "\n95% CI :", lci.or, uci.or, "\n")
 ```
 
+&nbsp;
+
 or use the output of the `fisher.test()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 ft <- fisher.test(tab)
@@ -389,17 +540,25 @@ cat("\nOR     :", ft$estimate,
     "\n95% CI :", ft$conf.int, "\n")
 ```
 
+&nbsp;
+
 Note that we can refer to components of a function's output using the same syntax as when we refer to columns in a data.frame (e.g. `ft$estimate` to examine the estimate of the odds ratio from the `fisher.test()` function stored in the object `ft`).
 
 The names of elements in the output of a standard function such as `fisher.test()` can be found in the documentation or the help system. For example:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 help(fisher.test)
 ```
 
+\newpage
+
 Output elements are listed under the `Value` heading.
 
 Revise the `tab2by2()` function to include the calculation of the odds ratio and the 95% confidence interval. The revised function will look something like this:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(exposure, outcome) {
@@ -427,7 +586,7 @@ function(exposure, outcome) {
       "\n95% CI            :", lci.or, uci.or, "\n")
 
   cat("\nMLE Odds Ratio    :", ft$estimate,
-      "\n95% CI             :",  ft$conf.int, "\n\n")
+      "\n95% CI            :",  ft$conf.int, "\n\n")
 }
 ```
 
@@ -457,18 +616,23 @@ tab2by2 <- function(exposure, outcome) {
       "\n95% CI            :", lci.or, uci.or, "\n")
 
   cat("\nMLE Odds Ratio    :", ft$estimate,
-      "\n95% CI             :",  ft$conf.int, "\n\n")
+      "\n95% CI            :",  ft$conf.int, "\n\n")
 }
 ```
 
+&nbsp;
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
+
+\newpage
 
 Test the `tab2by2()` function when you have added the calculation of the odds ratio and its 95% confidence interval.
 
 Now that we have a function that will calculate risk ratios and odds ratios with confidence intervals from a two- by-two table we can use it to analyse the `salex` data:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 tab2by2(HAM, ILL)
 tab2by2(BEEF, ILL)
 tab2by2(EGGS, ILL)
@@ -488,19 +652,49 @@ tab2by2(TRIFLE, ILL)
 tab2by2(ALMONDS, ILL)
 ```
 
+```{r, echo = FALSE, eval = TRUE}
+tab2by2(HAM, ILL)
+tab2by2(BEEF, ILL)
+tab2by2(EGGS, ILL)
+tab2by2(MUSHROOM, ILL)
+tab2by2(PEPPER, ILL)
+tab2by2(PORKPIE, ILL)
+tab2by2(PASTA, ILL)
+tab2by2(RICE, ILL)
+tab2by2(LETTUCE, ILL)
+tab2by2(TOMATO, ILL)
+tab2by2(COLESLAW, ILL)
+tab2by2(CRISPS, ILL)
+tab2by2(PEACHCAKE, ILL)
+tab2by2(CHOCOLATE, ILL)
+tab2by2(FRUIT, ILL)
+tab2by2(TRIFLE, ILL)
+tab2by2(ALMONDS, ILL)
+```
+
+&nbsp;
+
 Make a note of any positive associations (i.e. with a risk ratio > 1 with a 95% confidence intervals that does not include one). We will use these for the next exercise when we will use logistic regression to analyse this data.
 
 Save the `tab2by2()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 save(tab2by2, file = "tab2by2.r")
 ```
 
+&nbsp;
+
 We can now quit `R`: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 q()
 ```
+
+&nbsp;
 
 For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 

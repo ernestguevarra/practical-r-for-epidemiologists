@@ -538,9 +538,9 @@ We could have performed the Fisher exact test without creating the tab object by
 fisher.test(table(SEX, LIFE))
 ```
 
-Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.
+&nbsp;
 
-\newpage
+Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.
 
 We can explore the correlation between two variables using the `cor()` function:
 
@@ -550,7 +550,7 @@ We can explore the correlation between two variables using the `cor()` function:
 cor(IQ, WT, use = "pairwise.complete.obs")
 ```
 
-&nbsp;
+\newpage
 
 or by using a scatter plot:
 
@@ -583,10 +583,13 @@ pairs(fem)
 
 ```{r, echo = FALSE, eval = TRUE}
 cor(fem, use = "pairwise.complete.obs")
-pairs(fem)
 ```
 
 \newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+pairs(fem)
+```
 
 The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding `cbind()` function:
 
@@ -601,6 +604,11 @@ pairs(newfem)
 ```{r, echo = FALSE, eval = TRUE}
 newfem <- cbind(AGE, IQ, WT)
 cor(newfem, use = "pairwise.complete.obs")
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 pairs(newfem)
 ```
 
@@ -614,7 +622,7 @@ When we have finished with the `newfem` object we can delete it:
 rm(newfem)
 ```
 
-\newpage
+&nbsp;
 
 There was no real need to create the `newfem` object as we could have fed the output of the `cbind()` function directly to the `cor()` or `pairs()` function:
 
@@ -627,12 +635,17 @@ pairs(cbind(AGE, IQ, WT))
 
 ```{r, echo = FALSE, eval = TRUE}
 cor(cbind(AGE, IQ, WT), use = "pairwise.complete.obs")
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 pairs(cbind(AGE, IQ, WT))
 ```
 
-It is, however, easier to work with the `newfem` object rather than having to retype the `cbind()` function. This is particularly true if you wanted to continue with an analysis of just the three variables.
+&nbsp;
 
-\newpage
+It is, however, easier to work with the `newfem` object rather than having to retype the `cbind()` function. This is particularly true if you wanted to continue with an analysis of just the three variables.
 
 The relationship between `AGE` and `WT` can be plotted using the `plot()` function: 
 
@@ -642,7 +655,7 @@ The relationship between `AGE` and `WT` can be plotted using the `plot()` functi
 plot(AGE, WT)
 ```
 
-&nbsp;
+\newpage
 
 And tested using the `cor()` and `cor.test()` functions: 
 
