@@ -1241,7 +1241,7 @@ cam.state <- list(grid = cases)
 
 We can now run the simulation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cam.run(steps = 20)
 ```
 
@@ -1253,7 +1253,7 @@ sum(cam.state$grid)
 
 We can use this model to investigate the effect of different transmission pressures by systematically altering the transmission pressure specified in `TP`:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cases <- matrix(0, nrow = 19, ncol = 19)
 cases[10, 10] <- 1
 cam.state.initial <- list(grid = cases)
@@ -1325,7 +1325,7 @@ image(cam.state$immune, main = "Immune",
 
 We can now run the simulation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cam.run(steps = 30)
 ```
 
@@ -1343,7 +1343,7 @@ sum(cam.state$grid) / (361 - sum(cam.state$immune))
 
 We can use this model to investigate the effect of different proportions of the population that are immune by systematically altering the value assigned to `IM`:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 immune.p <- vector(mode = "numeric")
 infected.p <- vector(mode = "numeric")
 
@@ -1420,7 +1420,7 @@ cam.state <- list(grid = cases, immune = immune, ti = ti)
 
 We can now run the simulation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cam.run(steps = 120)
 ```
 
@@ -1546,7 +1546,7 @@ function(t) {
 }
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = FALSE}
 cam.state.display <- function(t) {
   if(t == 0) {
     x11(width = 9, height = 9)
@@ -1615,7 +1615,7 @@ susceptibles <- 361 - sum(cam.state$immune)
 
 We can now run the simulation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cam.run(steps = 200)
 ```
 
@@ -1654,7 +1654,7 @@ susceptibles <- 361 - sum(cam.state$immune)
 
 Running the simulation:
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
 cam.run(steps = 200)
 ```
 

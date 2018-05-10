@@ -62,7 +62,7 @@ If a command you type is not complete then the prompt will change to:
 +
 ```
 
-&nbsp;
+\newpage
 
 on subsequent lines until the command is complete:
 
@@ -123,6 +123,8 @@ You can also use clipboard functions such as copy and paste to (e.g.) copy and t
 All the sample data files used in the exercises in this manual are space delimited text files using the general
 format:
 
+&nbsp;
+
 ```
    ID AGE IQ
    1 39 94
@@ -135,6 +137,8 @@ format:
    8 39 87
 ```
 
+&nbsp;
+
 `R` has facilities for working with files in different formats including (through the use of extension packages) **ODBC** (open database connectivity) and **SQL** data sources, **EpiInfo**, **EpiData**, **Minitab**, **SPSS**, **SAS**, **S-Plus**, and **Stata** format files.
 
 \newpage
@@ -142,58 +146,74 @@ format:
 ## Retrieving data {-}
 
 All of the exercises in this manual assume that the necessary data files are located in the current working directory.
-All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from:
-
-http://www.brixtonhealth.com/prfe/prfe.zip
+All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from http://www.brixtonhealth.com/prfe/prfe.zip.
 
 A command such as:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 read.table("data/fem.dat", header = TRUE)
 ```
 
+&nbsp;
+
 retrieves the data stored in the file named `fem.dat` which is stored in the current working directory.
 
 To retrieve data that is stored in files outside a different directory you need to specify the full path to the file. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 read.table("~/prfe/fem.dat", header = TRUE)
 ```
 
+&nbsp;
+
 will retrieve the data stored in the file named `fem.dat` stored in the `prfe` directory under the user’s home directory on UNIX, Linux, and OS X systems.
 
 `R` follows many UNIX operating and naming conventions including the use of the backslash (`\`) character to specify special characters in strings (e.g. using `\n` to specify a new line in printed output). Windows uses the backslash (`\`) character to separate directory and file names in paths. This means that Windows users need to escape any backslashes in file paths using an additional backslash character. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 read.table("c:\\prfe\\fem.dat", header = TRUE)
 ```
 
+&nbsp;
+
 will retrieve the data that is stored in the file named `fem.dat` which is stored in the `prfe` directory off the root directory of the `C:` drive. The Windows version of `R` also allows you to specify UNIX-style path names (i.e. using the forward slash (`/`) character as a separator in file paths). For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 read.table("c:/prfe/fem.dat", header = TRUE)
 ```
 
+&nbsp;
+
 Path names may include shortcut characters such as:
-<br/>
+
+&nbsp;
 
 |      |                                                   |  
 |:----:|:--------------------------------------------------|
 | `.`  | The current working directory                     |
 | `..` | Up one level in the directory tree                |
 | `~`  | The user's home directory (on UNIX-based systems) |
-<br/>
+
+&nbsp;
 
 `R` also allows you to retrieve files from any location that may be represented by a standard `uniform resource locator (URL)` string. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 read.table("file://~/prfe/fem.dat", header = TRUE)
 ```
 
+&nbsp;
+
 will retrieve the data stored in the file named `fem.dat` stored in the `prfe` directory under the users home directory on UNIX-based systems.
 
-All of the data files used in this section are stored in the `/prfe` directory Brixton Health’s website. This means, for example, that you can use the `read.table()` function specifying 
-
-"http://www.brixtonhealth.com/prfe/fem.dat"
-
-as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `data/` directory of this guide's GitHub repository.
+All of the data files used in this section are stored in the `/prfe` directory Brixton Health’s website. This means, for example, that you can use the `read.table()` function specifying "http://www.brixtonhealth.com/prfe/fem.dat" as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `data/` directory of this guide's GitHub repository.
