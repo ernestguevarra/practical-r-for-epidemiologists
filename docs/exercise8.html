@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt and Ernest Guevarra">
 
 
-<meta name="date" content="2018-05-08">
+<meta name="date" content="2018-05-10">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -198,8 +198,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>Graphical functions in <code>R</code> are just like any other function in <code>R</code> in the sense that <code>R</code> provides you with a set of functions which can be altered or added to. In this exercise we will experiment with some of the graphical functions provided by R to demonstrate the flexibility of graphical functions in <code>R</code>. We will then use the graphical functions that we experiment with to create some useful graphical functions of our own.</p>
 <p>The first function that we will develop will be a function that is capable of plotting two data series on a single graph. We will take this exercise slowly in order to introduce some further graphical functions.
 Before we go any further we should start <code>R</code> and retrieve a dataset:</p>
-<pre class="sourceCode r" id="cb556"><code class="sourceCode r"><a class="sourceLine" id="cb556-1" data-line-number="1">mal &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;malaria.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb556-2" data-line-number="2"><span class="kw">attach</span>(mal)</a></code></pre>
+<pre class="sourceCode r" id="cb553"><code class="sourceCode r"><a class="sourceLine" id="cb553-1" data-line-number="1">mal &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;malaria.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb553-2" data-line-number="2"><span class="kw">attach</span>(mal)</a></code></pre>
 <p>The file <code>malaria.dat</code> contains data on rainfall (in mm) and the number of cases of malaria reported from health centres in an administrative district of Ethiopia between July 1997 and July 1999. The columns in this dataset are as follows:</p>
 <table style="width:72%;">
 <colgroup>
@@ -222,7 +222,7 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 </tbody>
 </table>
 <p>Examine the dataset:</p>
-<pre class="sourceCode r" id="cb557"><code class="sourceCode r"><a class="sourceLine" id="cb557-1" data-line-number="1">mal</a></code></pre>
+<pre class="sourceCode r" id="cb554"><code class="sourceCode r"><a class="sourceLine" id="cb554-1" data-line-number="1">mal</a></code></pre>
 <pre><code>##      Time Cases  Rain
 ## 1  Jul-97   997  68.5
 ## 2  Aug-97   824 162.1
@@ -250,77 +250,77 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 ## 24 Jun-99   264 187.5
 ## 25 Jul-99   179 283.5</code></pre>
 <p>First we will plot the number of cases of malaria seen over time using the <code>plot()</code> function:</p>
-<pre class="sourceCode r" id="cb559"><code class="sourceCode r"><a class="sourceLine" id="cb559-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-315-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb556"><code class="sourceCode r"><a class="sourceLine" id="cb556-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-320-1.png" width="672" /></p>
 <p>The problem with this plot is that it does not treat the data as a time series. Adding the <code>Time</code> variable to the plot does not solve the problem:</p>
-<pre class="sourceCode r" id="cb560"><code class="sourceCode r"><a class="sourceLine" id="cb560-1" data-line-number="1"><span class="kw">plot</span>(Time, Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-316-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb557"><code class="sourceCode r"><a class="sourceLine" id="cb557-1" data-line-number="1"><span class="kw">plot</span>(Time, Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
 <p>Because <code>Time</code> is a factor variable. If you convert <code>Time</code> to a character variable using <code>as.character()</code> or prevent <code>R</code> from converting <code>Time</code> to a factor using the <code>as.is</code> parameter to the <code>read.table()</code> function the <code>plot()</code> function will return an error because it expects a numeric x-axis variable. We should, instead, specify a time series (<code>ts</code>) class object. Rather than change the original data, we will create a new object using the <code>ts()</code> function:</p>
-<pre class="sourceCode r" id="cb561"><code class="sourceCode r"><a class="sourceLine" id="cb561-1" data-line-number="1">cases.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(Cases, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1997</span>, <span class="dv">7</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb558"><code class="sourceCode r"><a class="sourceLine" id="cb558-1" data-line-number="1">cases.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(Cases, <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1997</span>, <span class="dv">7</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)</a></code></pre>
 <p>Examine the cases.ts object:</p>
-<pre class="sourceCode r" id="cb562"><code class="sourceCode r"><a class="sourceLine" id="cb562-1" data-line-number="1">cases.ts</a></code></pre>
+<pre class="sourceCode r" id="cb559"><code class="sourceCode r"><a class="sourceLine" id="cb559-1" data-line-number="1">cases.ts</a></code></pre>
 <pre><code>##      Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
 ## 1997                         997 824 573 586 523 968
 ## 1998 985 745 520 406 523 560 671 667 768 990 775 833
 ## 1999 672 505 320 274 263 264 179</code></pre>
 <p>We can now plot <code>cases.ts</code> as a time series:</p>
-<pre class="sourceCode r" id="cb564"><code class="sourceCode r"><a class="sourceLine" id="cb564-1" data-line-number="1"><span class="kw">plot</span>(cases.ts)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-319-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb561"><code class="sourceCode r"><a class="sourceLine" id="cb561-1" data-line-number="1"><span class="kw">plot</span>(cases.ts)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-324-1.png" width="672" /></p>
 <p>We might want to explore the association between the <code>Rain</code> and <code>Cases</code> variables. A simple scatter plot is not particularly informative:</p>
-<pre class="sourceCode r" id="cb565"><code class="sourceCode r"><a class="sourceLine" id="cb565-1" data-line-number="1"><span class="kw">plot</span>(Rain, Cases)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-320-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb562"><code class="sourceCode r"><a class="sourceLine" id="cb562-1" data-line-number="1"><span class="kw">plot</span>(Rain, Cases)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-325-1.png" width="672" /></p>
 <p>It is better to treat both variables as time series (which they are) and use the built-in <code>plot()</code> methods for objects of class <code>ts</code>:</p>
-<pre class="sourceCode r" id="cb566"><code class="sourceCode r"><a class="sourceLine" id="cb566-1" data-line-number="1">rain.cases.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(<span class="kw">cbind</span>(Rain, Cases), <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1997</span>,<span class="dv">7</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)</a>
-<a class="sourceLine" id="cb566-2" data-line-number="2"><span class="kw">plot</span>(rain.cases.ts)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb563"><code class="sourceCode r"><a class="sourceLine" id="cb563-1" data-line-number="1">rain.cases.ts &lt;-<span class="st"> </span><span class="kw">ts</span>(<span class="kw">cbind</span>(Rain, Cases), <span class="dt">start =</span> <span class="kw">c</span>(<span class="dv">1997</span>,<span class="dv">7</span>), <span class="dt">frequency =</span> <span class="dv">12</span>)</a>
+<a class="sourceLine" id="cb563-2" data-line-number="2"><span class="kw">plot</span>(rain.cases.ts)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-326-1.png" width="672" /></p>
 <p>The association between the <code>Rain</code> and <code>Cases</code> variables is now clearer with the number of malaria cases peaking shortly after peaks in rainfall.</p>
 <p>The <code>plot()</code> function when used with objects of class <code>ts</code> produces useful output but it is not particularly flexible and the output is, sometimes, not particularly pretty. We can however use basic graphical functions to produce multiple plots. First we will set the <code>mfrow</code> graphical parameter using the <code>par()</code> function:</p>
-<pre class="sourceCode r" id="cb567"><code class="sourceCode r"><a class="sourceLine" id="cb567-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</a></code></pre>
+<pre class="sourceCode r" id="cb564"><code class="sourceCode r"><a class="sourceLine" id="cb564-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>))</a></code></pre>
 <p>The <code>par()</code> function sets a graphical parameter. The <code>mfrow</code> parameter is used to set the number of charts that will appear on a page in rows and columns. We have specified two rows with one chart per row. Test this by plotting two charts:</p>
-<pre class="sourceCode r" id="cb568"><code class="sourceCode r"><a class="sourceLine" id="cb568-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-323-1.png" width="672" /></p>
-<pre class="sourceCode r" id="cb569"><code class="sourceCode r"><a class="sourceLine" id="cb569-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-323-2.png" width="672" /></p>
+<pre class="sourceCode r" id="cb565"><code class="sourceCode r"><a class="sourceLine" id="cb565-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-328-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb566"><code class="sourceCode r"><a class="sourceLine" id="cb566-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-328-2.png" width="672" /></p>
 <p>We will want to have tick-marks on the x-axis of each for each record. We can set the number of tick-marks on axes by setting the <code>lab</code> graphical parameter using the <code>par()</code> function:</p>
-<pre class="sourceCode r" id="cb570"><code class="sourceCode r"><a class="sourceLine" id="cb570-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">10</span>, <span class="dv">7</span>))</a></code></pre>
+<pre class="sourceCode r" id="cb567"><code class="sourceCode r"><a class="sourceLine" id="cb567-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">10</span>, <span class="dv">7</span>))</a></code></pre>
 <p>The <code>par()</code> function sets a graphical parameter. The <code>lab</code> parameter is used to set the number tick-marks on the x and y axes and the label size. We have specified a tick-mark on the x-axis for each record (i.e. using <code>length(Time)</code>), ten tick-marks on the y-axis, and a label length of seven. Test this by plotting two charts:</p>
-<pre class="sourceCode r" id="cb571"><code class="sourceCode r"><a class="sourceLine" id="cb571-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-325-1.png" width="672" /></p>
-<pre class="sourceCode r" id="cb572"><code class="sourceCode r"><a class="sourceLine" id="cb572-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-325-2.png" width="672" /></p>
+<pre class="sourceCode r" id="cb568"><code class="sourceCode r"><a class="sourceLine" id="cb568-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-330-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb569"><code class="sourceCode r"><a class="sourceLine" id="cb569-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-330-2.png" width="672" /></p>
 <p>The problem with these charts is that the month and year are not displayed on the x-axis. We can get round this by plotting a chart without axes and then specifying the axes and labels directly:</p>
-<pre class="sourceCode r" id="cb573"><code class="sourceCode r"><a class="sourceLine" id="cb573-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;mm&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Rainfall&quot;</span>)</a>
-<a class="sourceLine" id="cb573-2" data-line-number="2"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a>
-<a class="sourceLine" id="cb573-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-326-1.png" width="672" /></p>
-<pre class="sourceCode r" id="cb574"><code class="sourceCode r"><a class="sourceLine" id="cb574-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Cases&quot;</span>)</a>
-<a class="sourceLine" id="cb574-2" data-line-number="2"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a>
-<a class="sourceLine" id="cb574-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-326-2.png" width="672" /></p>
+<pre class="sourceCode r" id="cb570"><code class="sourceCode r"><a class="sourceLine" id="cb570-1" data-line-number="1"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;mm&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Rainfall&quot;</span>)</a>
+<a class="sourceLine" id="cb570-2" data-line-number="2"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a>
+<a class="sourceLine" id="cb570-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb571"><code class="sourceCode r"><a class="sourceLine" id="cb571-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">xlab =</span> <span class="st">&quot;Time&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Cases&quot;</span>)</a>
+<a class="sourceLine" id="cb571-2" data-line-number="2"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a>
+<a class="sourceLine" id="cb571-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-331-2.png" width="672" /></p>
 <p>The resulting charts now look much better (you may need to resize the plot to display the x-axis labels correctly) but it would be nice to be able draw the two lines on a single chart.</p>
 <p>Before proceeding we will use the <code>par()</code> function to specify one plot per window (using the <code>mfrow</code> parameter) and set the default number of tick-marks on the axes (using the <code>lab</code> parameter):</p>
-<pre class="sourceCode r" id="cb575"><code class="sourceCode r"><a class="sourceLine" id="cb575-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb575-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>))</a></code></pre>
+<pre class="sourceCode r" id="cb572"><code class="sourceCode r"><a class="sourceLine" id="cb572-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb572-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">7</span>))</a></code></pre>
 <p>And then use the <code>plot()</code> and <code>lines()</code> function to draw the two lines on the same graph:</p>
-<pre class="sourceCode r" id="cb576"><code class="sourceCode r"><a class="sourceLine" id="cb576-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a>
-<a class="sourceLine" id="cb576-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-328-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb573"><code class="sourceCode r"><a class="sourceLine" id="cb573-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a>
+<a class="sourceLine" id="cb573-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-333-1.png" width="672" /></p>
 <p>The problem with this is that the ranges of the two variables are different and the <code>plot()</code> function automatically sets the y-axis to the range of the specified variable. To fix this problem we need to set the limits of the y-axis to the minimum and maximum value of both of variables using the <code>ylim</code> parameter of the <code>plot()</code> function:</p>
-<pre class="sourceCode r" id="cb577"><code class="sourceCode r"><a class="sourceLine" id="cb577-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(Cases, Rain), <span class="kw">max</span>(Cases, Rain)))</a>
-<a class="sourceLine" id="cb577-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-329-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb574"><code class="sourceCode r"><a class="sourceLine" id="cb574-1" data-line-number="1"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(Cases, Rain), <span class="kw">max</span>(Cases, Rain)))</a>
+<a class="sourceLine" id="cb574-2" data-line-number="2"><span class="kw">lines</span>(Rain, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-334-1.png" width="672" /></p>
 <p>We can improve the chart by adding a legend:</p>
-<pre class="sourceCode r" id="cb578"><code class="sourceCode r"><a class="sourceLine" id="cb578-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">18</span>, <span class="dv">1000</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Cases&quot;</span>, <span class="st">&quot;Rainfall (mm)&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb575"><code class="sourceCode r"><a class="sourceLine" id="cb575-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">18</span>, <span class="dv">1000</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;Cases&quot;</span>, <span class="st">&quot;Rainfall (mm)&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
 <p>We could continue to improve the chart (e.g. by adding labels for the x-axis tick-marks taken from the <code>Time</code> variable, specifying more meaningful axis labels, and specifying a title) but the chart would be more useful if each variable made full use of the plotting area. We can do this by plotting one chart on top of another by using the <code>new</code> graphical parameter:</p>
-<pre class="sourceCode r" id="cb579"><code class="sourceCode r"><a class="sourceLine" id="cb579-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
-<a class="sourceLine" id="cb579-2" data-line-number="2"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb579-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb579-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb579-5" data-line-number="5"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb579-6" data-line-number="6"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb579-7" data-line-number="7"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-332-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb576"><code class="sourceCode r"><a class="sourceLine" id="cb576-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb576-2" data-line-number="2"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb576-3" data-line-number="3"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb576-4" data-line-number="4"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb576-5" data-line-number="5"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb576-6" data-line-number="6"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb576-7" data-line-number="7"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-337-1.png" width="672" /></p>
 <p>This chart is much clearer but there are still some improvements that could be made:</p>
 <ul>
 <li><p>The chart should have a title. We can do this using the <code>main</code> parameter of either of the <code>plot()</code> functions.</p></li>
@@ -330,72 +330,72 @@ Before we go any further we should start <code>R</code> and retrieve a dataset:<
 </ul>
 <p>The x-axis should be properly labelled. We can do this using the <code>xlab</code> parameters of the <code>plot()</code> functions. An empty string must be specified for one of the <code>plot()</code> functions in order to prevent the default label from being displayed.</p>
 <p>Try this now:</p>
-<pre class="sourceCode r" id="cb580"><code class="sourceCode r"><a class="sourceLine" id="cb580-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb580-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
-<a class="sourceLine" id="cb580-3" data-line-number="3"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb580-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Malaria cases and rainfall&quot;</span>)</a>
-<a class="sourceLine" id="cb580-5" data-line-number="5"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb580-6" data-line-number="6"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Malaria cases&quot;</span>, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb580-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb580-8" data-line-number="8"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb580-9" data-line-number="9">     <span class="dt">xlab =</span> <span class="st">&quot;Month &amp; Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb580-10" data-line-number="10"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb580-11" data-line-number="11"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb580-12" data-line-number="12"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-333-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb577"><code class="sourceCode r"><a class="sourceLine" id="cb577-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb577-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(Time), <span class="dv">5</span>, <span class="dv">7</span>))</a>
+<a class="sourceLine" id="cb577-3" data-line-number="3"><span class="kw">plot</span>(Cases, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb577-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Malaria cases and rainfall&quot;</span>)</a>
+<a class="sourceLine" id="cb577-5" data-line-number="5"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb577-6" data-line-number="6"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Malaria cases&quot;</span>, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb577-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb577-8" data-line-number="8"><span class="kw">plot</span>(Rain, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb577-9" data-line-number="9">     <span class="dt">xlab =</span> <span class="st">&quot;Month &amp; Year&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb577-10" data-line-number="10"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb577-11" data-line-number="11"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb577-12" data-line-number="12"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(Time), <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(Time))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-338-1.png" width="672" /></p>
 <p>Now that we know how to create a two-axis chart, we can write a function that we will be able to use whenever we need to plot two variables on the same chart. Create a new function called <code>plot2var()</code>:</p>
-<pre class="sourceCode r" id="cb581"><code class="sourceCode r"><a class="sourceLine" id="cb581-1" data-line-number="1">plot2var &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<pre class="sourceCode r" id="cb578"><code class="sourceCode r"><a class="sourceLine" id="cb578-1" data-line-number="1">plot2var &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
 <p>This creates an empty function called <code>plot2var()</code>.</p>
 <p>Use the <code>fix()</code> function to edit the <code>plot2var()</code> function:</p>
-<pre class="sourceCode r" id="cb582"><code class="sourceCode r"><a class="sourceLine" id="cb582-1" data-line-number="1"><span class="kw">fix</span>(plot2var)</a></code></pre>
+<pre class="sourceCode r" id="cb579"><code class="sourceCode r"><a class="sourceLine" id="cb579-1" data-line-number="1"><span class="kw">fix</span>(plot2var)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb583"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" data-line-number="1"><span class="cf">function</span>(y1,</a>
-<a class="sourceLine" id="cb583-2" data-line-number="2">         y2,</a>
-<a class="sourceLine" id="cb583-3" data-line-number="3">         x.ticks,</a>
-<a class="sourceLine" id="cb583-4" data-line-number="4">         <span class="dt">x.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x.ticks)),</a>
-<a class="sourceLine" id="cb583-5" data-line-number="5">         <span class="dt">y1.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y1)),</a>
-<a class="sourceLine" id="cb583-6" data-line-number="6">         <span class="dt">y2.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y2)),</a>
-<a class="sourceLine" id="cb583-7" data-line-number="7">         <span class="dt">main =</span> <span class="kw">paste</span>(y1.lab, <span class="st">&quot;&amp;&quot;</span>, y2.lab)) {</a>
-<a class="sourceLine" id="cb583-8" data-line-number="8">  old.par.mar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;mar&quot;</span>)</a>
-<a class="sourceLine" id="cb583-9" data-line-number="9">  old.par.lab &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;lab&quot;</span>)</a>
-<a class="sourceLine" id="cb583-10" data-line-number="10">  <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb583-11" data-line-number="11">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {<span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(x.ticks), <span class="dv">5</span>, <span class="dv">7</span>))}</a>
-<a class="sourceLine" id="cb583-12" data-line-number="12">  <span class="kw">plot</span>(y1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb583-13" data-line-number="13">       <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> main)</a>
-<a class="sourceLine" id="cb583-14" data-line-number="14">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb583-15" data-line-number="15">  <span class="kw">mtext</span>(<span class="dt">text =</span> y1.lab, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb583-16" data-line-number="16">  <span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb583-17" data-line-number="17">  <span class="kw">plot</span>(y2, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb583-18" data-line-number="18">       <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xlab =</span> x.lab)</a>
-<a class="sourceLine" id="cb583-19" data-line-number="19">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb583-20" data-line-number="20">  <span class="kw">mtext</span>(<span class="dt">text =</span> y2.lab, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb583-21" data-line-number="21">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {</a>
-<a class="sourceLine" id="cb583-22" data-line-number="22">    <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(x.ticks),</a>
-<a class="sourceLine" id="cb583-23" data-line-number="23">         <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(x.ticks))</a>
-<a class="sourceLine" id="cb583-24" data-line-number="24">  } <span class="cf">else</span> {<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)}</a>
-<a class="sourceLine" id="cb583-25" data-line-number="25">  <span class="kw">par</span>(<span class="dt">mar =</span> old.par.mar)</a>
-<a class="sourceLine" id="cb583-26" data-line-number="26">  <span class="kw">par</span>(<span class="dt">lab =</span> old.par.lab)</a>
-<a class="sourceLine" id="cb583-27" data-line-number="27">}</a></code></pre>
+<pre class="sourceCode r" id="cb580"><code class="sourceCode r"><a class="sourceLine" id="cb580-1" data-line-number="1"><span class="cf">function</span>(y1,</a>
+<a class="sourceLine" id="cb580-2" data-line-number="2">         y2,</a>
+<a class="sourceLine" id="cb580-3" data-line-number="3">         x.ticks,</a>
+<a class="sourceLine" id="cb580-4" data-line-number="4">         <span class="dt">x.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x.ticks)),</a>
+<a class="sourceLine" id="cb580-5" data-line-number="5">         <span class="dt">y1.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y1)),</a>
+<a class="sourceLine" id="cb580-6" data-line-number="6">         <span class="dt">y2.lab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y2)),</a>
+<a class="sourceLine" id="cb580-7" data-line-number="7">         <span class="dt">main =</span> <span class="kw">paste</span>(y1.lab, <span class="st">&quot;&amp;&quot;</span>, y2.lab)) {</a>
+<a class="sourceLine" id="cb580-8" data-line-number="8">  old.par.mar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;mar&quot;</span>)</a>
+<a class="sourceLine" id="cb580-9" data-line-number="9">  old.par.lab &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="st">&quot;lab&quot;</span>)</a>
+<a class="sourceLine" id="cb580-10" data-line-number="10">  <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">5</span>))</a>
+<a class="sourceLine" id="cb580-11" data-line-number="11">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {<span class="kw">par</span>(<span class="dt">lab =</span> <span class="kw">c</span>(<span class="kw">length</span>(x.ticks), <span class="dv">5</span>, <span class="dv">7</span>))}</a>
+<a class="sourceLine" id="cb580-12" data-line-number="12">  <span class="kw">plot</span>(y1, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb580-13" data-line-number="13">       <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> main)</a>
+<a class="sourceLine" id="cb580-14" data-line-number="14">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb580-15" data-line-number="15">  <span class="kw">mtext</span>(<span class="dt">text =</span> y1.lab, <span class="dt">side =</span> <span class="dv">2</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb580-16" data-line-number="16">  <span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb580-17" data-line-number="17">  <span class="kw">plot</span>(y2, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb580-18" data-line-number="18">       <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xlab =</span> x.lab)</a>
+<a class="sourceLine" id="cb580-19" data-line-number="19">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb580-20" data-line-number="20">  <span class="kw">mtext</span>(<span class="dt">text =</span> y2.lab, <span class="dt">side =</span> <span class="dv">4</span>, <span class="dt">line =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb580-21" data-line-number="21">  <span class="cf">if</span>(<span class="op">!</span><span class="kw">missing</span>(x.ticks)) {</a>
+<a class="sourceLine" id="cb580-22" data-line-number="22">    <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">labels =</span> <span class="kw">as.character</span>(x.ticks),</a>
+<a class="sourceLine" id="cb580-23" data-line-number="23">         <span class="dt">at =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(x.ticks))</a>
+<a class="sourceLine" id="cb580-24" data-line-number="24">  } <span class="cf">else</span> {<span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>)}</a>
+<a class="sourceLine" id="cb580-25" data-line-number="25">  <span class="kw">par</span>(<span class="dt">mar =</span> old.par.mar)</a>
+<a class="sourceLine" id="cb580-26" data-line-number="26">  <span class="kw">par</span>(<span class="dt">lab =</span> old.par.lab)</a>
+<a class="sourceLine" id="cb580-27" data-line-number="27">}</a></code></pre>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>Note that with this function we have given some of the parameters default values in the function definition and we have also used the <code>if()</code> function to check whether the user specified a value for the <code>x.ticks</code> parameter. We also save and restore the graphical parameters <code>mar</code> and <code>lab</code> so as to prevent changes to these parameters in the <code>plot2var()</code> function affecting other graphical functions.</p>
 <p>Let’s try the <code>plot2var()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb584"><code class="sourceCode r"><a class="sourceLine" id="cb584-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases)</a>
-<a class="sourceLine" id="cb584-2" data-line-number="2"><span class="kw">plot2var</span>(Rain, Cases, Time)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-339-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-339-2.png" width="672" /></p>
+<pre class="sourceCode r" id="cb581"><code class="sourceCode r"><a class="sourceLine" id="cb581-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases)</a>
+<a class="sourceLine" id="cb581-2" data-line-number="2"><span class="kw">plot2var</span>(Rain, Cases, Time)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-344-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-344-2.png" width="672" /></p>
 <p>Note how the function has used default values for the axis labels and chart title. We can override these default values if we want to:</p>
-<pre class="sourceCode r" id="cb585"><code class="sourceCode r"><a class="sourceLine" id="cb585-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases, Time, <span class="dt">x.lab =</span> <span class="st">&quot;Month and Year&quot;</span>,</a>
-<a class="sourceLine" id="cb585-2" data-line-number="2">         <span class="dt">y1.lab =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">y2.lab =</span> <span class="st">&quot;Cases of malaria&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-340-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb582"><code class="sourceCode r"><a class="sourceLine" id="cb582-1" data-line-number="1"><span class="kw">plot2var</span>(Rain, Cases, Time, <span class="dt">x.lab =</span> <span class="st">&quot;Month and Year&quot;</span>,</a>
+<a class="sourceLine" id="cb582-2" data-line-number="2">         <span class="dt">y1.lab =</span> <span class="st">&quot;Rainfall (mm)&quot;</span>, <span class="dt">y2.lab =</span> <span class="st">&quot;Cases of malaria&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
 <p>You might like to use the <code>save()</code> function to save the <code>plot2var()</code> function.</p>
 <p>As an exercise you might want to edit the <code>plot2var()</code> function to automatically add a legend to the two-axis
 chart using the <code>legend()</code> function with <code>y1.lab</code> and <code>y2.lab</code>. Before continuing we should detach the <code>mal</code> data.frame:</p>
-<pre class="sourceCode r" id="cb586"><code class="sourceCode r"><a class="sourceLine" id="cb586-1" data-line-number="1"><span class="kw">detach</span>(mal)</a></code></pre>
+<pre class="sourceCode r" id="cb583"><code class="sourceCode r"><a class="sourceLine" id="cb583-1" data-line-number="1"><span class="kw">detach</span>(mal)</a></code></pre>
 <div id="population-pyramid" class="section level2">
 <h2><span class="header-section-number">8.1</span> Population pyramid</h2>
 <p>A common chart type that is not available in many statistical applications and in <code>R</code> is the <em>population pyramid</em>.</p>
 <p>Before we go any further we should retrieve a dataset:</p>
-<pre class="sourceCode r" id="cb587"><code class="sourceCode r"><a class="sourceLine" id="cb587-1" data-line-number="1">pop &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;pop.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb587-2" data-line-number="2"><span class="kw">attach</span>(pop)</a></code></pre>
+<pre class="sourceCode r" id="cb584"><code class="sourceCode r"><a class="sourceLine" id="cb584-1" data-line-number="1">pop &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;pop.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb584-2" data-line-number="2"><span class="kw">attach</span>(pop)</a></code></pre>
 <pre><code>## The following objects are masked from fem (pos = 4):
 ## 
 ##     AGE, SEX</code></pre>
@@ -424,7 +424,7 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 </tbody>
 </table>
 <p>Examine the first twenty records of the dataset:</p>
-<pre class="sourceCode r" id="cb591"><code class="sourceCode r"><a class="sourceLine" id="cb591-1" data-line-number="1">pop[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a></code></pre>
+<pre class="sourceCode r" id="cb588"><code class="sourceCode r"><a class="sourceLine" id="cb588-1" data-line-number="1">pop[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a></code></pre>
 <pre><code>##    AGE SEX
 ## 1    7   M
 ## 2   42   M
@@ -447,16 +447,16 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ## 19  12   M
 ## 20  60   M</code></pre>
 <p>The first step is to make groups from the <code>AGE</code> variable since many ages are biased towards full years:</p>
-<pre class="sourceCode r" id="cb593"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1"><span class="kw">table</span>(AGE)</a>
-<a class="sourceLine" id="cb593-2" data-line-number="2"><span class="kw">barplot</span>(<span class="kw">table</span>(AGE), <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb590"><code class="sourceCode r"><a class="sourceLine" id="cb590-1" data-line-number="1"><span class="kw">table</span>(AGE)</a>
+<a class="sourceLine" id="cb590-2" data-line-number="2"><span class="kw">barplot</span>(<span class="kw">table</span>(AGE), <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
 <pre><code>## AGE
 ##  6  7  8  9 10 12 13 14 15 17 18 22 23 24 25 26 30 34 36 38 40 42 48 54 60 
 ##  7  5  8 15  3 21  1  3  5  1 45  1  1 48  1  2 24  1 80  2  1  9 67  4 83</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
 <p>So we will centre the age-groups around the months representing full years:</p>
-<pre class="sourceCode r" id="cb595"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1">age.group &lt;-<span class="st"> </span><span class="kw">cut</span>(AGE, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">99</span>))</a></code></pre>
+<pre class="sourceCode r" id="cb592"><code class="sourceCode r"><a class="sourceLine" id="cb592-1" data-line-number="1">age.group &lt;-<span class="st"> </span><span class="kw">cut</span>(AGE, <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">17</span>, <span class="dv">29</span>, <span class="dv">41</span>, <span class="dv">53</span>, <span class="dv">99</span>))</a></code></pre>
 <p>We can check that the grouping operation has worked as expected by tabulating <code>AGE</code> and <code>age.group</code>:</p>
-<pre class="sourceCode r" id="cb596"><code class="sourceCode r"><a class="sourceLine" id="cb596-1" data-line-number="1"><span class="kw">table</span>(AGE, age.group)</a></code></pre>
+<pre class="sourceCode r" id="cb593"><code class="sourceCode r"><a class="sourceLine" id="cb593-1" data-line-number="1"><span class="kw">table</span>(AGE, age.group)</a></code></pre>
 <pre><code>##     age.group
 ## AGE  (0,17] (17,29] (29,41] (41,53] (53,99]
 ##   6       7       0       0       0       0
@@ -485,7 +485,7 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ##   54      0       0       0       0       4
 ##   60      0       0       0       0      83</code></pre>
 <p>We now use the <code>table()</code> function to produce the summary data for the population pyramid:</p>
-<pre class="sourceCode r" id="cb598"><code class="sourceCode r"><a class="sourceLine" id="cb598-1" data-line-number="1"><span class="kw">table</span>(age.group, SEX)</a></code></pre>
+<pre class="sourceCode r" id="cb595"><code class="sourceCode r"><a class="sourceLine" id="cb595-1" data-line-number="1"><span class="kw">table</span>(age.group, SEX)</a></code></pre>
 <pre><code>##          SEX
 ## age.group  F  M
 ##   (0,17]  34 35
@@ -494,17 +494,17 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ##   (41,53] 39 37
 ##   (53,99] 41 46</code></pre>
 <p>We will construct our population pyramid using the <code>barplot()</code> function:</p>
-<pre class="sourceCode r" id="cb600"><code class="sourceCode r"><a class="sourceLine" id="cb600-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-349-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb597"><code class="sourceCode r"><a class="sourceLine" id="cb597-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-354-1.png" width="672" /></p>
 <p>The default behaviour of the <code>barplot()</code> function is to produce stacked bars. We can set the <code>beside</code> parameter to display the bars side-by-side:</p>
-<pre class="sourceCode r" id="cb601"><code class="sourceCode r"><a class="sourceLine" id="cb601-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-350-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb598"><code class="sourceCode r"><a class="sourceLine" id="cb598-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
 <p>We can also use the <code>horiz</code> parameter to present the data as horizontal bars:</p>
-<pre class="sourceCode r" id="cb602"><code class="sourceCode r"><a class="sourceLine" id="cb602-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-351-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb599"><code class="sourceCode r"><a class="sourceLine" id="cb599-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(age.group, SEX), <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-356-1.png" width="672" /></p>
 <p>In order to centre the bars around zero we need to make one column of the summary data table contain negative numbers:</p>
-<pre class="sourceCode r" id="cb603"><code class="sourceCode r"><a class="sourceLine" id="cb603-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(age.group, SEX)</a>
-<a class="sourceLine" id="cb603-2" data-line-number="2">tab</a></code></pre>
+<pre class="sourceCode r" id="cb600"><code class="sourceCode r"><a class="sourceLine" id="cb600-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(age.group, SEX)</a>
+<a class="sourceLine" id="cb600-2" data-line-number="2">tab</a></code></pre>
 <pre><code>##          SEX
 ## age.group  F  M
 ##   (0,17]  34 35
@@ -512,8 +512,8 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ##   (29,41] 49 59
 ##   (41,53] 39 37
 ##   (53,99] 41 46</code></pre>
-<pre class="sourceCode r" id="cb605"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" data-line-number="1">tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb605-2" data-line-number="2">tab</a></code></pre>
+<pre class="sourceCode r" id="cb602"><code class="sourceCode r"><a class="sourceLine" id="cb602-1" data-line-number="1">tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb602-2" data-line-number="2">tab</a></code></pre>
 <pre><code>##          SEX
 ## age.group   F   M
 ##   (0,17]  -34  35
@@ -521,80 +521,80 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ##   (29,41] -49  59
 ##   (41,53] -39  37
 ##   (53,99] -41  46</code></pre>
-<pre class="sourceCode r" id="cb607"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-352-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb604"><code class="sourceCode r"><a class="sourceLine" id="cb604-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-357-1.png" width="672" /></p>
 <p>This is looking better.</p>
 <p>We still need to shift the second set of bars down beside the first set of bars using thespace parameter:</p>
-<pre class="sourceCode r" id="cb608"><code class="sourceCode r"><a class="sourceLine" id="cb608-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-353-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb605"><code class="sourceCode r"><a class="sourceLine" id="cb605-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-358-1.png" width="672" /></p>
 <p>The axis labels are wrong but we can fix that using the <code>names.arg</code> parameter:</p>
-<pre class="sourceCode r" id="cb609"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" data-line-number="1">bar.names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group, <span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group)</a>
-<a class="sourceLine" id="cb609-2" data-line-number="2"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
-<a class="sourceLine" id="cb609-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-354-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb606"><code class="sourceCode r"><a class="sourceLine" id="cb606-1" data-line-number="1">bar.names &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group, <span class="kw">dimnames</span>(tab)<span class="op">$</span>age.group)</a>
+<a class="sourceLine" id="cb606-2" data-line-number="2"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb606-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-359-1.png" width="672" /></p>
 <p>The chart can still be improved upon by making the fill-colour of each bar white and by expanding the x-axis slightly:</p>
-<pre class="sourceCode r" id="cb610"><code class="sourceCode r"><a class="sourceLine" id="cb610-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
-<a class="sourceLine" id="cb610-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
-<a class="sourceLine" id="cb610-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb607"><code class="sourceCode r"><a class="sourceLine" id="cb607-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb607-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb607-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-360-1.png" width="672" /></p>
 <p>The chart would be better if the x-axis displayed only positive numbers:</p>
-<pre class="sourceCode r" id="cb611"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
-<a class="sourceLine" id="cb611-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
-<a class="sourceLine" id="cb611-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb611-4" data-line-number="4"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb611-5" data-line-number="5">     <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
-<a class="sourceLine" id="cb611-6" data-line-number="6">     <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-356-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb608"><code class="sourceCode r"><a class="sourceLine" id="cb608-1" data-line-number="1"><span class="kw">barplot</span>(tab, <span class="dt">beside =</span> <span class="ot">TRUE</span>, <span class="dt">horiz =</span> <span class="ot">TRUE</span>, <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb608-2" data-line-number="2">        <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>, <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb608-3" data-line-number="3">        <span class="dt">names.arg =</span> bar.names, <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb608-4" data-line-number="4"><span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb608-5" data-line-number="5">     <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb608-6" data-line-number="6">     <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
 <p>Now we know how to create a population pyramid, we can write a function that we will be able to use whenever we need to plot a population pyramid.</p>
 <p>Create a new function called <code>pyramid.plot()</code>:</p>
-<pre class="sourceCode r" id="cb612"><code class="sourceCode r"><a class="sourceLine" id="cb612-1" data-line-number="1">pyramid.plot &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<pre class="sourceCode r" id="cb609"><code class="sourceCode r"><a class="sourceLine" id="cb609-1" data-line-number="1">pyramid.plot &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
 <p>This creates an empty function called <code>pyramid.plot()</code>.</p>
 <p>Use the <code>fix()</code> function to edit the <code>pyramid.plot()</code> function:</p>
-<pre class="sourceCode r" id="cb613"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" data-line-number="1"><span class="kw">fix</span>(pyramid.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb610"><code class="sourceCode r"><a class="sourceLine" id="cb610-1" data-line-number="1"><span class="kw">fix</span>(pyramid.plot)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb614"><code class="sourceCode r"><a class="sourceLine" id="cb614-1" data-line-number="1"><span class="cf">function</span>(x,</a>
-<a class="sourceLine" id="cb614-2" data-line-number="2">         g,</a>
-<a class="sourceLine" id="cb614-3" data-line-number="3">         <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Pyramid plot of&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
-<a class="sourceLine" id="cb614-4" data-line-number="4">                      <span class="st">&quot;by&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(g))),</a>
-<a class="sourceLine" id="cb614-5" data-line-number="5">         <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="kw">deparse</span>(<span class="kw">substitute</span>(g)),</a>
-<a class="sourceLine" id="cb614-6" data-line-number="6">                      <span class="st">&quot;(&quot;</span>, <span class="kw">levels</span>(g)[<span class="dv">1</span>], <span class="st">&quot;/&quot;</span>,<span class="kw">levels</span>(g)[<span class="dv">2</span>],<span class="st">&quot;)&quot;</span>),</a>
-<a class="sourceLine" id="cb614-7" data-line-number="7">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x))) {</a>
-<a class="sourceLine" id="cb614-8" data-line-number="8">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(x, g)</a>
-<a class="sourceLine" id="cb614-9" data-line-number="9">  tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb614-10" data-line-number="10">  <span class="kw">barplot</span>(tab,</a>
-<a class="sourceLine" id="cb614-11" data-line-number="11">          <span class="dt">horiz =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb614-12" data-line-number="12">          <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb614-13" data-line-number="13">          <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
-<a class="sourceLine" id="cb614-14" data-line-number="14">          <span class="dt">names.arg =</span> <span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>x, <span class="kw">dimnames</span>(tab)<span class="op">$</span>x),</a>
-<a class="sourceLine" id="cb614-15" data-line-number="15">          <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>,</a>
-<a class="sourceLine" id="cb614-16" data-line-number="16">          <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
-<a class="sourceLine" id="cb614-17" data-line-number="17">          <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>,</a>
-<a class="sourceLine" id="cb614-18" data-line-number="18">          <span class="dt">main =</span> main,</a>
-<a class="sourceLine" id="cb614-19" data-line-number="19">          <span class="dt">xlab =</span> xlab,</a>
-<a class="sourceLine" id="cb614-20" data-line-number="20">          <span class="dt">ylab =</span> ylab,</a>
-<a class="sourceLine" id="cb614-21" data-line-number="21">          <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb614-22" data-line-number="22">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb614-23" data-line-number="23">       <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
-<a class="sourceLine" id="cb614-24" data-line-number="24">       <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a>
-<a class="sourceLine" id="cb614-25" data-line-number="25">}</a></code></pre>
+<pre class="sourceCode r" id="cb611"><code class="sourceCode r"><a class="sourceLine" id="cb611-1" data-line-number="1"><span class="cf">function</span>(x,</a>
+<a class="sourceLine" id="cb611-2" data-line-number="2">         g,</a>
+<a class="sourceLine" id="cb611-3" data-line-number="3">         <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Pyramid plot of&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
+<a class="sourceLine" id="cb611-4" data-line-number="4">                      <span class="st">&quot;by&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(g))),</a>
+<a class="sourceLine" id="cb611-5" data-line-number="5">         <span class="dt">xlab =</span> <span class="kw">paste</span>(<span class="kw">deparse</span>(<span class="kw">substitute</span>(g)),</a>
+<a class="sourceLine" id="cb611-6" data-line-number="6">                      <span class="st">&quot;(&quot;</span>, <span class="kw">levels</span>(g)[<span class="dv">1</span>], <span class="st">&quot;/&quot;</span>,<span class="kw">levels</span>(g)[<span class="dv">2</span>],<span class="st">&quot;)&quot;</span>),</a>
+<a class="sourceLine" id="cb611-7" data-line-number="7">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x))) {</a>
+<a class="sourceLine" id="cb611-8" data-line-number="8">  tab &lt;-<span class="st"> </span><span class="kw">table</span>(x, g)</a>
+<a class="sourceLine" id="cb611-9" data-line-number="9">  tab[ ,<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="op">-</span>tab[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb611-10" data-line-number="10">  <span class="kw">barplot</span>(tab,</a>
+<a class="sourceLine" id="cb611-11" data-line-number="11">          <span class="dt">horiz =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb611-12" data-line-number="12">          <span class="dt">beside =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb611-13" data-line-number="13">          <span class="dt">space =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="op">-</span><span class="kw">nrow</span>(tab)),</a>
+<a class="sourceLine" id="cb611-14" data-line-number="14">          <span class="dt">names.arg =</span> <span class="kw">c</span>(<span class="kw">dimnames</span>(tab)<span class="op">$</span>x, <span class="kw">dimnames</span>(tab)<span class="op">$</span>x),</a>
+<a class="sourceLine" id="cb611-15" data-line-number="15">          <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="kw">min</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>,</a>
+<a class="sourceLine" id="cb611-16" data-line-number="16">          <span class="kw">max</span>(tab) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span>),</a>
+<a class="sourceLine" id="cb611-17" data-line-number="17">          <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>,</a>
+<a class="sourceLine" id="cb611-18" data-line-number="18">          <span class="dt">main =</span> main,</a>
+<a class="sourceLine" id="cb611-19" data-line-number="19">          <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb611-20" data-line-number="20">          <span class="dt">ylab =</span> ylab,</a>
+<a class="sourceLine" id="cb611-21" data-line-number="21">          <span class="dt">axes =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb611-22" data-line-number="22">  <span class="kw">axis</span>(<span class="dt">side =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb611-23" data-line-number="23">       <span class="dt">labels =</span> <span class="kw">abs</span>(<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)),</a>
+<a class="sourceLine" id="cb611-24" data-line-number="24">       <span class="dt">at =</span> (<span class="kw">axTicks</span>(<span class="dt">side =</span> <span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb611-25" data-line-number="25">}</a></code></pre>
 <p>Note that with this function we have given some of the parameters default values in the function definition.</p>
 <p>Giving default values to parameters is useful because it means that you do not need to specify parameters such as titles and axis labels unless you want to. Many <code>R</code> functions use default parameters which are usually set to the most frequently used values.</p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor. Let’s try the <code>pyramid.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb615"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-361-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb612"><code class="sourceCode r"><a class="sourceLine" id="cb612-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-366-1.png" width="672" /></p>
 <p>Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:</p>
-<pre class="sourceCode r" id="cb616"><code class="sourceCode r"><a class="sourceLine" id="cb616-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX, <span class="dt">ylab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Sex F / M&quot;</span>,</a>
-<a class="sourceLine" id="cb616-2" data-line-number="2">             <span class="dt">main =</span> <span class="st">&quot;Children by age and sex&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-362-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb613"><code class="sourceCode r"><a class="sourceLine" id="cb613-1" data-line-number="1"><span class="kw">pyramid.plot</span>(age.group, SEX, <span class="dt">ylab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Sex F / M&quot;</span>,</a>
+<a class="sourceLine" id="cb613-2" data-line-number="2">             <span class="dt">main =</span> <span class="st">&quot;Children by age and sex&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-367-1.png" width="672" /></p>
 <p>You might like to use the <code>save()</code> function to save the <code>pyramid.plot()</code> function.</p>
 </div>
 <div id="pareto-chart" class="section level2">
 <h2><span class="header-section-number">8.2</span> Pareto chart</h2>
 <p>Another type of chart that is missing from many statistical applications is the <em>Pareto</em> chart which is a bar chart where the bars are sorted by the bar value with the largest bar drawn first. Such a chart is easier to interpret than a pie chart, particularly when there are more than a few categories being plotted.</p>
 <p>Before we go any further we should detach the <code>pop</code> data.frame and retrieve a new dataset:</p>
-<pre class="sourceCode r" id="cb617"><code class="sourceCode r"><a class="sourceLine" id="cb617-1" data-line-number="1"><span class="kw">detach</span>(pop)</a>
-<a class="sourceLine" id="cb617-2" data-line-number="2">sssw &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;sssw.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb617-3" data-line-number="3"><span class="kw">attach</span>(sssw)</a></code></pre>
+<pre class="sourceCode r" id="cb614"><code class="sourceCode r"><a class="sourceLine" id="cb614-1" data-line-number="1"><span class="kw">detach</span>(pop)</a>
+<a class="sourceLine" id="cb614-2" data-line-number="2">sssw &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;sssw.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb614-3" data-line-number="3"><span class="kw">attach</span>(sssw)</a></code></pre>
 <p>The file <code>sssw.dat</code> contains data on the marital status, home circumstances, and ethnic group of 152 persons recruited into a study into the levels of stress experienced by student social workers in the United Kingdom. The columns in this dataset are as follows:</p>
 <p>+—————+—————————————-+
 | <strong>marital</strong> | Marital status coded as: |
@@ -652,7 +652,7 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 | | 11 = Other |
 +—————+—————————————-+</p>
 <p>Examine the dataset:</p>
-<pre class="sourceCode r" id="cb618"><code class="sourceCode r"><a class="sourceLine" id="cb618-1" data-line-number="1">sssw[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a></code></pre>
+<pre class="sourceCode r" id="cb615"><code class="sourceCode r"><a class="sourceLine" id="cb615-1" data-line-number="1">sssw[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>, ]</a></code></pre>
 <pre><code>##    marital living ethnic
 ## 1        2      5      2
 ## 2        1      4      2
@@ -675,47 +675,47 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 ## 19       3      5     10
 ## 20       5      3     10</code></pre>
 <p>Producing a bar chart from this data is simple as long as we remember to pass summary data (i.e. created using the <code>table()</code> function) to the <code>barplot()</code> function instead of the variable name:</p>
-<pre class="sourceCode r" id="cb620"><code class="sourceCode r"><a class="sourceLine" id="cb620-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(marital))</a>
-<a class="sourceLine" id="cb620-2" data-line-number="2"><span class="kw">barplot</span>(<span class="kw">table</span>(living))</a>
-<a class="sourceLine" id="cb620-3" data-line-number="3"><span class="kw">barplot</span>(<span class="kw">table</span>(ethnic))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-366-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-366-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-366-3.png" width="672" /></p>
+<pre class="sourceCode r" id="cb617"><code class="sourceCode r"><a class="sourceLine" id="cb617-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(marital))</a>
+<a class="sourceLine" id="cb617-2" data-line-number="2"><span class="kw">barplot</span>(<span class="kw">table</span>(living))</a>
+<a class="sourceLine" id="cb617-3" data-line-number="3"><span class="kw">barplot</span>(<span class="kw">table</span>(ethnic))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-371-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-371-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-371-3.png" width="672" /></p>
 <p>Creating a Pareto chart only requires us to sort the summary data. We do this using the <code>rev()</code> and <code>sort()</code> functions:</p>
-<pre class="sourceCode r" id="cb621"><code class="sourceCode r"><a class="sourceLine" id="cb621-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">table</span>(marital))))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-367-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb618"><code class="sourceCode r"><a class="sourceLine" id="cb618-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">table</span>(marital))))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-372-1.png" width="672" /></p>
 <p>Having to specify <code>rev(sort(table(variable)))</code> each time we want to produce a <em>Pareto</em> plot is rather tedious but now that we know how to create a <em>Pareto</em> chart, we can write a function that we will be able to use whenever we need to plot a Pareto chart. Create a new function called <code>pareto()</code>:</p>
-<pre class="sourceCode r" id="cb622"><code class="sourceCode r"><a class="sourceLine" id="cb622-1" data-line-number="1">pareto &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<pre class="sourceCode r" id="cb619"><code class="sourceCode r"><a class="sourceLine" id="cb619-1" data-line-number="1">pareto &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
 <p>This creates an empty function called <code>pareto()</code>. Use the <code>fix()</code> function to edit the <code>pareto()</code> function:</p>
-<pre class="sourceCode r" id="cb623"><code class="sourceCode r"><a class="sourceLine" id="cb623-1" data-line-number="1"><span class="kw">fix</span>(pareto)</a></code></pre>
+<pre class="sourceCode r" id="cb620"><code class="sourceCode r"><a class="sourceLine" id="cb620-1" data-line-number="1"><span class="kw">fix</span>(pareto)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb624"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" data-line-number="1"><span class="cf">function</span>(x,</a>
-<a class="sourceLine" id="cb624-2" data-line-number="2">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
-<a class="sourceLine" id="cb624-3" data-line-number="3">         <span class="dt">ylab =</span> <span class="st">&quot;Count&quot;</span>,</a>
-<a class="sourceLine" id="cb624-4" data-line-number="4">         <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Pareto Chart of&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)))) {</a>
-<a class="sourceLine" id="cb624-5" data-line-number="5">  <span class="kw">barplot</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">table</span>(x))),</a>
-<a class="sourceLine" id="cb624-6" data-line-number="6">          <span class="dt">xlab =</span> xlab,</a>
-<a class="sourceLine" id="cb624-7" data-line-number="7">          <span class="dt">ylab =</span> ylab,</a>
-<a class="sourceLine" id="cb624-8" data-line-number="8">          <span class="dt">main =</span> main,</a>
-<a class="sourceLine" id="cb624-9" data-line-number="9">          <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb624-10" data-line-number="10">}</a></code></pre>
+<pre class="sourceCode r" id="cb621"><code class="sourceCode r"><a class="sourceLine" id="cb621-1" data-line-number="1"><span class="cf">function</span>(x,</a>
+<a class="sourceLine" id="cb621-2" data-line-number="2">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
+<a class="sourceLine" id="cb621-3" data-line-number="3">         <span class="dt">ylab =</span> <span class="st">&quot;Count&quot;</span>,</a>
+<a class="sourceLine" id="cb621-4" data-line-number="4">         <span class="dt">main =</span> <span class="kw">paste</span>(<span class="st">&quot;Pareto Chart of&quot;</span>, <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)))) {</a>
+<a class="sourceLine" id="cb621-5" data-line-number="5">  <span class="kw">barplot</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">table</span>(x))),</a>
+<a class="sourceLine" id="cb621-6" data-line-number="6">          <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb621-7" data-line-number="7">          <span class="dt">ylab =</span> ylab,</a>
+<a class="sourceLine" id="cb621-8" data-line-number="8">          <span class="dt">main =</span> main,</a>
+<a class="sourceLine" id="cb621-9" data-line-number="9">          <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
+<a class="sourceLine" id="cb621-10" data-line-number="10">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Let’s try the <code>pareto()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb625"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" data-line-number="1"><span class="kw">pareto</span>(marital)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-372-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb622"><code class="sourceCode r"><a class="sourceLine" id="cb622-1" data-line-number="1"><span class="kw">pareto</span>(marital)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-377-1.png" width="672" /></p>
 <p>Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:</p>
-<pre class="sourceCode r" id="cb626"><code class="sourceCode r"><a class="sourceLine" id="cb626-1" data-line-number="1"><span class="kw">pareto</span>(marital, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Marital Status&quot;</span>,</a>
-<a class="sourceLine" id="cb626-2" data-line-number="2">       <span class="dt">main =</span> <span class="st">&quot;Marital Status&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-373-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb623"><code class="sourceCode r"><a class="sourceLine" id="cb623-1" data-line-number="1"><span class="kw">pareto</span>(marital, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Marital Status&quot;</span>,</a>
+<a class="sourceLine" id="cb623-2" data-line-number="2">       <span class="dt">main =</span> <span class="st">&quot;Marital Status&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-378-1.png" width="672" /></p>
 <p>Note that we can use value labels if the variable we plot is a factor with value labels as levels rather than a simple numeric vector:</p>
-<pre class="sourceCode r" id="cb627"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1">ms &lt;-<span class="st"> </span><span class="kw">as.factor</span>(marital)</a>
-<a class="sourceLine" id="cb627-2" data-line-number="2"><span class="kw">levels</span>(ms) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Married&quot;</span>, <span class="st">&quot;Single&quot;</span>, <span class="st">&quot;Divorced&quot;</span>, <span class="st">&quot;Separated&quot;</span>,</a>
-<a class="sourceLine" id="cb627-3" data-line-number="3">                <span class="st">&quot;Cohabiting&quot;</span>, <span class="st">&quot;Widowed&quot;</span>)</a>
-<a class="sourceLine" id="cb627-4" data-line-number="4"><span class="kw">table</span>(ms)</a>
-<a class="sourceLine" id="cb627-5" data-line-number="5"><span class="kw">pareto</span>(ms, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Marital Status&quot;</span>,</a>
-<a class="sourceLine" id="cb627-6" data-line-number="6">       <span class="dt">main =</span> <span class="st">&quot;Marital Status&quot;</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb624"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" data-line-number="1">ms &lt;-<span class="st"> </span><span class="kw">as.factor</span>(marital)</a>
+<a class="sourceLine" id="cb624-2" data-line-number="2"><span class="kw">levels</span>(ms) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Married&quot;</span>, <span class="st">&quot;Single&quot;</span>, <span class="st">&quot;Divorced&quot;</span>, <span class="st">&quot;Separated&quot;</span>,</a>
+<a class="sourceLine" id="cb624-3" data-line-number="3">                <span class="st">&quot;Cohabiting&quot;</span>, <span class="st">&quot;Widowed&quot;</span>)</a>
+<a class="sourceLine" id="cb624-4" data-line-number="4"><span class="kw">table</span>(ms)</a>
+<a class="sourceLine" id="cb624-5" data-line-number="5"><span class="kw">pareto</span>(ms, <span class="dt">ylab =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Marital Status&quot;</span>,</a>
+<a class="sourceLine" id="cb624-6" data-line-number="6">       <span class="dt">main =</span> <span class="st">&quot;Marital Status&quot;</span>)</a></code></pre>
 <pre><code>## ms
 ##    Married     Single   Divorced  Separated Cohabiting    Widowed 
 ##         32         90          5          4         21          0</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-375-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-380-1.png" width="672" /></p>
 <p>You may need to resize the plot to display the x-axis labels correctly.</p>
 <p>You might like to use the <code>save()</code> function to save the <code>pareto()</code> function.</p>
 </div>
@@ -723,8 +723,8 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 <h2><span class="header-section-number">8.3</span> Adding confidence intervals or error bars on plots</h2>
 <p>You may want to plot your data with confidence intervals or error bars. <code>R</code> does not have a function to do this but it is a relatively simple matter to write a function to do so. On the way we will use some of <code>R</code>s data management functions as well.</p>
 <p>Before we go any further we should detach the <code>sssw</code> data.frame and retrieve a new dataset:</p>
-<pre class="sourceCode r" id="cb629"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1"><span class="kw">detach</span>(sssw)</a>
-<a class="sourceLine" id="cb629-2" data-line-number="2">diets &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;diets.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb626"><code class="sourceCode r"><a class="sourceLine" id="cb626-1" data-line-number="1"><span class="kw">detach</span>(sssw)</a>
+<a class="sourceLine" id="cb626-2" data-line-number="2">diets &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;diets.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>The file <code>diets.dat</code> contains data from a trial of two different diets undertaken at an adult therapeutic feeding centre in Somalia. The columns in this dataset are as follows:</p>
 <table>
 <colgroup>
@@ -759,7 +759,7 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 </tbody>
 </table>
 <p>Examine the dataset:</p>
-<pre class="sourceCode r" id="cb630"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" data-line-number="1">diets</a></code></pre>
+<pre class="sourceCode r" id="cb627"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1">diets</a></code></pre>
 <pre><code>##    day oedema diet   wt   sd   n
 ## 1    3      1   HP  1.1 11.5  37
 ## 2    6      1   HP  1.0 11.0  37
@@ -845,11 +845,11 @@ chart using the <code>legend()</code> function with <code>y1.lab</code> and <cod
 <p>with observations at 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, and 33 days after admission.</p>
 <p>We can calculate a confidence interval for the mean weight velocity (<code>wt</code>) using the data in the <code>sd</code> and <code>n</code>
 variables. We will use the <code>transform()</code> function to do this:</p>
-<pre class="sourceCode r" id="cb632"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">diets &lt;-<span class="st"> </span><span class="kw">transform</span>(diets, <span class="dt">lci =</span> wt <span class="op">-</span><span class="st"> </span>sd <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n), <span class="dt">uci =</span> wt <span class="op">+</span><span class="st"> </span>sd <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n))</a></code></pre>
+<pre class="sourceCode r" id="cb629"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1">diets &lt;-<span class="st"> </span><span class="kw">transform</span>(diets, <span class="dt">lci =</span> wt <span class="op">-</span><span class="st"> </span>sd <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n), <span class="dt">uci =</span> wt <span class="op">+</span><span class="st"> </span>sd <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n))</a></code></pre>
 <p>In this case we are calculating confidence intervals as plus or minus one standard error of the mean.</p>
 <p>The <code>transform()</code> function is very useful as it can add columns directly to a data.frame or transform data already stored in a data.frame.</p>
 <p>Examine the <code>diets</code> data.frame:</p>
-<pre class="sourceCode r" id="cb633"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1">diets</a></code></pre>
+<pre class="sourceCode r" id="cb630"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" data-line-number="1">diets</a></code></pre>
 <pre><code>##    day oedema diet   wt   sd   n        lci         uci
 ## 1    3      1   HP  1.1 11.5  37 -0.7905884  2.99058835
 ## 2    6      1   HP  1.0 11.0  37 -0.8083889  2.80838886
@@ -898,15 +898,15 @@ variables. We will use the <code>transform()</code> function to do this:</p>
 <p>Two new columns (<code>lci</code> and <code>uci</code>) have been added.</p>
 <p>Now that we have calculated the confidence intervals we should, for convenience, split the diets data.frame
 into four separate data.frames (one for each arm of the trial):</p>
-<pre class="sourceCode r" id="cb635"><code class="sourceCode r"><a class="sourceLine" id="cb635-1" data-line-number="1">oed.hp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;HP&quot;</span>)</a>
-<a class="sourceLine" id="cb635-2" data-line-number="2">oed.lp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;LP&quot;</span>)</a>
-<a class="sourceLine" id="cb635-3" data-line-number="3">mar.hp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;HP&quot;</span>)</a>
-<a class="sourceLine" id="cb635-4" data-line-number="4">mar.lp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;LP&quot;</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb632"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">oed.hp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;HP&quot;</span>)</a>
+<a class="sourceLine" id="cb632-2" data-line-number="2">oed.lp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;LP&quot;</span>)</a>
+<a class="sourceLine" id="cb632-3" data-line-number="3">mar.hp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;HP&quot;</span>)</a>
+<a class="sourceLine" id="cb632-4" data-line-number="4">mar.lp &lt;-<span class="st"> </span><span class="kw">subset</span>(diets, oedema <span class="op">==</span><span class="st"> </span><span class="dv">2</span> <span class="op">&amp;</span><span class="st"> </span>diet <span class="op">==</span><span class="st"> &quot;LP&quot;</span>)</a></code></pre>
 <p>Check that each data.frame contains the data that you expect it to:</p>
-<pre class="sourceCode r" id="cb636"><code class="sourceCode r"><a class="sourceLine" id="cb636-1" data-line-number="1">oed.hp</a>
-<a class="sourceLine" id="cb636-2" data-line-number="2">oed.lp</a>
-<a class="sourceLine" id="cb636-3" data-line-number="3">mar.hp</a>
-<a class="sourceLine" id="cb636-4" data-line-number="4">mar.lp</a></code></pre>
+<pre class="sourceCode r" id="cb633"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1">oed.hp</a>
+<a class="sourceLine" id="cb633-2" data-line-number="2">oed.lp</a>
+<a class="sourceLine" id="cb633-3" data-line-number="3">mar.hp</a>
+<a class="sourceLine" id="cb633-4" data-line-number="4">mar.lp</a></code></pre>
 <pre><code>##    day oedema diet   wt   sd  n        lci         uci
 ## 1    3      1   HP  1.1 11.5 37 -0.7905884  2.99058835
 ## 2    6      1   HP  1.0 11.0 37 -0.8083889  2.80838886
@@ -956,31 +956,31 @@ into four separate data.frames (one for each arm of the trial):</p>
 ## 43  30      2   LP 4.0  7.3 86 3.212821 4.787179
 ## 44  33      2   LP 5.0  9.1 86 4.018722 5.981278</code></pre>
 <p>We can now plot the data for one arm of the trial:</p>
-<pre class="sourceCode r" id="cb641"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-384-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb638"><code class="sourceCode r"><a class="sourceLine" id="cb638-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-389-1.png" width="672" /></p>
 <p>We can add error bars using the <code>arrows()</code> function:</p>
-<pre class="sourceCode r" id="cb642"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-386-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb639"><code class="sourceCode r"><a class="sourceLine" id="cb639-1" data-line-number="1"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-391-1.png" width="672" /></p>
 <p>The scale of the y axis is wrong because the <code>plot()</code> function automatically scales axes to the ranges of the x and y data it is given. We can fix this by specifying a different set of limits (from <code>lci</code> and <code>uci</code>) for the y axis using the <code>ylim</code> parameter:</p>
-<pre class="sourceCode r" id="cb643"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)))</a>
-<a class="sourceLine" id="cb643-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb643-3" data-line-number="3"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-388-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb640"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)))</a>
+<a class="sourceLine" id="cb640-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb640-3" data-line-number="3"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-393-1.png" width="672" /></p>
 <p>The plot might also be improved by adding plotting symbols:</p>
-<pre class="sourceCode r" id="cb644"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="kw">points</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-390-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb641"><code class="sourceCode r"><a class="sourceLine" id="cb641-1" data-line-number="1"><span class="kw">points</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-395-1.png" width="672" /></p>
 <p>The axis titles (<code>oed.hp$day</code> and <code>oed.hp$wt</code>) are the column (variable) names.</p>
 <p>We can specify titles and axes labels in the call to the <code>plot()</code> function:</p>
-<pre class="sourceCode r" id="cb645"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
-<a class="sourceLine" id="cb645-2" data-line-number="2">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)),</a>
-<a class="sourceLine" id="cb645-3" data-line-number="3">     <span class="dt">main =</span> <span class="st">&quot;HP Diet. Oedematous Cases&quot;</span>,</a>
-<a class="sourceLine" id="cb645-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Days of treatment&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Weight gain (g/kg/d)&quot;</span>)</a>
-<a class="sourceLine" id="cb645-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb645-6" data-line-number="6"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci,</a>
-<a class="sourceLine" id="cb645-7" data-line-number="7">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb645-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb645-9" data-line-number="9"><span class="kw">points</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-392-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb642"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1"><span class="kw">plot</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb642-2" data-line-number="2">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)),</a>
+<a class="sourceLine" id="cb642-3" data-line-number="3">     <span class="dt">main =</span> <span class="st">&quot;HP Diet. Oedematous Cases&quot;</span>,</a>
+<a class="sourceLine" id="cb642-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;Days of treatment&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Weight gain (g/kg/d)&quot;</span>)</a>
+<a class="sourceLine" id="cb642-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb642-6" data-line-number="6"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci,</a>
+<a class="sourceLine" id="cb642-7" data-line-number="7">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb642-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb642-9" data-line-number="9"><span class="kw">points</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-397-1.png" width="672" /></p>
 <p>Now that we know how to plot error bars, we can write a function that we will be able to use whenever we need to plot data with error bars.</p>
 <p>Before continuing we will consider what the new function should be able to do. This will help us when it comes to writing the function. Our new function should:</p>
 <ol style="list-style-type: decimal">
@@ -1078,73 +1078,73 @@ into four separate data.frames (one for each arm of the trial):</p>
 </table>
 <p>The parameter names have been chosen to be the same as the parameter names to <code>plot()</code> and <code>points()</code>. This makes the function easier to use. It also makes the function easier to write.</p>
 <p>Create a new function called <code>plot.ci()</code>:</p>
-<pre class="sourceCode r" id="cb646"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" data-line-number="1">plot.ci &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<pre class="sourceCode r" id="cb643"><code class="sourceCode r"><a class="sourceLine" id="cb643-1" data-line-number="1">plot.ci &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
 <p>This creates an empty function called <code>plot.ci()</code>.</p>
 <p>Use the <code>fix()</code> function to edit the <code>plot.ci()</code> function:</p>
-<pre class="sourceCode r" id="cb647"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" data-line-number="1"><span class="kw">fix</span>(plot.ci)</a></code></pre>
+<pre class="sourceCode r" id="cb644"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="kw">fix</span>(plot.ci)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb648"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" data-line-number="1"><span class="cf">function</span>(x,</a>
-<a class="sourceLine" id="cb648-2" data-line-number="2">         y, y.lci, y.uci,</a>
-<a class="sourceLine" id="cb648-3" data-line-number="3">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(y.lci), <span class="kw">max</span>(y.uci)),</a>
-<a class="sourceLine" id="cb648-4" data-line-number="4">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
-<a class="sourceLine" id="cb648-5" data-line-number="5">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
-<a class="sourceLine" id="cb648-6" data-line-number="6">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab),</a>
-<a class="sourceLine" id="cb648-7" data-line-number="7">         <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
-<a class="sourceLine" id="cb648-8" data-line-number="8">         <span class="dt">lty =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb648-9" data-line-number="9">         <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>,</a>
-<a class="sourceLine" id="cb648-10" data-line-number="10">         <span class="dt">axes =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb648-11" data-line-number="11">         <span class="dt">pch =</span> <span class="dv">21</span>,</a>
-<a class="sourceLine" id="cb648-12" data-line-number="12">         <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>) {</a>
-<a class="sourceLine" id="cb648-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb648-14" data-line-number="14">  <span class="kw">plot</span>(x, y, <span class="dt">type =</span> type, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab, <span class="dt">ylab =</span> ylab,</a>
-<a class="sourceLine" id="cb648-15" data-line-number="15">       <span class="dt">main =</span> main, <span class="dt">lty =</span> lty, <span class="dt">col =</span> col, <span class="dt">axes =</span> axes)</a>
-<a class="sourceLine" id="cb648-16" data-line-number="16">  </a>
-<a class="sourceLine" id="cb648-17" data-line-number="17">  <span class="kw">arrows</span>(x, y.lci, x, y.uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>,</a>
-<a class="sourceLine" id="cb648-18" data-line-number="18">         <span class="dt">lty =</span> lty, <span class="dt">col =</span> col)</a>
-<a class="sourceLine" id="cb648-19" data-line-number="19">  </a>
-<a class="sourceLine" id="cb648-20" data-line-number="20">  <span class="kw">points</span>(x, y, <span class="dt">pch =</span> pch, <span class="dt">bg =</span> bg, <span class="dt">col =</span> col)</a>
-<a class="sourceLine" id="cb648-21" data-line-number="21">}</a></code></pre>
+<pre class="sourceCode r" id="cb645"><code class="sourceCode r"><a class="sourceLine" id="cb645-1" data-line-number="1"><span class="cf">function</span>(x,</a>
+<a class="sourceLine" id="cb645-2" data-line-number="2">         y, y.lci, y.uci,</a>
+<a class="sourceLine" id="cb645-3" data-line-number="3">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(y.lci), <span class="kw">max</span>(y.uci)),</a>
+<a class="sourceLine" id="cb645-4" data-line-number="4">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(x)),</a>
+<a class="sourceLine" id="cb645-5" data-line-number="5">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
+<a class="sourceLine" id="cb645-6" data-line-number="6">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab),</a>
+<a class="sourceLine" id="cb645-7" data-line-number="7">         <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>,</a>
+<a class="sourceLine" id="cb645-8" data-line-number="8">         <span class="dt">lty =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb645-9" data-line-number="9">         <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>,</a>
+<a class="sourceLine" id="cb645-10" data-line-number="10">         <span class="dt">axes =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb645-11" data-line-number="11">         <span class="dt">pch =</span> <span class="dv">21</span>,</a>
+<a class="sourceLine" id="cb645-12" data-line-number="12">         <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>) {</a>
+<a class="sourceLine" id="cb645-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb645-14" data-line-number="14">  <span class="kw">plot</span>(x, y, <span class="dt">type =</span> type, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab, <span class="dt">ylab =</span> ylab,</a>
+<a class="sourceLine" id="cb645-15" data-line-number="15">       <span class="dt">main =</span> main, <span class="dt">lty =</span> lty, <span class="dt">col =</span> col, <span class="dt">axes =</span> axes)</a>
+<a class="sourceLine" id="cb645-16" data-line-number="16">  </a>
+<a class="sourceLine" id="cb645-17" data-line-number="17">  <span class="kw">arrows</span>(x, y.lci, x, y.uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>,</a>
+<a class="sourceLine" id="cb645-18" data-line-number="18">         <span class="dt">lty =</span> lty, <span class="dt">col =</span> col)</a>
+<a class="sourceLine" id="cb645-19" data-line-number="19">  </a>
+<a class="sourceLine" id="cb645-20" data-line-number="20">  <span class="kw">points</span>(x, y, <span class="dt">pch =</span> pch, <span class="dt">bg =</span> bg, <span class="dt">col =</span> col)</a>
+<a class="sourceLine" id="cb645-21" data-line-number="21">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Let’s try the <code>plot.ci()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb649"><code class="sourceCode r"><a class="sourceLine" id="cb649-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-397-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb646"><code class="sourceCode r"><a class="sourceLine" id="cb646-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-402-1.png" width="672" /></p>
 <p>Note how the function has used default values for the axis labels, chart titles, chart limits etc.</p>
 <p>We can override these default values if we need to:</p>
-<pre class="sourceCode r" id="cb650"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci,</a>
-<a class="sourceLine" id="cb650-2" data-line-number="2">        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">10</span>), <span class="dt">xlab =</span> <span class="st">&quot;Day&quot;</span>,</a>
-<a class="sourceLine" id="cb650-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Weight gain (g/kg/day)&quot;</span>,</a>
-<a class="sourceLine" id="cb650-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Oedematous&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-398-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb647"><code class="sourceCode r"><a class="sourceLine" id="cb647-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci,</a>
+<a class="sourceLine" id="cb647-2" data-line-number="2">        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">6</span>, <span class="dv">10</span>), <span class="dt">xlab =</span> <span class="st">&quot;Day&quot;</span>,</a>
+<a class="sourceLine" id="cb647-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Weight gain (g/kg/day)&quot;</span>,</a>
+<a class="sourceLine" id="cb647-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Oedematous&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-403-1.png" width="672" /></p>
 <p>Do not close the plot window.</p>
 <p>We should also check that we can plot another data series on this chart:</p>
-<pre class="sourceCode r" id="cb651"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb651-2" data-line-number="2"><span class="kw">plot.ci</span>(oed.lp<span class="op">$</span>day, oed.lp<span class="op">$</span>wt, oed.lp<span class="op">$</span>lci, oed.lp<span class="op">$</span>uci,</a>
-<a class="sourceLine" id="cb651-3" data-line-number="3">        <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">pch =</span> <span class="dv">22</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb651-4" data-line-number="4">        <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-400-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb648"><code class="sourceCode r"><a class="sourceLine" id="cb648-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">new =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb648-2" data-line-number="2"><span class="kw">plot.ci</span>(oed.lp<span class="op">$</span>day, oed.lp<span class="op">$</span>wt, oed.lp<span class="op">$</span>lci, oed.lp<span class="op">$</span>uci,</a>
+<a class="sourceLine" id="cb648-3" data-line-number="3">        <span class="dt">axes =</span> <span class="ot">FALSE</span>, <span class="dt">pch =</span> <span class="dv">22</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb648-4" data-line-number="4">        <span class="dt">col =</span> <span class="st">&quot;darkgreen&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-405-1.png" width="672" /></p>
 <p>We can also add a legend:</p>
-<pre class="sourceCode r" id="cb652"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;HP&quot;</span>, <span class="st">&quot;LP&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb652-2" data-line-number="2">       <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">22</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-402-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb649"><code class="sourceCode r"><a class="sourceLine" id="cb649-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">&quot;HP&quot;</span>, <span class="st">&quot;LP&quot;</span>), <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb649-2" data-line-number="2">       <span class="dt">pch =</span> <span class="kw">c</span>(<span class="dv">21</span>, <span class="dv">22</span>), <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-407-1.png" width="672" /></p>
 <p>We should also check that we can produce plots of unconnected points:</p>
-<pre class="sourceCode r" id="cb653"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-403-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb650"><code class="sourceCode r"><a class="sourceLine" id="cb650-1" data-line-number="1"><span class="kw">plot.ci</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-408-1.png" width="672" /></p>
 <p>Try plotting the data for the marasmic patients using the <code>plot.ci()</code> function.</p>
 <p>You might like to use the <code>save()</code> function to save the <code>plot.ci()</code> function.</p>
 <p>We can use a similar technique to add error bars to different types of plot. If we plot the weight velocities for oedematous patients receiving the high protein diet as a bar chart:</p>
-<pre class="sourceCode r" id="cb654"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" data-line-number="1"><span class="kw">barplot</span>(oed.hp<span class="op">$</span>wt, <span class="dt">names.arg =</span> oed.hp<span class="op">$</span>day, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, </a>
-<a class="sourceLine" id="cb654-2" data-line-number="2">        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-404-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb651"><code class="sourceCode r"><a class="sourceLine" id="cb651-1" data-line-number="1"><span class="kw">barplot</span>(oed.hp<span class="op">$</span>wt, <span class="dt">names.arg =</span> oed.hp<span class="op">$</span>day, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>, </a>
+<a class="sourceLine" id="cb651-2" data-line-number="2">        <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-409-1.png" width="672" /></p>
 <p>we could add error bars using the <code>arrows()</code> function as we did with a line plot:</p>
-<pre class="sourceCode r" id="cb655"><code class="sourceCode r"><a class="sourceLine" id="cb655-1" data-line-number="1"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, </a>
-<a class="sourceLine" id="cb655-2" data-line-number="2">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-406-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb652"><code class="sourceCode r"><a class="sourceLine" id="cb652-1" data-line-number="1"><span class="kw">arrows</span>(oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>uci, </a>
+<a class="sourceLine" id="cb652-2" data-line-number="2">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-411-1.png" width="672" /></p>
 <p>but this does not produce the expected results because the centres of the bars are not placed on the chart at the positions held in <code>oed.hp$day</code>. This is easily fixed as <code>barplot()</code> returns a numeric vector (or matrix, when <code>beside = TRUE</code>) containing the co-ordinates of the bar midpoints:</p>
-<pre class="sourceCode r" id="cb656"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" data-line-number="1">bar.positions &lt;-<span class="st"> </span><span class="kw">barplot</span>(oed.hp<span class="op">$</span>wt, <span class="dt">names.arg =</span> oed.hp<span class="op">$</span>day,</a>
-<a class="sourceLine" id="cb656-2" data-line-number="2">                         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)),</a>
-<a class="sourceLine" id="cb656-3" data-line-number="3">                         <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-407-1.png" width="672" /></p>
-<pre class="sourceCode r" id="cb657"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" data-line-number="1">bar.positions</a></code></pre>
+<pre class="sourceCode r" id="cb653"><code class="sourceCode r"><a class="sourceLine" id="cb653-1" data-line-number="1">bar.positions &lt;-<span class="st"> </span><span class="kw">barplot</span>(oed.hp<span class="op">$</span>wt, <span class="dt">names.arg =</span> oed.hp<span class="op">$</span>day,</a>
+<a class="sourceLine" id="cb653-2" data-line-number="2">                         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(oed.hp<span class="op">$</span>lci), <span class="kw">max</span>(oed.hp<span class="op">$</span>uci)),</a>
+<a class="sourceLine" id="cb653-3" data-line-number="3">                         <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-412-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb654"><code class="sourceCode r"><a class="sourceLine" id="cb654-1" data-line-number="1">bar.positions</a></code></pre>
 <pre><code>##       [,1]
 ##  [1,]  0.7
 ##  [2,]  1.9
@@ -1158,74 +1158,74 @@ into four separate data.frames (one for each arm of the trial):</p>
 ## [10,] 11.5
 ## [11,] 12.7</code></pre>
 <p>We can now use the information stored in <code>bar.positions</code> to specify the positions of the error bars:</p>
-<pre class="sourceCode r" id="cb659"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" data-line-number="1"><span class="kw">arrows</span>(bar.positions, oed.hp<span class="op">$</span>lci, bar.positions, oed.hp<span class="op">$</span>uci,</a>
-<a class="sourceLine" id="cb659-2" data-line-number="2">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-409-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb656"><code class="sourceCode r"><a class="sourceLine" id="cb656-1" data-line-number="1"><span class="kw">arrows</span>(bar.positions, oed.hp<span class="op">$</span>lci, bar.positions, oed.hp<span class="op">$</span>uci,</a>
+<a class="sourceLine" id="cb656-2" data-line-number="2">       <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-414-1.png" width="672" /></p>
 <p>Armed with this information, we can write a function that we will be able to use whenever we need to plot a bar chart with error bars.</p>
 <p>Create a new function called <code>barplot.ci()</code>:</p>
-<pre class="sourceCode r" id="cb660"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" data-line-number="1">barplot.ci &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
+<pre class="sourceCode r" id="cb657"><code class="sourceCode r"><a class="sourceLine" id="cb657-1" data-line-number="1">barplot.ci &lt;-<span class="st"> </span><span class="cf">function</span>() {}</a></code></pre>
 <p>This creates an empty function called <code>barplot.ci()</code>.</p>
 <p>Use the <code>fix()</code> function to edit the <code>barplot.ci()</code> function:</p>
-<pre class="sourceCode r" id="cb661"><code class="sourceCode r"><a class="sourceLine" id="cb661-1" data-line-number="1"><span class="kw">fix</span>(barplot.ci)</a></code></pre>
+<pre class="sourceCode r" id="cb658"><code class="sourceCode r"><a class="sourceLine" id="cb658-1" data-line-number="1"><span class="kw">fix</span>(barplot.ci)</a></code></pre>
 <p>Edit the function to read:</p>
+<pre class="sourceCode r" id="cb659"><code class="sourceCode r"><a class="sourceLine" id="cb659-1" data-line-number="1"><span class="cf">function</span>(y, bar.names, lci, uci,</a>
+<a class="sourceLine" id="cb659-2" data-line-number="2">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(lci), <span class="kw">max</span>(uci)),</a>
+<a class="sourceLine" id="cb659-3" data-line-number="3">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(bar.names)),</a>
+<a class="sourceLine" id="cb659-4" data-line-number="4">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
+<a class="sourceLine" id="cb659-5" data-line-number="5">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab)) {</a>
+<a class="sourceLine" id="cb659-6" data-line-number="6">     </a>
+<a class="sourceLine" id="cb659-7" data-line-number="7">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb659-8" data-line-number="8">                <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
+<a class="sourceLine" id="cb659-9" data-line-number="9">     </a>
+<a class="sourceLine" id="cb659-10" data-line-number="10">  <span class="kw">arrows</span>(bp, lci, bp, uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb659-11" data-line-number="11">}</a></code></pre>
+<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
+<p>Let’s try the <code>barplot.ci()</code> function with the test data:</p>
+<pre class="sourceCode r" id="cb660"><code class="sourceCode r"><a class="sourceLine" id="cb660-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-419-1.png" width="672" /></p>
+<p>Try plotting the weight velocities for the marasmic patients receiving the high protein diet using the <code>barplot.ci()</code> function:</p>
+<pre class="sourceCode r" id="cb661"><code class="sourceCode r"><a class="sourceLine" id="cb661-1" data-line-number="1"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-420-1.png" width="672" /></p>
+<p>The chart looks wrong. This is because we have set the wrong limits for the y axis. The bars are drawn from zero to the data point but we have specified a limit for the y axis that is not constrained to include zero. This is easy to fix. Edit the <code>barplot.ci()</code> function to read:</p>
 <pre class="sourceCode r" id="cb662"><code class="sourceCode r"><a class="sourceLine" id="cb662-1" data-line-number="1"><span class="cf">function</span>(y, bar.names, lci, uci,</a>
-<a class="sourceLine" id="cb662-2" data-line-number="2">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(lci), <span class="kw">max</span>(uci)),</a>
+<a class="sourceLine" id="cb662-2" data-line-number="2">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(<span class="dv">0</span>, lci), <span class="kw">max</span>(<span class="dv">0</span>, uci)),</a>
 <a class="sourceLine" id="cb662-3" data-line-number="3">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(bar.names)),</a>
 <a class="sourceLine" id="cb662-4" data-line-number="4">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
 <a class="sourceLine" id="cb662-5" data-line-number="5">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab)) {</a>
-<a class="sourceLine" id="cb662-6" data-line-number="6">     </a>
-<a class="sourceLine" id="cb662-7" data-line-number="7">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb662-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb662-7" data-line-number="7">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names,  <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
 <a class="sourceLine" id="cb662-8" data-line-number="8">                <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
 <a class="sourceLine" id="cb662-9" data-line-number="9">     </a>
 <a class="sourceLine" id="cb662-10" data-line-number="10">  <span class="kw">arrows</span>(bp, lci, bp, uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
 <a class="sourceLine" id="cb662-11" data-line-number="11">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
-<p>Let’s try the <code>barplot.ci()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb663"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-414-1.png" width="672" /></p>
-<p>Try plotting the weight velocities for the marasmic patients receiving the high protein diet using the <code>barplot.ci()</code> function:</p>
-<pre class="sourceCode r" id="cb664"><code class="sourceCode r"><a class="sourceLine" id="cb664-1" data-line-number="1"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-415-1.png" width="672" /></p>
-<p>The chart looks wrong. This is because we have set the wrong limits for the y axis. The bars are drawn from zero to the data point but we have specified a limit for the y axis that is not constrained to include zero. This is easy to fix. Edit the <code>barplot.ci()</code> function to read:</p>
+<p>Try plotting the data for the marasmic patients using the <code>barplot.ci()</code> function:</p>
+<pre class="sourceCode r" id="cb663"><code class="sourceCode r"><a class="sourceLine" id="cb663-1" data-line-number="1"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-423-1.png" width="672" /></p>
+<p>Check that the function still operates as expected with the data for oedematous patients:</p>
+<pre class="sourceCode r" id="cb664"><code class="sourceCode r"><a class="sourceLine" id="cb664-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-424-1.png" width="672" /></p>
+<p>The end of one of the error bars touches the x axis. This can also be fixed by slightly widening the limits for the y axis. It might also be useful to plot the centre position of each error bar. We can use the <code>points()</code> function to do this. Edit the <code>barplot.ci()</code> function to read:</p>
 <pre class="sourceCode r" id="cb665"><code class="sourceCode r"><a class="sourceLine" id="cb665-1" data-line-number="1"><span class="cf">function</span>(y, bar.names, lci, uci,</a>
 <a class="sourceLine" id="cb665-2" data-line-number="2">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(<span class="dv">0</span>, lci), <span class="kw">max</span>(<span class="dv">0</span>, uci)),</a>
 <a class="sourceLine" id="cb665-3" data-line-number="3">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(bar.names)),</a>
 <a class="sourceLine" id="cb665-4" data-line-number="4">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
 <a class="sourceLine" id="cb665-5" data-line-number="5">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab)) {</a>
-<a class="sourceLine" id="cb665-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb665-7" data-line-number="7">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names,  <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
-<a class="sourceLine" id="cb665-8" data-line-number="8">                <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb665-9" data-line-number="9">     </a>
-<a class="sourceLine" id="cb665-10" data-line-number="10">  <span class="kw">arrows</span>(bp, lci, bp, uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb665-11" data-line-number="11">}</a></code></pre>
-<p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
-<p>Try plotting the data for the marasmic patients using the <code>barplot.ci()</code> function:</p>
-<pre class="sourceCode r" id="cb666"><code class="sourceCode r"><a class="sourceLine" id="cb666-1" data-line-number="1"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-418-1.png" width="672" /></p>
-<p>Check that the function still operates as expected with the data for oedematous patients:</p>
-<pre class="sourceCode r" id="cb667"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-419-1.png" width="672" /></p>
-<p>The end of one of the error bars touches the x axis. This can also be fixed by slightly widening the limits for the y axis. It might also be useful to plot the centre position of each error bar. We can use the <code>points()</code> function to do this. Edit the <code>barplot.ci()</code> function to read:</p>
-<pre class="sourceCode r" id="cb668"><code class="sourceCode r"><a class="sourceLine" id="cb668-1" data-line-number="1"><span class="cf">function</span>(y, bar.names, lci, uci,</a>
-<a class="sourceLine" id="cb668-2" data-line-number="2">         <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="kw">min</span>(<span class="dv">0</span>, lci), <span class="kw">max</span>(<span class="dv">0</span>, uci)),</a>
-<a class="sourceLine" id="cb668-3" data-line-number="3">         <span class="dt">xlab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(bar.names)),</a>
-<a class="sourceLine" id="cb668-4" data-line-number="4">         <span class="dt">ylab =</span> <span class="kw">deparse</span>(<span class="kw">substitute</span>(y)),</a>
-<a class="sourceLine" id="cb668-5" data-line-number="5">         <span class="dt">main =</span> <span class="kw">paste</span>(ylab, <span class="st">&quot;by&quot;</span>, xlab)) {</a>
-<a class="sourceLine" id="cb668-6" data-line-number="6">     </a>
-<a class="sourceLine" id="cb668-7" data-line-number="7">  ylim &lt;-<span class="st"> </span>ylim <span class="op">*</span><span class="st"> </span><span class="fl">1.1</span></a>
-<a class="sourceLine" id="cb668-8" data-line-number="8">     </a>
-<a class="sourceLine" id="cb668-9" data-line-number="9">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
-<a class="sourceLine" id="cb668-10" data-line-number="10">                <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb668-11" data-line-number="11">     </a>
-<a class="sourceLine" id="cb668-12" data-line-number="12">  <span class="kw">arrows</span>(bp, lci, bp, uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb668-13" data-line-number="13">     </a>
-<a class="sourceLine" id="cb668-14" data-line-number="14">  <span class="kw">points</span>(bp, y)</a>
-<a class="sourceLine" id="cb668-15" data-line-number="15">}</a></code></pre>
+<a class="sourceLine" id="cb665-6" data-line-number="6">     </a>
+<a class="sourceLine" id="cb665-7" data-line-number="7">  ylim &lt;-<span class="st"> </span>ylim <span class="op">*</span><span class="st"> </span><span class="fl">1.1</span></a>
+<a class="sourceLine" id="cb665-8" data-line-number="8">     </a>
+<a class="sourceLine" id="cb665-9" data-line-number="9">  bp &lt;-<span class="st"> </span><span class="kw">barplot</span>(y, <span class="dt">names.arg =</span> bar.names, <span class="dt">ylim =</span> ylim, <span class="dt">xlab =</span> xlab,</a>
+<a class="sourceLine" id="cb665-10" data-line-number="10">                <span class="dt">ylab =</span> ylab, <span class="dt">main =</span> main, <span class="dt">col =</span> <span class="st">&quot;white&quot;</span>)</a>
+<a class="sourceLine" id="cb665-11" data-line-number="11">     </a>
+<a class="sourceLine" id="cb665-12" data-line-number="12">  <span class="kw">arrows</span>(bp, lci, bp, uci, <span class="dt">code =</span> <span class="dv">3</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">length =</span> <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb665-13" data-line-number="13">     </a>
+<a class="sourceLine" id="cb665-14" data-line-number="14">  <span class="kw">points</span>(bp, y)</a>
+<a class="sourceLine" id="cb665-15" data-line-number="15">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Check that the function works as expected:</p>
-<pre class="sourceCode r" id="cb669"><code class="sourceCode r"><a class="sourceLine" id="cb669-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a>
-<a class="sourceLine" id="cb669-2" data-line-number="2"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-423-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-423-2.png" width="672" /></p>
+<pre class="sourceCode r" id="cb666"><code class="sourceCode r"><a class="sourceLine" id="cb666-1" data-line-number="1"><span class="kw">barplot.ci</span>(oed.hp<span class="op">$</span>wt, oed.hp<span class="op">$</span>day, oed.hp<span class="op">$</span>lci, oed.hp<span class="op">$</span>uci)</a>
+<a class="sourceLine" id="cb666-2" data-line-number="2"><span class="kw">barplot.ci</span>(mar.hp<span class="op">$</span>wt, mar.hp<span class="op">$</span>day, mar.hp<span class="op">$</span>lci, mar.hp<span class="op">$</span>uci)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-428-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-428-2.png" width="672" /></p>
 <p>The <code>barplot.ci()</code> function now works as expected with both sets of data. It is important when developing your own functions, to test them with different data so as to ensure that they work correctly with a wide range if data.</p>
 <p>You might like to use the <code>save()</code> function to save the <code>barplot.ci()</code> function.</p>
 </div>
@@ -1256,9 +1256,9 @@ into four separate data.frames (one for each arm of the trial):</p>
 </tbody>
 </table>
 <p>Retrieve the dataset:</p>
-<pre class="sourceCode r" id="cb670"><code class="sourceCode r"><a class="sourceLine" id="cb670-1" data-line-number="1">cs &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;cover.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
+<pre class="sourceCode r" id="cb667"><code class="sourceCode r"><a class="sourceLine" id="cb667-1" data-line-number="1">cs &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;cover.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p>Examine the dataset:</p>
-<pre class="sourceCode r" id="cb671"><code class="sourceCode r"><a class="sourceLine" id="cb671-1" data-line-number="1">cs</a></code></pre>
+<pre class="sourceCode r" id="cb668"><code class="sourceCode r"><a class="sourceLine" id="cb668-1" data-line-number="1">cs</a></code></pre>
 <pre><code>##    x  y cases in.program
 ## 1  1  7     7          2
 ## 2  2  5     4          0
@@ -1291,8 +1291,8 @@ into four separate data.frames (one for each arm of the trial):</p>
 ## 29 6  6     6          1
 ## 30 6  7     3          1</code></pre>
 <p>We should calculate the observed coverage for each grid square:</p>
-<pre class="sourceCode r" id="cb673"><code class="sourceCode r"><a class="sourceLine" id="cb673-1" data-line-number="1">cs<span class="op">$</span>cvr &lt;-<span class="st"> </span>cs<span class="op">$</span>in.program <span class="op">/</span><span class="st"> </span>cs<span class="op">$</span>cases</a>
-<a class="sourceLine" id="cb673-2" data-line-number="2">cs</a></code></pre>
+<pre class="sourceCode r" id="cb670"><code class="sourceCode r"><a class="sourceLine" id="cb670-1" data-line-number="1">cs<span class="op">$</span>cvr &lt;-<span class="st"> </span>cs<span class="op">$</span>in.program <span class="op">/</span><span class="st"> </span>cs<span class="op">$</span>cases</a>
+<a class="sourceLine" id="cb670-2" data-line-number="2">cs</a></code></pre>
 <pre><code>##    x  y cases in.program       cvr
 ## 1  1  7     7          2 0.2857143
 ## 2  2  5     4          0 0.0000000
@@ -1325,8 +1325,8 @@ into four separate data.frames (one for each arm of the trial):</p>
 ## 29 6  6     6          1 0.1666667
 ## 30 6  7     3          1 0.3333333</code></pre>
 <p>Note that some grid squares have zero coverage. It might be useful to use specific plotting characters (e.g. open and filled squares) to indicate zero and non-zero coverage. We can use the <code>ifelse()</code> function to do this:</p>
-<pre class="sourceCode r" id="cb675"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" data-line-number="1">cs<span class="op">$</span>cvr.pch &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cs<span class="op">$</span>cvr <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">15</span>)</a>
-<a class="sourceLine" id="cb675-2" data-line-number="2">cs</a></code></pre>
+<pre class="sourceCode r" id="cb672"><code class="sourceCode r"><a class="sourceLine" id="cb672-1" data-line-number="1">cs<span class="op">$</span>cvr.pch &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cs<span class="op">$</span>cvr <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb672-2" data-line-number="2">cs</a></code></pre>
 <pre><code>##    x  y cases in.program       cvr cvr.pch
 ## 1  1  7     7          2 0.2857143      15
 ## 2  2  5     4          0 0.0000000       0
@@ -1359,12 +1359,12 @@ into four separate data.frames (one for each arm of the trial):</p>
 ## 29 6  6     6          1 0.1666667      15
 ## 30 6  7     3          1 0.3333333      15</code></pre>
 <p>A quick way of seeing the code associated with each plotting symbol is:</p>
-<pre class="sourceCode r" id="cb677"><code class="sourceCode r"><a class="sourceLine" id="cb677-1" data-line-number="1"><span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">pch =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-428-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb674"><code class="sourceCode r"><a class="sourceLine" id="cb674-1" data-line-number="1"><span class="kw">plot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">pch =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">25</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-433-1.png" width="672" /></p>
 <p>The size of the plotting symbol may be used to indicate the level of coverage in each quadrat but we must
 ensure that the symbol used for zero-coverage is not invisibly small:</p>
-<pre class="sourceCode r" id="cb678"><code class="sourceCode r"><a class="sourceLine" id="cb678-1" data-line-number="1">cs<span class="op">$</span>cvr.cex &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cs<span class="op">$</span>cvr <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span>cs<span class="op">$</span>cvr)</a>
-<a class="sourceLine" id="cb678-2" data-line-number="2">cs</a></code></pre>
+<pre class="sourceCode r" id="cb675"><code class="sourceCode r"><a class="sourceLine" id="cb675-1" data-line-number="1">cs<span class="op">$</span>cvr.cex &lt;-<span class="st"> </span><span class="kw">ifelse</span>(cs<span class="op">$</span>cvr <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">10</span> <span class="op">*</span><span class="st"> </span>cs<span class="op">$</span>cvr)</a>
+<a class="sourceLine" id="cb675-2" data-line-number="2">cs</a></code></pre>
 <pre><code>##    x  y cases in.program       cvr cvr.pch  cvr.cex
 ## 1  1  7     7          2 0.2857143      15 2.857143
 ## 2  2  5     4          0 0.0000000       0 1.000000
@@ -1397,9 +1397,9 @@ ensure that the symbol used for zero-coverage is not invisibly small:</p>
 ## 29 6  6     6          1 0.1666667      15 1.666667
 ## 30 6  7     3          1 0.3333333      15 3.333333</code></pre>
 <p>We can now plot the data:</p>
-<pre class="sourceCode r" id="cb680"><code class="sourceCode r"><a class="sourceLine" id="cb680-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">pty=</span><span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb680-2" data-line-number="2"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y, <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex, <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-430-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb677"><code class="sourceCode r"><a class="sourceLine" id="cb677-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">pty=</span><span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb677-2" data-line-number="2"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y, <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex, <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-435-1.png" width="672" /></p>
 <p>There are some problems with this plot:</p>
 <ul>
 <li><p>The axes and labels distract from the data.</p></li>
@@ -1407,47 +1407,47 @@ ensure that the symbol used for zero-coverage is not invisibly small:</p>
 <li><p>The colour (black) of the plotting symbols is too strong.</p></li>
 </ul>
 <p>All of these problems can be fixed by specifying values for <code>plot()</code> function parameters:</p>
-<pre class="sourceCode r" id="cb681"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
-<a class="sourceLine" id="cb681-2" data-line-number="2">     <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex,</a>
-<a class="sourceLine" id="cb681-3" data-line-number="3">     <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch,</a>
-<a class="sourceLine" id="cb681-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb681-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb681-6" data-line-number="6">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb681-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb681-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb681-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="fl">0.5</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-431-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb678"><code class="sourceCode r"><a class="sourceLine" id="cb678-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
+<a class="sourceLine" id="cb678-2" data-line-number="2">     <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex,</a>
+<a class="sourceLine" id="cb678-3" data-line-number="3">     <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch,</a>
+<a class="sourceLine" id="cb678-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb678-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb678-6" data-line-number="6">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb678-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb678-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb678-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="fl">0.5</span>))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-436-1.png" width="672" /></p>
 <p>An alternative way of plotting this data is to use shades of grey (rather than the size of the plotting symbol) to represent the level of coverage in each grid-square:</p>
-<pre class="sourceCode r" id="cb682"><code class="sourceCode r"><a class="sourceLine" id="cb682-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
-<a class="sourceLine" id="cb682-2" data-line-number="2">     <span class="dt">cex =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb682-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb682-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb682-5" data-line-number="5">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb682-6" data-line-number="6">     <span class="dt">pch =</span> <span class="dv">15</span>,</a>
-<a class="sourceLine" id="cb682-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb682-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb682-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>cs<span class="op">$</span>cvr))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-432-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb679"><code class="sourceCode r"><a class="sourceLine" id="cb679-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
+<a class="sourceLine" id="cb679-2" data-line-number="2">     <span class="dt">cex =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb679-3" data-line-number="3">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb679-4" data-line-number="4">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb679-5" data-line-number="5">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb679-6" data-line-number="6">     <span class="dt">pch =</span> <span class="dv">15</span>,</a>
+<a class="sourceLine" id="cb679-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb679-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb679-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>cs<span class="op">$</span>cvr))</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-437-1.png" width="672" /></p>
 <p>In this context it is useful to show the approximate location of therapeutic feeding centres:</p>
-<pre class="sourceCode r" id="cb683"><code class="sourceCode r"><a class="sourceLine" id="cb683-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
-<a class="sourceLine" id="cb683-2" data-line-number="2">     <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex,</a>
-<a class="sourceLine" id="cb683-3" data-line-number="3">     <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch,</a>
-<a class="sourceLine" id="cb683-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb683-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb683-6" data-line-number="6">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb683-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb683-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
-<a class="sourceLine" id="cb683-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="fl">0.5</span>))</a>
-<a class="sourceLine" id="cb683-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb683-11" data-line-number="11"><span class="kw">points</span>(<span class="kw">c</span>(<span class="fl">2.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>), <span class="kw">c</span>(<span class="fl">6.5</span>, <span class="fl">8.25</span>, <span class="dv">5</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-433-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb680"><code class="sourceCode r"><a class="sourceLine" id="cb680-1" data-line-number="1"><span class="kw">plot</span>(cs<span class="op">$</span>x, cs<span class="op">$</span>y,</a>
+<a class="sourceLine" id="cb680-2" data-line-number="2">     <span class="dt">cex =</span> cs<span class="op">$</span>cvr.cex,</a>
+<a class="sourceLine" id="cb680-3" data-line-number="3">     <span class="dt">pch =</span> cs<span class="op">$</span>cvr.pch,</a>
+<a class="sourceLine" id="cb680-4" data-line-number="4">     <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb680-5" data-line-number="5">     <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb680-6" data-line-number="6">     <span class="dt">axes =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb680-7" data-line-number="7">     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb680-8" data-line-number="8">     <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">10</span>),</a>
+<a class="sourceLine" id="cb680-9" data-line-number="9">     <span class="dt">col =</span> <span class="kw">gray</span>(<span class="fl">0.5</span>))</a>
+<a class="sourceLine" id="cb680-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb680-11" data-line-number="11"><span class="kw">points</span>(<span class="kw">c</span>(<span class="fl">2.5</span>, <span class="fl">4.5</span>, <span class="fl">5.5</span>), <span class="kw">c</span>(<span class="fl">6.5</span>, <span class="fl">8.25</span>, <span class="dv">5</span>), <span class="dt">pch =</span> <span class="dv">19</span>, <span class="dt">cex =</span> <span class="dv">2</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-438-1.png" width="672" /></p>
 <p>The techniques introduced in this section allow you to write custom graphical functions but they can also be used to change the default behaviour of standard graphical functions.</p>
 </div>
 <div id="combining-plots" class="section level2">
 <h2><span class="header-section-number">8.5</span> Combining plots</h2>
 <p>In <a href="exercise1.html#exercise1"><strong><em>Exercise 1 Getting acquainted with R</em></strong></a>, we saw how the <code>plot()</code> function could be applied to a fitted object:</p>
-<pre class="sourceCode r" id="cb684"><code class="sourceCode r"><a class="sourceLine" id="cb684-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb684-2" data-line-number="2"><span class="kw">attach</span>(fem)</a></code></pre>
+<pre class="sourceCode r" id="cb681"><code class="sourceCode r"><a class="sourceLine" id="cb681-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb681-2" data-line-number="2"><span class="kw">attach</span>(fem)</a></code></pre>
 <pre><code>## The following objects are masked from fem (pos = 4):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
@@ -1457,63 +1457,63 @@ ensure that the symbol used for zero-coverage is not invisibly small:</p>
 <pre><code>## The following objects are masked from fem (pos = 10):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre class="sourceCode r" id="cb688"><code class="sourceCode r"><a class="sourceLine" id="cb688-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a>
-<a class="sourceLine" id="cb688-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-434-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-434-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-434-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-434-4.png" width="672" /></p>
+<pre class="sourceCode r" id="cb685"><code class="sourceCode r"><a class="sourceLine" id="cb685-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a>
+<a class="sourceLine" id="cb685-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-439-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-439-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-439-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-439-4.png" width="672" /></p>
 <p>Each of the diagnostic plots are presented as a separate chart. We could use the <code>mfrow</code> parameter of the <code>par()</code> function to present all four diagnostic plots on a single chart:</p>
-<pre class="sourceCode r" id="cb689"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb689-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-435-1.png" width="672" /></p>
-<p>It might improve the appearance of the chart if each of the diagnostic plots were square rather than rectangular:</p>
-<pre class="sourceCode r" id="cb690"><code class="sourceCode r"><a class="sourceLine" id="cb690-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb690-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb690-3" data-line-number="3"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-436-1.png" width="672" /></p>
-<p>It might improve the appearance of the chart if smaller text and symbols were used:</p>
-<pre class="sourceCode r" id="cb691"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb691-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb691-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb691-4" data-line-number="4"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-437-1.png" width="672" /></p>
-<p>Graphical parameters set using the <code>par()</code> function affect all subsequent plot commands and must be reset explicitly:</p>
-<pre class="sourceCode r" id="cb692"><code class="sourceCode r"><a class="sourceLine" id="cb692-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">pty =</span> <span class="st">&quot;m&quot;</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb692-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-438-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-438-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-438-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-438-4.png" width="672" /></p>
-<p>It is possible to save graphical parameters into an <code>R</code> object and use this object to restore original graphical parameters:</p>
-<pre class="sourceCode r" id="cb693"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" data-line-number="1">old.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
-<a class="sourceLine" id="cb693-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb693-3" data-line-number="3"><span class="kw">plot</span>(fem.lm)</a>
-<a class="sourceLine" id="cb693-4" data-line-number="4"><span class="kw">par</span>(old.par)</a>
-<a class="sourceLine" id="cb693-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<pre class="sourceCode r" id="cb686"><code class="sourceCode r"><a class="sourceLine" id="cb686-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb686-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-440-1.png" width="672" /></p>
-<p><img src="prfe_files/figure-html/unnamed-chunk-441-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-441-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-441-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-441-4.png" width="672" /></p>
-<p>The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the <code>par()</code> function as required:</p>
-<pre class="sourceCode r" id="cb694"><code class="sourceCode r"><a class="sourceLine" id="cb694-1" data-line-number="1">default.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
-<a class="sourceLine" id="cb694-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb694-3" data-line-number="3">plot.lm.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
-<a class="sourceLine" id="cb694-4" data-line-number="4"><span class="kw">par</span>(default.par)</a>
-<a class="sourceLine" id="cb694-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a>
-<a class="sourceLine" id="cb694-6" data-line-number="6"><span class="kw">par</span>(plot.lm.par)</a>
-<a class="sourceLine" id="cb694-7" data-line-number="7"><span class="kw">plot</span>(fem.lm)</a>
-<a class="sourceLine" id="cb694-8" data-line-number="8"><span class="kw">par</span>(default.par)</a>
-<a class="sourceLine" id="cb694-9" data-line-number="9"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p>It might improve the appearance of the chart if each of the diagnostic plots were square rather than rectangular:</p>
+<pre class="sourceCode r" id="cb687"><code class="sourceCode r"><a class="sourceLine" id="cb687-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb687-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb687-3" data-line-number="3"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-441-1.png" width="672" /></p>
+<p>It might improve the appearance of the chart if smaller text and symbols were used:</p>
+<pre class="sourceCode r" id="cb688"><code class="sourceCode r"><a class="sourceLine" id="cb688-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb688-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb688-3" data-line-number="3"><span class="kw">par</span>(<span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb688-4" data-line-number="4"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-442-1.png" width="672" /></p>
+<p>Graphical parameters set using the <code>par()</code> function affect all subsequent plot commands and must be reset explicitly:</p>
+<pre class="sourceCode r" id="cb689"><code class="sourceCode r"><a class="sourceLine" id="cb689-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">pty =</span> <span class="st">&quot;m&quot;</span>, <span class="dt">cex =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb689-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-443-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-443-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-443-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-443-4.png" width="672" /></p>
-<p><img src="prfe_files/figure-html/unnamed-chunk-444-1.png" width="672" /></p>
-<p><img src="prfe_files/figure-html/unnamed-chunk-445-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-445-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-445-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-445-4.png" width="672" /></p>
+<p>It is possible to save graphical parameters into an <code>R</code> object and use this object to restore original graphical parameters:</p>
+<pre class="sourceCode r" id="cb690"><code class="sourceCode r"><a class="sourceLine" id="cb690-1" data-line-number="1">old.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
+<a class="sourceLine" id="cb690-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb690-3" data-line-number="3"><span class="kw">plot</span>(fem.lm)</a>
+<a class="sourceLine" id="cb690-4" data-line-number="4"><span class="kw">par</span>(old.par)</a>
+<a class="sourceLine" id="cb690-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-445-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-446-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-4.png" width="672" /></p>
+<p>The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the <code>par()</code> function as required:</p>
+<pre class="sourceCode r" id="cb691"><code class="sourceCode r"><a class="sourceLine" id="cb691-1" data-line-number="1">default.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
+<a class="sourceLine" id="cb691-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb691-3" data-line-number="3">plot.lm.par &lt;-<span class="st"> </span><span class="kw">par</span>()</a>
+<a class="sourceLine" id="cb691-4" data-line-number="4"><span class="kw">par</span>(default.par)</a>
+<a class="sourceLine" id="cb691-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a>
+<a class="sourceLine" id="cb691-6" data-line-number="6"><span class="kw">par</span>(plot.lm.par)</a>
+<a class="sourceLine" id="cb691-7" data-line-number="7"><span class="kw">plot</span>(fem.lm)</a>
+<a class="sourceLine" id="cb691-8" data-line-number="8"><span class="kw">par</span>(default.par)</a>
+<a class="sourceLine" id="cb691-9" data-line-number="9"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-448-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-448-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-448-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-448-4.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-449-1.png" width="672" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-450-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-450-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-450-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-450-4.png" width="672" /></p>
 <p><code>R</code> produces warning messages when you save and restore graphical parameters in this way. This is because some graphical parameters are read only and cannot be changed using the <code>par()</code> function. This has no effect other than to cause <code>R</code> to issue warning messages.</p>
 <p>If you do not like the warning messages then you can use the <code>par()</code> function with the <code>no.readonly</code> parameter set to <code>TRUE</code>:</p>
-<pre class="sourceCode r" id="cb695"><code class="sourceCode r"><a class="sourceLine" id="cb695-1" data-line-number="1">default.par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb695-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
-<a class="sourceLine" id="cb695-3" data-line-number="3">plot.lm.par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb695-4" data-line-number="4"><span class="kw">par</span>(default.par)</a>
-<a class="sourceLine" id="cb695-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-446-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-4.png" width="672" /></p>
-<pre class="sourceCode r" id="cb696"><code class="sourceCode r"><a class="sourceLine" id="cb696-1" data-line-number="1"><span class="kw">par</span>(plot.lm.par)</a>
-<a class="sourceLine" id="cb696-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-446-5.png" width="672" /></p>
-<pre class="sourceCode r" id="cb697"><code class="sourceCode r"><a class="sourceLine" id="cb697-1" data-line-number="1"><span class="kw">par</span>(default.par)</a>
-<a class="sourceLine" id="cb697-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-446-6.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-7.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-8.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-446-9.png" width="672" /></p>
+<pre class="sourceCode r" id="cb692"><code class="sourceCode r"><a class="sourceLine" id="cb692-1" data-line-number="1">default.par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb692-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dt">pty =</span> <span class="st">&quot;s&quot;</span>)</a>
+<a class="sourceLine" id="cb692-3" data-line-number="3">plot.lm.par &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">no.readonly =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb692-4" data-line-number="4"><span class="kw">par</span>(default.par)</a>
+<a class="sourceLine" id="cb692-5" data-line-number="5"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-451-1.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-2.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-3.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-4.png" width="672" /></p>
+<pre class="sourceCode r" id="cb693"><code class="sourceCode r"><a class="sourceLine" id="cb693-1" data-line-number="1"><span class="kw">par</span>(plot.lm.par)</a>
+<a class="sourceLine" id="cb693-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-451-5.png" width="672" /></p>
+<pre class="sourceCode r" id="cb694"><code class="sourceCode r"><a class="sourceLine" id="cb694-1" data-line-number="1"><span class="kw">par</span>(default.par)</a>
+<a class="sourceLine" id="cb694-2" data-line-number="2"><span class="kw">plot</span>(fem.lm)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-451-6.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-7.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-8.png" width="672" /><img src="prfe_files/figure-html/unnamed-chunk-451-9.png" width="672" /></p>
 <p>Graphical parameter sets, like any other <code>R</code> object, may be saved and loaded using the <code>save()</code> and <code>load()</code> functions.</p>
 </div>
 <div id="summary-7" class="section level2">
