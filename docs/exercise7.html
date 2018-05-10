@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt and Ernest Guevarra">
 
 
-<meta name="date" content="2018-05-10">
+<meta name="date" content="2018-05-11">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -199,8 +199,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <pre><code>Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods of Clinical Measurement. Lancet. 1986;1: 307–310. </code></pre>
 <p>Which involves plotting the difference of two measurements against the mean of the two measurements and calculating and displaying limits of agreement.</p>
 <p>Start <code>R</code> and retrieve and attach the sample dataset:</p>
-<pre class="sourceCode r" id="cb517"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1">ba &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ba.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb517-2" data-line-number="2"><span class="kw">attach</span>(ba)</a></code></pre>
+<pre class="sourceCode r" id="cb497"><code class="sourceCode r"><a class="sourceLine" id="cb497-1" data-line-number="1">ba &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ba.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb497-2" data-line-number="2"><span class="kw">attach</span>(ba)</a></code></pre>
 <p>The <code>ba</code> data.frame contains measurements (in litres per minute) taken with a <em>Wright peak flow meter</em> and a <em>Mini-Wright peak flow meter</em>. This is the same data that is presented in the referenced Lancet article:</p>
 <pre><code>##    Wright Mini
 ## 1     494  512
@@ -221,9 +221,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 16    423  350
 ## 17    427  451</code></pre>
 <p>You can examine the <code>ba</code> data.frame using the <code>print()</code> and <code>summary()</code> functions:</p>
-<pre class="sourceCode r" id="cb519"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" data-line-number="1"><span class="kw">print</span>(ba)</a>
-<a class="sourceLine" id="cb519-2" data-line-number="2">ba</a>
-<a class="sourceLine" id="cb519-3" data-line-number="3"><span class="kw">summary</span>(ba)</a></code></pre>
+<pre class="sourceCode r" id="cb499"><code class="sourceCode r"><a class="sourceLine" id="cb499-1" data-line-number="1"><span class="kw">print</span>(ba)</a>
+<a class="sourceLine" id="cb499-2" data-line-number="2">ba</a>
+<a class="sourceLine" id="cb499-3" data-line-number="3"><span class="kw">summary</span>(ba)</a></code></pre>
 <pre><code>##    Wright Mini
 ## 1     494  512
 ## 2     395  430
@@ -268,161 +268,161 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ##  3rd Qu.:494.0   3rd Qu.:512.0  
 ##  Max.   :656.0   Max.   :658.0</code></pre>
 <p>The <code>function()</code> function allows us to create new functions in <code>R</code>:</p>
-<pre class="sourceCode r" id="cb523"><code class="sourceCode r"><a class="sourceLine" id="cb523-1" data-line-number="1">ba.plot &lt;-<span class="st"> </span><span class="cf">function</span>(a, b) {}</a></code></pre>
+<pre class="sourceCode r" id="cb503"><code class="sourceCode r"><a class="sourceLine" id="cb503-1" data-line-number="1">ba.plot &lt;-<span class="st"> </span><span class="cf">function</span>(a, b) {}</a></code></pre>
 <p>This creates an empty function called <code>ba.plot()</code> that expects two parameters called <code>a</code> and <code>b</code>. We could type the whole function in at the <code>R</code> command prompt but it is easier to use a text editor:</p>
-<pre class="sourceCode r" id="cb524"><code class="sourceCode r"><a class="sourceLine" id="cb524-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb504"><code class="sourceCode r"><a class="sourceLine" id="cb504-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>We will start be writing a basic function which we will gradually improve throughout this exercise.</p>
 <p>Edit the <code>ba.plot()</code> function to read:</p>
-<pre class="sourceCode r" id="cb525"><code class="sourceCode r"><a class="sourceLine" id="cb525-1" data-line-number="1"><span class="cf">function</span>(a, b) {</a>
-<a class="sourceLine" id="cb525-2" data-line-number="2">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb525-3" data-line-number="3">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
-<a class="sourceLine" id="cb525-4" data-line-number="4">  <span class="kw">plot</span>(mean.two, diff.two)</a>
-<a class="sourceLine" id="cb525-5" data-line-number="5">}</a></code></pre>
+<pre class="sourceCode r" id="cb505"><code class="sourceCode r"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="cf">function</span>(a, b) {</a>
+<a class="sourceLine" id="cb505-2" data-line-number="2">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb505-3" data-line-number="3">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb505-4" data-line-number="4">  <span class="kw">plot</span>(mean.two, diff.two)</a>
+<a class="sourceLine" id="cb505-5" data-line-number="5">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>The function calculates the mean and the difference of the two measures and then plots the results. Lets try the
 <code>ba.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb526"><code class="sourceCode r"><a class="sourceLine" id="cb526-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-292-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb506"><code class="sourceCode r"><a class="sourceLine" id="cb506-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-299-1.png" width="672" /></p>
 <p>The resulting plot is rather plain and lacks meaningful titles and axis labels. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
-<pre class="sourceCode r" id="cb527"><code class="sourceCode r"><a class="sourceLine" id="cb527-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb507"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb528"><code class="sourceCode r"><a class="sourceLine" id="cb528-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
-<a class="sourceLine" id="cb528-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
-<a class="sourceLine" id="cb528-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
-<a class="sourceLine" id="cb528-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb528-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb528-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb528-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
-<a class="sourceLine" id="cb528-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title)</a>
-<a class="sourceLine" id="cb528-9" data-line-number="9">}</a></code></pre>
+<pre class="sourceCode r" id="cb508"><code class="sourceCode r"><a class="sourceLine" id="cb508-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
+<a class="sourceLine" id="cb508-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
+<a class="sourceLine" id="cb508-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
+<a class="sourceLine" id="cb508-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb508-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb508-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb508-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb508-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title)</a>
+<a class="sourceLine" id="cb508-9" data-line-number="9">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>We have added a new parameter (<code>title</code>) to the function and given this a default value of <code>Bland and Altman Plot</code>. Adding <code>title</code> as a parameter means that we will be able to specify a title for the plot when we call the function. We have also used the function combination <code>deparse(substitute())</code> to retrieve the names of the vectors passed to parameters <code>a</code> and <code>b</code>. The <code>paste()</code> function pastes pieces of text together. It is used here to create the text for the axis labels used with the <code>plot()</code> function.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb529"><code class="sourceCode r"><a class="sourceLine" id="cb529-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-296-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb509"><code class="sourceCode r"><a class="sourceLine" id="cb509-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-303-1.png" width="672" /></p>
 <p>We may also specify a title for the plot using the title parameter:</p>
-<pre class="sourceCode r" id="cb530"><code class="sourceCode r"><a class="sourceLine" id="cb530-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-297-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb510"><code class="sourceCode r"><a class="sourceLine" id="cb510-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-304-1.png" width="672" /></p>
 <p>We can now edit the function to calculate and plot mean, difference, and the limits of agreement. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
-<pre class="sourceCode r" id="cb531"><code class="sourceCode r"><a class="sourceLine" id="cb531-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb511"><code class="sourceCode r"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb532"><code class="sourceCode r"><a class="sourceLine" id="cb532-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
-<a class="sourceLine" id="cb532-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
-<a class="sourceLine" id="cb532-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
-<a class="sourceLine" id="cb532-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb532-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb532-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb532-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
-<a class="sourceLine" id="cb532-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
-<a class="sourceLine" id="cb532-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
-<a class="sourceLine" id="cb532-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
-<a class="sourceLine" id="cb532-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb532-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb532-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
-<a class="sourceLine" id="cb532-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb532-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb532-16" data-line-number="16">}</a></code></pre>
+<pre class="sourceCode r" id="cb512"><code class="sourceCode r"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
+<a class="sourceLine" id="cb512-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
+<a class="sourceLine" id="cb512-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
+<a class="sourceLine" id="cb512-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb512-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb512-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb512-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb512-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
+<a class="sourceLine" id="cb512-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
+<a class="sourceLine" id="cb512-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
+<a class="sourceLine" id="cb512-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb512-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb512-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
+<a class="sourceLine" id="cb512-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb512-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb512-16" data-line-number="16">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file and quit the editor.</p>
 <p>We have used the <code>mean()</code> and <code>sd()</code> functions to calculate the mean and standard deviation of the difference between the two measures and calculated the limits of agreement (<code>upper</code> and <code>lower</code>) assuming that the differences are <em>Normally</em> distributed.</p>
 <p>The <code>lines()</code> function is then used to plot the mean and the limits of agreement on top of the existing scatter plot.</p>
 <p>The parameter <code>lty = 3</code> used with the <code>lines()</code> function specifies dotted lines.</p>
 <p><code>R</code> provided a great number of graphical parameters that can be used to customise plots. You can see a list of
 these parameters using:</p>
-<pre class="sourceCode r" id="cb533"><code class="sourceCode r"><a class="sourceLine" id="cb533-1" data-line-number="1"><span class="kw">help</span>(par)</a></code></pre>
+<pre class="sourceCode r" id="cb513"><code class="sourceCode r"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="kw">help</span>(par)</a></code></pre>
 <p>These parameters can be specified for almost all graphical functions.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb534"><code class="sourceCode r"><a class="sourceLine" id="cb534-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span>  <span class="st">&quot;Difference vs. mean for PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-302-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb514"><code class="sourceCode r"><a class="sourceLine" id="cb514-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span>  <span class="st">&quot;Difference vs. mean for PEFR data&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-309-1.png" width="672" /></p>
 <p>The function is almost complete. All that remains to do is to label the lines with the values of the mean difference and the limits of agreement.</p>
 <p>Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
-<pre class="sourceCode r" id="cb535"><code class="sourceCode r"><a class="sourceLine" id="cb535-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb515"><code class="sourceCode r"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb536"><code class="sourceCode r"><a class="sourceLine" id="cb536-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
-<a class="sourceLine" id="cb536-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
-<a class="sourceLine" id="cb536-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
-<a class="sourceLine" id="cb536-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb536-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb536-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb536-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
-<a class="sourceLine" id="cb536-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
-<a class="sourceLine" id="cb536-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
-<a class="sourceLine" id="cb536-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
-<a class="sourceLine" id="cb536-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb536-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb536-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
-<a class="sourceLine" id="cb536-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb536-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb536-16" data-line-number="16">  m.text &lt;-<span class="st"> </span><span class="kw">round</span>(mean.diff, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb536-17" data-line-number="17">  u.text &lt;-<span class="st"> </span><span class="kw">round</span>(upper , <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb536-18" data-line-number="18">  l.text &lt;-<span class="st"> </span><span class="kw">round</span>(lower, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb536-19" data-line-number="19">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), mean.diff, m.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
-<a class="sourceLine" id="cb536-20" data-line-number="20">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), upper, u.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
-<a class="sourceLine" id="cb536-21" data-line-number="21">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), lower, l.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb536-22" data-line-number="22">}</a></code></pre>
+<pre class="sourceCode r" id="cb516"><code class="sourceCode r"><a class="sourceLine" id="cb516-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
+<a class="sourceLine" id="cb516-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
+<a class="sourceLine" id="cb516-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
+<a class="sourceLine" id="cb516-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb516-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb516-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb516-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb516-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
+<a class="sourceLine" id="cb516-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
+<a class="sourceLine" id="cb516-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
+<a class="sourceLine" id="cb516-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb516-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb516-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
+<a class="sourceLine" id="cb516-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb516-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb516-16" data-line-number="16">  m.text &lt;-<span class="st"> </span><span class="kw">round</span>(mean.diff, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb516-17" data-line-number="17">  u.text &lt;-<span class="st"> </span><span class="kw">round</span>(upper , <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb516-18" data-line-number="18">  l.text &lt;-<span class="st"> </span><span class="kw">round</span>(lower, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb516-19" data-line-number="19">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), mean.diff, m.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
+<a class="sourceLine" id="cb516-20" data-line-number="20">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), upper, u.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
+<a class="sourceLine" id="cb516-21" data-line-number="21">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), lower, l.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb516-22" data-line-number="22">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
 We have used the <code>round()</code> function to limit the display of the mean difference and the limits of agreement to one decimal place and used the <code>text()</code> function to display these (rounded) values. The <code>adj</code> parameter to the <code>text()</code> function controls the position and justification of text.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb537"><code class="sourceCode r"><a class="sourceLine" id="cb537-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-306-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb517"><code class="sourceCode r"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-313-1.png" width="672" /></p>
 <p>The graphical function is now complete.</p>
 <p>One improvement that we could make is for the function to produce a chart and return the values of the mean difference and the limits of agreement.</p>
 <p>We would do this in exactly the same way as we would with a non-graphical function. We would return the mean difference and the limits of agreement as members of a list.</p>
 <p>We could also specify a class for the returned list and create a class specific <code>print()</code> function (or <em>method</em>) to produce nicely formatted output.</p>
 <p>Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
-<pre class="sourceCode r" id="cb538"><code class="sourceCode r"><a class="sourceLine" id="cb538-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
+<pre class="sourceCode r" id="cb518"><code class="sourceCode r"><a class="sourceLine" id="cb518-1" data-line-number="1"><span class="kw">fix</span>(ba.plot)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb539"><code class="sourceCode r"><a class="sourceLine" id="cb539-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
-<a class="sourceLine" id="cb539-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
-<a class="sourceLine" id="cb539-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
-<a class="sourceLine" id="cb539-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb539-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
-<a class="sourceLine" id="cb539-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb539-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
-<a class="sourceLine" id="cb539-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
-<a class="sourceLine" id="cb539-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
-<a class="sourceLine" id="cb539-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
-<a class="sourceLine" id="cb539-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb539-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
-<a class="sourceLine" id="cb539-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
-<a class="sourceLine" id="cb539-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb539-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb539-16" data-line-number="16">  m.text &lt;-<span class="st"> </span><span class="kw">round</span>(mean.diff, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb539-17" data-line-number="17">  u.text &lt;-<span class="st"> </span><span class="kw">round</span>(upper , <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb539-18" data-line-number="18">  l.text &lt;-<span class="st"> </span><span class="kw">round</span>(lower, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb539-19" data-line-number="19">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), mean.diff, m.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
-<a class="sourceLine" id="cb539-20" data-line-number="20">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), upper, u.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
-<a class="sourceLine" id="cb539-21" data-line-number="21">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), lower, l.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb539-22" data-line-number="22">  ba &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">mean =</span> mean.diff, <span class="dt">limits =</span> <span class="kw">c</span>(lower, upper))</a>
-<a class="sourceLine" id="cb539-23" data-line-number="23">  <span class="kw">class</span>(ba) &lt;-<span class="st"> &quot;ba&quot;</span></a>
-<a class="sourceLine" id="cb539-24" data-line-number="24">  <span class="kw">return</span>(ba)</a>
-<a class="sourceLine" id="cb539-25" data-line-number="25">}</a></code></pre>
+<pre class="sourceCode r" id="cb519"><code class="sourceCode r"><a class="sourceLine" id="cb519-1" data-line-number="1"><span class="cf">function</span>(a, b, <span class="dt">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</a>
+<a class="sourceLine" id="cb519-2" data-line-number="2">  a.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(a))</a>
+<a class="sourceLine" id="cb519-3" data-line-number="3">  b.txt &lt;-<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(b))</a>
+<a class="sourceLine" id="cb519-4" data-line-number="4">  x.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb519-5" data-line-number="5">  y.lab &lt;-<span class="st"> </span><span class="kw">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</a>
+<a class="sourceLine" id="cb519-6" data-line-number="6">  mean.two &lt;-<span class="st"> </span>(a <span class="op">+</span><span class="st"> </span>b) <span class="op">/</span><span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb519-7" data-line-number="7">  diff.two &lt;-<span class="st"> </span>a <span class="op">-</span><span class="st"> </span>b</a>
+<a class="sourceLine" id="cb519-8" data-line-number="8">  <span class="kw">plot</span>(mean.two, diff.two, <span class="dt">xlab =</span> x.lab, <span class="dt">ylab =</span> y.lab, <span class="dt">main =</span> title) </a>
+<a class="sourceLine" id="cb519-9" data-line-number="9">  mean.diff &lt;-<span class="st"> </span><span class="kw">mean</span>(diff.two)</a>
+<a class="sourceLine" id="cb519-10" data-line-number="10">  sd.diff &lt;-<span class="st"> </span><span class="kw">sd</span>(diff.two)</a>
+<a class="sourceLine" id="cb519-11" data-line-number="11">  upper &lt;-<span class="st"> </span>mean.diff <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb519-12" data-line-number="12">  lower &lt;-<span class="st"> </span>mean.diff <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>sd.diff</a>
+<a class="sourceLine" id="cb519-13" data-line-number="13">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(mean.diff, mean.diff), <span class="dt">lty =</span> <span class="dv">3</span>) </a>
+<a class="sourceLine" id="cb519-14" data-line-number="14">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(upper, upper), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb519-15" data-line-number="15">  <span class="kw">lines</span>(<span class="dt">x =</span> <span class="kw">range</span>(mean.two), <span class="dt">y =</span> <span class="kw">c</span>(lower, lower), <span class="dt">lty =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb519-16" data-line-number="16">  m.text &lt;-<span class="st"> </span><span class="kw">round</span>(mean.diff, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb519-17" data-line-number="17">  u.text &lt;-<span class="st"> </span><span class="kw">round</span>(upper , <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb519-18" data-line-number="18">  l.text &lt;-<span class="st"> </span><span class="kw">round</span>(lower, <span class="dt">digits =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb519-19" data-line-number="19">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), mean.diff, m.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
+<a class="sourceLine" id="cb519-20" data-line-number="20">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), upper, u.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </a>
+<a class="sourceLine" id="cb519-21" data-line-number="21">  <span class="kw">text</span>(<span class="kw">max</span>(mean.two), lower, l.text, <span class="dt">adj =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb519-22" data-line-number="22">  ba &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">mean =</span> mean.diff, <span class="dt">limits =</span> <span class="kw">c</span>(lower, upper))</a>
+<a class="sourceLine" id="cb519-23" data-line-number="23">  <span class="kw">class</span>(ba) &lt;-<span class="st"> &quot;ba&quot;</span></a>
+<a class="sourceLine" id="cb519-24" data-line-number="24">  <span class="kw">return</span>(ba)</a>
+<a class="sourceLine" id="cb519-25" data-line-number="25">}</a></code></pre>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>Create a <code>print()</code> function for objects of the <code>ba</code> class:</p>
-<pre class="sourceCode r" id="cb540"><code class="sourceCode r"><a class="sourceLine" id="cb540-1" data-line-number="1">print.ba &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre>
+<pre class="sourceCode r" id="cb520"><code class="sourceCode r"><a class="sourceLine" id="cb520-1" data-line-number="1">print.ba &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre>
 <p>Use the <code>fix()</code> function to edit the new function:</p>
-<pre class="sourceCode r" id="cb541"><code class="sourceCode r"><a class="sourceLine" id="cb541-1" data-line-number="1"><span class="kw">fix</span>(print.ba)</a></code></pre>
+<pre class="sourceCode r" id="cb521"><code class="sourceCode r"><a class="sourceLine" id="cb521-1" data-line-number="1"><span class="kw">fix</span>(print.ba)</a></code></pre>
 <p>Edit the function to read:</p>
-<pre class="sourceCode r" id="cb542"><code class="sourceCode r"><a class="sourceLine" id="cb542-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb542-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Mean difference     : &quot;</span>, x<span class="op">$</span>mean, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb542-3" data-line-number="3">      <span class="st">&quot;Limits of agreement : &quot;</span>, x<span class="op">$</span>limits[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="op">$</span>limits[<span class="dv">2</span>], <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
-<a class="sourceLine" id="cb542-4" data-line-number="4">      <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
-<a class="sourceLine" id="cb542-5" data-line-number="5">}</a></code></pre>
+<pre class="sourceCode r" id="cb522"><code class="sourceCode r"><a class="sourceLine" id="cb522-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb522-2" data-line-number="2">  <span class="kw">cat</span>(<span class="st">&quot;Mean difference     : &quot;</span>, x<span class="op">$</span>mean, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb522-3" data-line-number="3">      <span class="st">&quot;Limits of agreement : &quot;</span>, x<span class="op">$</span>limits[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="op">$</span>limits[<span class="dv">2</span>], <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,</a>
+<a class="sourceLine" id="cb522-4" data-line-number="4">      <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</a>
+<a class="sourceLine" id="cb522-5" data-line-number="5">}</a></code></pre>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
-<pre class="sourceCode r" id="cb543"><code class="sourceCode r"><a class="sourceLine" id="cb543-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-314-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb523"><code class="sourceCode r"><a class="sourceLine" id="cb523-1" data-line-number="1"><span class="kw">ba.plot</span>(Wright, Mini, <span class="dt">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <p>The function produces the plot and returns the mean difference and limits of agreement as a list of class <code>ba</code> which is formatted and printed by the <code>print.ba()</code> function.</p>
 <p>We can manipulate the returned values just as we would with any other function:</p>
-<pre class="sourceCode r" id="cb545"><code class="sourceCode r"><a class="sourceLine" id="cb545-1" data-line-number="1">ba.test &lt;-<span class="st"> </span><span class="kw">ba.plot</span>(Wright, Mini)</a>
-<a class="sourceLine" id="cb545-2" data-line-number="2"><span class="kw">print</span>(ba.test)</a>
-<a class="sourceLine" id="cb545-3" data-line-number="3">ba.test</a>
-<a class="sourceLine" id="cb545-4" data-line-number="4">ba.test<span class="op">$</span>mean</a>
-<a class="sourceLine" id="cb545-5" data-line-number="5">ba.test<span class="op">$</span>limits</a>
-<a class="sourceLine" id="cb545-6" data-line-number="6">ba.test<span class="op">$</span>limits[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb545-7" data-line-number="7">ba.test<span class="op">$</span>limits[<span class="dv">2</span>]</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-316-1.png" width="672" /></p>
+<pre class="sourceCode r" id="cb525"><code class="sourceCode r"><a class="sourceLine" id="cb525-1" data-line-number="1">ba.test &lt;-<span class="st"> </span><span class="kw">ba.plot</span>(Wright, Mini)</a>
+<a class="sourceLine" id="cb525-2" data-line-number="2"><span class="kw">print</span>(ba.test)</a>
+<a class="sourceLine" id="cb525-3" data-line-number="3">ba.test</a>
+<a class="sourceLine" id="cb525-4" data-line-number="4">ba.test<span class="op">$</span>mean</a>
+<a class="sourceLine" id="cb525-5" data-line-number="5">ba.test<span class="op">$</span>limits</a>
+<a class="sourceLine" id="cb525-6" data-line-number="6">ba.test<span class="op">$</span>limits[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb525-7" data-line-number="7">ba.test<span class="op">$</span>limits[<span class="dv">2</span>]</a></code></pre>
+<p><img src="prfe_files/figure-html/unnamed-chunk-323-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <pre><code>## Mean difference     : -2.117647
@@ -433,7 +433,7 @@ We have used the <code>round()</code> function to limit the display of the mean 
 <pre><code>## [1] 73.86201</code></pre>
 <p>You might like to use the <code>save()</code> function to save the <code>ba.plot()</code> and <code>print.ba()</code> functions before quitting <code>R</code>.</p>
 <p>We can now quit <code>R</code>:</p>
-<pre class="sourceCode r" id="cb552"><code class="sourceCode r"><a class="sourceLine" id="cb552-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<pre class="sourceCode r" id="cb532"><code class="sourceCode r"><a class="sourceLine" id="cb532-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-6" class="section level2">
 <h2><span class="header-section-number">7.1</span> Summary</h2>

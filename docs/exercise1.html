@@ -25,7 +25,7 @@
 <meta name="author" content="Mark Myatt and Ernest Guevarra">
 
 
-<meta name="date" content="2018-05-10">
+<meta name="date" content="2018-05-11">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -653,13 +653,13 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## sample estimates:
 ## odds ratio 
 ##   3.620646</code></pre>
+<p> </p>
 <p>Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.</p>
-
 <p>We can explore the correlation between two variables using the <code>cor()</code> function:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb101"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">cor</span>(IQ, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>## [1] -0.2917158</code></pre>
-<p> </p>
+
 <p>or by using a scatter plot:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb103"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">plot</span>(IQ, WT)</a></code></pre>
@@ -704,8 +704,8 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## SEX  -0.290539709  1.00000000  0.22316967 -0.027826514
 ## LIFE -0.351865775  0.22316967  1.00000000 -0.058605326
 ## WT   -0.009259774 -0.02782651 -0.05860533  1.000000000</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
 
+<p><img src="prfe_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" /></p>
 <p>The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding <code>cbind()</code> function:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb108"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">newfem &lt;-<span class="st"> </span><span class="kw">cbind</span>(AGE, IQ, WT)</a>
@@ -715,12 +715,13 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## AGE  1.0000000 -0.4345436  0.4157441
 ## IQ  -0.4345436  1.0000000 -0.2917158
 ## WT   0.4157441 -0.2917158  1.0000000</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-71-1.png" width="672" /></p>
+
+<p><img src="prfe_files/figure-html/unnamed-chunk-73-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>When we have finished with the <code>newfem</code> object we can delete it:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb110"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw">rm</span>(newfem)</a></code></pre>
-
+<p> </p>
 <p>There was no real need to create the <code>newfem</code> object as we could have fed the output of the <code>cbind()</code> function directly to the <code>cor()</code> or <code>pairs()</code> function:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb111"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">cbind</span>(AGE, IQ, WT), <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
@@ -729,14 +730,15 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## AGE  1.0000000 -0.4345436  0.4157441
 ## IQ  -0.4345436  1.0000000 -0.2917158
 ## WT   0.4157441 -0.2917158  1.0000000</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
-<p>It is, however, easier to work with the <code>newfem</code> object rather than having to retype the <code>cbind()</code> function. This is particularly true if you wanted to continue with an analysis of just the three variables.</p>
 
+<p><img src="prfe_files/figure-html/unnamed-chunk-77-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
+<p>It is, however, easier to work with the <code>newfem</code> object rather than having to retype the <code>cbind()</code> function. This is particularly true if you wanted to continue with an analysis of just the three variables.</p>
 <p>The relationship between <code>AGE</code> and <code>WT</code> can be plotted using the <code>plot()</code> function:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb113"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-75-1.png" style="display: block; margin: auto;" /></p>
-<p> </p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-78-1.png" style="display: block; margin: auto;" /></p>
+
 <p>And tested using the <code>cor()</code> and <code>cor.test()</code> functions:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb114"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw">cor</span>(AGE, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
@@ -807,14 +809,14 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <pre class="sourceCode r" id="cb123"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a>
 <a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">abline</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-80-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-83-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>In this case we are passing the intercept and slope information held in the <code>fem.lm</code> object to the <code>abline()</code> function which draws a regression line. The <code>abline()</code> function adds to an existing plot. This means that you need to keep the scatter plot of <code>AGE</code> and <code>WT</code> open before issuing the <code>abline()</code> function call.</p>
 
 <p>A useful function to apply to the <code>fem.lm</code> object is <code>plot()</code> which produces diagnostic plots of the linear model:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb124"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">plot</span>(fem.lm)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-81-1.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-81-2.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-81-3.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-81-4.png" style="display: block; margin: auto;" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-84-1.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-2.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-3.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-4.png" style="display: block; margin: auto;" /></p>
 
 <p>Objects created by the <code>lm()</code> function (or any of the modelling functions) can use up a lot of memory so we should remove them when we no longer need them:</p>
 <p> </p>
@@ -823,14 +825,14 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>It might be interesting to see whether a similar relationship exists between <code>AGE</code> and <code>WT</code> for those who have and have not considered suicide. This can be done using the <code>coplot()</code> function:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb126"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-83-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-86-1.png" style="display: block; margin: auto;" /></p>
 <pre><code>## 
 ##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115</code></pre>
 
 <p>The two plots looks similar. We could also use <code>coplot()</code> to investigate the relationship between <code>AGE</code> and <code>WT</code> for categories of both <code>LIFE</code> and <code>SEX</code>:</p>
 <p> </p>
 <pre class="sourceCode r" id="cb128"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE) <span class="op">*</span><span class="st"> </span><span class="kw">as.factor</span>(SEX))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-84-1.png" style="display: block; margin: auto;" /></p>
+<p><img src="prfe_files/figure-html/unnamed-chunk-87-1.png" style="display: block; margin: auto;" /></p>
 <pre><code>## 
 ##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115</code></pre>
 <p> </p>

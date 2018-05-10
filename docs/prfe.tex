@@ -129,7 +129,7 @@
   \postauthor{\par}
   \predate{\centering\large\emph}
   \postdate{\par}
-  \date{2018-05-10}
+  \date{2018-05-11}
 
 \usepackage{booktabs}
 \usepackage{color}
@@ -1734,10 +1734,10 @@ to the \texttt{fisher.test()} function:
 ##   3.620646
 \end{verbatim}
 
+~
+
 Choose whichever method you find easiest but remember that it is easy to
 save the results of any function for later use.
-
-\newpage
 
 We can explore the correlation between two variables using the
 \texttt{cor()} function:
@@ -1754,7 +1754,7 @@ We can explore the correlation between two variables using the
 ## [1] -0.2917158
 \end{verbatim}
 
-~
+\newpage
 
 or by using a scatter plot:
 
@@ -1831,9 +1831,9 @@ of variables:
 ## WT   -0.009259774 -0.02782651 -0.05860533  1.000000000
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-69-1.pdf}
-
 \newpage
+
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-70-1} \end{center}
 
 The output can be a little confusing particularly if it includes
 categorical or record identifying variables. To avoid this we can create
@@ -1857,7 +1857,9 @@ the column binding \texttt{cbind()} function:
 ## WT   0.4157441 -0.2917158  1.0000000
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-71-1.pdf}
+\newpage
+
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-73-1} \end{center}
 
 ~
 
@@ -1871,7 +1873,7 @@ When we have finished with the \texttt{newfem} object we can delete it:
 \end{Highlighting}
 \end{Shaded}
 
-\newpage
+~
 
 There was no real need to create the \texttt{newfem} object as we could
 have fed the output of the \texttt{cbind()} function directly to the
@@ -1893,14 +1895,16 @@ have fed the output of the \texttt{cbind()} function directly to the
 ## WT   0.4157441 -0.2917158  1.0000000
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-74-1.pdf}
+\newpage
+
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-77-1} \end{center}
+
+~
 
 It is, however, easier to work with the \texttt{newfem} object rather
 than having to retype the \texttt{cbind()} function. This is
 particularly true if you wanted to continue with an analysis of just the
 three variables.
-
-\newpage
 
 The relationship between \texttt{AGE} and \texttt{WT} can be plotted
 using the \texttt{plot()} function:
@@ -1913,9 +1917,9 @@ using the \texttt{plot()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-75-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-78-1} \end{center}
 
-~
+\newpage
 
 And tested using the \texttt{cor()} and \texttt{cor.test()} functions:
 
@@ -2043,7 +2047,7 @@ And use the output in other functions:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-80-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-83-1} \end{center}
 
 ~
 
@@ -2066,13 +2070,13 @@ A useful function to apply to the \texttt{fem.lm} object is
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-81-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-84-1} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-81-2} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-84-2} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-81-3} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-84-3} \end{center}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-81-4} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-84-4} \end{center}
 
 \newpage
 
@@ -2103,7 +2107,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-83-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-86-1} \end{center}
 
 \begin{verbatim}
 ## 
@@ -2124,7 +2128,7 @@ categories of both \texttt{LIFE} and \texttt{SEX}:
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-84-1} \end{center}
+\begin{center}\includegraphics{prfe_files/figure-latex/unnamed-chunk-87-1} \end{center}
 
 \begin{verbatim}
 ## 
@@ -2321,11 +2325,15 @@ information from \texttt{R} objects and produce useful analyses.
 Before we go any further we should start \texttt{R} and retrieve a
 dataset:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{salex <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"salex.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"9"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 Missing values are coded as 9 throughout this dataset so we can use the
 \texttt{na.strings} parameter of the \texttt{read.table()} function to
@@ -2333,176 +2341,31 @@ replace all 9's with the special \texttt{NA} code when we retrieve the
 dataset. Check that this works by examining the \texttt{salex}
 data.frame:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{salex}
+\KeywordTok{names}\NormalTok{(salex)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##    ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
-## 1    1   1    1    1        1      1       2     2    2       2      2
-## 2    1   1    1    1        2      2       1     2    2       2      1
-## 3    1   1    1    1        1      1       1     1    1       1      2
-## 4    1   1    1    1        2      2       2     2    2       1      1
-## 5    1   1    1    1        1      1       1     1    1       1      1
-## 6    1   1    1    1        2      2       2     2    2       2      1
-## 7    1   1    1    1        1      1       1     2    2       2      2
-## 8    1   1    2    1        1      1       2     1    1       1      2
-## 9    1   1    1    1        2      1       1     2    1       2      2
-## 10   1   1    1    1        2      1       1     1    1       1      1
-## 11   1   2    2    1        1      1       2     2    2       1      1
-## 12   1   1    1    1        2      2       2     2    2       2      2
-## 13   2   2    1    2        2      2       1     2    2       2      1
-## 14   1   1    1    1        2      2       2     1    1       2      1
-## 15   1   1    1    1        1      1       2     1    1       2      2
-## 16   1   1    1    1        1      1       1     2    2       2      2
-## 17   1   1    1    1        1      1       1     1    1       1      1
-## 18   2   1    1    2        2      2       2     2    2       2      2
-## 19   2   1    1    1        1      2       2     1    1       2      1
-## 20   2   1    1    2        2      2       2     2    2       2      2
-## 21   2   2    2    2        2      2       2     2    2       2      2
-## 22   1   1    1    1        2      2       2     2    2       1      1
-## 23   1   2    1    2        2      2       2     1    1       2      1
-## 24   1   1    1    1        2      1       2     1    1       2      2
-## 25   1   1    1    2        1      1       1     1    1       1      1
-## 26   1   1    2    1        1      1       2     2    2       1      1
-## 27   1   1    1    1        2      2       1     2    1       1      1
-## 28   1   1    1    1        1      1       2     1    1       2      2
-## 29   1   2    1    1        1     NA       2     1    1       1      1
-## 30   1   1    1    2        2      2       1     2    2       2      2
-## 31   1   1    1    1        1      2       2     1    1       2      2
-## 32   1   1    1    1        1      2      NA     2    1       1      1
-## 33   1   1    1    1        2      2       2     1    2       2      2
-## 34   1   1    1    1        1      2       2     2    2       1      1
-## 35   1   1    1    1        1      1       1     1    2       2      1
-## 36   2   2    1    2        2      2       2     2    2       2      2
-## 37   1   1    1    1        1      1       2     1    1       1      1
-## 38   1   1    1    2        2      2       1     1    1       1      2
-## 39   1   1    1    1        1      1       1     2    2       1      2
-## 40   1   1    1    1        1      1       1     2    2       1      1
-## 41   1   1    1    2        2      1       2     1    1       1      1
-## 42   1   1    1    2        2      2       2     2    2       2      2
-## 43   1   1    1    1        1      1       2     1    1       1      1
-## 44   1   2    1    2        2      2       1     2    2       1      2
-## 45   1   1    1    1        1      2       2     2    1       1      1
-## 46   1   1    1    2        2      2       2     1    1       1      1
-## 47   1   1    1    1        2      2       2     2    1       1      2
-## 48   1   1    1    1        1     NA       1     1    1       2      2
-## 49   1   1    1    1        2      1       2     2    1       1      1
-## 50   1   2    1    1        2      2       2     1    2       2      1
-## 51   2   2    1    2        2      2       2     2    2       2      2
-## 52   2   1    1    2        2      2       2     1    2       2      1
-## 53   2   1    1    2        2      2       1     2    2       2      1
-## 54   2   1    1    2        1      2       1     2    2       2      1
-## 55   2   1    1    1        1      1       2     2    1       2      2
-## 56   2   1    1    2        2      2       2     2    2       2      1
-## 57   2   1    1    1        1      1       1     2    2       2      2
-## 58   2   1    1    1        2      2       1     2    1       2      2
-## 59   2   1    1    2        2      2       2     2    2       2      2
-## 60   2   2    2    2        2      2       1     2    2       2      2
-## 61   2   1    1    2        2      2       1     2    2       2      2
-## 62   2   1    2    2        2      2       2     2    2       1      1
-## 63   1   1    1    1        1      1       2     2    2       2      1
-## 64   2   1    1    2        2      2       2     2    2       2      2
-## 65   2   1    1    1        1      2       1     2    1       2      2
-## 66   2   2    1    2        2      2       2     2    2       2      2
-## 67   2   2    1    2        2      2       2     2    2       2      2
-## 68   2   1    1    2        1      1       1     1    2       2      1
-## 69   2   2    1    2        2      2       2     2    2       2      2
-## 70   2   2    1    2        2      2       2     2    2       2      2
-## 71   1   1    2    2        2      2       1     2    1       2      2
-## 72   2   1    2    1       NA     NA       2     2    2       2      1
-## 73   1   1    1    1        2      2       1     2    2       2      2
-## 74   1   1    2    1       NA     NA       2     1    1       1      1
-## 75   1   1    2    2        2      1       2     1    2       1      1
-## 76   1   1    1    1        2      2       1     1    2       2      2
-## 77   1   1    1   NA       NA     NA       1     2    1       1      1
-##    COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
-## 1         2      2         2         2     2      2       2
-## 2         2      2         2         2     2      2       2
-## 3         2      1         2         1     2      2       2
-## 4         2      2         2         1     2      2       2
-## 5         1      2         2         1     2      1       2
-## 6         1      1         2         1     2      2       2
-## 7         1      1         1         2     2      2       2
-## 8         1      1         2         2     2      1       2
-## 9         2      2         2         2     2      1       2
-## 10        1      1         2         2     2      1       1
-## 11        2      2         2         2     2      2      NA
-## 12        2      1         2         1     2      2       2
-## 13        2      1         2         2     1      2      NA
-## 14        1      1         2         2     2      1       2
-## 15        1      1         2         2     2      1       1
-## 16        1      2         2         2     2      2       2
-## 17        1      2         2         2     2      2       2
-## 18        2      2         2         2     2      2       2
-## 19        1      1         2         2     1      2       2
-## 20        2      2         2         1     2      2       2
-## 21        2      2         2         2     2      2       2
-## 22        2      1         2         1     2      2       2
-## 23        1      2         2         2     2      2      NA
-## 24        1      1         2         2     2      1       2
-## 25        1      2         2         2     2      1      NA
-## 26        1      2         2         2     2      1       2
-## 27        1      1         1         1     2      1       2
-## 28        2      1         2         2     2      2      NA
-## 29        1      1         2         2     2      2      NA
-## 30        2      2         2         2     2      2       2
-## 31        2      2         2         2     2      2       2
-## 32        2      2         2         2     2      2       2
-## 33        1      2         2         2     2      2       2
-## 34        1      2         2         2     2      1       2
-## 35        1      2         2         2     2      1       2
-## 36        2      2         2         2     2      2      NA
-## 37        1      1         2         1     2      1       2
-## 38        2      2         2         2     2      2       2
-## 39        2      2         2         1     2      2       2
-## 40        1      2         2         2     2      2       2
-## 41        1      1         2         2    NA      1      NA
-## 42        2      2         2         2     2      2      NA
-## 43        1      1         2         2     2      2      NA
-## 44        2      2         2         2     2      2       2
-## 45        1      2         2         2     2      1       2
-## 46        1      2         2         2     2      1       2
-## 47        2      2         2        NA     2      1       2
-## 48        2      1         2         2     2      2       2
-## 49        1      1         2         2     2      1       2
-## 50       NA      2         2         1     2      1       1
-## 51        2      2         2         2     2      2      NA
-## 52        2      2         2         1     2      2       1
-## 53        2      2         2         2     1      2       2
-## 54        2      2         2         2     2      2       2
-## 55        2      1         2         2     2      2       2
-## 56        2      2         2         2     1      2       2
-## 57        1      2         2         2     2      2       1
-## 58        2      1         1         2     2      2       2
-## 59        2      1         1         2     2      1       2
-## 60        2      2         2         2     2      2       2
-## 61        2      1         2         2     2      1       1
-## 62        2      1         2         2     2      2       2
-## 63        1      2         2         1     1      2       2
-## 64        2      2         2         2     2      2       2
-## 65        1      1         2         2     2      1       2
-## 66        2      2         2         2     2      1      NA
-## 67        2      1         2         2     2      2       2
-## 68        2      2         2         2     2      2       2
-## 69        2      1         2         2     2      2       2
-## 70        2      2         2         2     2      2       2
-## 71        2      2         2         2     2      2       2
-## 72        2      2         2         2     2      1       2
-## 73        2      2         2         2     2      2       2
-## 74        1      1         2         1     2      2       2
-## 75        1      1         2         2     2      2      NA
-## 76        2      2         2         2     2      2      NA
-## 77        1      1         2         2     2      2       2
+##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
+## 1   1   1    1    1        1      1       2     2    2       2      2
+## 2   1   1    1    1        2      2       1     2    2       2      1
+## 3   1   1    1    1        1      1       1     1    1       1      2
+## 4   1   1    1    1        2      2       2     2    2       1      1
+## 5   1   1    1    1        1      1       1     1    1       1      1
+## 6   1   1    1    1        2      2       2     2    2       2      1
+##   COLESLAW CRISPS PEACHCAKE CHOCOLATE FRUIT TRIFLE ALMONDS
+## 1        2      2         2         2     2      2       2
+## 2        2      2         2         2     2      2       2
+## 3        2      1         2         1     2      2       2
+## 4        2      2         2         1     2      2       2
+## 5        1      2         2         1     2      1       2
+## 6        1      1         2         1     2      2       2
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{names}\NormalTok{(salex)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ##  [1] "ILL"       "HAM"       "BEEF"      "EGGS"      "MUSHROOM" 
@@ -2510,6 +2373,8 @@ data.frame:
 ## [11] "TOMATO"    "COLESLAW"  "CRISPS"    "PEACHCAKE" "CHOCOLATE"
 ## [16] "FRUIT"     "TRIFLE"    "ALMONDS"
 \end{verbatim}
+
+~
 
 This data comes from a food-borne outbreak. On Saturday 17th October
 1992, eighty-two people attended a buffet meal at a sports club. Within
@@ -2617,8 +2482,12 @@ Data is available for seventy-seven of the eighty-two people who
 attended the sports club buffet. All of the variables are coded 1=yes,
 2=no.
 
+\newpage
+
 We can use the \texttt{attach()} function to make it easier to access
 our data:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2634,6 +2503,8 @@ our data:
 ##     RICE, TOMATO, TRIFLE
 \end{verbatim}
 
+~
+
 The two-by-two table is a basic epidemiological tool. In analysing data
 from a food-borne outbreak collected as a retrospective cohort study,
 for example, we would tabulate each exposure (suspect foodstuffs)
@@ -2645,13 +2516,19 @@ The first step in writing such a function would be to create the
 two-by-two table. This can be done with the \texttt{table()} function.
 We will use a table of \texttt{HAM} by \texttt{ILL} as an illustration:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{table}\NormalTok{(HAM, ILL)}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 This command produces the following output:
+
+~
 
 \begin{verbatim}
 ##    ILL
@@ -2660,9 +2537,13 @@ This command produces the following output:
 ##   2  5  9
 \end{verbatim}
 
+~
+
 We can manipulate the output directly but it is easier if we instruct
 \texttt{R} to save the output of the \texttt{table()} function in an
 object:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2670,8 +2551,12 @@ object:
 \end{Highlighting}
 \end{Shaded}
 
+\newpage
+
 The \texttt{tab} object contains the output of the \texttt{table()}
 function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2686,10 +2571,14 @@ function:
 ##   2  5  9
 \end{verbatim}
 
+~
+
 As it is stored in an object we can examine its contents on an item by
 item basis.
 
 The \texttt{tab} object is an object of class \texttt{table}:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2701,12 +2590,18 @@ The \texttt{tab} object is an object of class \texttt{table}:
 ## [1] "table"
 \end{verbatim}
 
+~
+
 We can extract data from a table object by using indices or row and
 column co-ordinates:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{]}
+\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
+\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2714,31 +2609,23 @@ column co-ordinates:
 ## [1] 46
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tab[}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## [1] 17
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{tab[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## [1] 5
 \end{verbatim}
+
+~
 
 The numbers in the square brackets refer to the \textbf{\emph{position}}
 (as row and column co-ordinates) of the data item in the table
 \textbf{\emph{not}} the \textbf{\emph{values}} of the variables. We can
 extract data using the values of the row and column variables by
 enclosing the index values in double quotes (``). For example:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2750,7 +2637,11 @@ enclosing the index values in double quotes (``). For example:
 ## [1] 46
 \end{verbatim}
 
+\newpage
+
 The two methods of extracting data may be combined. For example:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2762,7 +2653,11 @@ The two methods of extracting data may be combined. For example:
 ## [1] 46
 \end{verbatim}
 
+~
+
 We can calculate a risk ratio using the extracted data:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2770,11 +2665,17 @@ We can calculate a risk ratio using the extracted data:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Which returns a risk ratio of
+
+~
 
 \begin{verbatim}
 ## [1] 2.044444
 \end{verbatim}
+
+~
 
 This is a tedious calculation to have to type in every time you need to
 calculate a risk ratio from a two-by-two table. It would be better to
@@ -2784,16 +2685,22 @@ automatically. Fortunately, \texttt{R} allows us to do just that.
 The \texttt{function()} function allows us to create new functions in
 \texttt{R}:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{tab2by2 <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(exposure, outcome) \{\}}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 This creates an empty function called \texttt{tab2by2} that expects two
 parameters called \texttt{exposure} and \texttt{outcome}. We could type
 the whole function in at the \texttt{R} command prompt but it is easier
 to use a text editor:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2801,9 +2708,13 @@ to use a text editor:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 This will start an editor with the empty \texttt{tab2by2()} function
 already loaded. We can now edit this function to make it do something
 useful:
+
+\newpage
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2820,6 +2731,8 @@ useful:
 \NormalTok{  \}}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 Once you have made the changes shown above, check your work, save the
 file, and quit the editor. Before proceeding we should examine the
@@ -2852,7 +2765,11 @@ will do:
   \texttt{rr} objects.
 \end{itemize}
 
+\newpage
+
 Let's try the \texttt{tab2by2()} function with our test data:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2868,11 +2785,15 @@ Let's try the \texttt{tab2by2()} function with our test data:
 ## [1] 2.044444
 \end{verbatim}
 
+~
+
 The \texttt{tab2by2()} function displays a table of \texttt{HAM} by
 \texttt{ILL} followed by the risk ratio calculated from the data in the
 table.
 
 Try producing another table:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2888,7 +2809,11 @@ Try producing another table:
 ## [1] 1.682692
 \end{verbatim}
 
+~
+
 Have a look at the \texttt{R} objects available to you:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2900,10 +2825,16 @@ Have a look at the \texttt{R} objects available to you:
 ## [1] "fem"     "salex"   "tab"     "tab2by2"
 \end{verbatim}
 
+~
+
 Note that there are no \texttt{a}, \texttt{b}, \texttt{c}, \texttt{d},
 or \texttt{rr} objects.
 
+\newpage
+
 Examine the \texttt{tab} object:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2917,6 +2848,8 @@ Examine the \texttt{tab} object:
 ##   1 46 17
 ##   2  5  9
 \end{verbatim}
+
+~
 
 This is the table of \texttt{HAM} by \texttt{ILL} that you created
 earlier \textbf{\emph{not}} the table of \texttt{PASTA} by \texttt{ILL}
@@ -2938,6 +2871,8 @@ Just to prove that \texttt{tab} in the \texttt{tab2by2()} function
 exists only in the \texttt{tab2by2()} function we can delete the tab
 object from the \texttt{R} workspace:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{rm}\NormalTok{(tab)}
@@ -2945,6 +2880,8 @@ object from the \texttt{R} workspace:
 \end{Shaded}
 
 Now try another call to the \texttt{tab2by2()} function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2960,7 +2897,11 @@ Now try another call to the \texttt{tab2by2()} function:
 ## [1] 0.2897959
 \end{verbatim}
 
+\newpage
+
 Now list the \texttt{R} objects available to you:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2972,6 +2913,8 @@ Now list the \texttt{R} objects available to you:
 ## [1] "fem"     "salex"   "tab2by2"
 \end{verbatim}
 
+~
+
 Note that there are no \texttt{tab}, \texttt{a}, \texttt{b}, \texttt{c},
 \texttt{d}, or \texttt{rr} objects.
 
@@ -2981,14 +2924,20 @@ would also calculate and display a confidence interval for the risk
 ratio. This is what we will do now. Use the \texttt{fix()} function to
 edit the \texttt{tab2by2()} function:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{fix}\NormalTok{(tab2by2)}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 We can now edit this function to calculate and display a 95\% confidence
 interval for the risk ratio.
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3010,8 +2959,12 @@ interval for the risk ratio.
 \end{Highlighting}
 \end{Shaded}
 
+\newpage
+
 Once you have made the changes shown above, check your work, save the
 file, and quit the editor. We should test our revised function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3019,7 +2972,11 @@ file, and quit the editor. We should test our revised function:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 which produces the following output:
+
+~
 
 \begin{verbatim}
 ##         outcome
@@ -3031,8 +2988,12 @@ which produces the following output:
 ## [1] 4.38044
 \end{verbatim}
 
+~
+
 The function works but the output could be improved. Use the
 \texttt{fix()} function to edit the \texttt{tab2by2()} function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3053,10 +3014,16 @@ The function works but the output could be improved. Use the
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Once you have made the changes shown above, save the file and quit the
 editor.
 
+\newpage
+
 Now we can test our function again:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3064,7 +3031,11 @@ Now we can test our function again:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Which produces the following output:
+
+~
 
 \begin{verbatim}
 ##         outcome
@@ -3076,9 +3047,13 @@ Which produces the following output:
 ## 95% CI : 1.553564 4.38044
 \end{verbatim}
 
+~
+
 The \texttt{tab2by2()} function displays output but does not behave like
 a standard \texttt{R} function in the sense that you cannot save the
 results of the \texttt{tab2by2()} function into an object:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3096,8 +3071,12 @@ results of the \texttt{tab2by2()} function into an object:
 ## 95% CI : 1.553564 4.38044
 \end{verbatim}
 
+~
+
 displays output but does not save anything in the \texttt{test2by2}
 object:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3108,6 +3087,8 @@ object:
 \begin{verbatim}
 ## NULL
 \end{verbatim}
+
+\newpage
 
 The returned value (\texttt{NULL}) means that \texttt{test2by2} is an
 empty object. We will not worry about this at the moment as the
@@ -3123,6 +3104,8 @@ There are two ways of doing this. We could either calculate the odds
 ratio from the table and use (e.g.) the method of Woolf to calculate the
 confidence interval:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{or <-}\StringTok{ }\NormalTok{(a }\OperatorTok{/}\StringTok{ }\NormalTok{b) }\OperatorTok{/}\StringTok{ }\NormalTok{(c }\OperatorTok{/}\StringTok{ }\NormalTok{d)}
@@ -3134,7 +3117,11 @@ confidence interval:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 or use the output of the \texttt{fisher.test()} function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3143,6 +3130,8 @@ or use the output of the \texttt{fisher.test()} function:
     \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI :"}\NormalTok{, ft}\OperatorTok{$}\NormalTok{conf.int, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 Note that we can refer to components of a function's output using the
 same syntax as when we refer to columns in a data.frame (e.g.
@@ -3153,17 +3142,23 @@ The names of elements in the output of a standard function such as
 \texttt{fisher.test()} can be found in the documentation or the help
 system. For example:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{help}\NormalTok{(fisher.test)}
 \end{Highlighting}
 \end{Shaded}
 
+\newpage
+
 Output elements are listed under the \texttt{Value} heading.
 
 Revise the \texttt{tab2by2()} function to include the calculation of the
 odds ratio and the 95\% confidence interval. The revised function will
 look something like this:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3192,13 +3187,17 @@ look something like this:
       \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI            :"}\NormalTok{, lci.or, uci.or, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
 
   \KeywordTok{cat}\NormalTok{(}\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{MLE Odds Ratio    :"}\NormalTok{, ft}\OperatorTok{$}\NormalTok{estimate,}
-      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI             :"}\NormalTok{,  ft}\OperatorTok{$}\NormalTok{conf.int, }\StringTok{"}\CharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+      \StringTok{"}\CharTok{\textbackslash{}n}\StringTok{95% CI            :"}\NormalTok{,  ft}\OperatorTok{$}\NormalTok{conf.int, }\StringTok{"}\CharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
 \NormalTok{\}}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 Once you have made the changes shown above, check your work, save the
 file, and quit the editor.
+
+\newpage
 
 Test the \texttt{tab2by2()} function when you have added the calculation
 of the odds ratio and its 95\% confidence interval.
@@ -3207,9 +3206,27 @@ Now that we have a function that will calculate risk ratios and odds
 ratios with confidence intervals from a two- by-two table we can use it
 to analyse the \texttt{salex} data:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{tab2by2}\NormalTok{(HAM, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(BEEF, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(MUSHROOM, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(PEPPER, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(PORKPIE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(PASTA, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(RICE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(LETTUCE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(TOMATO, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(COLESLAW, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(CRISPS, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(PEACHCAKE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(CHOCOLATE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(FRUIT, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(TRIFLE, ILL)}
+\KeywordTok{tab2by2}\NormalTok{(ALMONDS, ILL)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3227,14 +3244,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 1.428423 16.60756 
 ## 
 ## MLE Odds Ratio    : 4.75649 
-## 95% CI             : 1.22777 20.82921
+## 95% CI            : 1.22777 20.82921
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(BEEF, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3250,14 +3261,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.3485746 5.334594 
 ## 
 ## MLE Odds Ratio    : 1.357903 
-## 95% CI             : 0.2547114 6.428414
+## 95% CI            : 0.2547114 6.428414
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(EGGS, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3273,14 +3278,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 4.240168 41.92706 
 ## 
 ## MLE Odds Ratio    : 12.74512 
-## 95% CI             : 3.762787 50.05419
+## 95% CI            : 3.762787 50.05419
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(MUSHROOM, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3296,14 +3295,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 1.037274 8.909506 
 ## 
 ## MLE Odds Ratio    : 2.995207 
-## 95% CI             : 0.9421008 10.7953
+## 95% CI            : 0.9421008 10.7953
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(PEPPER, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3319,14 +3312,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 2.013718 29.07844 
 ## 
 ## MLE Odds Ratio    : 7.448216 
-## 95% CI             : 1.861728 44.12015
+## 95% CI            : 1.861728 44.12015
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(PORKPIE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3342,14 +3329,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.5113158 3.659032 
 ## 
 ## MLE Odds Ratio    : 1.362228 
-## 95% CI             : 0.4636016 4.190667
+## 95% CI            : 0.4636016 4.190667
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(PASTA, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3365,14 +3346,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 1.964371 27.66451 
 ## 
 ## MLE Odds Ratio    : 7.195422 
-## 95% CI             : 1.829867 42.07488
+## 95% CI            : 1.829867 42.07488
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(RICE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3388,14 +3363,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 2.017327 22.22335 
 ## 
 ## MLE Odds Ratio    : 6.532868 
-## 95% CI             : 1.852297 29.84928
+## 95% CI            : 1.852297 29.84928
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(LETTUCE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3411,14 +3380,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 3.826938 242.041 
 ## 
 ## MLE Odds Ratio    : 29.32825 
-## 95% CI             : 4.161299 1284.306
+## 95% CI            : 4.161299 1284.306
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(TOMATO, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3434,14 +3397,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.9347213 6.632562 
 ## 
 ## MLE Odds Ratio    : 2.459981 
-## 95% CI             : 0.8467562 7.558026
+## 95% CI            : 0.8467562 7.558026
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(COLESLAW, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3457,14 +3414,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 2.806364 39.9417 
 ## 
 ## MLE Odds Ratio    : 10.26269 
-## 95% CI             : 2.600771 60.35431
+## 95% CI            : 2.600771 60.35431
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(CRISPS, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3480,14 +3431,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.4258139 2.945888 
 ## 
 ## MLE Odds Ratio    : 1.118358 
-## 95% CI             : 0.3858206 3.340535
+## 95% CI            : 0.3858206 3.340535
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(PEACHCAKE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3503,14 +3448,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.06497947 3.691936 
 ## 
 ## MLE Odds Ratio    : 0.4947099 
-## 95% CI             : 0.03393887 7.209143
+## 95% CI            : 0.03393887 7.209143
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(CHOCOLATE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3526,14 +3465,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.7791326 18.43089 
 ## 
 ## MLE Odds Ratio    : 3.733535 
-## 95% CI             : 0.7318646 37.28268
+## 95% CI            : 0.7318646 37.28268
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(FRUIT, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3549,14 +3482,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.01185022 1.06318 
 ## 
 ## MLE Odds Ratio    : 0.1157141 
-## 95% CI             : 0.002240848 1.256134
+## 95% CI            : 0.002240848 1.256134
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(TRIFLE, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3572,14 +3499,8 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.8067804 7.708156 
 ## 
 ## MLE Odds Ratio    : 2.465794 
-## 95% CI             : 0.7363311 9.778463
+## 95% CI            : 0.7363311 9.778463
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{tab2by2}\NormalTok{(ALMONDS, ILL)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## 
@@ -3595,8 +3516,10 @@ to analyse the \texttt{salex} data:
 ## 95% CI            : 0.09203498 2.716358 
 ## 
 ## MLE Odds Ratio    : 0.505905 
-## 95% CI             : 0.06170211 4.141891
+## 95% CI            : 0.06170211 4.141891
 \end{verbatim}
+
+~
 
 Make a note of any positive associations (i.e.~with a risk ratio
 \textgreater{} 1 with a 95\% confidence intervals that does not include
@@ -3605,19 +3528,27 @@ regression to analyse this data.
 
 Save the \texttt{tab2by2()} function:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{save}\NormalTok{(tab2by2, }\DataTypeTok{file =} \StringTok{"tab2by2.r"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 We can now quit \texttt{R}:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{q}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
+
+~
 
 For this exercise there is no need to save the workspace image so click
 the \textbf{No} or \textbf{Don't Save} button (GUI) or enter \texttt{n}
@@ -3653,15 +3584,21 @@ linear models using the example of logistic regression. We will continue
 using the \texttt{salex} dataset. Start \texttt{R} and retrieve the
 \texttt{salex} dataset:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{salex <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"salex.dat"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings =} \StringTok{"9"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 When we analysed this data using two-by-two tables and examining the
 risk ratio and 95\% confidence interval associated with each exposure we
 found many significant positive associations:
+
+~
 
 \begin{longtable}[]{@{}lll@{}}
 \toprule
@@ -3733,6 +3670,8 @@ CHOCOLATE\strut
 \bottomrule
 \end{longtable}
 
+~
+
 Some of these associations may be due to \emph{confounding} in the data.
 We can use logistic regression to help us identify independent
 associations.
@@ -3741,8 +3680,12 @@ Logistic regression requires the dependent variable to be either 0 or 1.
 In order to perform a logistic regression we must first recode the
 \texttt{ILL} variable so that 0=no and 1=yes:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{table}\NormalTok{(salex}\OperatorTok{$}\NormalTok{ILL)}
+\NormalTok{salex}\OperatorTok{$}\NormalTok{ILL[salex}\OperatorTok{$}\NormalTok{ILL }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
 \KeywordTok{table}\NormalTok{(salex}\OperatorTok{$}\NormalTok{ILL)}
 \end{Highlighting}
 \end{Shaded}
@@ -3753,18 +3696,13 @@ In order to perform a logistic regression we must first recode the
 ## 51 26
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{salex}\OperatorTok{$}\NormalTok{ILL[salex}\OperatorTok{$}\NormalTok{ILL }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{] <-}\StringTok{ }\DecValTok{0}
-\KeywordTok{table}\NormalTok{(salex}\OperatorTok{$}\NormalTok{ILL)}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ## 
 ##  0  1 
 ## 26 51
 \end{verbatim}
+
+~
 
 We could work with our data as it is but if we wanted to calculate odds
 ratios and confidence intervals we would calculate their reciprocals
@@ -3781,6 +3719,8 @@ to recode the \texttt{ILL} variable. This is both tedious and
 unnecessary as the structure of the dataset (i.e.~all variables are
 coded identically) allows us to recode all variables with a single
 command:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3826,6 +3766,8 @@ command:
 ## 5        1      0         0         1     0      1       0
 \end{verbatim}
 
+~
+
 \textbf{\emph{WARNING}} : The \texttt{attach()} function works with a
 copy of the data.frame rather than the original data.frame. Commands
 that manipulate variables in a data.frame may not work as expected if
@@ -3841,6 +3783,8 @@ altogether.
 We can now use the generalised linear model \texttt{glm()} function to
 specify the logistic regression model:
 
+~
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{salex.lreg <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(}\DataTypeTok{formula =}\NormalTok{ ILL }\OperatorTok{~}\StringTok{ }\NormalTok{EGGS }\OperatorTok{+}\StringTok{ }\NormalTok{MUSHROOM }\OperatorTok{+}\StringTok{ }\NormalTok{PEPPER }\OperatorTok{+}\StringTok{ }\NormalTok{PASTA }\OperatorTok{+}
@@ -3849,6 +3793,8 @@ specify the logistic regression model:
 \end{Highlighting}
 \end{Shaded}
 
+~
+
 The method used by the \texttt{glm()} function is defined by the
 \texttt{family} parameter. Here we specify \texttt{binomial} errors and
 a \texttt{logit} (logistic) linking function.
@@ -3856,6 +3802,8 @@ a \texttt{logit} (logistic) linking function.
 We have saved the output of the \texttt{glm()} function in the
 \texttt{salex.lreg} object. We can examine some basic information about
 the specified model using the \texttt{summary()} function:
+
+~
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3897,6 +3845,8 @@ the specified model using the \texttt{summary()} function:
 ## 
 ## Number of Fisher Scoring iterations: 7
 \end{verbatim}
+
+~
 
 We will use \emph{backwards elimination} to remove non-significant
 variables from the logistic regression model. Remember that previous
@@ -4661,7 +4611,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.4037553 4.699992 
 ## 
 ## MLE Odds Ratio    : 1.367743 
-## 95% CI             : 0.3427732 5.649399
+## 95% CI            : 0.3427732 5.649399
 \end{verbatim}
 
 \begin{Shaded}
@@ -4684,7 +4634,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.3682028 4.3993 
 ## 
 ## MLE Odds Ratio    : 1.265848 
-## 95% CI             : 0.3042941 5.188297
+## 95% CI            : 0.3042941 5.188297
 \end{verbatim}
 
 \begin{Shaded}
@@ -4707,7 +4657,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.2170373 3.527619 
 ## 
 ## MLE Odds Ratio    : 0.8775841 
-## 95% CI             : 0.1587568 4.184763
+## 95% CI            : 0.1587568 4.184763
 \end{verbatim}
 
 \begin{Shaded}
@@ -4730,7 +4680,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.1280647 1.581232 
 ## 
 ## MLE Odds Ratio    : 0.4584416 
-## 95% CI             : 0.1072622 1.897017
+## 95% CI            : 0.1072622 1.897017
 \end{verbatim}
 
 \begin{Shaded}
@@ -4753,7 +4703,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.637796 12.65415 
 ## 
 ## MLE Odds Ratio    : 2.76979 
-## 95% CI             : 0.4912167 16.93409
+## 95% CI            : 0.4912167 16.93409
 \end{verbatim}
 
 \begin{Shaded}
@@ -4776,7 +4726,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.5027038 7.073586 
 ## 
 ## MLE Odds Ratio    : 1.85813 
-## 95% CI             : 0.4026256 8.531602
+## 95% CI            : 0.4026256 8.531602
 \end{verbatim}
 
 \begin{Shaded}
@@ -4799,7 +4749,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 3.866585 94.02038 
 ## 
 ## MLE Odds Ratio    : 17.33517 
-## 95% CI             : 3.179027 133.7994
+## 95% CI            : 3.179027 133.7994
 \end{verbatim}
 
 \begin{Shaded}
@@ -4822,7 +4772,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 1.97785 32.35836 
 ## 
 ## MLE Odds Ratio    : 7.553116 
-## 95% CI             : 1.642249 41.02567
+## 95% CI            : 1.642249 41.02567
 \end{verbatim}
 
 \begin{Shaded}
@@ -4845,7 +4795,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.4889138 6.110177 
 ## 
 ## MLE Odds Ratio    : 1.7069 
-## 95% CI             : 0.4021245 7.255001
+## 95% CI            : 0.4021245 7.255001
 \end{verbatim}
 
 \begin{Shaded}
@@ -4868,7 +4818,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.3678242 5.548347 
 ## 
 ## MLE Odds Ratio    : 1.416945 
-## 95% CI             : 0.2847257 6.685098
+## 95% CI            : 0.2847257 6.685098
 \end{verbatim}
 
 \begin{Shaded}
@@ -4891,7 +4841,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.2206785 3.182927 
 ## 
 ## MLE Odds Ratio    : 0.8414367 
-## 95% CI             : 0.185464 4.101313
+## 95% CI            : 0.185464 4.101313
 \end{verbatim}
 
 \begin{Shaded}
@@ -4914,7 +4864,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.2543383 4.315141 
 ## 
 ## MLE Odds Ratio    : 1.046515 
-## 95% CI             : 0.1855742 5.186546
+## 95% CI            : 0.1855742 5.186546
 \end{verbatim}
 
 \begin{Shaded}
@@ -4937,7 +4887,7 @@ Use the \texttt{tab2by2()} function to analyse the data:
 ## 95% CI            : 0.1772875 2.338901 
 ## 
 ## MLE Odds Ratio    : 0.6502015 
-## 95% CI             : 0.1388979 2.729586
+## 95% CI            : 0.1388979 2.729586
 \end{verbatim}
 
 Two variables (\texttt{CAESAR} and \texttt{TOMATO}) are associated with
@@ -4965,7 +4915,7 @@ These two variables are also associated with each other:
 ## 95% CI            : 4.738936 129.2616 
 ## 
 ## MLE Odds Ratio    : 22.10962 
-## 95% CI             : 3.850174 183.4671
+## 95% CI            : 3.850174 183.4671
 \end{verbatim}
 
 \begin{Shaded}
@@ -6250,7 +6200,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.8545749 5.279433 
 ## 
 ## MLE Odds Ratio    : 2.119801 
-## 95% CI             : 0.7380371 5.714354
+## 95% CI            : 0.7380371 5.714354
 \end{verbatim}
 
 \begin{Shaded}
@@ -6273,7 +6223,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.2974059 2.783333 
 ## 
 ## MLE Odds Ratio    : 0.9100104 
-## 95% CI             : 0.2853202 3.826485
+## 95% CI            : 0.2853202 3.826485
 \end{verbatim}
 
 \begin{Shaded}
@@ -6296,7 +6246,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 1.434372 8.693509 
 ## 
 ## MLE Odds Ratio    : 3.517408 
-## 95% CI             : 1.258556 9.491924
+## 95% CI            : 1.258556 9.491924
 \end{verbatim}
 
 \begin{Shaded}
@@ -6319,7 +6269,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.5338453 3.147997 
 ## 
 ## MLE Odds Ratio    : 1.295532 
-## 95% CI             : 0.4703496 3.438842
+## 95% CI            : 0.4703496 3.438842
 \end{verbatim}
 
 \begin{Shaded}
@@ -6342,7 +6292,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.0364195 0.5737851 
 ## 
 ## MLE Odds Ratio    : 0.1460183 
-## 95% CI             : 0.03322189 0.899754
+## 95% CI            : 0.03322189 0.899754
 \end{verbatim}
 
 \begin{Shaded}
@@ -6365,7 +6315,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 1.295879 24.55218 
 ## 
 ## MLE Odds Ratio    : 5.624226 
-## 95% CI             : 1.32716 50.45859
+## 95% CI            : 1.32716 50.45859
 \end{verbatim}
 
 \begin{Shaded}
@@ -6388,7 +6338,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.4671083 2.847562 
 ## 
 ## MLE Odds Ratio    : 1.152912 
-## 95% CI             : 0.4042323 3.083152
+## 95% CI            : 0.4042323 3.083152
 \end{verbatim}
 
 \begin{Shaded}
@@ -6411,7 +6361,7 @@ the binary exposure variables and the HIV variable using the
 ## 95% CI            : 0.4301305 2.759916 
 ## 
 ## MLE Odds Ratio    : 1.089351 
-## 95% CI             : 0.4006202 3.263814
+## 95% CI            : 0.4006202 3.263814
 \end{verbatim}
 
 Note that our \texttt{tab2by2()} function returns misleading risk ratio
@@ -6445,7 +6395,7 @@ of the \texttt{exposure} and \texttt{outcome} variables. For example:
 ## 95% CI            : 1.434372 8.693509 
 ## 
 ## MLE Odds Ratio    : 3.517408 
-## 95% CI             : 1.258556 9.491924
+## 95% CI            : 1.258556 9.491924
 \end{verbatim}
 
 The odds ratio estimates returned by the \texttt{tab2by2()} function,
@@ -6468,7 +6418,7 @@ distribution before doing anything with it:
 ##  61 129 133  71  25   6   6   2   2
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-212-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-219-1.pdf}
 
 The distribution of \texttt{PARTNERS} is severely non-normal. Instead of
 attempting to transform the variable we will produce summary statistics
@@ -6531,7 +6481,7 @@ graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-216-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-223-1.pdf}
 
 There appears to be an association between the number of sexual
 \texttt{PARTNERS} in the previous twelve months and positive
@@ -6568,7 +6518,7 @@ to represent this table graphically:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-218-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-225-1.pdf}
 
 The \emph{chi-square test for trend} is an appropriate test to perform
 on this data. The \texttt{prop.trend.test()} function that performs the
@@ -7429,7 +7379,7 @@ survival curves:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-238-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-245-1.pdf}
 
 We can make it easier to distinguish between the two lines by specifying
 a width for each line using thelwd parameter of the \texttt{plot()}
@@ -7441,7 +7391,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-239-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-246-1.pdf}
 
 It would also be useful to add a legend:
 
@@ -7451,7 +7401,7 @@ It would also be useful to add a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-241-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-248-1.pdf}
 
 If there is only one survival curve to plot then plotting a
 \texttt{survfit} object will plot the survival curve with 95\%
@@ -7465,7 +7415,7 @@ be disappointing:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-242-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-249-1.pdf}
 
 Plots can be improved by specifying different colours for each curve:
 
@@ -7475,7 +7425,7 @@ Plots can be improved by specifying different colours for each curve:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-243-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-250-1.pdf}
 
 We can perform a formal test of the two survival times using the
 \texttt{survdiff()} function:
@@ -8513,7 +8463,7 @@ with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-292-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-299-1.pdf}
 
 The resulting plot is rather plain and lacks meaningful titles and axis
 labels. Use the \texttt{fix()} function to edit the \texttt{ba.plot()}
@@ -8562,7 +8512,7 @@ Lets try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-296-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-303-1.pdf}
 
 We may also specify a title for the plot using the title parameter:
 
@@ -8572,7 +8522,7 @@ We may also specify a title for the plot using the title parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-297-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-304-1.pdf}
 
 We can now edit the function to calculate and plot mean, difference, and
 the limits of agreement. Use the \texttt{fix()} function to edit the
@@ -8641,7 +8591,7 @@ Lets try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-302-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-309-1.pdf}
 
 The function is almost complete. All that remains to do is to label the
 lines with the values of the mean difference and the limits of
@@ -8699,7 +8649,7 @@ Let's try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-306-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-313-1.pdf}
 
 The graphical function is now complete.
 
@@ -8797,7 +8747,7 @@ Let's try the \texttt{ba.plot()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-314-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-321-1.pdf}
 
 \begin{verbatim}
 ## Mean difference     : -2.117647
@@ -8823,7 +8773,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-316-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-323-1.pdf}
 
 \begin{verbatim}
 ## Mean difference     : -2.117647
@@ -8987,7 +8937,7 @@ the \texttt{plot()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-320-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-327-1.pdf}
 
 The problem with this plot is that it does not treat the data as a time
 series. Adding the \texttt{Time} variable to the plot does not solve the
@@ -8999,7 +8949,7 @@ problem:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-321-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-1.pdf}
 
 Because \texttt{Time} is a factor variable. If you convert \texttt{Time}
 to a character variable using \texttt{as.character()} or prevent
@@ -9039,7 +8989,7 @@ We can now plot \texttt{cases.ts} as a time series:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-324-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-1.pdf}
 
 We might want to explore the association between the \texttt{Rain} and
 \texttt{Cases} variables. A simple scatter plot is not particularly
@@ -9051,7 +9001,7 @@ informative:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-325-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-332-1.pdf}
 
 It is better to treat both variables as time series (which they are) and
 use the built-in \texttt{plot()} methods for objects of class
@@ -9064,7 +9014,7 @@ use the built-in \texttt{plot()} methods for objects of class
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-326-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-333-1.pdf}
 
 The association between the \texttt{Rain} and \texttt{Cases} variables
 is now clearer with the number of malaria cases peaking shortly after
@@ -9093,7 +9043,7 @@ one chart per row. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-335-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -9101,7 +9051,7 @@ one chart per row. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-328-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-335-2.pdf}
 
 We will want to have tick-marks on the x-axis of each for each record.
 We can set the number of tick-marks on axes by setting the \texttt{lab}
@@ -9125,7 +9075,7 @@ and a label length of seven. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-330-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-337-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -9133,7 +9083,7 @@ and a label length of seven. Test this by plotting two charts:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-330-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-337-2.pdf}
 
 The problem with these charts is that the month and year are not
 displayed on the x-axis. We can get round this by plotting a chart
@@ -9147,7 +9097,7 @@ without axes and then specifying the axes and labels directly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -9157,7 +9107,7 @@ without axes and then specifying the axes and labels directly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-331-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-2.pdf}
 
 The resulting charts now look much better (you may need to resize the
 plot to display the x-axis labels correctly) but it would be nice to be
@@ -9184,7 +9134,7 @@ the two lines on the same graph:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-333-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-340-1.pdf}
 
 The problem with this is that the ranges of the two variables are
 different and the \texttt{plot()} function automatically sets the y-axis
@@ -9200,7 +9150,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-334-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-341-1.pdf}
 
 We can improve the chart by adding a legend:
 
@@ -9210,7 +9160,7 @@ We can improve the chart by adding a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-336-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-343-1.pdf}
 
 We could continue to improve the chart (e.g.~by adding labels for the
 x-axis tick-marks taken from the \texttt{Time} variable, specifying more
@@ -9231,7 +9181,7 @@ do this by plotting one chart on top of another by using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-337-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-344-1.pdf}
 
 This chart is much clearer but there are still some improvements that
 could be made:
@@ -9282,7 +9232,7 @@ Try this now:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-338-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-345-1.pdf}
 
 Now that we know how to create a two-axis chart, we can write a function
 that we will be able to use whenever we need to plot two variables on
@@ -9359,8 +9309,8 @@ Let's try the \texttt{plot2var()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-344-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-344-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-351-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-351-2.pdf}
 
 Note how the function has used default values for the axis labels and
 chart title. We can override these default values if we want to:
@@ -9372,7 +9322,7 @@ chart title. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-345-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-352-1.pdf}
 
 You might like to use the \texttt{save()} function to save the
 \texttt{plot2var()} function.
@@ -9515,7 +9465,7 @@ many ages are biased towards full years:
 ##  7  5  8 15  3 21  1  3  5  1 45  1  1 48  1  2 24  1 80  2  1  9 67  4 83
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-350-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-357-1.pdf}
 
 So we will centre the age-groups around the months representing full
 years:
@@ -9593,7 +9543,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-354-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-361-1.pdf}
 
 The default behaviour of the \texttt{barplot()} function is to produce
 stacked bars. We can set the \texttt{beside} parameter to display the
@@ -9605,7 +9555,7 @@ bars side-by-side:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-355-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-362-1.pdf}
 
 We can also use the \texttt{horiz} parameter to present the data as
 horizontal bars:
@@ -9616,7 +9566,7 @@ horizontal bars:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-356-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-363-1.pdf}
 
 In order to centre the bars around zero we need to make one column of
 the summary data table contain negative numbers:
@@ -9661,7 +9611,7 @@ the summary data table contain negative numbers:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-357-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-364-1.pdf}
 
 This is looking better.
 
@@ -9674,7 +9624,7 @@ of bars using thespace parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-358-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-365-1.pdf}
 
 The axis labels are wrong but we can fix that using the
 \texttt{names.arg} parameter:
@@ -9687,7 +9637,7 @@ The axis labels are wrong but we can fix that using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-359-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-1.pdf}
 
 The chart can still be improved upon by making the fill-colour of each
 bar white and by expanding the x-axis slightly:
@@ -9700,7 +9650,7 @@ bar white and by expanding the x-axis slightly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-360-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-367-1.pdf}
 
 The chart would be better if the x-axis displayed only positive numbers:
 
@@ -9715,7 +9665,7 @@ The chart would be better if the x-axis displayed only positive numbers:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-361-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-368-1.pdf}
 
 Now we know how to create a population pyramid, we can write a function
 that we will be able to use whenever we need to plot a population
@@ -9790,7 +9740,7 @@ function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-366-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-373-1.pdf}
 
 Note how the function has used default values for the axis labels and
 chart titles. We can override these default values if we want to:
@@ -9802,7 +9752,7 @@ chart titles. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-367-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-374-1.pdf}
 
 You might like to use the \texttt{save()} function to save the
 \texttt{pyramid.plot()} function.
@@ -9914,9 +9864,9 @@ the \texttt{barplot()} function instead of the variable name:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-371-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-371-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-371-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-378-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-378-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-378-3.pdf}
 
 Creating a Pareto chart only requires us to sort the summary data. We do
 this using the \texttt{rev()} and \texttt{sort()} functions:
@@ -9927,7 +9877,7 @@ this using the \texttt{rev()} and \texttt{sort()} functions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-372-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-379-1.pdf}
 
 Having to specify \texttt{rev(sort(table(variable)))} each time we want
 to produce a \emph{Pareto} plot is rather tedious but now that we know
@@ -9978,7 +9928,7 @@ Let's try the \texttt{pareto()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-377-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-384-1.pdf}
 
 Note how the function has used default values for the axis labels and
 chart titles. We can override these default values if we want to:
@@ -9990,7 +9940,7 @@ chart titles. We can override these default values if we want to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-378-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-385-1.pdf}
 
 Note that we can use value labels if the variable we plot is a factor
 with value labels as levels rather than a simple numeric vector:
@@ -10012,7 +9962,7 @@ with value labels as levels rather than a simple numeric vector:
 ##         32         90          5          4         21          0
 \end{verbatim}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-380-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-387-1.pdf}
 
 You may need to resize the plot to display the x-axis labels correctly.
 
@@ -10349,7 +10299,7 @@ We can now plot the data for one arm of the trial:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-389-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-396-1.pdf}
 
 We can add error bars using the \texttt{arrows()} function:
 
@@ -10359,7 +10309,7 @@ We can add error bars using the \texttt{arrows()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-391-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-398-1.pdf}
 
 The scale of the y axis is wrong because the \texttt{plot()} function
 automatically scales axes to the ranges of the x and y data it is given.
@@ -10375,7 +10325,7 @@ parameter:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-393-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-400-1.pdf}
 
 The plot might also be improved by adding plotting symbols:
 
@@ -10385,7 +10335,7 @@ The plot might also be improved by adding plotting symbols:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-395-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-402-1.pdf}
 
 The axis titles (\texttt{oed.hp\$day} and \texttt{oed.hp\$wt}) are the
 column (variable) names.
@@ -10407,7 +10357,7 @@ function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-397-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-404-1.pdf}
 
 Now that we know how to plot error bars, we can write a function that we
 will be able to use whenever we need to plot data with error bars.
@@ -10608,7 +10558,7 @@ Let's try the \texttt{plot.ci()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-402-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-409-1.pdf}
 
 Note how the function has used default values for the axis labels, chart
 titles, chart limits etc.
@@ -10624,7 +10574,7 @@ We can override these default values if we need to:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-403-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-410-1.pdf}
 
 Do not close the plot window.
 
@@ -10639,7 +10589,7 @@ We should also check that we can plot another data series on this chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-405-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-412-1.pdf}
 
 We can also add a legend:
 
@@ -10650,7 +10600,7 @@ We can also add a legend:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-407-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-414-1.pdf}
 
 We should also check that we can produce plots of unconnected points:
 
@@ -10660,7 +10610,7 @@ We should also check that we can produce plots of unconnected points:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-408-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-415-1.pdf}
 
 Try plotting the data for the marasmic patients using the
 \texttt{plot.ci()} function.
@@ -10679,7 +10629,7 @@ the high protein diet as a bar chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-409-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-416-1.pdf}
 
 we could add error bars using the \texttt{arrows()} function as we did
 with a line plot:
@@ -10691,7 +10641,7 @@ with a line plot:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-411-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-418-1.pdf}
 
 but this does not produce the expected results because the centres of
 the bars are not placed on the chart at the positions held in
@@ -10707,7 +10657,7 @@ the co-ordinates of the bar midpoints:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-412-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-419-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -10740,7 +10690,7 @@ specify the positions of the error bars:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-414-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-421-1.pdf}
 
 Armed with this information, we can write a function that we will be
 able to use whenever we need to plot a bar chart with error bars.
@@ -10793,7 +10743,7 @@ Let's try the \texttt{barplot.ci()} function with the test data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-419-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-426-1.pdf}
 
 Try plotting the weight velocities for the marasmic patients receiving
 the high protein diet using the \texttt{barplot.ci()} function:
@@ -10804,7 +10754,7 @@ the high protein diet using the \texttt{barplot.ci()} function:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-420-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-427-1.pdf}
 
 The chart looks wrong. This is because we have set the wrong limits for
 the y axis. The bars are drawn from zero to the data point but we have
@@ -10840,7 +10790,7 @@ Try plotting the data for the marasmic patients using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-423-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-430-1.pdf}
 
 Check that the function still operates as expected with the data for
 oedematous patients:
@@ -10851,7 +10801,7 @@ oedematous patients:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-424-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-431-1.pdf}
 
 The end of one of the error bars touches the x axis. This can also be
 fixed by slightly widening the limits for the y axis. It might also be
@@ -10891,8 +10841,8 @@ Check that the function works as expected:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-428-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-428-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-435-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-435-2.pdf}
 
 The \texttt{barplot.ci()} function now works as expected with both sets
 of data. It is important when developing your own functions, to test
@@ -11090,7 +11040,7 @@ A quick way of seeing the code associated with each plotting symbol is:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-433-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-440-1.pdf}
 
 The size of the plotting symbol may be used to indicate the level of
 coverage in each quadrat but we must ensure that the symbol used for
@@ -11146,7 +11096,7 @@ We can now plot the data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-435-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-1.pdf}
 
 There are some problems with this plot:
 
@@ -11177,7 +11127,7 @@ All of these problems can be fixed by specifying values for
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-436-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-1.pdf}
 
 An alternative way of plotting this data is to use shades of grey
 (rather than the size of the plotting symbol) to represent the level of
@@ -11197,7 +11147,7 @@ coverage in each grid-square:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-437-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-444-1.pdf}
 
 In this context it is useful to show the approximate location of
 therapeutic feeding centres:
@@ -11218,7 +11168,7 @@ therapeutic feeding centres:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-438-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-1.pdf}
 
 The techniques introduced in this section allow you to write custom
 graphical functions but they can also be used to change the default
@@ -11287,10 +11237,10 @@ applied to a fitted object:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-439-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-439-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-439-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-439-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-4.pdf}
 
 Each of the diagnostic plots are presented as a separate chart. We could
 use the \texttt{mfrow} parameter of the \texttt{par()} function to
@@ -11303,7 +11253,7 @@ present all four diagnostic plots on a single chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-440-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-447-1.pdf}
 
 It might improve the appearance of the chart if each of the diagnostic
 plots were square rather than rectangular:
@@ -11316,7 +11266,7 @@ plots were square rather than rectangular:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-441-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-448-1.pdf}
 
 It might improve the appearance of the chart if smaller text and symbols
 were used:
@@ -11330,7 +11280,7 @@ were used:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-442-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-449-1.pdf}
 
 Graphical parameters set using the \texttt{par()} function affect all
 subsequent plot commands and must be reset explicitly:
@@ -11342,10 +11292,10 @@ subsequent plot commands and must be reset explicitly:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-443-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-4.pdf}
 
 It is possible to save graphical parameters into an \texttt{R} object
 and use this object to restore original graphical parameters:
@@ -11360,12 +11310,12 @@ and use this object to restore original graphical parameters:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-445-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-452-1.pdf}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-446-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-453-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-453-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-453-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-453-4.pdf}
 
 The ability to save and apply graphical parameters means that you can
 create a library of graphical parameter sets that can be applied with
@@ -11385,17 +11335,17 @@ the \texttt{par()} function as required:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-448-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-448-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-448-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-448-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-455-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-455-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-455-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-455-4.pdf}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-449-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-456-1.pdf}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-450-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-457-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-457-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-457-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-457-4.pdf}
 
 \texttt{R} produces warning messages when you save and restore graphical
 parameters in this way. This is because some graphical parameters are
@@ -11416,10 +11366,10 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-1.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-2.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-3.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-4.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-2.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-3.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-4.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -11428,7 +11378,7 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-5.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-5.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -11437,10 +11387,10 @@ If you do not like the warning messages then you can use the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-6.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-7.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-8.pdf}
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-451-9.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-6.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-7.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-8.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-458-9.pdf}
 
 Graphical parameter sets, like any other \texttt{R} object, may be saved
 and loaded using the \texttt{save()} and \texttt{load()} functions.
@@ -11518,7 +11468,7 @@ The \texttt{sample()} function can be used to select a bootstrap
 \end{Shaded}
 
 \begin{verbatim}
-## [1]  8.4 12.2  8.4 10.4 10.4
+## [1] 10.4 10.4  8.4  7.3  7.3
 \end{verbatim}
 
 Enter this command several times to see some more bootstrap replicates.
@@ -11536,7 +11486,7 @@ It is possible to apply a summary measure to a replicate:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.86
+## [1] 11.22
 \end{verbatim}
 
 Enter this command several times. A bootstrap estimate of the mean of
@@ -11559,11 +11509,11 @@ First create the matrix of replicates. Here we take ten replicates:
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
-## [1,]  7.3 12.2 14.0 12.2 14.0 12.2  8.4 14.0 10.4  10.4
-## [2,] 10.4 14.0  8.4 14.0 14.0  7.3 12.2 12.2 14.0   8.4
-## [3,] 14.0 10.4  7.3  7.3  7.3 12.2  7.3  7.3 14.0   8.4
-## [4,] 12.2  7.3  7.3 12.2 10.4 12.2  8.4 12.2 10.4  12.2
-## [5,] 14.0 12.2  8.4  8.4  7.3  7.3 10.4 14.0  8.4  12.2
+## [1,] 10.4  7.3  8.4 10.4  8.4  7.3  8.4 12.2 10.4   7.3
+## [2,] 14.0  7.3 10.4 10.4 10.4 12.2  8.4 10.4  7.3   8.4
+## [3,]  7.3 10.4  8.4 12.2 14.0 12.2 12.2  8.4 12.2   8.4
+## [4,]  8.4 12.2 12.2  7.3 12.2  8.4 10.4 10.4  7.3  10.4
+## [5,]  7.3 14.0  8.4 12.2 10.4  8.4 12.2 10.4 10.4   7.3
 \end{verbatim}
 
 Then calculate and store the means of each replicate. We can do this
@@ -11578,7 +11528,7 @@ function to the columns of matrix \texttt{x1}:
 \end{Shaded}
 
 \begin{verbatim}
-##  [1] 11.58 11.22  9.08 10.82 10.60 10.24  9.34 11.94 11.44 10.32
+##  [1]  9.48 10.24  9.56 10.50 11.08  9.70 10.32 10.36  9.52  8.36
 \end{verbatim}
 
 The bootstrap estimate of the mean is:
@@ -11590,7 +11540,7 @@ The bootstrap estimate of the mean is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 10.71
+## [1] 9.97
 \end{verbatim}
 
 The bootstrap estimate may differ somewhat from the mean of \texttt{x}:
@@ -11684,7 +11634,7 @@ relatively simple to solve using bootstrap methods:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 33.66319
+## [1] 33.71573
 \end{verbatim}
 
 A 95\% confidence interval can be extracted from \texttt{x2} using the
@@ -11698,7 +11648,7 @@ A 95\% confidence interval can be extracted from \texttt{x2} using the
 
 \begin{verbatim}
 ##     2.5%    97.5% 
-## 27.93337 40.06997
+## 27.58183 40.25636
 \end{verbatim}
 
 A 99\% confidence interval can also be extracted from \texttt{x2} using
@@ -11712,7 +11662,7 @@ the \texttt{quantile()} function:
 
 \begin{verbatim}
 ##     0.5%    99.5% 
-## 26.55198 42.26115
+## 26.05322 42.30550
 \end{verbatim}
 
 As a final example of the bootstrap method we will use the method to
@@ -11785,12 +11735,12 @@ interval may be obtained using the \texttt{median()} and
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.18333
+## [1] 14.7735
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  4.743519 68.122917
+##  4.990888 63.357143
 \end{verbatim}
 
 This approach may fail when some tables have cells that contain zero.
@@ -11808,12 +11758,12 @@ those values of \texttt{boot} that are not (\texttt{!=}) infinite
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 14.16667
+## [1] 14.76923
 \end{verbatim}
 
 \begin{verbatim}
 ##      2.5%     97.5% 
-##  4.743305 65.378571
+##  4.989713 63.333333
 \end{verbatim}
 
 Another way to avoid this problem is to use an
@@ -11835,12 +11785,12 @@ the two-by-two table:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 12.92188
+## [1] 13.14032
 \end{verbatim}
 
 \begin{verbatim}
 ##     2.5%    97.5% 
-##  4.47400 44.56092
+##  4.29064 46.70070
 \end{verbatim}
 
 This procedure is preferred when working with sparse tables.
@@ -11893,7 +11843,7 @@ the same chart:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-478-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-485-1.pdf}
 
 We can calculate the distance of each point from the industrial waste
 disposal site using Pythagoras' Theorem:
@@ -11933,7 +11883,7 @@ distribution of distances when no spatial pattern exists:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-481-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-488-1.pdf}
 
 The probability (i.e.~the \emph{p-value}) of observing a mean distance
 smaller than the \emph{observed mean} distance under the null hypothesis
@@ -11950,7 +11900,7 @@ number of estimates of the mean distance under the null hypothesis:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0982
+## [1] 0.1023
 \end{verbatim}
 
 You might like to repeat this exercise using the harmonic mean distance
@@ -11968,7 +11918,7 @@ using simulated data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-483-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-490-1.pdf}
 
 We need to recalculate the distance of each simulated case from the
 industrial waste disposal site:
@@ -11989,7 +11939,7 @@ disposal site is:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.2525931
+## [1] 0.2079059
 \end{verbatim}
 
 We can use the the simulated null hypothesis data to test for spatial
@@ -12020,7 +11970,7 @@ in a similar way:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-487-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-494-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -12032,7 +11982,7 @@ in a similar way:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.4021
+## [1] 0.2029
 \end{verbatim}
 
 The method is not capable of detecting plumes.
@@ -12164,7 +12114,7 @@ for the sampling plan. For example:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-490-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-497-1.pdf}
 
 The data we will use for the simulation is stored in forty-eight
 separate files. These files contain the returns from whole community
@@ -12990,7 +12940,7 @@ dataset:
 ## [1] 50
 ## 
 ## $cases
-## [1] 13
+## [1] 11
 ## 
 ## $outcome
 ## [1] 0
@@ -13020,13 +12970,13 @@ dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 41
+## [1] 52
 ## 
 ## $cases
-## [1] 15
+## [1] 14
 ## 
 ## $outcome
-## [1] 1
+## [1] 0
 \end{verbatim}
 
 Repeat the last function call several times. The function should, for
@@ -13050,10 +13000,10 @@ prevalence dataset:
 
 \begin{verbatim}
 ## $kids
-## [1] 40
+## [1] 39
 ## 
 ## $cases
-## [1] 15
+## [1] 16
 ## 
 ## $outcome
 ## [1] 1
@@ -13142,10 +13092,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.1724138
 ## 
 ## $asn
-## [1] 50.756
+## [1] 50.768
 ## 
 ## $p.high
-## [1] 0.032
+## [1] 0.008
 \end{verbatim}
 
 \begin{verbatim}
@@ -13153,10 +13103,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.4454545
 ## 
 ## $asn
-## [1] 34.328
+## [1] 34.336
 ## 
 ## $p.high
-## [1] 0.972
+## [1] 0.968
 \end{verbatim}
 
 \begin{verbatim}
@@ -13164,10 +13114,10 @@ We can test this function with the same three test datasets:
 ## [1] 0.3092784
 ## 
 ## $asn
-## [1] 45.756
+## [1] 45.48
 ## 
 ## $p.high
-## [1] 0.596
+## [1] 0.58
 \end{verbatim}
 
 The simulation consists of applying this function to each of the
@@ -13243,54 +13193,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 25.800  1.000    egypt01.sim
-## 2  0.09243697 50.812  0.000    egypt02.sim
-## 3  0.34394904 42.840  0.792    egypt03.sim
-## 4  0.25465839 49.240  0.300    egypt04.sim
-## 5  0.13548387 50.712  0.000    egypt05.sim
-## 6  0.69934641 23.036  1.000    egypt06.sim
-## 7  0.09815951 50.744  0.000    egypt07.sim
-## 8  0.56684492 26.652  1.000    egypt08.sim
-## 9  0.52517986 29.576  1.000    egypt09.sim
-## 10 0.43434343 35.548  0.996    egypt10.sim
-## 11 0.08510638 51.472  0.000   gambia01.sim
-## 12 0.25174825 49.116  0.368   gambia02.sim
-## 13 0.17307692 51.940  0.076   gambia03.sim
-## 14 0.18666667 51.844  0.088   gambia04.sim
-## 15 0.12643678 52.500  0.004   gambia05.sim
-## 16 0.51809524 32.336  1.000   gambia06.sim
-## 17 0.38766520 41.392  0.912   gambia07.sim
-## 18 0.31055901 46.780  0.652   gambia08.sim
-## 19 0.35483871 41.648  0.776   gambia09.sim
-## 20 0.33584906 43.928  0.736   gambia10.sim
-## 21 0.09900990 52.112  0.000    ghana01.sim
-## 22 0.21621622 51.552  0.184    ghana02.sim
-## 23 0.27819549 48.780  0.504    ghana03.sim
-## 24 0.46728972 33.452  0.996 tanzania01.sim
-## 25 0.45631068 34.128  0.988 tanzania02.sim
-## 26 0.10256410 50.732  0.004 tanzania03.sim
-## 27 0.17241379 50.584  0.028 tanzania04.sim
-## 28 0.69629630 22.684  1.000 tanzania05.sim
-## 29 0.30927835 45.664  0.640 tanzania06.sim
-## 30 0.37272727 40.248  0.872 tanzania07.sim
-## 31 0.44545455 34.368  0.996 tanzania08.sim
-## 32 0.21468927 50.328  0.152 tanzania09.sim
-## 33 0.59259259 26.164  1.000 tanzania10.sim
-## 34 0.25443787 49.164  0.304 tanzania11.sim
-## 35 0.56198347 28.748  1.000 tanzania12.sim
-## 36 0.50862069 30.672  1.000 tanzania13.sim
-## 37 0.41052632 37.192  0.988 tanzania14.sim
-## 38 0.25490196 48.780  0.452     togo01.sim
-## 39 0.16923077 55.692  0.064     togo02.sim
-## 40 0.21476510 50.516  0.200     togo03.sim
-## 41 0.12658228 52.136  0.016     togo04.sim
-## 42 0.10982659 53.032  0.004     togo05.sim
-## 43 0.26771654 47.392  0.460     togo06.sim
-## 44 0.32446809 45.356  0.724     togo07.sim
-## 45 0.31250000 44.844  0.656     togo08.sim
-## 46 0.12500000 51.352  0.004     togo09.sim
-## 47 0.04385965 51.924  0.000     togo10.sim
-## 48 0.08609272 52.416  0.000     togo11.sim
+## 1  0.59139785 26.136  1.000    egypt01.sim
+## 2  0.09243697 50.752  0.000    egypt02.sim
+## 3  0.34394904 42.924  0.820    egypt03.sim
+## 4  0.25465839 49.252  0.292    egypt04.sim
+## 5  0.13548387 50.652  0.000    egypt05.sim
+## 6  0.69934641 22.300  1.000    egypt06.sim
+## 7  0.09815951 50.748  0.000    egypt07.sim
+## 8  0.56684492 27.380  1.000    egypt08.sim
+## 9  0.52517986 28.780  0.996    egypt09.sim
+## 10 0.43434343 35.552  0.980    egypt10.sim
+## 11 0.08510638 51.732  0.000   gambia01.sim
+## 12 0.25174825 48.632  0.404   gambia02.sim
+## 13 0.17307692 51.928  0.072   gambia03.sim
+## 14 0.18666667 51.684  0.064   gambia04.sim
+## 15 0.12643678 52.076  0.020   gambia05.sim
+## 16 0.51809524 31.492  1.000   gambia06.sim
+## 17 0.38766520 41.292  0.924   gambia07.sim
+## 18 0.31055901 46.360  0.648   gambia08.sim
+## 19 0.35483871 42.928  0.752   gambia09.sim
+## 20 0.33584906 45.396  0.708   gambia10.sim
+## 21 0.09900990 52.672  0.000    ghana01.sim
+## 22 0.21621622 51.152  0.164    ghana02.sim
+## 23 0.27819549 48.320  0.520    ghana03.sim
+## 24 0.46728972 32.924  0.984 tanzania01.sim
+## 25 0.45631068 34.328  0.996 tanzania02.sim
+## 26 0.10256410 50.796  0.000 tanzania03.sim
+## 27 0.17241379 50.840  0.028 tanzania04.sim
+## 28 0.69629630 22.516  1.000 tanzania05.sim
+## 29 0.30927835 46.164  0.544 tanzania06.sim
+## 30 0.37272727 40.584  0.904 tanzania07.sim
+## 31 0.44545455 33.696  0.988 tanzania08.sim
+## 32 0.21468927 50.428  0.144 tanzania09.sim
+## 33 0.59259259 26.488  1.000 tanzania10.sim
+## 34 0.25443787 49.140  0.272 tanzania11.sim
+## 35 0.56198347 29.560  1.000 tanzania12.sim
+## 36 0.50862069 30.984  0.992 tanzania13.sim
+## 37 0.41052632 37.420  0.964 tanzania14.sim
+## 38 0.25490196 49.084  0.388     togo01.sim
+## 39 0.16923077 55.492  0.108     togo02.sim
+## 40 0.21476510 50.840  0.192     togo03.sim
+## 41 0.12658228 51.888  0.004     togo04.sim
+## 42 0.10982659 53.068  0.008     togo05.sim
+## 43 0.26771654 47.864  0.448     togo06.sim
+## 44 0.32446809 44.960  0.652     togo07.sim
+## 45 0.31250000 45.936  0.632     togo08.sim
+## 46 0.12500000 51.436  0.000     togo09.sim
+## 47 0.04385965 52.556  0.000     togo10.sim
+## 48 0.08609272 52.156  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the prevalences in the test datasets:
@@ -13305,7 +13255,7 @@ We can examine the prevalences in the test datasets:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-522-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-529-1.pdf}
 
 If you are using a Macintosh computer then you can use \texttt{quartz()}
 instead of \texttt{x11()}. This will give better results.
@@ -13325,7 +13275,7 @@ levels of prevalence as \emph{anaverage sample number} (ASN) curve:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-524-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-531-1.pdf}
 
 We can examine the performance of the sampling plan by plotting its
 \emph{operating characteristic} (OC) curve:
@@ -13342,7 +13292,7 @@ We can examine the performance of the sampling plan by plotting its
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-526-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-533-1.pdf}
 
 Before closing the OC curve plot, we can compare the simulation results
 with the expected \emph{operating characteristic} (OC) curve under ideal
@@ -13356,7 +13306,7 @@ sampling conditions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-528-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-535-1.pdf}
 
 The LQAS method appears to be robust to the loss of sampling variation
 introduced by the proposed sampling constraints. There is, however, some
@@ -13378,7 +13328,7 @@ at lower prevalences:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-530-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-537-1.pdf}
 
 This deviation from the expected \emph{operating characteristic} (OC)
 curve is likely to be due to a few very large households in which many
@@ -13519,54 +13469,54 @@ simulation:
 
 \begin{verbatim}
 ##             p    asn p.high      file.name
-## 1  0.59139785 26.012  1.000    egypt01.sim
-## 2  0.09243697 50.812  0.000    egypt02.sim
-## 3  0.34394904 42.752  0.808    egypt03.sim
-## 4  0.25465839 48.784  0.376    egypt04.sim
-## 5  0.13548387 50.632  0.004    egypt05.sim
-## 6  0.69934641 22.384  1.000    egypt06.sim
-## 7  0.09815951 50.852  0.000    egypt07.sim
-## 8  0.56684492 27.796  1.000    egypt08.sim
-## 9  0.52517986 28.888  1.000    egypt09.sim
-## 10 0.43434343 35.320  0.992    egypt10.sim
-## 11 0.08510638 51.756  0.000   gambia01.sim
-## 12 0.25174825 48.972  0.420   gambia02.sim
-## 13 0.17307692 52.008  0.056   gambia03.sim
-## 14 0.18666667 51.936  0.084   gambia04.sim
-## 15 0.12643678 52.524  0.024   gambia05.sim
-## 16 0.51809524 33.632  1.000   gambia06.sim
-## 17 0.38766520 40.888  0.928   gambia07.sim
-## 18 0.31055901 46.224  0.656   gambia08.sim
-## 19 0.35483871 43.868  0.704   gambia09.sim
-## 20 0.33584906 44.984  0.664   gambia10.sim
-## 21 0.09900990 51.964  0.008    ghana01.sim
-## 22 0.21621622 51.564  0.180    ghana02.sim
-## 23 0.27819549 48.368  0.496    ghana03.sim
-## 24 0.46728972 33.104  0.992 tanzania01.sim
-## 25 0.45631068 33.964  0.996 tanzania02.sim
-## 26 0.10256410 50.712  0.000 tanzania03.sim
-## 27 0.17241379 50.780  0.040 tanzania04.sim
-## 28 0.69629630 22.072  1.000 tanzania05.sim
-## 29 0.30927835 45.672  0.588 tanzania06.sim
-## 30 0.37272727 41.560  0.844 tanzania07.sim
-## 31 0.44545455 33.600  0.988 tanzania08.sim
-## 32 0.21468927 50.480  0.148 tanzania09.sim
-## 33 0.59259259 26.168  1.000 tanzania10.sim
-## 34 0.25443787 48.476  0.376 tanzania11.sim
-## 35 0.56198347 29.628  1.000 tanzania12.sim
-## 36 0.50862069 30.684  0.996 tanzania13.sim
-## 37 0.41052632 36.864  0.968 tanzania14.sim
-## 38 0.25490196 49.084  0.368     togo01.sim
-## 39 0.16923077 55.304  0.072     togo02.sim
-## 40 0.21476510 51.028  0.176     togo03.sim
-## 41 0.12658228 51.888  0.004     togo04.sim
-## 42 0.10982659 53.072  0.004     togo05.sim
-## 43 0.26771654 47.548  0.440     togo06.sim
-## 44 0.32446809 45.736  0.600     togo07.sim
-## 45 0.31250000 45.120  0.640     togo08.sim
-## 46 0.12500000 51.416  0.000     togo09.sim
-## 47 0.04385965 52.144  0.000     togo10.sim
-## 48 0.08609272 52.424  0.000     togo11.sim
+## 1  0.59139785 26.424  1.000    egypt01.sim
+## 2  0.09243697 50.716  0.004    egypt02.sim
+## 3  0.34394904 43.364  0.740    egypt03.sim
+## 4  0.25465839 48.796  0.348    egypt04.sim
+## 5  0.13548387 50.680  0.000    egypt05.sim
+## 6  0.69934641 22.444  1.000    egypt06.sim
+## 7  0.09815951 50.788  0.000    egypt07.sim
+## 8  0.56684492 27.428  1.000    egypt08.sim
+## 9  0.52517986 29.316  1.000    egypt09.sim
+## 10 0.43434343 35.112  0.996    egypt10.sim
+## 11 0.08510638 51.596  0.000   gambia01.sim
+## 12 0.25174825 49.616  0.388   gambia02.sim
+## 13 0.17307692 52.136  0.048   gambia03.sim
+## 14 0.18666667 51.404  0.096   gambia04.sim
+## 15 0.12643678 52.132  0.028   gambia05.sim
+## 16 0.51809524 32.276  1.000   gambia06.sim
+## 17 0.38766520 41.040  0.908   gambia07.sim
+## 18 0.31055901 46.000  0.644   gambia08.sim
+## 19 0.35483871 42.072  0.744   gambia09.sim
+## 20 0.33584906 44.584  0.692   gambia10.sim
+## 21 0.09900990 52.300  0.000    ghana01.sim
+## 22 0.21621622 51.072  0.196    ghana02.sim
+## 23 0.27819549 48.884  0.500    ghana03.sim
+## 24 0.46728972 33.056  0.988 tanzania01.sim
+## 25 0.45631068 33.484  1.000 tanzania02.sim
+## 26 0.10256410 50.868  0.008 tanzania03.sim
+## 27 0.17241379 50.712  0.020 tanzania04.sim
+## 28 0.69629630 22.628  1.000 tanzania05.sim
+## 29 0.30927835 46.404  0.564 tanzania06.sim
+## 30 0.37272727 39.948  0.920 tanzania07.sim
+## 31 0.44545455 34.080  0.988 tanzania08.sim
+## 32 0.21468927 50.548  0.112 tanzania09.sim
+## 33 0.59259259 26.464  1.000 tanzania10.sim
+## 34 0.25443787 48.764  0.288 tanzania11.sim
+## 35 0.56198347 29.616  1.000 tanzania12.sim
+## 36 0.50862069 31.300  0.996 tanzania13.sim
+## 37 0.41052632 37.252  0.968 tanzania14.sim
+## 38 0.25490196 49.116  0.408     togo01.sim
+## 39 0.16923077 55.332  0.052     togo02.sim
+## 40 0.21476510 51.112  0.188     togo03.sim
+## 41 0.12658228 51.780  0.016     togo04.sim
+## 42 0.10982659 52.692  0.000     togo05.sim
+## 43 0.26771654 47.836  0.420     togo06.sim
+## 44 0.32446809 45.444  0.700     togo07.sim
+## 45 0.31250000 45.148  0.676     togo08.sim
+## 46 0.12500000 51.560  0.000     togo09.sim
+## 47 0.04385965 52.368  0.000     togo10.sim
+## 48 0.08609272 52.548  0.000     togo11.sim
 \end{verbatim}
 
 We can examine the performance of the sampling plan on the
@@ -13590,7 +13540,7 @@ conditions:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-537-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-544-1.pdf}
 
 Remember that if you are using a Macintosh computer then you can use
 \texttt{quartz()} instead of \texttt{x11()}. This will give better
@@ -13616,7 +13566,7 @@ was largest and most problematic in the previous simulation:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-539-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-546-1.pdf}
 
 We can compare the behaviour of the sampling plan in the unrestricted
 and age-restricted datasets:
@@ -14007,7 +13957,7 @@ We can display the distribution of immune cells using the
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-563-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-570-1.pdf}
 
 We can now run the simulation:
 
@@ -14039,7 +13989,7 @@ cells that become infected during a run:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.004255319
+## [1] 0.004739336
 \end{verbatim}
 
 We can use this model to investigate the effect of different proportions
@@ -14145,7 +14095,7 @@ us to plot an epidemic curve from the model:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-575-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-582-1.pdf}
 
 Remember, if you are using a Macintosh computer then you can use
 \texttt{quartz()} instead of \texttt{x11()}. This will give better
@@ -14160,7 +14110,7 @@ same data:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{prfe_files/figure-latex/unnamed-chunk-576-1.pdf}
+\includegraphics{prfe_files/figure-latex/unnamed-chunk-583-1.pdf}
 
 The colour of each cell reflects the time-step of infection (i.e.~the
 darker cells were infected before the lighter cells).
@@ -14346,7 +14296,7 @@ cells that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.003484321
+## [1] 0.003436426
 \end{verbatim}
 
 We can use this model to test the effect of an intervention such as
@@ -14405,7 +14355,7 @@ that become infected:
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.003436426
+## [1] 0.003401361
 \end{verbatim}
 
 We have developed a simple but realistic model of epidemic spread using
