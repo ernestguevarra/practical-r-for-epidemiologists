@@ -59,16 +59,24 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -80,38 +88,39 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-pre, code { background-color: #f8f8f8; }
+div.sourceCode
+  { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+a.sourceLine::before { text-decoration: underline; }
 }
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.fl { color: #0000cf; } /* Float */
-code span.ch { color: #4e9a06; } /* Char */
-code span.st { color: #4e9a06; } /* String */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.ot { color: #8f5902; } /* Other */
-code span.al { color: #ef2929; } /* Alert */
-code span.fu { color: #000000; } /* Function */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #000000; } /* Constant */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #000000; } /* Variable */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
 code span.ex { } /* Extension */
-code span.at { color: #c4a000; } /* Attribute */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -201,11 +210,16 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p>Add-in packages are installed from the Internet. There are a series of <code>R</code> functions that enable you to download and install add-in packages.</p>
 <p>The <code>survival</code> package adds functions to <code>R</code> that enable it to analyse survival data. This package may be downloaded and installed using <code>install.packages(&quot;survival&quot;)</code> or from the <code>Packages</code> or <code>Packages &amp; Data</code> menu if you are using a GUI version of <code>R</code>.</p>
 <p>Packages are loaded into <code>R</code> as they are needed using the <code>library()</code> function. Start <code>R</code> and load the <code>survival</code> package:</p>
-<pre class="sourceCode r" id="cb419"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1"><span class="kw">library</span>(survival)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">library</span>(survival)</a></code></pre></div>
+<p> </p>
 <p>Before we go any further we should retrieve a dataset:</p>
-<pre class="sourceCode r" id="cb420"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1">ca &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ca.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb420-2" data-line-number="2"><span class="kw">attach</span>(ca)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb419-1" data-line-number="1">ca &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;ca.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb419-2" data-line-number="2"><span class="kw">attach</span>(ca)</a></code></pre></div>
+<p> </p>
 <p>The columns in this dataset on the survival of cancer patients in two different treatment groups are as follows:</p>
+<p> </p>
 <table style="width:79%;">
 <colgroup>
 <col width="22%" />
@@ -226,12 +240,18 @@ available as an add-in package. You can find a list of add-in packages at the <c
 </tr>
 </tbody>
 </table>
+<p> </p>
 <p>We next need to create a <code>survival</code> object from the <code>time</code> and <code>status</code> variables using the <code>Surv()</code> function:</p>
-<pre class="sourceCode r" id="cb421"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">response &lt;-<span class="st"> </span><span class="kw">Surv</span>(time, status)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb420-1" data-line-number="1">response &lt;-<span class="st"> </span><span class="kw">Surv</span>(time, status)</a></code></pre></div>
+<p> </p>
 <p>We can then specify the model for the survival analysis. In this case we state that survival (<code>response</code>) is dependent upon the treatment <code>group</code>:</p>
-<pre class="sourceCode r" id="cb422"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1">ca.surv &lt;-<span class="st"> </span><span class="kw">survfit</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb421-1" data-line-number="1">ca.surv &lt;-<span class="st"> </span><span class="kw">survfit</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre></div>
+<p> </p>
 <p>The <code>summary()</code> function applied to a <code>survfit</code> object lists the survival probabilities at each time point with 95% confidence intervals:</p>
-<pre class="sourceCode r" id="cb423"><code class="sourceCode r"><a class="sourceLine" id="cb423-1" data-line-number="1"><span class="kw">summary</span>(ca.surv)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb422-1" data-line-number="1"><span class="kw">summary</span>(ca.surv)</a></code></pre></div>
 <pre><code>## Call: survfit(formula = response ~ group)
 ## 
 ##                 group=1 
@@ -272,31 +292,45 @@ available as an add-in package. You can find a list of add-in packages at the <c
 ##    41      4       2   0.0972  0.0650      0.02624        0.360
 ##    43      2       1   0.0486  0.0473      0.00722        0.327
 ##    45      1       1   0.0000     NaN           NA           NA</code></pre>
+<p> </p>
 <p>Printing the <code>ca.surv</code> object provides another view of the results:</p>
-<pre class="sourceCode r" id="cb425"><code class="sourceCode r"><a class="sourceLine" id="cb425-1" data-line-number="1">ca.surv</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb424-1" data-line-number="1">ca.surv</a></code></pre></div>
 <pre><code>## Call: survfit(formula = response ~ group)
 ## 
 ##          n events median 0.95LCL 0.95UCL
 ## group=1 22     14     31      21      NA
 ## group=2 24     22     23      11      37</code></pre>
+<p> </p>
 <p>The <code>plot()</code> function with a <code>survfit</code> object displays the survival curves:</p>
-<pre class="sourceCode r" id="cb427"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-245-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb426-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-263-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
 <p>We can make it easier to distinguish between the two lines by specifying a width for each line using thelwd
 parameter of the <code>plot()</code> function:</p>
-<pre class="sourceCode r" id="cb428"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>, <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-246-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb427-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Survival&quot;</span>, <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-264-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
 <p>It would also be useful to add a legend:</p>
-<pre class="sourceCode r" id="cb429"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">125</span>, <span class="dv">1</span>, <span class="kw">names</span>(ca.surv<span class="op">$</span>strata), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-248-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb428-1" data-line-number="1"><span class="kw">legend</span>(<span class="dv">125</span>, <span class="dv">1</span>, <span class="kw">names</span>(ca.surv<span class="op">$</span>strata), <span class="dt">lwd =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-266-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
 <p>If there is only one survival curve to plot then plotting a <code>survfit</code> object will plot the survival curve with 95% confidence limits. You can specify that confidence limits should be plotted when there is more than one survival curve but the results can be disappointing:</p>
-<pre class="sourceCode r" id="cb430"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-249-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb429-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-267-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
 <p>Plots can be improved by specifying different colours for each curve:</p>
-<pre class="sourceCode r" id="cb431"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-250-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb430-1" data-line-number="1"><span class="kw">plot</span>(ca.surv, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-268-1.png" style="display: block; margin: auto;" /></p>
+<p> </p>
 <p>We can perform a formal test of the two survival times using the <code>survdiff()</code> function:</p>
-<pre class="sourceCode r" id="cb432"><code class="sourceCode r"><a class="sourceLine" id="cb432-1" data-line-number="1"><span class="kw">survdiff</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb431-1" data-line-number="1"><span class="kw">survdiff</span>(response <span class="op">~</span><span class="st"> </span>group)</a></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = response ~ group)
 ## 
@@ -305,8 +339,11 @@ parameter of the <code>plot()</code> function:</p>
 ## group=2 24       22     14.9      3.36      6.26
 ## 
 ##  Chisq= 6.3  on 1 degrees of freedom, p= 0.0123</code></pre>
+<p> </p>
 <p>We can now quit <code>R</code>:</p>
-<pre class="sourceCode r" id="cb434"><code class="sourceCode r"><a class="sourceLine" id="cb434-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb433-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-4" class="section level2">
 <h2><span class="header-section-number">5.1</span> Summary</h2>

@@ -59,16 +59,24 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -80,38 +88,39 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-pre, code { background-color: #f8f8f8; }
+div.sourceCode
+  { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+a.sourceLine::before { text-decoration: underline; }
 }
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.fl { color: #0000cf; } /* Float */
-code span.ch { color: #4e9a06; } /* Char */
-code span.st { color: #4e9a06; } /* String */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.ot { color: #8f5902; } /* Other */
-code span.al { color: #ef2929; } /* Alert */
-code span.fu { color: #000000; } /* Function */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #000000; } /* Constant */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #000000; } /* Variable */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
 code span.ex { } /* Extension */
-code span.at { color: #c4a000; } /* Attribute */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -197,12 +206,17 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <h1><span class="header-section-number">Exercise 4</span> Analysing some data with R</h1>
 <p>In this exercise we will use the <code>R</code> functions we have already used and the functions we have added to <code>R</code> to
 analyse a small dataset. First we will start <code>R</code> and retrieve our functions:</p>
-<pre class="sourceCode r" id="cb367"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a>
-<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a>
+<a class="sourceLine" id="cb365-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre></div>
+<p> </p>
 <p>And then retrieve and attach the sample dataset:</p>
-<pre class="sourceCode r" id="cb368"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1">gudhiv &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gudhiv.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;X&quot;</span>)</a>
-<a class="sourceLine" id="cb368-2" data-line-number="2"><span class="kw">attach</span>(gudhiv)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1">gudhiv &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gudhiv.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;X&quot;</span>)</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2"><span class="kw">attach</span>(gudhiv)</a></code></pre></div>
+
 <p>This data is from a cross-sectional study of 435 male patients who presented with sexually transmitted infections at an outpatient clinic in The Gambia between August 1988 and June 1990. Several studies have documented an association between genital ulcer disease (GUD) and HIV infection. A study of Gambian prostitutes documented an association between seropositivity for HIV-2 and antibodies against <code>Treponema pallidum</code> (a serological test for syphilis). Prostitutes are not the ideal population for such studies as they may have experienced multiple sexually transmitted infections and it is difficult to quantify the number of times they may have had sex with HIV-2 seropositive customers. A sample of males with sexually transmitted infections is easier to study as they have probably had fewer sexual partners than prostitutes and much less contact with sexually transmitted infection pathogens. In such a sample it is also easier to find subjects and collect data. The variables in the dataset are:</p>
+<p> </p>
 <table>
 <colgroup>
 <col width="20%" />
@@ -251,18 +265,21 @@ analyse a small dataset. First we will start <code>R</code> and retrieve our fun
 </tr>
 </tbody>
 </table>
+<p> </p>
 <p>Data is available for all 435 patients enrolled in the study.</p>
 <p>We will start our analysis by examining pairwise associations between the binary exposure variables and the
 HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p>
-<pre class="sourceCode r" id="cb369"><code class="sourceCode r"><a class="sourceLine" id="cb369-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a>
-<a class="sourceLine" id="cb369-2" data-line-number="2"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a>
-<a class="sourceLine" id="cb369-3" data-line-number="3"><span class="kw">tab2by2</span>(GUD, HIV)</a>
-<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="kw">tab2by2</span>(UTIGC, HIV)</a>
-<a class="sourceLine" id="cb369-5" data-line-number="5"><span class="kw">tab2by2</span>(CIR, HIV)</a>
-<a class="sourceLine" id="cb369-6" data-line-number="6"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a>
-<a class="sourceLine" id="cb369-7" data-line-number="7"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a>
-<a class="sourceLine" id="cb369-8" data-line-number="8"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
-<pre class="sourceCode r" id="cb370"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a>
+<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a>
+<a class="sourceLine" id="cb367-3" data-line-number="3"><span class="kw">tab2by2</span>(GUD, HIV)</a>
+<a class="sourceLine" id="cb367-4" data-line-number="4"><span class="kw">tab2by2</span>(UTIGC, HIV)</a>
+<a class="sourceLine" id="cb367-5" data-line-number="5"><span class="kw">tab2by2</span>(CIR, HIV)</a>
+<a class="sourceLine" id="cb367-6" data-line-number="6"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a>
+<a class="sourceLine" id="cb367-7" data-line-number="7"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a>
+<a class="sourceLine" id="cb367-8" data-line-number="8"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre></div>
+
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -277,7 +294,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 2.119801 
 ## 95% CI            : 0.7380371 5.714354</code></pre>
-<pre class="sourceCode r" id="cb372"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a></code></pre>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -292,7 +309,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 0.9100104 
 ## 95% CI            : 0.2853202 3.826485</code></pre>
-<pre class="sourceCode r" id="cb374"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1"><span class="kw">tab2by2</span>(GUD, HIV)</a></code></pre>
+
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="kw">tab2by2</span>(GUD, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -307,7 +325,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 3.517408 
 ## 95% CI            : 1.258556 9.491924</code></pre>
-<pre class="sourceCode r" id="cb376"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="kw">tab2by2</span>(UTIGC, HIV)</a></code></pre>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1"><span class="kw">tab2by2</span>(UTIGC, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -322,7 +340,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 1.295532 
 ## 95% CI            : 0.4703496 3.438842</code></pre>
-<pre class="sourceCode r" id="cb378"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="kw">tab2by2</span>(CIR, HIV)</a></code></pre>
+
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="kw">tab2by2</span>(CIR, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -337,7 +356,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 0.1460183 
 ## 95% CI            : 0.03322189 0.899754</code></pre>
-<pre class="sourceCode r" id="cb380"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a></code></pre>
+<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -352,7 +371,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 5.624226 
 ## 95% CI            : 1.32716 50.45859</code></pre>
-<pre class="sourceCode r" id="cb382"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a></code></pre>
+
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -367,7 +387,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 1.152912 
 ## 95% CI            : 0.4042323 3.083152</code></pre>
-<pre class="sourceCode r" id="cb384"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -382,10 +402,13 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 1.089351 
 ## 95% CI            : 0.4006202 3.263814</code></pre>
+<p> </p>
 <p>Note that our <code>tab2by2()</code> function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the <code>exposure</code> and <code>outcome</code> variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the <code>gudhiv</code> dataset.</p>
+
 <p>We can produce risk ratio estimates for variables in the <code>gudhiv</code> data using the <code>tab2by2()</code> function and a
 simple transformation of the <code>exposure</code> and <code>outcome</code> variables. For example:</p>
-<pre class="sourceCode r" id="cb386"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">tab2by2</span>(<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>GUD, <span class="dv">2</span> <span class="op">-</span><span class="st"> </span>HIV)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">tab2by2</span>(<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>GUD, <span class="dv">2</span> <span class="op">-</span><span class="st"> </span>HIV)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   1   2
@@ -400,17 +423,23 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ## 
 ## MLE Odds Ratio    : 3.517408 
 ## 95% CI            : 1.258556 9.491924</code></pre>
+<p> </p>
 <p>The odds ratio estimates returned by the <code>tab2by2()</code> function, with or without this transformation, are correct. The <code>GUD</code> and <code>TRAVOUT</code> variables are associated with <code>HIV</code>.</p>
 <p><code>PARTNERS</code> is a continuous variable and we should examine its distribution before doing anything with it:</p>
-<pre class="sourceCode r" id="cb388"><code class="sourceCode r"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a>
-<a class="sourceLine" id="cb388-2" data-line-number="2"><span class="kw">hist</span>(PARTNERS)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a>
+<a class="sourceLine" id="cb386-2" data-line-number="2"><span class="kw">hist</span>(PARTNERS)</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a></code></pre></div>
 <pre><code>## PARTNERS
 ##   1   2   3   4   5   6   7   8   9 
 ##  61 129 133  71  25   6   6   2   2</code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-219-1.png" width="672" /></p>
+
+<p><img src="prfe_files/figure-html/unnamed-chunk-236-1.png" width="672" /></p>
+<p> </p>
 <p>The distribution of <code>PARTNERS</code> is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the <code>HIV</code> variable and perform a non-parametric test:</p>
-<pre class="sourceCode r" id="cb390"><code class="sourceCode r"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="kw">by</span>(PARTNERS, HIV, summary)</a>
-<a class="sourceLine" id="cb390-2" data-line-number="2"><span class="kw">kruskal.test</span>(PARTNERS <span class="op">~</span><span class="st"> </span>HIV)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="kw">by</span>(PARTNERS, HIV, summary)</a>
+<a class="sourceLine" id="cb389-2" data-line-number="2"><span class="kw">kruskal.test</span>(PARTNERS <span class="op">~</span><span class="st"> </span>HIV)</a></code></pre></div>
 <pre><code>## HIV: 0
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    1.00    2.00    3.00    2.72    3.00    8.00 
@@ -423,8 +452,10 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ## 
 ## data:  PARTNERS by HIV
 ## Kruskal-Wallis chi-squared = 32.036, df = 1, p-value = 1.514e-08</code></pre>
+
 <p>An alternative way of looking at the data is as a tabulation:</p>
-<pre class="sourceCode r" id="cb393"><code class="sourceCode r"><a class="sourceLine" id="cb393-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS   0   1
 ##        1  60   1
@@ -436,11 +467,15 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        7   2   4
 ##        8   1   1
 ##        9   0   2</code></pre>
+<p> </p>
 <p>You can use the <code>plot()</code> function to represent this table graphically:</p>
-<pre class="sourceCode r" id="cb395"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-223-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb394-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-240-1.png" width="672" /></p>
+
 <p>There appears to be an association between the number of sexual <code>PARTNERS</code> in the previous twelve months and positive <code>HIV</code> serology. The proportion with positive <code>HIV</code> serology increases as the number of sexual partners increases:</p>
-<pre class="sourceCode r" id="cb396"><code class="sourceCode r"><a class="sourceLine" id="cb396-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS           0           1
 ##        1  98.3606557   1.6393443
@@ -452,11 +487,15 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        7  33.3333333  66.6666667
 ##        8  50.0000000  50.0000000
 ##        9   0.0000000 100.0000000</code></pre>
+<p> </p>
 <p>The <strong>‘1’</strong> instructs the <code>prop.table()</code> function to calculate row proportions. You can also use the <code>plot()</code> function to represent this table graphically:</p>
-<pre class="sourceCode r" id="cb398"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
-<p><img src="prfe_files/figure-html/unnamed-chunk-225-1.png" width="672" /></p>
+<p> </p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-242-1.png" width="672" /></p>
+
 <p>The <em>chi-square test for trend</em> is an appropriate test to perform on this data. The <code>prop.trend.test()</code> function that performs the <em>chi-square test for trend</em> requires you to specify the <em>number of events</em> and the <em>number of trials</em>. In this table:</p>
-<pre class="sourceCode r" id="cb399"><code class="sourceCode r"><a class="sourceLine" id="cb399-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS   0   1
 ##        1  60   1
@@ -468,28 +507,36 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        7   2   4
 ##        8   1   1
 ##        9   0   2</code></pre>
+<p> </p>
 <p>The <em>number of events</em> in each row is in the second column (labelled <strong>1</strong>) and the <em>number of trials</em> is the total number of cases in each row of the table.</p>
 <p>We can extract this data from a table object:</p>
-<pre class="sourceCode r" id="cb401"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
+<p> </p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
+<a class="sourceLine" id="cb400-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb400-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
 <a class="sourceLine" id="cb401-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb401-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
-<pre class="sourceCode r" id="cb402"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
-<a class="sourceLine" id="cb402-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb402-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
+<a class="sourceLine" id="cb401-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre></div>
+<p> </p>
 <p>Another way of creating the <code>trials</code> object would be to use the <code>apply()</code> function to sum the rows of the tab object:</p>
-<pre class="sourceCode r" id="cb403"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">trials &lt;-<span class="st"> </span><span class="kw">apply</span>(tab, <span class="dv">1</span>, sum)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">trials &lt;-<span class="st"> </span><span class="kw">apply</span>(tab, <span class="dv">1</span>, sum)</a></code></pre></div>
+
 <p>Pass this data to the <code>prop.trend.test()</code> function:</p>
-<pre class="sourceCode r" id="cb404"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1"><span class="kw">prop.trend.test</span>(events, trials)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1"><span class="kw">prop.trend.test</span>(events, trials)</a></code></pre></div>
 <pre><code>## 
 ##  Chi-squared Test for Trend in Proportions
 ## 
 ## data:  events out of trials ,
 ##  using scores: 1 2 3 4 5 6 7 8 9
 ## X-squared = 76.389, df = 1, p-value &lt; 2.2e-16</code></pre>
+<p> </p>
 <p>With a linear trend such as this we can use <code>PARTNERS</code> in a logistic model without recoding or creating indicator variables. We can now specify and fit the logistic regression model:</p>
-<pre class="sourceCode r" id="cb406"><code class="sourceCode r"><a class="sourceLine" id="cb406-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>PARTNERS,</a>
-<a class="sourceLine" id="cb406-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
-<a class="sourceLine" id="cb406-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>PARTNERS,</a>
+<a class="sourceLine" id="cb405-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
+<a class="sourceLine" id="cb405-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS, family = binomial(logit))
@@ -515,19 +562,25 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ## AIC: 107.38
 ## 
 ## Number of Fisher Scoring iterations: 8</code></pre>
+<p> </p>
 <p>We can use the <code>lreg.or()</code> function that we wrote earlier to calculate and display odds ratios and confidence intervals:</p>
-<pre class="sourceCode r" id="cb408"><code class="sourceCode r"><a class="sourceLine" id="cb408-1" data-line-number="1"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre></div>
 <pre><code>##               OR  LCI   UCI
 ## (Intercept) 0.00 0.00  0.00
 ## GUD         4.00 1.25 12.81
 ## TRAVOUT     8.06 1.24 52.35
 ## PARTNERS    3.19 2.14  4.77</code></pre>
+<p> </p>
 <p><code>PARTNERS</code> is incorporated into the logistic model as a continuous variable.</p>
 <p>The odds ratio reported for <code>PARTNERS</code> is the odds ratio associated with a unit increase in the number of sexual <code>PARTNERS</code>. A man reporting five sexual partners, for example, was over three times as likely (odds ratio = 3.19) to have a positive HIV-2 serology than a man reporting four sexual partners.</p>
 <p>An alternative approach would be to have created an <em>indicator</em> variables:</p>
-<pre class="sourceCode r" id="cb410"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1">part.gt<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">ifelse</span>(PARTNERS <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1">part.gt<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">ifelse</span>(PARTNERS <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre></div>
+<p> </p>
 <p>This creates a new variable (<code>part.gt.5</code>) that indicates whether or not an individual subject reported having more than five sexual partners in the previous twelve months:</p>
-<pre class="sourceCode r" id="cb411"><code class="sourceCode r"><a class="sourceLine" id="cb411-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre></div>
 <pre><code>##         part.gt.5
 ## PARTNERS   0   1
 ##        1  61   0
@@ -539,449 +592,24 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ##        7   0   6
 ##        8   0   2
 ##        9   0   2</code></pre>
+<p> </p>
 <p>You can also inspect this on a case-by-case basis:</p>
-<pre class="sourceCode r" id="cb413"><code class="sourceCode r"><a class="sourceLine" id="cb413-1" data-line-number="1"><span class="kw">cbind</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
-<pre><code>##        PARTNERS part.gt.5
-##   [1,]        2         0
-##   [2,]        2         0
-##   [3,]        1         0
-##   [4,]        2         0
-##   [5,]        3         0
-##   [6,]        2         0
-##   [7,]        4         0
-##   [8,]        5         0
-##   [9,]        2         0
-##  [10,]        3         0
-##  [11,]        4         0
-##  [12,]        3         0
-##  [13,]        1         0
-##  [14,]        2         0
-##  [15,]        5         0
-##  [16,]        8         1
-##  [17,]        5         0
-##  [18,]        3         0
-##  [19,]        2         0
-##  [20,]        1         0
-##  [21,]        2         0
-##  [22,]        3         0
-##  [23,]        2         0
-##  [24,]        3         0
-##  [25,]        4         0
-##  [26,]        3         0
-##  [27,]        4         0
-##  [28,]        3         0
-##  [29,]        4         0
-##  [30,]        5         0
-##  [31,]        4         0
-##  [32,]        3         0
-##  [33,]        4         0
-##  [34,]        5         0
-##  [35,]        2         0
-##  [36,]        4         0
-##  [37,]        3         0
-##  [38,]        2         0
-##  [39,]        1         0
-##  [40,]        2         0
-##  [41,]        3         0
-##  [42,]        4         0
-##  [43,]        3         0
-##  [44,]        3         0
-##  [45,]        2         0
-##  [46,]        4         0
-##  [47,]        5         0
-##  [48,]        4         0
-##  [49,]        3         0
-##  [50,]        4         0
-##  [51,]        1         0
-##  [52,]        1         0
-##  [53,]        2         0
-##  [54,]        3         0
-##  [55,]        3         0
-##  [56,]        3         0
-##  [57,]        3         0
-##  [58,]        4         0
-##  [59,]        5         0
-##  [60,]        4         0
-##  [61,]        3         0
-##  [62,]        3         0
-##  [63,]        5         0
-##  [64,]        2         0
-##  [65,]        2         0
-##  [66,]        3         0
-##  [67,]        2         0
-##  [68,]        1         0
-##  [69,]        2         0
-##  [70,]        3         0
-##  [71,]        2         0
-##  [72,]        3         0
-##  [73,]        4         0
-##  [74,]        3         0
-##  [75,]        3         0
-##  [76,]        2         0
-##  [77,]        5         0
-##  [78,]        4         0
-##  [79,]        3         0
-##  [80,]        1         0
-##  [81,]        2         0
-##  [82,]        5         0
-##  [83,]        3         0
-##  [84,]        7         1
-##  [85,]        6         1
-##  [86,]        5         0
-##  [87,]        5         0
-##  [88,]        5         0
-##  [89,]        4         0
-##  [90,]        3         0
-##  [91,]        2         0
-##  [92,]        5         0
-##  [93,]        1         0
-##  [94,]        1         0
-##  [95,]        1         0
-##  [96,]        1         0
-##  [97,]        2         0
-##  [98,]        3         0
-##  [99,]        4         0
-## [100,]        3         0
-## [101,]        3         0
-## [102,]        2         0
-## [103,]        3         0
-## [104,]        4         0
-## [105,]        3         0
-## [106,]        2         0
-## [107,]        3         0
-## [108,]        4         0
-## [109,]        3         0
-## [110,]        3         0
-## [111,]        4         0
-## [112,]        3         0
-## [113,]        6         1
-## [114,]        3         0
-## [115,]        4         0
-## [116,]        3         0
-## [117,]        3         0
-## [118,]        2         0
-## [119,]        3         0
-## [120,]        4         0
-## [121,]        7         1
-## [122,]        3         0
-## [123,]        2         0
-## [124,]        3         0
-## [125,]        4         0
-## [126,]        3         0
-## [127,]        2         0
-## [128,]        3         0
-## [129,]        4         0
-## [130,]        8         1
-## [131,]        5         0
-## [132,]        6         1
-## [133,]        5         0
-## [134,]        4         0
-## [135,]        4         0
-## [136,]        4         0
-## [137,]        3         0
-## [138,]        4         0
-## [139,]        3         0
-## [140,]        3         0
-## [141,]        2         0
-## [142,]        2         0
-## [143,]        1         0
-## [144,]        2         0
-## [145,]        1         0
-## [146,]        2         0
-## [147,]        3         0
-## [148,]        1         0
-## [149,]        2         0
-## [150,]        3         0
-## [151,]        2         0
-## [152,]        2         0
-## [153,]        2         0
-## [154,]        1         0
-## [155,]        1         0
-## [156,]        2         0
-## [157,]        3         0
-## [158,]        3         0
-## [159,]        2         0
-## [160,]        3         0
-## [161,]        4         0
-## [162,]        2         0
-## [163,]        5         0
-## [164,]        4         0
-## [165,]        2         0
-## [166,]        3         0
-## [167,]        2         0
-## [168,]        2         0
-## [169,]        1         0
-## [170,]        4         0
-## [171,]        3         0
-## [172,]        3         0
-## [173,]        2         0
-## [174,]        3         0
-## [175,]        2         0
-## [176,]        4         0
-## [177,]        3         0
-## [178,]        2         0
-## [179,]        3         0
-## [180,]        4         0
-## [181,]        2         0
-## [182,]        3         0
-## [183,]        3         0
-## [184,]        4         0
-## [185,]        2         0
-## [186,]        3         0
-## [187,]        2         0
-## [188,]        2         0
-## [189,]        3         0
-## [190,]        3         0
-## [191,]        2         0
-## [192,]        3         0
-## [193,]        2         0
-## [194,]        4         0
-## [195,]        3         0
-## [196,]        2         0
-## [197,]        2         0
-## [198,]        3         0
-## [199,]        2         0
-## [200,]        3         0
-## [201,]        2         0
-## [202,]        3         0
-## [203,]        3         0
-## [204,]        2         0
-## [205,]        3         0
-## [206,]        2         0
-## [207,]        3         0
-## [208,]        2         0
-## [209,]        1         0
-## [210,]        6         1
-## [211,]        9         1
-## [212,]        1         0
-## [213,]        2         0
-## [214,]        3         0
-## [215,]        4         0
-## [216,]        5         0
-## [217,]        4         0
-## [218,]        5         0
-## [219,]        5         0
-## [220,]        5         0
-## [221,]        4         0
-## [222,]        3         0
-## [223,]        4         0
-## [224,]        3         0
-## [225,]        2         0
-## [226,]        1         0
-## [227,]        2         0
-## [228,]        3         0
-## [229,]        2         0
-## [230,]        1         0
-## [231,]        4         0
-## [232,]        3         0
-## [233,]        4         0
-## [234,]        3         0
-## [235,]        3         0
-## [236,]        2         0
-## [237,]        2         0
-## [238,]        1         0
-## [239,]        2         0
-## [240,]        3         0
-## [241,]        2         0
-## [242,]        1         0
-## [243,]        2         0
-## [244,]        4         0
-## [245,]        3         0
-## [246,]        2         0
-## [247,]        3         0
-## [248,]        2         0
-## [249,]        2         0
-## [250,]        1         0
-## [251,]        2         0
-## [252,]        3         0
-## [253,]        2         0
-## [254,]        3         0
-## [255,]        1         0
-## [256,]        2         0
-## [257,]        3         0
-## [258,]        2         0
-## [259,]        4         0
-## [260,]        3         0
-## [261,]        3         0
-## [262,]        2         0
-## [263,]        2         0
-## [264,]        1         0
-## [265,]        1         0
-## [266,]        1         0
-## [267,]        1         0
-## [268,]        1         0
-## [269,]        1         0
-## [270,]        1         0
-## [271,]        1         0
-## [272,]        1         0
-## [273,]        1         0
-## [274,]        2         0
-## [275,]        3         0
-## [276,]        2         0
-## [277,]        3         0
-## [278,]        2         0
-## [279,]        1         0
-## [280,]        2         0
-## [281,]        3         0
-## [282,]        4         0
-## [283,]        3         0
-## [284,]        2         0
-## [285,]        3         0
-## [286,]        2         0
-## [287,]        1         0
-## [288,]        2         0
-## [289,]        4         0
-## [290,]        7         1
-## [291,]        1         0
-## [292,]        4         0
-## [293,]        1         0
-## [294,]        3         0
-## [295,]        3         0
-## [296,]        4         0
-## [297,]        3         0
-## [298,]        2         0
-## [299,]        2         0
-## [300,]        1         0
-## [301,]        2         0
-## [302,]        3         0
-## [303,]        3         0
-## [304,]        3         0
-## [305,]        2         0
-## [306,]        4         0
-## [307,]        4         0
-## [308,]        5         0
-## [309,]        4         0
-## [310,]        4         0
-## [311,]        9         1
-## [312,]        3         0
-## [313,]        3         0
-## [314,]        2         0
-## [315,]        2         0
-## [316,]        1         0
-## [317,]        1         0
-## [318,]        2         0
-## [319,]        7         1
-## [320,]        3         0
-## [321,]        2         0
-## [322,]        1         0
-## [323,]        2         0
-## [324,]        4         0
-## [325,]        6         1
-## [326,]        5         0
-## [327,]        3         0
-## [328,]        2         0
-## [329,]        3         0
-## [330,]        4         0
-## [331,]        3         0
-## [332,]        2         0
-## [333,]        3         0
-## [334,]        4         0
-## [335,]        3         0
-## [336,]        3         0
-## [337,]        2         0
-## [338,]        3         0
-## [339,]        4         0
-## [340,]        3         0
-## [341,]        2         0
-## [342,]        3         0
-## [343,]        1         0
-## [344,]        1         0
-## [345,]        2         0
-## [346,]        3         0
-## [347,]        4         0
-## [348,]        3         0
-## [349,]        3         0
-## [350,]        2         0
-## [351,]        4         0
-## [352,]        5         0
-## [353,]        4         0
-## [354,]        3         0
-## [355,]        3         0
-## [356,]        2         0
-## [357,]        2         0
-## [358,]        1         0
-## [359,]        4         0
-## [360,]        1         0
-## [361,]        1         0
-## [362,]        4         0
-## [363,]        3         0
-## [364,]        2         0
-## [365,]        1         0
-## [366,]        4         0
-## [367,]        1         0
-## [368,]        2         0
-## [369,]        3         0
-## [370,]        1         0
-## [371,]        5         0
-## [372,]        4         0
-## [373,]        3         0
-## [374,]        2         0
-## [375,]        1         0
-## [376,]        2         0
-## [377,]        3         0
-## [378,]        2         0
-## [379,]        4         0
-## [380,]        2         0
-## [381,]        3         0
-## [382,]        4         0
-## [383,]        7         1
-## [384,]        3         0
-## [385,]        2         0
-## [386,]        4         0
-## [387,]        4         0
-## [388,]        3         0
-## [389,]        2         0
-## [390,]        2         0
-## [391,]        1         0
-## [392,]        2         0
-## [393,]        6         1
-## [394,]        7         1
-## [395,]        2         0
-## [396,]        1         0
-## [397,]        2         0
-## [398,]        3         0
-## [399,]        1         0
-## [400,]        2         0
-## [401,]        3         0
-## [402,]        2         0
-## [403,]        1         0
-## [404,]        2         0
-## [405,]        3         0
-## [406,]        2         0
-## [407,]        3         0
-## [408,]        2         0
-## [409,]        3         0
-## [410,]        2         0
-## [411,]        4         0
-## [412,]        2         0
-## [413,]        2         0
-## [414,]        1         0
-## [415,]        2         0
-## [416,]        3         0
-## [417,]        2         0
-## [418,]        3         0
-## [419,]        2         0
-## [420,]        3         0
-## [421,]        2         0
-## [422,]        3         0
-## [423,]        4         0
-## [424,]        2         0
-## [425,]        2         0
-## [426,]        3         0
-## [427,]        4         0
-## [428,]        4         0
-## [429,]        1         0
-## [430,]        2         0
-## [431,]        3         0
-## [432,]        2         0
-## [433,]        1         0
-## [434,]        1         0
-## [435,]        2         0</code></pre>
+<p> </p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1"><span class="kw">cbind</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre></div>
+<pre><code>##      PARTNERS part.gt.5
+## [1,]        2         0
+## [2,]        2         0
+## [3,]        1         0
+## [4,]        2         0
+## [5,]        3         0
+## [6,]        2         0</code></pre>
+<p> </p>
 <p>We can now specify and fit the logistic regression model using our indicator variable:</p>
-<pre class="sourceCode r" id="cb415"><code class="sourceCode r"><a class="sourceLine" id="cb415-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>part.gt<span class="fl">.5</span>,</a>
-<a class="sourceLine" id="cb415-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
-<a class="sourceLine" id="cb415-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a>
-<a class="sourceLine" id="cb415-4" data-line-number="4"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>part.gt<span class="fl">.5</span>,</a>
+<a class="sourceLine" id="cb414-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
+<a class="sourceLine" id="cb414-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a>
+<a class="sourceLine" id="cb414-4" data-line-number="4"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5, family = binomial(logit))
@@ -1012,8 +640,11 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ## GUD           4.45  1.43  13.89
 ## TRAVOUT       9.50  1.53  59.02
 ## part.gt.5   107.67 24.47 473.84</code></pre>
+<p> </p>
 <p>We can now quit R:</p>
-<pre class="sourceCode r" id="cb418"><code class="sourceCode r"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-3" class="section level2">
 <h2><span class="header-section-number">4.1</span> Summary</h2>

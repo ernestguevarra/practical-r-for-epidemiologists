@@ -59,16 +59,24 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; min-height: 1.25em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -80,38 +88,39 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-pre, code { background-color: #f8f8f8; }
+div.sourceCode
+  { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+a.sourceLine::before { text-decoration: underline; }
 }
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.fl { color: #0000cf; } /* Float */
-code span.ch { color: #4e9a06; } /* Char */
-code span.st { color: #4e9a06; } /* String */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.ot { color: #8f5902; } /* Other */
-code span.al { color: #ef2929; } /* Alert */
-code span.fu { color: #000000; } /* Function */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #000000; } /* Constant */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #000000; } /* Variable */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
 code span.ex { } /* Extension */
-code span.at { color: #c4a000; } /* Attribute */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -197,7 +206,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <h1><span class="header-section-number">Exercise 3</span> Logistic regression and stratified analysis</h1>
 <p>In this exercise we will explore how <code>R</code> handles generalised linear models using the example of logistic regression. We will continue using the <code>salex</code> dataset. Start <code>R</code> and retrieve the <code>salex</code> dataset:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb211"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a></code></pre>
+<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a></code></pre></div>
 <p> </p>
 <p>When we analysed this data using two-by-two tables and examining the risk ratio and 95% confidence interval associated with each exposure we found many significant positive associations:</p>
 <p> </p>
@@ -261,9 +270,9 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>Some of these associations may be due to <em>confounding</em> in the data. We can use logistic regression to help us identify independent associations.</p>
 <p>Logistic regression requires the dependent variable to be either 0 or 1. In order to perform a logistic regression we must first recode the <code>ILL</code> variable so that 0=no and 1=yes:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb212"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a>
 <a class="sourceLine" id="cb212-2" data-line-number="2">salex<span class="op">$</span>ILL[salex<span class="op">$</span>ILL <span class="op">==</span><span class="st"> </span><span class="dv">2</span>] &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a></code></pre>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">table</span>(salex<span class="op">$</span>ILL)</a></code></pre></div>
 <pre><code>## 
 ##  1  2 
 ## 51 26</code></pre>
@@ -275,8 +284,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>In order to calculate meaningful odds ratios the exposure variables should also be coded 0=no, 1=yes. The actual codes used are not important as long as the value used for ‘exposed’ is one greater than the value used for ‘not exposed’.</p>
 <p>We could issue a series of commands similar to the one we have just used to recode the <code>ILL</code> variable. This is both tedious and unnecessary as the structure of the dataset (i.e. all variables are coded identically) allows us to recode all variables with a single command:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb215"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
-<a class="sourceLine" id="cb215-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;salex.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;9&quot;</span>)</a>
+<a class="sourceLine" id="cb215-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre></div>
 <pre><code>##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
 ## 1   1   1    1    1        1      1       2     2    2       2      2
 ## 2   1   1    1    1        2      2       1     2    2       2      1
@@ -289,8 +298,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 3        2      1         2         1     2      2       2
 ## 4        2      2         2         1     2      2       2
 ## 5        1      2         2         1     2      1       2</code></pre>
-<pre class="sourceCode r" id="cb217"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>salex</a>
-<a class="sourceLine" id="cb217-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">salex &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>salex</a>
+<a class="sourceLine" id="cb217-2" data-line-number="2">salex[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, ]</a></code></pre></div>
 <pre><code>##   ILL HAM BEEF EGGS MUSHROOM PEPPER PORKPIE PASTA RICE LETTUCE TOMATO
 ## 1   1   1    1    1        1      1       0     0    0       0      0
 ## 2   1   1    1    1        0      0       1     0    0       0      1
@@ -309,14 +318,14 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <p>Many <code>R</code> users avoid using the <code>attach()</code> function altogether.</p>
 <p>We can now use the generalised linear model <code>glm()</code> function to specify the logistic regression model:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb219"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>EGGS <span class="op">+</span><span class="st"> </span>MUSHROOM <span class="op">+</span><span class="st"> </span>PEPPER <span class="op">+</span><span class="st"> </span>PASTA <span class="op">+</span></a>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>EGGS <span class="op">+</span><span class="st"> </span>MUSHROOM <span class="op">+</span><span class="st"> </span>PEPPER <span class="op">+</span><span class="st"> </span>PASTA <span class="op">+</span></a>
 <a class="sourceLine" id="cb219-2" data-line-number="2"><span class="st">                  </span>RICE <span class="op">+</span><span class="st"> </span>LETTUCE <span class="op">+</span><span class="st"> </span>COLESLAW <span class="op">+</span><span class="st"> </span>CHOCOLATE,</a>
-<a class="sourceLine" id="cb219-3" data-line-number="3">                  <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> salex)</a></code></pre>
+<a class="sourceLine" id="cb219-3" data-line-number="3">                  <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> salex)</a></code></pre></div>
 <p> </p>
 <p>The method used by the <code>glm()</code> function is defined by the <code>family</code> parameter. Here we specify <code>binomial</code> errors and a <code>logit</code> (logistic) linking function.</p>
 <p>We have saved the output of the <code>glm()</code> function in the <code>salex.lreg</code> object. We can examine some basic information about the specified model using the <code>summary()</code> function:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb220"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
@@ -351,9 +360,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## Number of Fisher Scoring iterations: 7</code></pre>
 <p> </p>
 <p>We will use <em>backwards elimination</em> to remove non-significant variables from the logistic regression model. Remember that previous commands can be recalled and edited using the up and down arrow keys – they do not need to be typed out in full each time.</p>
+
 <p><code>CHOCOLATE</code> is the least significant variable in the model so we will remove this variable from the model. Storing the output of the <code>glm()</code> function is useful as it allows us to use the <code>update()</code> function to add, remove, or modify variables without having to describe the model in full:</p>
-<pre class="sourceCode r" id="cb222"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>CHOCOLATE)</a>
-<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>CHOCOLATE)</a>
+<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + RICE + 
@@ -384,9 +395,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## AIC: 57.273
 ## 
 ## Number of Fisher Scoring iterations: 7</code></pre>
+
 <p><code>RICE</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
-<pre class="sourceCode r" id="cb224"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>RICE)</a>
-<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>RICE)</a>
+<a class="sourceLine" id="cb224-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE + 
@@ -416,9 +429,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## AIC: 55.283
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
+
 <p><code>COLESLAW</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
-<pre class="sourceCode r" id="cb226"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>COLESLAW)</a>
-<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>COLESLAW)</a>
+<a class="sourceLine" id="cb226-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + MUSHROOM + PEPPER + PASTA + LETTUCE, 
@@ -447,9 +462,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## AIC: 53.895
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
+
 <p><code>PEPPER</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
-<pre class="sourceCode r" id="cb228"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>PEPPER)</a>
-<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>PEPPER)</a>
+<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + MUSHROOM + PASTA + LETTUCE, family = binomial(logit), 
@@ -477,9 +494,11 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## AIC: 55.578
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
+
 <p><code>MUSHROOM</code> is now the least significant variable in the model so we will remove this variable from the model:</p>
-<pre class="sourceCode r" id="cb230"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>MUSHROOM)</a>
-<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">salex.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(salex.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>MUSHROOM)</a>
+<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">summary</span>(salex.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ EGGS + PASTA + LETTUCE, family = binomial(logit), 
@@ -506,118 +525,152 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## AIC: 58.529
 ## 
 ## Number of Fisher Scoring iterations: 6</code></pre>
+<p> </p>
 <p>There are now no non-significant variables in the model.</p>
+
 <p>Unfortunately <code>R</code> does not present information on the model coefficients in terms of odds ratios and confidence intervals but we can write a function to calculate them for us.</p>
 <p>The first step in doing this is to realise that the <code>salex.lreg</code> object contains essential information about the fitted model. To calculate odds ratios and confidence intervals we need the regression coefficients and their standard errors. Both:</p>
-<pre class="sourceCode r" id="cb232"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)<span class="op">$</span>coefficients</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">summary</span>(salex.lreg)<span class="op">$</span>coefficients</a></code></pre></div>
 <pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
 ## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
 ## EGGS         2.639115  0.7333899  3.598515 0.0003200388
 ## PASTA        1.664581  0.8375970  1.987330 0.0468858898
 ## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p> </p>
 <p>and:</p>
-<pre class="sourceCode r" id="cb234"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a></code></pre></div>
 <pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
 ## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
 ## EGGS         2.639115  0.7333899  3.598515 0.0003200388
 ## PASTA        1.664581  0.8375970  1.987330 0.0468858898
 ## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p> </p>
 <p>extract the data that we require. The preferred method is to use the <code>coef()</code> function. This is because some fitted models may return coefficients in a more complicated manner than (e.g.) those created by the <code>glm()</code> function. The <code>coef()</code> function provides a standard way of extracting this data from all classes of fitted objects.</p>
+
 <p>We can store the <code>coefficients</code> data in a separate object to make it easier to work with:</p>
-<pre class="sourceCode r" id="cb236"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1">salex.lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a>
-<a class="sourceLine" id="cb236-2" data-line-number="2">salex.lreg.coeffs</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1">salex.lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(salex.lreg))</a>
+<a class="sourceLine" id="cb236-2" data-line-number="2">salex.lreg.coeffs</a></code></pre></div>
 <pre><code>##              Estimate Std. Error   z value     Pr(&gt;|z|)
 ## (Intercept) -1.970967  0.6145691 -3.207071 0.0013409398
 ## EGGS         2.639115  0.7333899  3.598515 0.0003200388
 ## PASTA        1.664581  0.8375970  1.987330 0.0468858898
 ## LETTUCE      3.195594  1.1516159  2.774879 0.0055222320</code></pre>
+<p> </p>
 <p>We can extract information from this object by addressing each piece of information by its row and column position in the object. For example:</p>
-<pre class="sourceCode r" id="cb238"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">2</span>,<span class="dv">1</span>]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">2</span>,<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>## [1] 2.639115</code></pre>
+<p> </p>
 <p>Is the regression coefficient for <code>EGGS</code>, and:</p>
-<pre class="sourceCode r" id="cb240"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">3</span>,<span class="dv">2</span>]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">salex.lreg.coeffs[<span class="dv">3</span>,<span class="dv">2</span>]</a></code></pre></div>
 <pre><code>## [1] 0.837597</code></pre>
+<p> </p>
 <p>is the standard error of the regression coefficient for <code>PASTA</code>. Similarly:</p>
-<pre class="sourceCode r" id="cb242"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">1</span>]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>## (Intercept)        EGGS       PASTA     LETTUCE 
 ##   -1.970967    2.639115    1.664581    3.195594</code></pre>
+
 <p>Returns the regression coefficients for all of the variables in the model, and:</p>
-<pre class="sourceCode r" id="cb244"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">2</span>]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1">salex.lreg.coeffs[ ,<span class="dv">2</span>]</a></code></pre></div>
 <pre><code>## (Intercept)        EGGS       PASTA     LETTUCE 
 ##   0.6145691   0.7333899   0.8375970   1.1516159</code></pre>
+<p> </p>
 <p>Returns the standard errors of the regression coefficients.</p>
 <p>The table below shows the indices that address each cell in the table of regression coefficients:</p>
-<pre class="sourceCode r" id="cb246"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="kw">matrix</span>(salex.lreg.coeffs, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="kw">matrix</span>(salex.lreg.coeffs, <span class="dt">nrow =</span> <span class="dv">4</span>, <span class="dt">ncol =</span> <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>##           [,1]      [,2]      [,3]         [,4]
 ## [1,] -1.970967 0.6145691 -3.207071 0.0013409398
 ## [2,]  2.639115 0.7333899  3.598515 0.0003200388
 ## [3,]  1.664581 0.8375970  1.987330 0.0468858898
 ## [4,]  3.195594 1.1516159  2.774879 0.0055222320</code></pre>
+<p> </p>
 <p>We can use this information to calculate odds ratio sand 95% confidence intervals:</p>
-<pre class="sourceCode r" id="cb248"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>])</a>
+<p> </p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb248-2" data-line-number="2">lci &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>salex.lreg.coeffs[ ,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb248-3" data-line-number="3">uci &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>salex.lreg.coeffs[ ,<span class="dv">2</span>])</a></code></pre>
+<a class="sourceLine" id="cb248-3" data-line-number="3">uci &lt;-<span class="st"> </span><span class="kw">exp</span>(salex.lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>salex.lreg.coeffs[ ,<span class="dv">2</span>])</a></code></pre></div>
+<p> </p>
 <p>and make a single object that contains all of the required information:</p>
-<pre class="sourceCode r" id="cb249"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="kw">cbind</span>(or, lci, uci)</a>
-<a class="sourceLine" id="cb249-2" data-line-number="2">lreg.or</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="kw">cbind</span>(or, lci, uci)</a>
+<a class="sourceLine" id="cb249-2" data-line-number="2">lreg.or</a></code></pre></div>
 <pre><code>##                     or       lci         uci
 ## (Intercept)  0.1393221 0.0417723   0.4646777
 ## EGGS        14.0008053 3.3256684  58.9423019
 ## PASTA        5.2834608 1.0231552  27.2832114
 ## LETTUCE     24.4246856 2.5559581 233.4018193</code></pre>
+<p> </p>
 <p>We seldom need to report estimates and confidence intervals to more than two decimal places. We can use the <code>round()</code> function to remove the excess digits:</p>
-<pre class="sourceCode r" id="cb251"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="kw">round</span>(lreg.or, <span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="kw">round</span>(lreg.or, <span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##                or  lci    uci
 ## (Intercept)  0.14 0.04   0.46
 ## EGGS        14.00 3.33  58.94
 ## PASTA        5.28 1.02  27.28
 ## LETTUCE     24.42 2.56 233.40</code></pre>
+<p> </p>
 <p>We have now gone through all the necessary calculations step-by-step but it would be nice to have a function that did it all for us that we could use whenever we needed to.</p>
 <p>First we will create a template for the function:</p>
-<pre class="sourceCode r" id="cb253"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {}</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {}</a></code></pre></div>
+<p> </p>
 <p>and then use the <code>fix()</code> function to edit the <code>lreg.or()</code> function:</p>
-<pre class="sourceCode r" id="cb254"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">fix</span>(lreg.or)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">fix</span>(lreg.or)</a></code></pre></div>
+<p> </p>
 <p>We can now edit this function to add a calculation of odds ratios and 95% confidence intervals:</p>
-<pre class="sourceCode r" id="cb255"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {</a>
+<p> </p>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {</a>
 <a class="sourceLine" id="cb255-2" data-line-number="2">  lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(model))</a>
 <a class="sourceLine" id="cb255-3" data-line-number="3">  OR &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>])</a>
 <a class="sourceLine" id="cb255-4" data-line-number="4">  LCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
 <a class="sourceLine" id="cb255-5" data-line-number="5">  UCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
 <a class="sourceLine" id="cb255-6" data-line-number="6">  lreg.or &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(OR, LCI, UCI), <span class="dt">digits =</span> digits)</a>
 <a class="sourceLine" id="cb255-7" data-line-number="7">  lreg.or</a>
-<a class="sourceLine" id="cb255-8" data-line-number="8">}</a></code></pre>
-<pre class="sourceCode r" id="cb256"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1">lreg.or &lt;-<span class="st"> </span><span class="cf">function</span>(model, <span class="dt">digits =</span> <span class="dv">2</span>) {</a>
-<a class="sourceLine" id="cb256-2" data-line-number="2">  lreg.coeffs &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">summary</span>(model))</a>
-<a class="sourceLine" id="cb256-3" data-line-number="3">  OR &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb256-4" data-line-number="4">  LCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb256-5" data-line-number="5">  UCI &lt;-<span class="st"> </span><span class="kw">exp</span>(lreg.coeffs[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span><span class="fl">1.96</span> <span class="op">*</span><span class="st"> </span>lreg.coeffs[ ,<span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb256-6" data-line-number="6">  lreg.or &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">cbind</span>(OR, LCI, UCI), <span class="dt">digits =</span> digits)</a>
-<a class="sourceLine" id="cb256-7" data-line-number="7">  lreg.or</a>
-<a class="sourceLine" id="cb256-8" data-line-number="8">}</a></code></pre>
+<a class="sourceLine" id="cb255-8" data-line-number="8">}</a></code></pre></div>
+
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>We can test our function:</p>
-<pre class="sourceCode r" id="cb257"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre></div>
+<p> </p>
 <p>Which produces the following output:</p>
-<pre class="sourceCode r" id="cb258"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg)</a></code></pre></div>
 <pre><code>##                OR  LCI    UCI
 ## (Intercept)  0.14 0.04   0.46
 ## EGGS        14.00 3.33  58.94
 ## PASTA        5.28 1.02  27.28
 ## LETTUCE     24.42 2.56 233.40</code></pre>
+<p> </p>
 <p>The <code>digits</code> parameter of the <code>lreg.or()</code> function, which has <code>digits = 2</code> as its default value, allows us to specify the precision with which the estimates and their confidence intervals are reported:</p>
-<pre class="sourceCode r" id="cb260"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg, <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="kw">lreg.or</span>(salex.lreg, <span class="dt">digits =</span> <span class="dv">4</span>)</a></code></pre></div>
 <pre><code>##                  OR    LCI      UCI
 ## (Intercept)  0.1393 0.0418   0.4647
 ## EGGS        14.0008 3.3257  58.9423
 ## PASTA        5.2835 1.0232  27.2832
 ## LETTUCE     24.4247 2.5560 233.4018</code></pre>
+<p> </p>
 <p>Before we continue, it is probably a good idea to save this function for later use:</p>
-<pre class="sourceCode r" id="cb262"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="kw">save</span>(lreg.or, <span class="dt">file =</span> <span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="kw">save</span>(lreg.or, <span class="dt">file =</span> <span class="st">&quot;lregor.r&quot;</span>)</a></code></pre></div>
+
 <p>Which can be reloaded whenever it is needed:</p>
-<pre class="sourceCode r" id="cb263"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre></div>
+<p> </p>
 <p>An alternative to using logistic regression with data that contains associations that may be due to confounding is to use stratified analysis (i.e. <em>Mantel-Haenszel</em> techniques). With several potential confounders, a stratified analysis results in the analysis of many tables which can be difficult to interpret. For example, four potential confounders, each with two levels would produce sixteen tables. In such situations, logistic regression might be a better approach. In order to illustrate Mantel-Haenszel techniques in <code>R</code> we will work with a simpler dataset.</p>
 <p>On Saturday, 21st April 1990, a luncheon was held in the home of Jean Bateman. There was a total of forty-five guests which included thirty-five members of the Department of Epidemiology and Population Sciences at the London School of Hygiene and Tropical Medicine. On Sunday morning, 22nd April 1990, Jean awoke with symptoms of gastrointestinal illness; her husband awoke with similar symptoms. The possibility of an outbreak related to the luncheon was strengthened when several of the guests telephoned Jean on Sunday and reported illness. On Monday, 23rd April 1990, there was an unusually large number of department members absent from work and reporting illness. Data from this outbreak is stored in the file <code>bateman.dat</code>.</p>
 <p>The variables in the file <code>bateman.dat</code> are:</p>
+<p> </p>
 <table style="width:69%;">
 <colgroup>
 <col width="22%" />
@@ -682,109 +735,51 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 </tr>
 </tbody>
 </table>
+
 <p>Data is available for all forty-five guests at the luncheon. All of the variables are coded 1=yes, 2=no. Retrieve and attach the <code>bateman</code> dataset in <code>R</code>:</p>
-<pre class="sourceCode r" id="cb264"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" data-line-number="1">bateman &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;bateman.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb264-2" data-line-number="2">bateman</a></code></pre>
-<pre><code>##    ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM
-## 1    1      1       1      1     2       1    1      1      1        1
-## 2    2      1       1      1     2       1    2      2      2        1
-## 3    1      2       2      1     2       1    2      1      2        1
-## 4    1      1       2      1     1       1    2      1      2        1
-## 5    1      1       1      1     2       1    1      1      1        2
-## 6    1      1       1      1     1       1    2      1      1        2
-## 7    1      2       1      1     2       1    1      1      1        1
-## 8    2      1       1      1     2       1    1      2      1        1
-## 9    2      1       1      1     2       1    1      2      1        1
-## 10   2      2       1      1     2       1    2      2      2        1
-## 11   1      1       2      1     1       1    1      1      1        1
-## 12   1      1       1      1     1       1    1      1      1        1
-## 13   2      2       1      1     2       1    1      2      2        1
-## 14   1      2       1      1     1       1    1      1      1        1
-## 15   1      1       1      1     2       2    1      1      1        2
-## 16   1      2       2      2     2       1    1      1      1        1
-## 17   2      1       2      1     1       1    1      2      2        1
-## 18   1      2       1      1     2       1    1      1      1        1
-## 19   1      1       2      2     1       1    1      2      1        1
-## 20   2      2       2      2     2       2    2      2      2        2
-## 21   2      1       2      2     1       2    1      1      2        2
-## 22   2      2       2      2     2       2    2      2      2        1
-## 23   2      2       2      2     2       2    2      2      2        1
-## 24   1      2       1      1     2       1    1      1      2        1
-## 25   1      1       2      2     1       1    1      1      1        1
-## 26   2      2       1      1     1       1    1      2      2        2
-## 27   2      2       1      1     1       1    1      2      2        2
-## 28   1      2       1      2     2       1    1      2      2        1
-## 29   1      1       2      2     1       1    1      2      2        1
-## 30   1      2       1      1     2       1    1      1      1        1
-## 31   1      2       1      1     2       1    1      1      1        1
-## 32   1      1       2      2     2       1    1      1      1        2
-## 33   2      1       2      1     1       1    1      1      1        1
-## 34   1      2       1      1     2       1    1      1      1        2
-## 35   1      1       2      1     2       1    1      1      1        2
-## 36   2      1       2      1     1       2    1      1      1        2
-## 37   1      2       1      1     2       1    1      1      1        1
-## 38   1      1       2      2     2       1    2      1      1        1
-## 39   2      2       1      1     1       1    1      1      1        2
-## 40   1      1       1      1     2       1    2      1      1        2
-## 41   2      2       1      1     1       1    2      1      1        2
-## 42   1      1       2      2     1       2    2      1      1        1
-## 43   1      2       1      1     2       1    2      1      1        2
-## 44   1      2       1      1     2       2    1      1      1        2
-## 45   1      2       1      1     2       2    1      1      1        1
-##    CAKE JUICE WINE COFFEE
-## 1     1     1    1      1
-## 2     1     1    1      2
-## 3     1     2    1      2
-## 4     1     2    1      2
-## 5     1     1    1      1
-## 6     1     1    2      2
-## 7     1     2    1      1
-## 8     1     2    1      1
-## 9     1     2    1      1
-## 10    2     1    2      1
-## 11    1     1    1      2
-## 12    1     2    1      1
-## 13    1     2    1      1
-## 14    2     2    1      1
-## 15    1     1    1      1
-## 16    1     2    1      2
-## 17    2     2    1      2
-## 18    1     2    1      1
-## 19    1     2    1      1
-## 20    1     2    2      1
-## 21    2     2    1      1
-## 22    1     2    1      2
-## 23    1     2    1      2
-## 24    2     2    1      1
-## 25    2     2    1      1
-## 26    1     1    1      1
-## 27    1     1    1      1
-## 28    2     1    2      1
-## 29    1     1    2      1
-## 30    1     2    2      1
-## 31    2     2    2      1
-## 32    1     2    2      1
-## 33    1     2    2      1
-## 34    1     2    1      2
-## 35    1     2    1      1
-## 36    2     2    1      1
-## 37    2     2    1      2
-## 38    1     2    1      2
-## 39    1     1    2      2
-## 40    1     2    1      1
-## 41    2     2    1      1
-## 42    2     2    1      2
-## 43    1     2    1      2
-## 44    1     2    1      2
-## 45    1     1    2      2</code></pre>
-<pre class="sourceCode r" id="cb266"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">attach</span>(bateman)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1">bateman &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;bateman.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb263-2" data-line-number="2">bateman</a>
+<a class="sourceLine" id="cb263-3" data-line-number="3"><span class="kw">attach</span>(bateman)</a></code></pre></div>
+<pre><code>##   ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM CAKE
+## 1   1      1       1      1     2       1    1      1      1        1    1
+## 2   2      1       1      1     2       1    2      2      2        1    1
+## 3   1      2       2      1     2       1    2      1      2        1    1
+## 4   1      1       2      1     1       1    2      1      2        1    1
+## 5   1      1       1      1     2       1    1      1      1        2    1
+## 6   1      1       1      1     1       1    2      1      1        2    1
+##   JUICE WINE COFFEE
+## 1     1    1      1
+## 2     1    1      2
+## 3     2    1      2
+## 4     2    1      2
+## 5     1    1      1
+## 6     1    2      2</code></pre>
 <pre><code>## The following objects are masked from salex:
 ## 
 ##     CRISPS, ILL, RICE, TOMATO</code></pre>
+<p> </p>
 <p>We will use our <code>tab2by2()</code> function to analyse this data. Retrieve this function:</p>
-<pre class="sourceCode r" id="cb268"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a></code></pre></div>
+
 <p>Use the <code>tab2by2()</code> function to analyse the data:</p>
-<pre class="sourceCode r" id="cb269"><code class="sourceCode r"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="kw">tab2by2</span>(CHEESE, ILL)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="kw">tab2by2</span>(CHEESE, ILL)</a>
+<a class="sourceLine" id="cb267-2" data-line-number="2"><span class="kw">tab2by2</span>(CRABDIP, ILL)</a>
+<a class="sourceLine" id="cb267-3" data-line-number="3"><span class="kw">tab2by2</span>(CRISPS, ILL)</a>
+<a class="sourceLine" id="cb267-4" data-line-number="4"><span class="kw">tab2by2</span>(BREAD, ILL)</a>
+<a class="sourceLine" id="cb267-5" data-line-number="5"><span class="kw">tab2by2</span>(CHICKEN, ILL)</a>
+<a class="sourceLine" id="cb267-6" data-line-number="6"><span class="kw">tab2by2</span>(RICE, ILL)</a>
+<a class="sourceLine" id="cb267-7" data-line-number="7"><span class="kw">tab2by2</span>(CAESAR, ILL)</a>
+<a class="sourceLine" id="cb267-8" data-line-number="8"><span class="kw">tab2by2</span>(TOMATO, ILL)</a>
+<a class="sourceLine" id="cb267-9" data-line-number="9"><span class="kw">tab2by2</span>(ICECREAM, ILL)</a>
+<a class="sourceLine" id="cb267-10" data-line-number="10"><span class="kw">tab2by2</span>(CAKE, ILL)</a>
+<a class="sourceLine" id="cb267-11" data-line-number="11"><span class="kw">tab2by2</span>(JUICE, ILL)</a>
+<a class="sourceLine" id="cb267-12" data-line-number="12"><span class="kw">tab2by2</span>(WINE, ILL)</a>
+<a class="sourceLine" id="cb267-13" data-line-number="13"><span class="kw">tab2by2</span>(COFFEE, ILL)</a></code></pre></div>
+<p> </p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="kw">tab2by2</span>(CHEESE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -799,7 +794,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.367743 
 ## 95% CI            : 0.3427732 5.649399</code></pre>
-<pre class="sourceCode r" id="cb271"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="kw">tab2by2</span>(CRABDIP, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="kw">tab2by2</span>(CRABDIP, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -814,7 +810,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.265848 
 ## 95% CI            : 0.3042941 5.188297</code></pre>
-<pre class="sourceCode r" id="cb273"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="kw">tab2by2</span>(CRISPS, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -829,7 +825,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 0.8775841 
 ## 95% CI            : 0.1587568 4.184763</code></pre>
-<pre class="sourceCode r" id="cb275"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="kw">tab2by2</span>(BREAD, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="kw">tab2by2</span>(BREAD, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -844,7 +841,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 0.4584416 
 ## 95% CI            : 0.1072622 1.897017</code></pre>
-<pre class="sourceCode r" id="cb277"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">tab2by2</span>(CHICKEN, ILL)</a></code></pre>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="kw">tab2by2</span>(CHICKEN, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -859,7 +856,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 2.76979 
 ## 95% CI            : 0.4912167 16.93409</code></pre>
-<pre class="sourceCode r" id="cb279"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="kw">tab2by2</span>(RICE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -874,7 +872,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.85813 
 ## 95% CI            : 0.4026256 8.531602</code></pre>
-<pre class="sourceCode r" id="cb281"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, ILL)</a></code></pre>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -889,7 +887,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 17.33517 
 ## 95% CI            : 3.179027 133.7994</code></pre>
-<pre class="sourceCode r" id="cb283"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="kw">tab2by2</span>(TOMATO, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -904,7 +903,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 7.553116 
 ## 95% CI            : 1.642249 41.02567</code></pre>
-<pre class="sourceCode r" id="cb285"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="kw">tab2by2</span>(ICECREAM, ILL)</a></code></pre>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="kw">tab2by2</span>(ICECREAM, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -919,7 +918,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.7069 
 ## 95% CI            : 0.4021245 7.255001</code></pre>
-<pre class="sourceCode r" id="cb287"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" data-line-number="1"><span class="kw">tab2by2</span>(CAKE, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">tab2by2</span>(CAKE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -934,7 +934,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.416945 
 ## 95% CI            : 0.2847257 6.685098</code></pre>
-<pre class="sourceCode r" id="cb289"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="kw">tab2by2</span>(JUICE, ILL)</a></code></pre>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="kw">tab2by2</span>(JUICE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -949,7 +949,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 0.8414367 
 ## 95% CI            : 0.185464 4.101313</code></pre>
-<pre class="sourceCode r" id="cb291"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">tab2by2</span>(WINE, ILL)</a></code></pre>
+
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" data-line-number="1"><span class="kw">tab2by2</span>(WINE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -964,7 +965,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 1.046515 
 ## 95% CI            : 0.1855742 5.186546</code></pre>
-<pre class="sourceCode r" id="cb293"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="kw">tab2by2</span>(COFFEE, ILL)</a></code></pre>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="kw">tab2by2</span>(COFFEE, ILL)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -979,9 +980,14 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 0.6502015 
 ## 95% CI            : 0.1388979 2.729586</code></pre>
+
 <p>Two variables (<code>CAESAR</code> and <code>TOMATO</code>) are associated with <code>ILL</code>.</p>
 <p>These two variables are also associated with each other:</p>
-<pre class="sourceCode r" id="cb295"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, TOMATO)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, TOMATO)</a>
+<a class="sourceLine" id="cb294-2" data-line-number="2"><span class="kw">chisq.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a>
+<a class="sourceLine" id="cb294-3" data-line-number="3"><span class="kw">fisher.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="kw">tab2by2</span>(CAESAR, TOMATO)</a></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure  1  2
@@ -996,7 +1002,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## MLE Odds Ratio    : 22.10962 
 ## 95% CI            : 3.850174 183.4671</code></pre>
-<pre class="sourceCode r" id="cb297"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre></div>
 <pre><code>## Warning in chisq.test(table(CAESAR, TOMATO)): Chi-squared approximation may
 ## be incorrect</code></pre>
 <pre><code>## 
@@ -1004,7 +1011,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## 
 ## data:  table(CAESAR, TOMATO)
 ## X-squared = 15.877, df = 1, p-value = 6.759e-05</code></pre>
-<pre class="sourceCode r" id="cb300"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre>
+
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(CAESAR, TOMATO))</a></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -1016,8 +1024,10 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## sample estimates:
 ## odds ratio 
 ##   22.10962</code></pre>
+<p> </p>
 <p>This suggests the potential for one of these associations to be due to confounding. We can perform a simple stratified analysis using the <code>table()</code> function:</p>
-<pre class="sourceCode r" id="cb302"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a></code></pre></div>
 <pre><code>## , , TOMATO = 1
 ## 
 ##       ILL
@@ -1031,7 +1041,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## CAESAR  1  2
 ##      1  3  1
 ##      2  2  9</code></pre>
-<pre class="sourceCode r" id="cb304"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a></code></pre>
+
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a></code></pre></div>
 <pre><code>## , , CAESAR = 1
 ## 
 ##       ILL
@@ -1045,20 +1056,26 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## TOMATO  1  2
 ##      1  1  2
 ##      2  2  9</code></pre>
+<p> </p>
 <p>It would be useful to calculate odds ratios for each stratum. We can define a simple function to calculate an odds ratio from a two-by-two table:</p>
-<pre class="sourceCode r" id="cb306"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="cf">function</span>(x) {(x[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">1</span>,<span class="dv">2</span>]) <span class="op">/</span><span class="st"> </span>(x[<span class="dv">2</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">2</span>,<span class="dv">2</span>])}</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" data-line-number="1">or &lt;-<span class="st"> </span><span class="cf">function</span>(x) {(x[<span class="dv">1</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">1</span>,<span class="dv">2</span>]) <span class="op">/</span><span class="st"> </span>(x[<span class="dv">2</span>,<span class="dv">1</span>] <span class="op">/</span><span class="st"> </span>x[<span class="dv">2</span>,<span class="dv">2</span>])}</a></code></pre></div>
+<p> </p>
 <p>We can use <code>apply()</code> to apply the <code>or()</code> function to the two-by-two table in each stratum:</p>
-<pre class="sourceCode r" id="cb307"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1">tabC &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a>
-<a class="sourceLine" id="cb307-2" data-line-number="2"><span class="kw">apply</span>(tabC, <span class="dv">3</span>, or)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1">tabC &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, TOMATO)</a>
+<a class="sourceLine" id="cb307-2" data-line-number="2"><span class="kw">apply</span>(tabC, <span class="dv">3</span>, or)</a></code></pre></div>
 <pre><code>##    1    2 
 ## 11.5 13.5</code></pre>
-<pre class="sourceCode r" id="cb309"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1">tabT &lt;-<span class="st"> </span><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a>
-<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="kw">apply</span>(tabT, <span class="dv">3</span>, or)</a></code></pre>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1">tabT &lt;-<span class="st"> </span><span class="kw">table</span>(TOMATO, ILL, CAESAR)</a>
+<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="kw">apply</span>(tabT, <span class="dv">3</span>, or)</a></code></pre></div>
 <pre><code>##        1        2 
 ## 1.916667 2.250000</code></pre>
+<p> </p>
 <p>The 3 instructs the <code>apply()</code> function to apply the <code>or()</code> function to the third dimension of the table objects (i.e. levels of the potential confounder in <code>tabC</code> and <code>tabT</code>).</p>
 <p>The <code>mantelhaen.test()</code> function performs the stratified analysis:</p>
-<pre class="sourceCode r" id="cb311"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabC)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabC)</a></code></pre></div>
 <pre><code>## 
 ##  Mantel-Haenszel chi-squared test with continuity correction
 ## 
@@ -1070,7 +1087,7 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## sample estimates:
 ## common odds ratio 
 ##              12.5</code></pre>
-<pre class="sourceCode r" id="cb313"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabT)</a></code></pre>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(tabT)</a></code></pre></div>
 <pre><code>## 
 ##  Mantel-Haenszel chi-squared test with continuity correction
 ## 
@@ -1082,21 +1099,30 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 ## sample estimates:
 ## common odds ratio 
 ##          2.058219</code></pre>
+<p> </p>
 <p>It is likely that <code>CAESAR</code> salad was a vehicle of food-poisoning, and that <code>TOMATO</code> salad was not a vehicle of food-poisoning. Many of those at the luncheon ate both <code>CAESAR</code> salad and <code>TOMATO</code> salad. <code>CAESAR</code> confounded the relationship between <code>TOMATO</code> and <code>ILL</code>. This resulted in a spurious association between <code>TOMATO</code> and <code>ILL</code>.</p>
 <p>It only makes sense to calculate a common odds ratio in the absence of interaction. We can check for interaction ‘by eye’ by examining and comparing the odds ratios for each stratum as we did above.</p>
+
 <p>There does appear to be an interaction between <code>CAESAR</code>, <code>WINE</code>, and <code>ILL</code>:</p>
-<pre class="sourceCode r" id="cb315"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">tabW &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, WINE)</a>
-<a class="sourceLine" id="cb315-2" data-line-number="2"><span class="kw">apply</span>(tabW, <span class="dv">3</span>, or)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">tabW &lt;-<span class="st"> </span><span class="kw">table</span>(CAESAR, ILL, WINE)</a>
+<a class="sourceLine" id="cb315-2" data-line-number="2"><span class="kw">apply</span>(tabW, <span class="dv">3</span>, or)</a></code></pre></div>
 <pre><code>##    1    2 
 ## 63.0  2.5</code></pre>
+<p> </p>
 <p><em>Woolf’s test</em> for interaction (also known as <em>Woolf’s test for the homogeneity of odds ratios</em>) provides a formal test for interaction.</p>
 <p><code>R</code> does not provide a function to perform <em>Woolf’s test</em> for the homogeneity of odds ratios but it is possible to write a function to perform this test.</p>
 <p>First we will create a template for the function:</p>
-<pre class="sourceCode r" id="cb317"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1">woolf.test &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1">woolf.test &lt;-<span class="st"> </span><span class="cf">function</span>(x) {}</a></code></pre></div>
+<p> </p>
 <p>And then use the <code>fix()</code> function to edit the <code>woolf.test()</code> function:</p>
-<pre class="sourceCode r" id="cb318"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">fix</span>(woolf.test)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">fix</span>(woolf.test)</a></code></pre></div>
+<p> </p>
 <p>We can now edit this function to make it do something useful:</p>
-<pre class="sourceCode r" id="cb319"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
+<p> </p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="cf">function</span>(x) {</a>
 <a class="sourceLine" id="cb319-2" data-line-number="2">  x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span></a>
 <a class="sourceLine" id="cb319-3" data-line-number="3">  k &lt;-<span class="st"> </span><span class="kw">dim</span>(x)[<span class="dv">3</span>]</a>
 <a class="sourceLine" id="cb319-4" data-line-number="4">  or &lt;-<span class="st"> </span><span class="kw">apply</span>(x, <span class="dv">3</span>, <span class="cf">function</span>(x)</a>
@@ -1106,124 +1132,40 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <a class="sourceLine" id="cb319-8" data-line-number="8">  p &lt;-<span class="st"> </span><span class="kw">pchisq</span>(chi.sq, <span class="dt">df =</span> k <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb319-9" data-line-number="9">  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">Woolf&#39;s X2 :&quot;</span>, chi.sq,</a>
 <a class="sourceLine" id="cb319-10" data-line-number="10">      <span class="st">&quot;</span><span class="ch">\n</span><span class="st">p-value    :&quot;</span>, p, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a>
-<a class="sourceLine" id="cb319-11" data-line-number="11">}</a></code></pre>
+<a class="sourceLine" id="cb319-11" data-line-number="11">}</a></code></pre></div>
+
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
 We can use the <code>woolf.test()</code> function to test for a three-way interaction between <code>CAESAR</code>, <code>WINE</code>, and <code>ILL</code>:</p>
-<pre class="sourceCode r" id="cb320"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="kw">woolf.test</span>(tabW)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="kw">woolf.test</span>(tabW)</a></code></pre></div>
+<p> </p>
 <p>Which returns:</p>
-<pre class="sourceCode r" id="cb321"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="kw">woolf.test</span>(tabW)</a></code></pre>
+<p> </p>
 <pre><code>## 
 ## Woolf&#39;s X2 : 3.319492 
 ## p-value    : 0.06846297</code></pre>
+<p> </p>
 <p>Which is weak evidence of an interaction.</p>
 <p>We should test for interaction between <code>CAESAR</code>, <code>TOMATO</code>, and <code>ILL</code> before accepting the results reported by
 the <code>mantelhaen.test()</code> function:</p>
-<pre class="sourceCode r" id="cb323"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="kw">woolf.test</span>(tabC)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb322-1" data-line-number="1"><span class="kw">woolf.test</span>(tabC)</a></code></pre></div>
 <pre><code>## 
 ## Woolf&#39;s X2 : 0.0001233783 
 ## p-value    : 0.9911376</code></pre>
+<p> </p>
 <p>We can repeat this analysis using logistic regression.</p>
+
 <p>We need to change the coding of the variables to 0 and 1 before specifying the model:</p>
-<pre class="sourceCode r" id="cb325"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">detach</span>(bateman)</a>
-<a class="sourceLine" id="cb325-2" data-line-number="2">bateman &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>bateman</a>
-<a class="sourceLine" id="cb325-3" data-line-number="3">bateman</a>
-<a class="sourceLine" id="cb325-4" data-line-number="4">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>TOMATO,</a>
-<a class="sourceLine" id="cb325-5" data-line-number="5">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
-<a class="sourceLine" id="cb325-6" data-line-number="6"><span class="kw">summary</span>(bateman.lreg)</a>
-<a class="sourceLine" id="cb325-7" data-line-number="7">bateman.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(bateman.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>TOMATO)</a>
-<a class="sourceLine" id="cb325-8" data-line-number="8"><span class="kw">summary</span>(bateman.lreg)</a></code></pre>
-<pre><code>##    ILL CHEESE CRABDIP CRISPS BREAD CHICKEN RICE CAESAR TOMATO ICECREAM
-## 1    1      1       1      1     0       1    1      1      1        1
-## 2    0      1       1      1     0       1    0      0      0        1
-## 3    1      0       0      1     0       1    0      1      0        1
-## 4    1      1       0      1     1       1    0      1      0        1
-## 5    1      1       1      1     0       1    1      1      1        0
-## 6    1      1       1      1     1       1    0      1      1        0
-## 7    1      0       1      1     0       1    1      1      1        1
-## 8    0      1       1      1     0       1    1      0      1        1
-## 9    0      1       1      1     0       1    1      0      1        1
-## 10   0      0       1      1     0       1    0      0      0        1
-## 11   1      1       0      1     1       1    1      1      1        1
-## 12   1      1       1      1     1       1    1      1      1        1
-## 13   0      0       1      1     0       1    1      0      0        1
-## 14   1      0       1      1     1       1    1      1      1        1
-## 15   1      1       1      1     0       0    1      1      1        0
-## 16   1      0       0      0     0       1    1      1      1        1
-## 17   0      1       0      1     1       1    1      0      0        1
-## 18   1      0       1      1     0       1    1      1      1        1
-## 19   1      1       0      0     1       1    1      0      1        1
-## 20   0      0       0      0     0       0    0      0      0        0
-## 21   0      1       0      0     1       0    1      1      0        0
-## 22   0      0       0      0     0       0    0      0      0        1
-## 23   0      0       0      0     0       0    0      0      0        1
-## 24   1      0       1      1     0       1    1      1      0        1
-## 25   1      1       0      0     1       1    1      1      1        1
-## 26   0      0       1      1     1       1    1      0      0        0
-## 27   0      0       1      1     1       1    1      0      0        0
-## 28   1      0       1      0     0       1    1      0      0        1
-## 29   1      1       0      0     1       1    1      0      0        1
-## 30   1      0       1      1     0       1    1      1      1        1
-## 31   1      0       1      1     0       1    1      1      1        1
-## 32   1      1       0      0     0       1    1      1      1        0
-## 33   0      1       0      1     1       1    1      1      1        1
-## 34   1      0       1      1     0       1    1      1      1        0
-## 35   1      1       0      1     0       1    1      1      1        0
-## 36   0      1       0      1     1       0    1      1      1        0
-## 37   1      0       1      1     0       1    1      1      1        1
-## 38   1      1       0      0     0       1    0      1      1        1
-## 39   0      0       1      1     1       1    1      1      1        0
-## 40   1      1       1      1     0       1    0      1      1        0
-## 41   0      0       1      1     1       1    0      1      1        0
-## 42   1      1       0      0     1       0    0      1      1        1
-## 43   1      0       1      1     0       1    0      1      1        0
-## 44   1      0       1      1     0       0    1      1      1        0
-## 45   1      0       1      1     0       0    1      1      1        1
-##    CAKE JUICE WINE COFFEE
-## 1     1     1    1      1
-## 2     1     1    1      0
-## 3     1     0    1      0
-## 4     1     0    1      0
-## 5     1     1    1      1
-## 6     1     1    0      0
-## 7     1     0    1      1
-## 8     1     0    1      1
-## 9     1     0    1      1
-## 10    0     1    0      1
-## 11    1     1    1      0
-## 12    1     0    1      1
-## 13    1     0    1      1
-## 14    0     0    1      1
-## 15    1     1    1      1
-## 16    1     0    1      0
-## 17    0     0    1      0
-## 18    1     0    1      1
-## 19    1     0    1      1
-## 20    1     0    0      1
-## 21    0     0    1      1
-## 22    1     0    1      0
-## 23    1     0    1      0
-## 24    0     0    1      1
-## 25    0     0    1      1
-## 26    1     1    1      1
-## 27    1     1    1      1
-## 28    0     1    0      1
-## 29    1     1    0      1
-## 30    1     0    0      1
-## 31    0     0    0      1
-## 32    1     0    0      1
-## 33    1     0    0      1
-## 34    1     0    1      0
-## 35    1     0    1      1
-## 36    0     0    1      1
-## 37    0     0    1      0
-## 38    1     0    1      0
-## 39    1     1    0      0
-## 40    1     0    1      1
-## 41    0     0    1      1
-## 42    0     0    1      0
-## 43    1     0    1      0
-## 44    1     0    1      0
-## 45    1     1    0      0</code></pre>
+<p> </p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="kw">detach</span>(bateman)</a>
+<a class="sourceLine" id="cb324-2" data-line-number="2">bateman &lt;-<span class="st"> </span><span class="dv">2</span> <span class="op">-</span><span class="st"> </span>bateman</a>
+<a class="sourceLine" id="cb324-3" data-line-number="3">bateman</a>
+<a class="sourceLine" id="cb324-4" data-line-number="4">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>TOMATO,</a>
+<a class="sourceLine" id="cb324-5" data-line-number="5">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
+<a class="sourceLine" id="cb324-6" data-line-number="6"><span class="kw">summary</span>(bateman.lreg)</a>
+<a class="sourceLine" id="cb324-7" data-line-number="7">bateman.lreg &lt;-<span class="st"> </span><span class="kw">update</span>(bateman.lreg, . <span class="op">~</span><span class="st"> </span>. <span class="op">-</span><span class="st"> </span>TOMATO)</a>
+<a class="sourceLine" id="cb324-8" data-line-number="8"><span class="kw">summary</span>(bateman.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ CAESAR + TOMATO, family = binomial(logit), 
@@ -1270,10 +1212,12 @@ the <code>mantelhaen.test()</code> function:</p>
 ## AIC: 45.94
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<p>Interactions are specified using the multiply (__*__) symbol in the model formula:</p>
-<pre class="sourceCode r" id="cb329"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>WINE <span class="op">+</span><span class="st"> </span>CAESAR <span class="op">*</span><span class="st"> </span>WINE,</a>
-<a class="sourceLine" id="cb329-2" data-line-number="2">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
-<a class="sourceLine" id="cb329-3" data-line-number="3"><span class="kw">summary</span>(bateman.lreg)</a></code></pre>
+
+<p>Interactions are specified using the multiply (<code>*</code>) symbol in the model formula:</p>
+<p> </p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1">bateman.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> ILL <span class="op">~</span><span class="st"> </span>CAESAR <span class="op">+</span><span class="st"> </span>WINE <span class="op">+</span><span class="st"> </span>CAESAR <span class="op">*</span><span class="st"> </span>WINE,</a>
+<a class="sourceLine" id="cb327-2" data-line-number="2">                    <span class="dt">family =</span> <span class="kw">binomial</span>(logit), <span class="dt">data =</span> bateman)</a>
+<a class="sourceLine" id="cb327-3" data-line-number="3"><span class="kw">summary</span>(bateman.lreg)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = ILL ~ CAESAR + WINE + CAESAR * WINE, family = binomial(logit), 
@@ -1299,15 +1243,19 @@ the <code>mantelhaen.test()</code> function:</p>
 ## AIC: 46.508
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
+<p> </p>
 <p>Before we continue, it is probably a good idea to save the <code>woolf.test()</code> function for later use:</p>
-<pre class="sourceCode r" id="cb331"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">save</span>(woolf.test, <span class="dt">file =</span> <span class="st">&quot;woolf.r&quot;</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="kw">save</span>(woolf.test, <span class="dt">file =</span> <span class="st">&quot;woolf.r&quot;</span>)</a></code></pre></div>
+<p> </p>
 <div id="matched-data" class="section level2">
 <h2><span class="header-section-number">3.1</span> Matched data</h2>
 <p><em>Matching</em> is another way to control for the effects of potential confounding variables. Matching is usually performed during data-collection as part of the design of a study.</p>
 <p>In a matched case-control studies, each case is matched with one or more controls which are chosen to have the same values over a set of potential confounding variables.
 In order to illustrate how matched data may be analysed using tabulation and stratification in <code>R</code> we will start with the simple case of one-to-one matching (i.e. each case has a single matched control):</p>
-<pre class="sourceCode r" id="cb332"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1">octe &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;octe.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb332-2" data-line-number="2">octe[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1">octe &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;octe.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb330-2" data-line-number="2">octe[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre></div>
 <pre><code>##    ID CASE OC
 ## 1   1    1  1
 ## 2   1    2  1
@@ -1319,7 +1267,9 @@ In order to illustrate how matched data may be analysed using tabulation and str
 ## 8   4    2  1
 ## 9   5    1  1
 ## 10  5    2  1</code></pre>
+<p> </p>
 <p>This data is from a matched case-control study investigating the association between oral contraceptive use and thromboembolism. The cases are 175 women aged between 15 and 44 years admitted to hospital for thromboembolism and discharged alive. The controls are female patients admitted for conditions believed to be unrelated to oral contraceptive use. Cases and controls were matched on age, ethnic group, marital status, parity, income, place of residence, and date of hospitalisation. The variables in the dataset are:</p>
+
 <table>
 <colgroup>
 <col width="20%" />
@@ -1340,235 +1290,92 @@ In order to illustrate how matched data may be analysed using tabulation and str
 </tr>
 </tbody>
 </table>
+<p> </p>
 <p>The dataset consists of 350 records:</p>
-<pre class="sourceCode r" id="cb334"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="kw">nrow</span>(octe)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb332-1" data-line-number="1"><span class="kw">nrow</span>(octe)</a></code></pre></div>
 <pre><code>## [1] 350</code></pre>
+<p> </p>
 <p>There are 175 matched sets of cases and controls:</p>
-<pre class="sourceCode r" id="cb336"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(octe<span class="op">$</span>ID))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(octe<span class="op">$</span>ID))</a></code></pre></div>
 <pre><code>## [1] 175</code></pre>
+<p> </p>
 <p>In each matched set of cases and controls there is one case and one control:</p>
-<pre class="sourceCode r" id="cb338"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="kw">table</span>(octe<span class="op">$</span>ID, octe<span class="op">$</span>CASE)</a></code></pre>
-<pre><code>##      
-##       1 2
-##   1   1 1
-##   2   1 1
-##   3   1 1
-##   4   1 1
-##   5   1 1
-##   6   1 1
-##   7   1 1
-##   8   1 1
-##   9   1 1
-##   10  1 1
-##   11  1 1
-##   12  1 1
-##   13  1 1
-##   14  1 1
-##   15  1 1
-##   16  1 1
-##   17  1 1
-##   18  1 1
-##   19  1 1
-##   20  1 1
-##   21  1 1
-##   22  1 1
-##   23  1 1
-##   24  1 1
-##   25  1 1
-##   26  1 1
-##   27  1 1
-##   28  1 1
-##   29  1 1
-##   30  1 1
-##   31  1 1
-##   32  1 1
-##   33  1 1
-##   34  1 1
-##   35  1 1
-##   36  1 1
-##   37  1 1
-##   38  1 1
-##   39  1 1
-##   40  1 1
-##   41  1 1
-##   42  1 1
-##   43  1 1
-##   44  1 1
-##   45  1 1
-##   46  1 1
-##   47  1 1
-##   48  1 1
-##   49  1 1
-##   50  1 1
-##   51  1 1
-##   52  1 1
-##   53  1 1
-##   54  1 1
-##   55  1 1
-##   56  1 1
-##   57  1 1
-##   58  1 1
-##   59  1 1
-##   60  1 1
-##   61  1 1
-##   62  1 1
-##   63  1 1
-##   64  1 1
-##   65  1 1
-##   66  1 1
-##   67  1 1
-##   68  1 1
-##   69  1 1
-##   70  1 1
-##   71  1 1
-##   72  1 1
-##   73  1 1
-##   74  1 1
-##   75  1 1
-##   76  1 1
-##   77  1 1
-##   78  1 1
-##   79  1 1
-##   80  1 1
-##   81  1 1
-##   82  1 1
-##   83  1 1
-##   84  1 1
-##   85  1 1
-##   86  1 1
-##   87  1 1
-##   88  1 1
-##   89  1 1
-##   90  1 1
-##   91  1 1
-##   92  1 1
-##   93  1 1
-##   94  1 1
-##   95  1 1
-##   96  1 1
-##   97  1 1
-##   98  1 1
-##   99  1 1
-##   100 1 1
-##   101 1 1
-##   102 1 1
-##   103 1 1
-##   104 1 1
-##   105 1 1
-##   106 1 1
-##   107 1 1
-##   108 1 1
-##   109 1 1
-##   110 1 1
-##   111 1 1
-##   112 1 1
-##   113 1 1
-##   114 1 1
-##   115 1 1
-##   116 1 1
-##   117 1 1
-##   118 1 1
-##   119 1 1
-##   120 1 1
-##   121 1 1
-##   122 1 1
-##   123 1 1
-##   124 1 1
-##   125 1 1
-##   126 1 1
-##   127 1 1
-##   128 1 1
-##   129 1 1
-##   130 1 1
-##   131 1 1
-##   132 1 1
-##   133 1 1
-##   134 1 1
-##   135 1 1
-##   136 1 1
-##   137 1 1
-##   138 1 1
-##   139 1 1
-##   140 1 1
-##   141 1 1
-##   142 1 1
-##   143 1 1
-##   144 1 1
-##   145 1 1
-##   146 1 1
-##   147 1 1
-##   148 1 1
-##   149 1 1
-##   150 1 1
-##   151 1 1
-##   152 1 1
-##   153 1 1
-##   154 1 1
-##   155 1 1
-##   156 1 1
-##   157 1 1
-##   158 1 1
-##   159 1 1
-##   160 1 1
-##   161 1 1
-##   162 1 1
-##   163 1 1
-##   164 1 1
-##   165 1 1
-##   166 1 1
-##   167 1 1
-##   168 1 1
-##   169 1 1
-##   170 1 1
-##   171 1 1
-##   172 1 1
-##   173 1 1
-##   174 1 1
-##   175 1 1</code></pre>
+<p> </p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="kw">table</span>(octe<span class="op">$</span>ID, octe<span class="op">$</span>CASE)</a></code></pre></div>
+<pre><code>##     
+##      1 2
+##   1  1 1
+##   2  1 1
+##   3  1 1
+##   4  1 1
+##   5  1 1
+##   6  1 1
+##   7  1 1
+##   8  1 1
+##   9  1 1
+##   10 1 1</code></pre>
+
 <p>This data may be analysed using <em>McNemar’s chi-squared test</em> which use the number of discordant (i.e. relative to exposure) pairs of matched cases and controls.</p>
 <p>To find the number of discordant pairs we need to split the dataset into cases and controls:</p>
-<pre class="sourceCode r" id="cb340"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb340-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb338-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span><span class="kw">subset</span>(octe, CASE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)</a></code></pre></div>
+<p> </p>
 <p>Sorting these two datasets (i.e. <code>octe.cases</code> and <code>octe.controls</code>) by the <code>ID</code> variable simplifies the analysis:</p>
-<pre class="sourceCode r" id="cb341"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span>octe.cases[<span class="kw">order</span>(octe.cases<span class="op">$</span>ID), ]</a>
-<a class="sourceLine" id="cb341-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span>octe.controls[<span class="kw">order</span>(octe.controls<span class="op">$</span>ID), ]</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" data-line-number="1">octe.cases &lt;-<span class="st"> </span>octe.cases[<span class="kw">order</span>(octe.cases<span class="op">$</span>ID), ]</a>
+<a class="sourceLine" id="cb339-2" data-line-number="2">octe.controls &lt;-<span class="st"> </span>octe.controls[<span class="kw">order</span>(octe.controls<span class="op">$</span>ID), ]</a></code></pre></div>
+<p> </p>
 <p>Since the two datasets (i.e. <code>octe.cases</code> and <code>octe.controls</code>) are now sorted by the <code>ID</code> variable we can use the <code>table()</code> function to retrieve the number if concordant and discordant pairs and store them in a table object:</p>
-<pre class="sourceCode r" id="cb342"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(octe.cases<span class="op">$</span>OC, octe.controls<span class="op">$</span>OC)</a>
-<a class="sourceLine" id="cb342-2" data-line-number="2">tab</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(octe.cases<span class="op">$</span>OC, octe.controls<span class="op">$</span>OC)</a>
+<a class="sourceLine" id="cb340-2" data-line-number="2">tab</a></code></pre></div>
 <pre><code>##    
 ##      1  2
 ##   1 10 57
 ##   2 13 95</code></pre>
+<p> </p>
 <p>This table object (i.e. <code>tab</code>) can then be passed to the <code>mcnemar.test()</code> function:</p>
-<pre class="sourceCode r" id="cb344"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" data-line-number="1"><span class="kw">mcnemar.test</span>(tab)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="kw">mcnemar.test</span>(tab)</a></code></pre></div>
 <pre><code>## 
 ##  McNemar&#39;s Chi-squared test with continuity correction
 ## 
 ## data:  tab
 ## McNemar&#39;s chi-squared = 26.414, df = 1, p-value = 2.755e-07</code></pre>
+<p> </p>
 <p>The <code>mcnemar.test()</code> function does not provide an estimate of the odds ratio. This is the ratio of the discordant pairs:</p>
-<pre class="sourceCode r" id="cb346"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1">r &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb346-2" data-line-number="2">s &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb346-3" data-line-number="3">rdp &lt;-<span class="st"> </span>r <span class="op">/</span><span class="st"> </span>s</a>
-<a class="sourceLine" id="cb346-4" data-line-number="4">rdp</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb344-1" data-line-number="1">r &lt;-<span class="st"> </span>tab[<span class="dv">1</span>,<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb344-2" data-line-number="2">s &lt;-<span class="st"> </span>tab[<span class="dv">2</span>,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb344-3" data-line-number="3">rdp &lt;-<span class="st"> </span>r <span class="op">/</span><span class="st"> </span>s</a>
+<a class="sourceLine" id="cb344-4" data-line-number="4">rdp</a></code></pre></div>
 <pre><code>## [1] 4.384615</code></pre>
+<p> </p>
 <p>A confidence interval can also be calculated:</p>
-<pre class="sourceCode r" id="cb348"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1">ci.p &lt;-<span class="st"> </span><span class="kw">binom.test</span>(r, r <span class="op">+</span><span class="st"> </span>s)<span class="op">$</span>conf.int</a>
-<a class="sourceLine" id="cb348-2" data-line-number="2">ci.rdp &lt;-<span class="st"> </span>ci.p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>ci.p)</a>
-<a class="sourceLine" id="cb348-3" data-line-number="3">ci.rdp</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1">ci.p &lt;-<span class="st"> </span><span class="kw">binom.test</span>(r, r <span class="op">+</span><span class="st"> </span>s)<span class="op">$</span>conf.int</a>
+<a class="sourceLine" id="cb346-2" data-line-number="2">ci.rdp &lt;-<span class="st"> </span>ci.p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>ci.p)</a>
+<a class="sourceLine" id="cb346-3" data-line-number="3">ci.rdp</a></code></pre></div>
 <pre><code>## [1] 2.371377 8.731311
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
+<p> </p>
 <p>This provides a 95% confidence interval. Other (e.g. 99%) confidence intervals can be produced by specifying appropriate values for the <code>conf.level</code> parameter of the <code>binom.test()</code> function:</p>
-<pre class="sourceCode r" id="cb350"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" data-line-number="1">ci.p &lt;-<span class="st"> </span><span class="kw">binom.test</span>(r, r <span class="op">+</span><span class="st"> </span>s, <span class="dt">conf.level =</span> <span class="fl">0.99</span>)<span class="op">$</span>conf.int</a>
-<a class="sourceLine" id="cb350-2" data-line-number="2">ci.rdp &lt;-<span class="st"> </span>ci.p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>ci.p)</a>
-<a class="sourceLine" id="cb350-3" data-line-number="3">ci.rdp</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1">ci.p &lt;-<span class="st"> </span><span class="kw">binom.test</span>(r, r <span class="op">+</span><span class="st"> </span>s, <span class="dt">conf.level =</span> <span class="fl">0.99</span>)<span class="op">$</span>conf.int</a>
+<a class="sourceLine" id="cb348-2" data-line-number="2">ci.rdp &lt;-<span class="st"> </span>ci.p <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>ci.p)</a>
+<a class="sourceLine" id="cb348-3" data-line-number="3">ci.rdp</a></code></pre></div>
 <pre><code>## [1]  2.010478 10.949095
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.99</code></pre>
+
 <p>An alternative way of analysing this data is to use the <code>mantelhaen.test()</code> function:</p>
-<pre class="sourceCode r" id="cb352"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(octe<span class="op">$</span>OC, octe<span class="op">$</span>CASE, octe<span class="op">$</span>ID)</a>
-<a class="sourceLine" id="cb352-2" data-line-number="2"><span class="kw">mantelhaen.test</span>(tab)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(octe<span class="op">$</span>OC, octe<span class="op">$</span>CASE, octe<span class="op">$</span>ID)</a>
+<a class="sourceLine" id="cb350-2" data-line-number="2"><span class="kw">mantelhaen.test</span>(tab)</a></code></pre></div>
 <pre><code>## 
 ##  Mantel-Haenszel chi-squared test with continuity correction
 ## 
@@ -1580,10 +1387,12 @@ In order to illustrate how matched data may be analysed using tabulation and str
 ## sample estimates:
 ## common odds ratio 
 ##          4.384615</code></pre>
+<p> </p>
 <p>The Mantel-Haenszel approach is preferred because it can be used with data from matched case-control studies that match more than one control to each case. Multiple matching is useful when the condition being studied is rare or at the early stages of an outbreak (i.e. when cases are hard to find and controls are easy to find).</p>
 <p>We will now work with some data where each case has one or more controls:</p>
-<pre class="sourceCode r" id="cb354"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1">tsstamp &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tsstamp.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb354-2" data-line-number="2">tsstamp</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" data-line-number="1">tsstamp &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;tsstamp.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb352-2" data-line-number="2">tsstamp</a></code></pre></div>
 <pre><code>##    ID CASE RBTAMP
 ## 1   1    1      1
 ## 2   1    2      1
@@ -1628,7 +1437,9 @@ In order to illustrate how matched data may be analysed using tabulation and str
 ## 41 14    1      2
 ## 42 14    2      2
 ## 43 14    2      2</code></pre>
+<p> </p>
 <p>This data is from a matched case-control study investigating the association between the use of different brands of tampon and toxic shock syndrome undertaken during an outbreak. Only a subset of the original dataset is used here. The variables in the dataset are:</p>
+
 <table>
 <colgroup>
 <col width="20%" />
@@ -1649,14 +1460,20 @@ In order to illustrate how matched data may be analysed using tabulation and str
 </tr>
 </tbody>
 </table>
+<p> </p>
 <p>The dataset consists of forty-three (43) records:</p>
-<pre class="sourceCode r" id="cb356"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" data-line-number="1"><span class="kw">nrow</span>(tsstamp)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="kw">nrow</span>(tsstamp)</a></code></pre></div>
 <pre><code>## [1] 43</code></pre>
+<p> </p>
 <p>There are fourteen (14) matched sets of cases and controls:</p>
-<pre class="sourceCode r" id="cb358"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(tsstamp<span class="op">$</span>ID))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(tsstamp<span class="op">$</span>ID))</a></code></pre></div>
 <pre><code>## [1] 14</code></pre>
+<p> </p>
 <p>Each matched set of cases and controls consists of one case and one or more controls:</p>
-<pre class="sourceCode r" id="cb360"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="kw">table</span>(tsstamp<span class="op">$</span>ID, tsstamp<span class="op">$</span>CASE)</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="kw">table</span>(tsstamp<span class="op">$</span>ID, tsstamp<span class="op">$</span>CASE)</a></code></pre></div>
 <pre><code>##     
 ##      1 2
 ##   1  1 2
@@ -1673,9 +1490,11 @@ In order to illustrate how matched data may be analysed using tabulation and str
 ##   12 1 3
 ##   13 1 2
 ##   14 1 2</code></pre>
+<p> </p>
 <p>The <em>McNemar’s chi-squared test</em> is not useful for this data as it is limited to the special case of one-to-one matching.</p>
 <p>Analysing this data using a simple tabulation such as:</p>
-<pre class="sourceCode r" id="cb362"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE))</a></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -1687,10 +1506,12 @@ In order to illustrate how matched data may be analysed using tabulation and str
 ## sample estimates:
 ## odds ratio 
 ##   7.709932</code></pre>
+<p> </p>
 <p>ignores the matched nature of the data and is, therefore, also not useful for this data.</p>
 <p>The matched nature of the data may be accounted by stratifying on the variable that identifies the matched sets
 of cases and controls (i.e. the <code>ID</code> variable) using the <code>mantelhaen.test()</code> function:</p>
-<pre class="sourceCode r" id="cb364"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE, tsstamp<span class="op">$</span>ID))</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="kw">mantelhaen.test</span>(<span class="kw">table</span>(tsstamp<span class="op">$</span>RBTAMP, tsstamp<span class="op">$</span>CASE, tsstamp<span class="op">$</span>ID))</a></code></pre></div>
 <pre><code>## 
 ##  Mantel-Haenszel chi-squared test with continuity correction
 ## 
@@ -1702,9 +1523,12 @@ of cases and controls (i.e. the <code>ID</code> variable) using the <code>mante
 ## sample estimates:
 ## common odds ratio 
 ##          8.285714</code></pre>
+<p> </p>
 <p>Analysis of several risk factors or adjustment for confounding variables not matched for in the design of a matched case-control study cannot be performed using tabulation-based procedures such as the <code>McNemar's chi- squared test</code> and Mantel-Haenszel procedures. In these situations a special form of logistic regression, called <code>conditional logistic regression</code>, should be used.</p>
 <p>We can now quit <code>R</code>:</p>
-<pre class="sourceCode r" id="cb366"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<p> </p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 </div>
 <div id="summary-2" class="section level2">
