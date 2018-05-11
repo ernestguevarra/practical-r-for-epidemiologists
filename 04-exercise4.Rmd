@@ -8,19 +8,29 @@ opts_knit$set(root.dir = "data/")
 In this exercise we will use the `R` functions we have already used and the functions we have added to `R` to
 analyse a small dataset. First we will start `R` and retrieve our functions: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 load("tab2by2.r")
 load("lregor.r")
 ```
 
+&nbsp;
+
 And then retrieve and attach the sample dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 gudhiv <- read.table("gudhiv.dat", header = TRUE, na.strings = "X")
 attach(gudhiv)
 ```
 
+\newpage
+
 This data is from a cross-sectional study of 435 male patients who presented with sexually transmitted infections at an outpatient clinic in The Gambia between August 1988 and June 1990. Several studies have documented an association between genital ulcer disease (GUD) and HIV infection. A study of Gambian prostitutes documented an association between seropositivity for HIV-2 and antibodies against `Treponema pallidum` (a serological test for syphilis). Prostitutes are not the ideal population for such studies as they may have experienced multiple sexually transmitted infections and it is difficult to quantify the number of times they may have had sex with HIV-2 seropositive customers. A sample of males with sexually transmitted infections is easier to study as they have probably had fewer sexual partners than prostitutes and much less contact with sexually transmitted infection pathogens. In such a sample it is also easier to find subjects and collect data. The variables in the dataset are:
+
+&nbsp;
 
 +---------------+------------------------------------------------------------+
 | **MARRIED**   | Married (1=yes, 0=no)                                      |
@@ -44,11 +54,15 @@ This data is from a cross-sectional study of 435 male patients who presented wit
 | **HIV HIV-2** | positive serology (1=yes, 0=no)                            |
 +---------------+------------------------------------------------------------+
 
+&nbsp;
+
 Data is available for all 435 patients enrolled in the study.
 
 We will start our analysis by examining pairwise associations between the binary exposure variables and the
 HIV variable using the `tab2by2()` function that we wrote earlier:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 tab2by2(MARRIED, HIV)
 tab2by2(GAMBIAN, HIV)
@@ -60,41 +74,77 @@ tab2by2(SEXPRO, HIV)
 tab2by2(INJ12M, HIV)
 ```
 
+\newpage
+
 ```{r, eval = TRUE}
 tab2by2(MARRIED, HIV)
 tab2by2(GAMBIAN, HIV)
+```
+
+\newpage
+
+```{r, eval = TRUE}
 tab2by2(GUD, HIV)
 tab2by2(UTIGC, HIV)
+```
+
+\newpage
+
+```{r, eval = TRUE}
 tab2by2(CIR, HIV)
 tab2by2(TRAVOUT, HIV)
+```
+
+\newpage
+
+```{r, eval = TRUE}
 tab2by2(SEXPRO, HIV)
 tab2by2(INJ12M, HIV)
 ```
 
+&nbsp;
+
 Note that our `tab2by2()` function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the `exposure` and `outcome` variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the `gudhiv` dataset.
+
+\newpage
 
 We can produce risk ratio estimates for variables in the `gudhiv` data using the `tab2by2()` function and a
 simple transformation of the `exposure` and `outcome` variables. For example: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 tab2by2(2 - GUD, 2 - HIV)
 ```
 
+&nbsp;
+
 The odds ratio estimates returned by the `tab2by2()` function, with or without this transformation, are correct. The `GUD` and `TRAVOUT` variables are associated with `HIV`.
 
 `PARTNERS` is a continuous variable and we should examine its distribution before doing anything with it: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 table(PARTNERS)
 hist(PARTNERS)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, eval = TRUE}
 table(PARTNERS)
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE}
 hist(PARTNERS)
 ```
 
+&nbsp;
+
 The distribution of `PARTNERS` is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the `HIV` variable and perform a non-parametric test:
+   
+&nbsp;
    
 ```{r, eval = FALSE}
 by(PARTNERS, HIV, summary)
@@ -106,39 +156,63 @@ by(PARTNERS, HIV, summary)
 kruskal.test(PARTNERS ~ HIV)
 ```
 
+\newpage
+
 An alternative way of looking at the data is as a tabulation:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 table(PARTNERS, HIV)
 ```
 
+&nbsp;
+
 You can use the `plot()` function to represent this table graphically: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 plot(table(PARTNERS, HIV), color = c("lightgreen", "red"))
 ```
 
+\newpage
+
 There appears to be an association between the number of sexual `PARTNERS` in the previous twelve months and positive `HIV` serology. The proportion with positive `HIV` serology increases as the number of sexual partners increases:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 prop.table(table(PARTNERS, HIV), 1) * 100
 ```
 
+&nbsp;
+
 The **‘1’** instructs the `prop.table()` function to calculate row proportions. You can also use the `plot()` function to represent this table graphically:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 plot(prop.table(table(PARTNERS, HIV), 1) * 100, color = c("lightgreen", "red"))
 ```
 
+\newpage
+
 The *chi-square test for trend* is an appropriate test to perform on this data. The `prop.trend.test()` function that performs the *chi-square test for trend* requires you to specify the *number of events* and the *number of trials*. In this table:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 table(PARTNERS, HIV)
 ```
 
+&nbsp;
+
 The *number of events* in each row is in the second column (labelled **1**) and the *number of trials* is the total number of cases in each row of the table.
 
 We can extract this data from a table object:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 tab <- table(PARTNERS, HIV)
@@ -152,19 +226,31 @@ events <- tab[ ,2]
 trials <- tab[ ,1] + tab[ ,2]
 ```
 
+&nbsp;
+
 Another way of creating the `trials` object would be to use the `apply()` function to sum the rows of the tab object:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 trials <- apply(tab, 1, sum)
 ```
 
+\newpage
+
 Pass this data to the `prop.trend.test()` function: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 prop.trend.test(events, trials)
 ```
 
+&nbsp;
+
 With a linear trend such as this we can use `PARTNERS` in a logistic model without recoding or creating indicator variables. We can now specify and fit the logistic regression model:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS,
@@ -172,11 +258,17 @@ gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS,
 summary(gudhiv.lreg)
 ```
 
+&nbsp;
+
 We can use the `lreg.or()` function that we wrote earlier to calculate and display odds ratios and confidence intervals:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 lreg.or(gudhiv.lreg)
 ```
+
+&nbsp;
 
 `PARTNERS` is incorporated into the logistic model as a continuous variable.
 
@@ -184,23 +276,41 @@ The odds ratio reported for `PARTNERS` is the odds ratio associated with a unit 
 
 An alternative approach would be to have created an *indicator* variables: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 part.gt.5 <- ifelse(PARTNERS > 5, 1, 0)
 ```
 
+&nbsp;
+
 This creates a new variable (`part.gt.5`) that indicates whether or not an individual subject reported having more than five sexual partners in the previous twelve months:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 table(PARTNERS, part.gt.5)
 ```
 
+&nbsp;
+
 You can also inspect this on a case-by-case basis:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 cbind(PARTNERS, part.gt.5)
 ```
 
+```{r, echo = FALSE, eval = TRUE}
+head(cbind(PARTNERS, part.gt.5))
+```
+
+&nbsp;
+
 We can now specify and fit the logistic regression model using our indicator variable:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 gudhiv.lreg <- glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5,
@@ -216,11 +326,17 @@ summary(gudhiv.lreg)
 lreg.or(gudhiv.lreg)
 ```
 
+&nbsp;
+
 We can now quit R:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 q()
 ```
+
+&nbsp;
 
 For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 
