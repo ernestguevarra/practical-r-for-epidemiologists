@@ -5,12 +5,18 @@ Graphical functions in `R` are just like any other function in `R` in the sense 
 The first function that we will develop will be a function that is capable of plotting two data series on a single graph. We will take this exercise slowly in order to introduce some further graphical functions.
 Before we go any further we should start `R` and retrieve a dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 mal <- read.table("malaria.dat", header = TRUE)
 attach(mal)
 ```
 
+&nbsp;
+
 The file `malaria.dat` contains data on rainfall (in mm) and the number of cases of malaria reported from health centres in an administrative district of Ethiopia between July 1997 and July 1999. The columns in this dataset are as follows:
+
+&nbsp;
 
 +----------+----------------------------------------+
 | **Time** | Month and year (as text)               |
@@ -20,86 +26,148 @@ The file `malaria.dat` contains data on rainfall (in mm) and the number of cases
 | **Rain** | Rainfall in mm                         |
 +----------+----------------------------------------+
 
+\newpage
+
 Examine the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 mal
 ```
 
+\newpage
+
 First we will plot the number of cases of malaria seen over time using the `plot()` function: 
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Cases, type = "l")
 ```
 
+&nbsp;
+
 The problem with this plot is that it does not treat the data as a time series. Adding the `Time` variable to the plot does not solve the problem:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Time, Cases, type = "l")
 ```
 
+\newpage
+
 Because `Time` is a factor variable. If you convert `Time` to a character variable using `as.character()` or prevent `R` from converting `Time` to a factor using the `as.is` parameter to the `read.table()` function the `plot()` function will return an error because it expects a numeric x-axis variable. We should, instead, specify a time series (`ts`) class object. Rather than change the original data, we will create a new object using the `ts()` function:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cases.ts <- ts(Cases, start = c(1997, 7), frequency = 12)
 ```
 
+&nbsp;
+
 Examine the cases.ts object:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cases.ts
 ```
 
+&nbsp;
+
 We can now plot `cases.ts` as a time series: 
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(cases.ts)
 ```
 
+\newpage
+
 We might want to explore the association between the `Rain` and `Cases` variables. A simple scatter plot is not particularly informative:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Rain, Cases)
 ```
 
+\newpage
+
 It is better to treat both variables as time series (which they are) and use the built-in `plot()` methods for objects of class `ts`:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 rain.cases.ts <- ts(cbind(Rain, Cases), start = c(1997,7), frequency = 12)
 plot(rain.cases.ts)
 ```
+
+&nbsp;
 
 The association between the `Rain` and `Cases` variables is now clearer with the number of malaria cases peaking shortly after peaks in rainfall.
 
 The `plot()` function when used with objects of class `ts` produces useful output but it is not particularly flexible and the output is, sometimes, not particularly pretty. We can however use basic graphical functions to produce multiple plots. First we will set the `mfrow` graphical parameter using the `par()` function:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 par(mfrow = c(2, 1))
 ```
 
+&nbsp;
+
 The `par()` function sets a graphical parameter. The `mfrow` parameter is used to set the number of charts that will appear on a page in rows and columns. We have specified two rows with one chart per row. Test this by plotting two charts:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Rain, type = "l")
 plot(Cases, type = "l")
 ```
 
+\newpage
+
 We will want to have tick-marks on the x-axis of each for each record. We can set the number of tick-marks on axes by setting the `lab` graphical parameter using the `par()` function:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 par(lab = c(length(Time), 10, 7))
 ```
 
+&nbsp;
+
 The `par()` function sets a graphical parameter. The `lab` parameter is used to set the number tick-marks on the x and y axes and the label size. We have specified a tick-mark on the x-axis for each record (i.e. using `length(Time)`), ten tick-marks on the y-axis, and a label length of seven. Test this by plotting two charts:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 plot(Rain, type = "l")
 plot(Cases, type = "l")
 ```
 
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot(Rain, type = "l")
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot(Cases, type = "l")
+```
+
+&nbsp;
+
 The problem with these charts is that the month and year are not displayed on the x-axis. We can get round this by plotting a chart without axes and then specifying the axes and labels directly:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Rain, type = "l", axes = FALSE, xlab = "Time", ylab = "mm", main = "Rainfall")
 axis(side = 1, labels = as.character(Time), at = 1:length(Time))
 axis(side = 2)
@@ -108,44 +176,64 @@ axis(side = 1, labels = as.character(Time), at = 1:length(Time))
 axis(side = 2)
 ```
 
+&nbsp;
+
 The resulting charts now look much better (you may need to resize the plot to display the x-axis labels correctly) but it would be nice to be able draw the two lines on a single chart.
 
 Before proceeding we will use the `par()` function to specify one plot per window (using the `mfrow` parameter) and set the default number of tick-marks on the axes (using the `lab` parameter):
+
+&nbsp;
 
 ```{r, eval = TRUE}
 par(mfrow = c(1, 1))
 par(lab = c(5, 5, 7))
 ```
 
+&nbsp;
+
 And then use the `plot()` and `lines()` function to draw the two lines on the same graph: 
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Cases, type = "l")
 lines(Rain, lty = 2)
 ```
 
+&nbsp;
+
 The problem with this is that the ranges of the two variables are different and the `plot()` function automatically sets the y-axis to the range of the specified variable. To fix this problem we need to set the limits of the y-axis to the minimum and maximum value of both of variables using the `ylim` parameter of the `plot()` function:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Cases, type = "l", ylim = c(min(Cases, Rain), max(Cases, Rain)))
 lines(Rain, lty = 2)
 ```
 
+&nbsp;
+
 We can improve the chart by adding a legend:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 legend(18, 1000, legend = c("Cases", "Rainfall (mm)"), lty = c(1,2))
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Cases, type = "l", ylim = c(min(Cases, Rain), max(Cases, Rain)))
 lines(Rain, lty = 2)
 legend(18, 1000, legend = c("Cases", "Rainfall (mm)"), lty = c(1,2))
 ```
 
+\newpage
+
 We could continue to improve the chart (e.g. by adding labels for the x-axis tick-marks taken from the `Time` variable, specifying more meaningful axis labels, and specifying a title) but the chart would be more useful if each variable made full use of the plotting area. We can do this by plotting one chart on top of another by using the `new` graphical parameter:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(lab = c(length(Time), 5, 7))
 plot(Cases, type = "l", lty = 1, axes = FALSE)
 axis(side = 2)
@@ -154,6 +242,8 @@ plot(Rain, type = "l", lty = 2, axes = FALSE)
 axis(side = 4)
 axis(side = 1)
 ```
+
+&nbsp;
 
 This chart is much clearer but there are still some improvements that could be made:
 
@@ -169,7 +259,9 @@ The x-axis should be properly labelled. We can do this using the `xlab` paramete
 
 Try this now:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(mar = c(5, 5, 4, 5))
 par(lab = c(length(Time), 5, 7))
 plot(Cases, type = "l", lty = 1, axes = FALSE,
@@ -184,21 +276,33 @@ mtext(text = "Rainfall (mm)", side = 4, line = 3)
 axis(side = 1, labels = as.character(Time), at = 1:length(Time))
 ```
 
+\newpage
+
 Now that we know how to create a two-axis chart, we can write a function that we will be able to use whenever we need to plot two variables on the same chart. Create a new function called `plot2var()`:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 plot2var <- function() {}
 ```
 
+&nbsp;
+
 This creates an empty function called `plot2var()`.
 
 Use the `fix()` function to edit the `plot2var()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(plot2var)
 ```
 
+&nbsp;
+
 Edit the function to read:
+   
+&nbsp;
    
 ```{r, eval = FALSE}
 function(y1,
@@ -229,6 +333,7 @@ function(y1,
   par(lab = old.par.lab)
 }
 ```
+
 ```{r, echo = FALSE, eval = TRUE}
 plot2var <- function(y1,
            y2,
@@ -259,33 +364,50 @@ plot2var <- function(y1,
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, save the file and quit the editor.
 
 Note that with this function we have given some of the parameters default values in the function definition and we have also used the `if()` function to check whether the user specified a value for the `x.ticks` parameter. We also save and restore the graphical parameters `mar` and `lab` so as to prevent changes to these parameters in the `plot2var()` function affecting other graphical functions.
 
 Let's try the `plot2var()` function with the test data: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 plot2var(Rain, Cases)
 plot2var(Rain, Cases, Time)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot2var(Rain, Cases)
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot2var(Rain, Cases, Time)
 ```
 
+&nbsp;
+
 Note how the function has used default values for the axis labels and chart title. We can override these default values if we want to:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot2var(Rain, Cases, Time, x.lab = "Month and Year",
          y1.lab = "Rainfall (mm)", y2.lab = "Cases of malaria")
 ```
+
+&nbsp;
 
 You might like to use the `save()` function to save the `plot2var()` function.
 
 As an exercise you might want to edit the `plot2var()` function to automatically add a legend to the two-axis
 chart using the `legend()` function with `y1.lab` and `y2.lab`. Before continuing we should detach the `mal` data.frame:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 detach(mal)
@@ -297,14 +419,20 @@ A common chart type that is not available in many statistical applications and i
 
 Before we go any further we should retrieve a dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 pop <- read.table("pop.dat", header = TRUE)
 attach(pop)
 ```
 
+&nbsp;
+
 The file `pop.dat` contains data on the age (in months) and sex of 438 children aged between six and sixty months collected as part of a nutritional anthropometry survey of the Khosh Valley in Northeast Afghanistan.
 
 The columns in this dataset are as follows:
+
+&nbsp;
 
 +----------+----------------------------+
 | **AGE**  | Age of the child in months |
@@ -312,63 +440,99 @@ The columns in this dataset are as follows:
 | **SEX**  | Sex of the child (M/F)     |
 +----------+----------------------------+
 
+&nbsp;
+
 Examine the first twenty records of the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 pop[1:20, ]
 ```
 
+&nbsp;
+
 The first step is to make groups from the `AGE` variable since many ages are biased towards full years: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 table(AGE)
 barplot(table(AGE), col = "white")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 table(AGE)
 barplot(table(AGE), col = "white")
 ```
 
+&nbsp;
+
 So we will centre the age-groups around the months representing full years:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 age.group <- cut(AGE, c(0, 17, 29, 41, 53, 99))
 ```
 
+\newpage
+
 We can check that the grouping operation has worked as expected by tabulating `AGE` and `age.group`: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 table(AGE, age.group)
 ```
 
+\newpage
+
 We now use the `table()` function to produce the summary data for the population pyramid: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 table(age.group, SEX)
 ```
 
+&nbsp;
+
 We will construct our population pyramid using the `barplot()` function: 
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(age.group, SEX))
 ```
 
+\newpage
+
 The default behaviour of the `barplot()` function is to produce stacked bars. We can set the `beside` parameter to display the bars side-by-side:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(age.group, SEX), beside = TRUE)
 ```
 
+&nbsp;
+
 We can also use the `horiz` parameter to present the data as horizontal bars: 
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(age.group, SEX), beside = TRUE, horiz = TRUE)
 ```
 
+\newpage
+
 In order to centre the bars around zero we need to make one column of the summary data table contain negative numbers:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 tab <- table(age.group, SEX)
 tab
 tab[ ,1] <- -tab[ ,1]
@@ -376,34 +540,60 @@ tab
 barplot(tab, beside = TRUE, horiz = TRUE)
 ```
 
+&nbsp;
+
 This is looking better.
 
 We still need to shift the second set of bars down beside the first set of bars using thespace parameter:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)))
 ```
 
+&nbsp;
+
 The axis labels are wrong but we can fix that using the `names.arg` parameter:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 bar.names <- c(dimnames(tab)$age.group, dimnames(tab)$age.group)
 barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
         names.arg = bar.names)
 ```
 
+\newpage
+
 The chart can still be improved upon by making the fill-colour of each bar white and by expanding the x-axis slightly:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
         col = "white", xlim = c(min(tab) * 1.2, max(tab) * 1.2),
         names.arg = bar.names)
 ```
 
+&nbsp;
 
 The chart would be better if the x-axis displayed only positive numbers:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
+barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
+        col = "white", xlim = c(min(tab) * 1.2, max(tab) * 1.2),
+        names.arg = bar.names, axes = FALSE)
+axis(side = 1,
+     labels = abs(axTicks(side = 1)),
+     at = (axTicks(side = 1)))
+```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(tab, beside = TRUE, horiz = TRUE, space = c(0, -nrow(tab)),
         col = "white", xlim = c(min(tab) * 1.2, max(tab) * 1.2),
         names.arg = bar.names, axes = FALSE)
@@ -416,19 +606,29 @@ Now we know how to create a population pyramid, we can write a function that we 
 
 Create a new function called `pyramid.plot()`: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 pyramid.plot <- function() {}
 ```
+
+&nbsp;
 
 This creates an empty function called `pyramid.plot()`.
 
 Use the `fix()` function to edit the `pyramid.plot()` function:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 fix(pyramid.plot)
 ```
 
+\newpage
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(x,
@@ -486,22 +686,39 @@ pyramid.plot <- function(x,
 }
 ```
 
+&nbsp;
+
 Note that with this function we have given some of the parameters default values in the function definition.
 
 Giving default values to parameters is useful because it means that you do not need to specify parameters such as titles and axis labels unless you want to. Many `R` functions use default parameters which are usually set to the most frequently used values.
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor. Let's try the `pyramid.plot()` function with the test data:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 pyramid.plot(age.group, SEX)
 ```
 
+&nbsp;
+
 Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 pyramid.plot(age.group, SEX, ylab = "Months", xlab = "Sex F / M",
              main = "Children by age and sex")
 ```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+pyramid.plot(age.group, SEX, ylab = "Months", xlab = "Sex F / M",
+             main = "Children by age and sex")
+```
+
+&nbsp;
 
 You might like to use the `save()` function to save the `pyramid.plot()` function.
 
@@ -511,77 +728,93 @@ Another type of chart that is missing from many statistical applications is the 
 
 Before we go any further we should detach the `pop` data.frame and retrieve a new dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 detach(pop)
 sssw <- read.table("sssw.dat", header = TRUE)
 attach(sssw)
 ```
 
+&nbsp;
+
 The file `sssw.dat` contains data on the marital status, home circumstances, and ethnic group of 152 persons recruited into a study into the levels of stress experienced by student social workers in the United Kingdom. The columns in this dataset are as follows:
+
+&nbsp;
 
 +---------------+----------------------------------------+
 | **marital**   | Marital status coded as:               |
 |               |                                        |
-|               |       1 = Married                      |
+|               |   1 = Married                          |
 |               |                                        |
-|               |       2 = Single                       |
+|               |   2 = Single                           |
 |               |                                        |
-|               |       3 = Divorced                     |
+|               |   3 = Divorced                         |
 |               |                                        |
-|               |       4 = Separated                    |
+|               |   4 = Separated                        |
 |               |                                        |
-|               |       5 = Cohabiting                   |
+|               |   5 = Cohabiting                       |
 |               |                                        |
-|               |       6 = Widowed                      |
+|               |   6 = Widowed                          |
 +---------------+----------------------------------------+
+
 +---------------+----------------------------------------+
-| **living**    | Living with ... coded as:              |
+| **living**    | Living with... coded as:               |
 |               |                                        |
-|               |       1 = Alone                        |
+|               |   1 = Alone                            |
 |               |                                        |
-|               |       2 = Parents or siblings          |
+|               |   2 = Parents or siblings              |
 |               |                                        |
-|               |       3 = Partner                      |
+|               |   3 = Partner                          |
 |               |                                        |
-|               |       4 = Partner and children         |
+|               |   4 = Partner and children             |
 |               |                                        |
-|               |       5 = Children                     |
+|               |   5 = Children                         |
 |               |                                        |
-|               |       6 = Friends or colleagues        |
+|               |   6 = Friends or colleagues            |
 +---------------+----------------------------------------+
+
 +---------------+----------------------------------------+
 | **ethnic**    | Ethnic group coded as:                 |
 |               |                                        |
-|               |       1 = African                      |
+|               |   1 = African                          |
 |               |                                        |
-|               |       2 = West-Indian                  |
+|               |   2 = West-Indian                      |
 |               |                                        |
-|               |       3 = Indian                       |
+|               |   3 = Indian                           |
 |               |                                        |
-|               |       4 = Pakistani                    |
+|               |   4 = Pakistani                        |
 |               |                                        |
-|               |       5 = Bangladeshi                  |
+|               |   5 = Bangladeshi                      |
 |               |                                        |
-|               |       6 = East African Asian           |
+|               |   6 = East African Asian               |
 |               |                                        |
-|               |       7 = Chinese                      |
+|               |   7 = Chinese                          |
 |               |                                        |
-|               |       8 = Cypriot                      |
+|               |   8 = Cypriot                          |
 |               |                                        |
-|               |       9 = Black European               |
+|               |   9 = Black European                   |
 |               |                                        |
-|               |      10 = White European               |
+|               |   10 = White European                  |
 |               |                                        |
-|               |      11 = Other                        |
+|               |   11 = Other                           |
 +---------------+----------------------------------------+
 
+\newpage
+
 Examine the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 sssw[1:20, ]
 ```
 
+&nbsp;
+
 Producing a bar chart from this data is simple as long as we remember to pass summary data (i.e. created using the `table()` function) to the `barplot()` function instead of the variable name:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 barplot(table(marital))
@@ -589,31 +822,55 @@ barplot(table(living))
 barplot(table(ethnic))
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = TRUE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(marital))
+```
+
+```{r, echo = TRUE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(living))
+```
+
+\newpage
+
+```{r, echo = TRUE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(table(ethnic))
 ```
 
+&nbsp;
+
 Creating a Pareto chart only requires us to sort the summary data. We do this using the `rev()` and `sort()` functions:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 barplot(rev(sort(table(marital))))
 ```
 
+\newpage
+
 Having to specify `rev(sort(table(variable)))` each time we want to produce a *Pareto* plot is rather tedious but now that we know how to create a *Pareto* chart, we can write a function that we will be able to use whenever we need to plot a Pareto chart. Create a new function called `pareto()`:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 pareto <- function() {}
 ```
 
+&nbsp;
+
 This creates an empty function called `pareto()`. Use the `fix()` function to edit the `pareto()` function: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(pareto)
 ```
 
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(x,
@@ -641,22 +898,36 @@ pareto <- function(x,
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor. 
+
+\newpage
 
 Let's try the `pareto()` function with the test data:
    
-```{r, eval = TRUE}
+&nbsp;
+   
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 pareto(marital)
 ```
 
+&nbsp;
+
 Note how the function has used default values for the axis labels and chart titles. We can override these default values if we want to:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 pareto(marital, ylab = "n", xlab = "Marital Status",
        main = "Marital Status")
 ```
 
+\newpage
+
 Note that we can use value labels if the variable we plot is a factor with value labels as levels rather than a simple numeric vector:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 ms <- as.factor(marital)
@@ -667,7 +938,7 @@ pareto(ms, ylab = "n", xlab = "Marital Status",
        main = "Marital Status")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 ms <- as.factor(marital)
 levels(ms) <- c("Married", "Single", "Divorced", "Separated",
                 "Cohabiting", "Widowed")
@@ -676,10 +947,13 @@ pareto(ms, ylab = "n", xlab = "Marital Status",
        main = "Marital Status")
 ```
 
+&nbsp;
+
 You may need to resize the plot to display the x-axis labels correctly.
 
 You might like to use the `save()` function to save the `pareto()` function.
 
+\newpage
 
 ## Adding confidence intervals or error bars on plots
 
@@ -687,12 +961,18 @@ You may want to plot your data with confidence intervals or error bars. `R` does
 
 Before we go any further we should detach the `sssw` data.frame and retrieve a new dataset: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 detach(sssw)
 diets <- read.table("diets.dat", header = TRUE)
 ```
 
+&nbsp;
+
 The file `diets.dat` contains data from a trial of two different diets undertaken at an adult therapeutic feeding centre in Somalia. The columns in this dataset are as follows:
+
+&nbsp;
 
 +---------------+--------------------------------------------------------------------------------+
 | **day**       | The day after start of diet that measurements were taken                       |
@@ -708,13 +988,21 @@ The file `diets.dat` contains data from a trial of two different diets undertake
 | **n**         | Number of subjects at each observation                                         |
 +---------------+--------------------------------------------------------------------------------+
 
+&nbsp;
+
 Examine the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 diets
 ```
 
+\newpage
+
 Note that the dataset contains a summary of the results from the four arms of the trial:
+
+&nbsp;
 
 +----------+---------------+-------------------------+
 | **Arm**  | **Oedema**    | **Therapeutic diet**    |
@@ -728,30 +1016,44 @@ Note that the dataset contains a summary of the results from the four arms of th
 | 4        | Absent        | Low protein             |
 +----------+---------------+-------------------------+
 
+&nbsp;
+
 with observations at 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, and 33 days after admission.
 
 We can calculate a confidence interval for the mean weight velocity (`wt`) using the data in the `sd` and `n`
 variables. We will use the `transform()` function to do this:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 diets <- transform(diets, lci = wt - sd / sqrt(n), uci = wt + sd / sqrt(n))
 ```
+
+&nbsp;
 
 In this case we are calculating confidence intervals as plus or minus one standard error of the mean.
 
 The `transform()` function is very useful as it can add columns directly to a data.frame or transform data already stored in a data.frame.
 
+\newpage
+
 Examine the `diets` data.frame: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 diets
 ```
+
+&nbsp;
 
 Two new columns (`lci` and `uci`) have been added.
 
 Now that we have calculated the confidence intervals we should, for convenience, split the diets data.frame
 into four separate data.frames (one for each arm of the trial):
 
+&nbsp;
+
 ```{r, eval = FALSE}
 oed.hp <- subset(diets, oedema == 1 & diet == "HP")
 oed.lp <- subset(diets, oedema == 1 & diet == "LP")
@@ -765,9 +1067,13 @@ oed.lp <- subset(diets, oedema == 1 & diet == "LP")
 mar.hp <- subset(diets, oedema == 2 & diet == "HP")
 mar.lp <- subset(diets, oedema == 2 & diet == "LP")
 ```
+
+&nbsp;
 
 Check that each data.frame contains the data that you expect it to:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 oed.hp
 oed.lp
@@ -775,59 +1081,95 @@ mar.hp
 mar.lp
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, eval = TRUE}
 oed.hp
+```
+
+```{r, eval = TRUE}
 oed.lp
+```
+
+```{r, eval = TRUE}
 mar.hp
+```
+
+```{r, eval = TRUE}
 mar.lp
 ```
+
+&nbsp;
 
 We can now plot the data for one arm of the trial:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(oed.hp$day, oed.hp$wt, type = "l")
 ```
+
+\newpage
 
 We can add error bars using the `arrows()` function:
 
+&nbsp;
+
 ```{r, eval = FALSE}
-arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
+       code = 3, angle = 90, length = 0.1)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(oed.hp$day, oed.hp$wt, type = "l")
-arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
+       code = 3, angle = 90, length = 0.1)
 ```
+
+&nbsp;
 
 The scale of the y axis is wrong because the `plot()` function automatically scales axes to the ranges of the x and y data it is given. We can fix this by specifying a different set of limits (from `lci` and `uci`) for the y axis using the `ylim` parameter:
 
+&nbsp;
+
 ```{r, eval = FALSE}
-plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+plot(oed.hp$day, oed.hp$wt, type = "l", 
+     ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
+arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
+       code = 3, angle = 90, length = 0.1)
+```
 
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
 arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
-plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
-arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
-```
+&nbsp;
 
 The plot might also be improved by adding plotting symbols:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(oed.hp$day, oed.hp$wt, type = "l", ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
 arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, code = 3, angle = 90, length = 0.1)
 points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
 ```
+
+\newpage
 
 The axis titles (`oed.hp$day` and `oed.hp$wt`) are the column (variable) names.
 
 We can specify titles and axes labels in the call to the `plot()` function:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 plot(oed.hp$day, oed.hp$wt, type = "l",
      ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
@@ -840,7 +1182,7 @@ arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci,
 points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(oed.hp$day, oed.hp$wt, type = "l",
      ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
      main = "HP Diet. Oedematous Cases",
@@ -851,6 +1193,8 @@ arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci,
 
 points(oed.hp$day, oed.hp$wt, pch = 21, bg = "white")
 ```
+
+&nbsp;
 
 Now that we know how to plot error bars, we can write a function that we will be able to use whenever we need to plot data with error bars.
 
@@ -860,11 +1204,13 @@ Before continuing we will consider what the new function should be able to do. T
 
 2. Be able to plot the data points as unconnected points or as points joined by lines.
 
-3. Calculateappropriatelimitsfortheyaxis.
+3. Calculate appropriate limits for the y-axis.
 
 4. Produce a plot without axes so that more than one data series may be plotted on the same chart. 5. Provide sensible default values for axis limits and labels.
 
 From this list we know that we need the function to take several parameters:
+
+&nbsp;
 
 +-----------+------------------------+------------------------------+
 | **Name**  | **Purpose**            | **Default value**            |
@@ -898,23 +1244,35 @@ From this list we know that we need the function to take several parameters:
 | `bg`      | Fill colour of point   | `white`                      |
 +-----------+------------------------+------------------------------+
 
+&nbsp;
+
 The parameter names have been chosen to be the same as the parameter names to `plot()` and `points()`. This makes the function easier to use. It also makes the function easier to write.
 
 Create a new function called `plot.ci()`: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 plot.ci <- function() {}
 ```
 
+&nbsp;
+
 This creates an empty function called `plot.ci()`.
 
 Use the `fix()` function to edit the `plot.ci()` function: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(plot.ci)
 ```
 
+\newpage
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(x,
@@ -964,30 +1322,52 @@ plot.ci <- function(x,
 }
 ```
 
+&nbsp;
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
+\newpage
+
 Let's try the `plot.ci()` function with the test data:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci)
 ```
+
+&nbsp;
 
 Note how the function has used default values for the axis labels, chart titles, chart limits etc. 
 
 We can override these default values if we need to:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
         ylim = c(-6, 10), xlab = "Day",
         ylab = "Weight gain (g/kg/day)",
         main = "Oedematous", col = "red")
 ```
+
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
+        ylim = c(-6, 10), xlab = "Day",
+        ylab = "Weight gain (g/kg/day)",
+        main = "Oedematous", col = "red")
+```
+
+&nbsp;
 
 Do not close the plot window.
 
 We should also check that we can plot another data series on this chart:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 par(new = TRUE)
 plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
@@ -995,7 +1375,9 @@ plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
         col = "darkgreen")
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
         ylim = c(-6, 10), xlab = "Day",
         ylab = "Weight gain (g/kg/day)",
@@ -1005,15 +1387,19 @@ plot.ci(oed.lp$day, oed.lp$wt, oed.lp$lci, oed.lp$uci,
         axes = FALSE, pch = 22, xlab = "", ylab = "", main = "",
         col = "darkgreen")
 ```
+
+&nbsp;
 
 We can also add a legend:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 legend(5, 8, legend = c("HP", "LP"), lty = c(1, 1),
        pch = c(21, 22), col = c("red", "darkgreen"))
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci,
         ylim = c(-6, 10), xlab = "Day",
         ylab = "Weight gain (g/kg/day)",
@@ -1026,11 +1412,17 @@ legend(5, 8, legend = c("HP", "LP"), lty = c(1, 1),
        pch = c(21, 22), col = c("red", "darkgreen"))
 ```
 
+&nbsp;
+
 We should also check that we can produce plots of unconnected points:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot.ci(oed.hp$day, oed.hp$wt, oed.hp$lci, oed.hp$uci, type = "p")
 ```
+
+&nbsp;
 
 Try plotting the data for the marasmic patients using the `plot.ci()` function. 
 
@@ -1038,28 +1430,38 @@ You might like to use the `save()` function to save the `plot.ci()` function.
 
 We can use a similar technique to add error bars to different types of plot. If we plot the weight velocities for oedematous patients receiving the high protein diet as a bar chart:
 
-```{r, eval = TRUE}
+\newpage
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
         ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
 ```
 
+&nbsp;
+
 we could add error bars using the `arrows()` function as we did with a line plot: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
        code = 3, angle = 90, length = 0.1)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
         ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
 arrows(oed.hp$day, oed.hp$lci, oed.hp$day, oed.hp$uci, 
        code = 3, angle = 90, length = 0.1)
 ```
 
+&nbsp;
+
 but this does not produce the expected results because the centres of the bars are not placed on the chart at the positions held in `oed.hp$day`. This is easily fixed as `barplot()` returns a numeric vector (or matrix, when `beside = TRUE`) containing the co-ordinates of the bar midpoints:
 
-```{r, eval = TRUE}
+\newpage
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 bar.positions <- barplot(oed.hp$wt, names.arg = oed.hp$day,
                          ylim = c(min(oed.hp$lci), max(oed.hp$uci)),
                          col = "white")
@@ -1067,37 +1469,55 @@ bar.positions <- barplot(oed.hp$wt, names.arg = oed.hp$day,
 bar.positions
 ```
 
+&nbsp;
+
 We can now use the information stored in `bar.positions` to specify the positions of the error bars: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 arrows(bar.positions, oed.hp$lci, bar.positions, oed.hp$uci,
        code = 3, angle = 90, length = 0.1)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot(oed.hp$wt, names.arg = oed.hp$day, col = "white", 
         ylim = c(min(oed.hp$lci), max(oed.hp$uci)))
 arrows(bar.positions, oed.hp$lci, bar.positions, oed.hp$uci,
        code = 3, angle = 90, length = 0.1)
 ```
 
+&nbsp;
+
 Armed with this information, we can write a function that we will be able to use whenever we need to plot a bar chart with error bars.
 
 Create a new function called `barplot.ci()`: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 barplot.ci <- function() {}
 ```
 
+&nbsp;
+
 This creates an empty function called `barplot.ci()`.
 
 Use the `fix()` function to edit the `barplot.ci()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(barplot.ci)
 ```
 
+\newpage
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(y, bar.names, lci, uci,
@@ -1127,21 +1547,33 @@ barplot.ci <- function(y, bar.names, lci, uci,
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor. 
 
 Let's try the `barplot.ci()` function with the test data:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
 ```
 
+\newpage
+
 Try plotting the weight velocities for the marasmic patients receiving the high protein diet using the `barplot.ci()` function:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
 ```
 
+&nbsp;
+
 The chart looks wrong. This is because we have set the wrong limits for the y axis. The bars are drawn from zero to the data point but we have specified a limit for the y axis that is not constrained to include zero. This is easy to fix. Edit the `barplot.ci()` function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(y, bar.names, lci, uci,
@@ -1171,21 +1603,33 @@ barplot.ci <- function(y, bar.names, lci, uci,
 }
 ```
 
+\newpage
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor. 
 
 Try plotting the data for the marasmic patients using the `barplot.ci()` function:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
 ```
 
+&nbsp;
+
 Check that the function still operates as expected with the data for oedematous patients:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
 ```
 
+&nbsp;
+
 The end of one of the error bars touches the x axis. This can also be fixed by slightly widening the limits for the y axis. It might also be useful to plot the centre position of each error bar. We can use the `points()` function to do this. Edit the `barplot.ci()` function to read:
+   
+&nbsp;   
    
 ```{r, eval = FALSE}
 function(y, bar.names, lci, uci,
@@ -1223,19 +1667,28 @@ barplot.ci <- function(y, bar.names, lci, uci,
 }
 ```
 
+\newpage
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor. 
 
 Check that the function works as expected:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
 barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(oed.hp$wt, oed.hp$day, oed.hp$lci, oed.hp$uci)
+```
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 barplot.ci(mar.hp$wt, mar.hp$day, mar.hp$lci, mar.hp$uci)
 ```
+
+\newpage
 
 The `barplot.ci()` function now works as expected with both sets of data. It is important when developing your own functions, to test them with different data so as to ensure that they work correctly with a wide range if data.
 
@@ -1251,6 +1704,8 @@ The file `cover.dat` contains data from a coverage survey for a therapeutic feed
 
 The columns in this dataset are as follows:
 
+&nbsp;
+
 +-----------+----------------------------------------------------------------------------------------------------------+
 | **x**     | x position of grid square                                                                                |
 +-----------+----------------------------------------------------------------------------------------------------------+
@@ -1259,53 +1714,83 @@ The columns in this dataset are as follows:
 | **cases** | Number of cases found in sampled communities in.program Number of cases (from above) enrolled in the TFP |
 +-----------+----------------------------------------------------------------------------------------------------------+
 
+&nbsp;
+
 Retrieve the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cs <- read.table("cover.dat", header = TRUE)
 
 ```
 
+\newpage
+
 Examine the dataset:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cs
 ```
 
+\newpage
+
 We should calculate the observed coverage for each grid square:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cs$cvr <- cs$in.program / cs$cases
 cs
 ```
 
+\newpage
+
 Note that some grid squares have zero coverage. It might be useful to use specific plotting characters (e.g. open and filled squares) to indicate zero and non-zero coverage. We can use the `ifelse()` function to do this:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cs$cvr.pch <- ifelse(cs$cvr == 0, 0, 15)
 cs
 ```
 
+\newpage
+
 A quick way of seeing the code associated with each plotting symbol is:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(0:25, 0:25, pch = 0:25, cex = 2)
 ```
 
+&nbsp;
+
 The size of the plotting symbol may be used to indicate the level of coverage in each quadrat but we must
 ensure that the symbol used for zero-coverage is not invisibly small:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 cs$cvr.cex <- ifelse(cs$cvr == 0, 1, 10 * cs$cvr)
 cs
 ```
 
+&nbsp;
+
 We can now plot the data:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(pty="s")
 plot(cs$x, cs$y, cex = cs$cvr.cex, pch = cs$cvr.pch)
 ```
+
+&nbsp;
 
 There are some problems with this plot:
 
@@ -1317,7 +1802,9 @@ There are some problems with this plot:
 
 All of these problems can be fixed by specifying values for `plot()` function parameters:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(cs$x, cs$y,
      cex = cs$cvr.cex,
      pch = cs$cvr.pch,
@@ -1329,9 +1816,13 @@ plot(cs$x, cs$y,
      col = gray(0.5))
 ```
 
+&nbsp;
+
 An alternative way of plotting this data is to use shades of grey (rather than the size of the plotting symbol) to represent the level of coverage in each grid-square:
+
+&nbsp;
   
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(cs$x, cs$y,
      cex = 5,
      xlab = "",
@@ -1343,9 +1834,13 @@ plot(cs$x, cs$y,
      col = gray(1 - cs$cvr))
 ```
 
+&nbsp;
+
 In this context it is useful to show the approximate location of therapeutic feeding centres:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(cs$x, cs$y,
      cex = cs$cvr.cex,
      pch = cs$cvr.pch,
@@ -1359,51 +1854,111 @@ plot(cs$x, cs$y,
 points(c(2.5, 4.5, 5.5), c(6.5, 8.25, 5), pch = 19, cex = 2)
 ```
 
+&nbsp;
+
 The techniques introduced in this section allow you to write custom graphical functions but they can also be used to change the default behaviour of standard graphical functions.
 
 ## Combining plots
 
 In [***Exercise 1 Getting acquainted with R***](#exercise1), we saw how the `plot()` function could be applied to a fitted object:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 fem <- read.table("fem.dat", header = TRUE)
 attach(fem)
 fem.lm <- lm(WT ~ AGE)
 plot(fem.lm)
 ```
 
+```{r, echo = TRUE, eval = TRUE}
+fem <- read.table("fem.dat", header = TRUE)
+attach(fem)
+fem.lm <- lm(WT ~ AGE)
+```
+
+\newpage
+
+```{r, echo = TRUE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot(fem.lm)
+```
+
+&nbsp;
+
 Each of the diagnostic plots are presented as a separate chart. We could use the `mfrow` parameter of the `par()` function to present all four diagnostic plots on a single chart:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(mfrow = c(2, 2))
 plot(fem.lm)
 ```
 
+&nbsp;
+
 It might improve the appearance of the chart if each of the diagnostic plots were square rather than rectangular:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 par(mfrow = c(2, 2))
 par(pty = "s")
 plot(fem.lm)
 ```
 
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+par(mfrow = c(2, 2))
+par(pty = "s")
+plot(fem.lm)
+```
+
+&nbsp;
+
 It might improve the appearance of the chart if smaller text and symbols were used:
-   
-```{r, eval = TRUE}
+
+&nbsp;
+
+```{r, eval = FALSE}
 par(mfrow = c(2, 2))
 par(pty = "s")
 par(cex = 0.5)
 plot(fem.lm)
 ```
 
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+par(mfrow = c(2, 2))
+par(pty = "s")
+par(cex = 0.5)
+plot(fem.lm)
+```
+
+&nbsp;
+
 Graphical parameters set using the `par()` function affect all subsequent plot commands and must be reset explicitly:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = FALSE}
 par(mfrow = c(1, 1), pty = "m", cex = 1)
 plot(fem.lm)
 ```
 
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+par(mfrow = c(1, 1), pty = "m", cex = 1)
+plot(fem.lm)
+```
+
+\newpage 
+
 It is possible to save graphical parameters into an `R` object and use this object to restore original graphical parameters:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 old.par <- par()
@@ -1413,16 +1968,22 @@ par(old.par)
 plot(fem.lm)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(mfrow = c(2, 2), pty = "s")
 plot(fem.lm)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(fem.lm)
 ```
 
+\newpage
+
 The ability to save and apply graphical parameters means that you can create a library of graphical parameter sets that can be applied with the `par()` function as required:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 default.par <- par()
@@ -1436,24 +1997,34 @@ par(default.par)
 plot(fem.lm)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(fem.lm)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 par(mfrow = c(2, 2), pty = "s")
 plot(fem.lm)
 ```
 
-```{r, echo = FALSE, eval = TRUE}
+\newpage
+
+```{r, echo = FALSE, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(fem.lm)
 ```
+
+&nbsp;
 
 `R` produces warning messages when you save and restore graphical parameters in this way. This is because some graphical parameters are read only and cannot be changed using the `par()` function. This has no effect other than to cause `R` to issue warning messages.
 
 If you do not like the warning messages then you can use the `par()` function with the `no.readonly` parameter set to `TRUE`:
 
-```{r, eval = TRUE}
+&nbsp;
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 default.par <- par(no.readonly = TRUE)
 par(mfrow = c(2, 2), pty = "s")
 plot.lm.par <- par(no.readonly = TRUE)
@@ -1464,6 +2035,8 @@ plot(fem.lm)
 par(default.par)
 plot(fem.lm)
 ```
+
+&nbsp;
 
 Graphical parameter sets, like any other `R` object, may be saved and loaded using the `save()` and `load()` functions.
 

@@ -2,26 +2,40 @@
 
 In the previous exercises we concentrated on writing functions that take some input data, analyse it, and display the results of the analysis. The standard `R` functions we have used all do this. The `fisher.test()` function, for example, takes a `table` object (or the names of two variables) as input and calculates and displays the p- value for *Fisher's exact test* and the odds ratio and associated confidence interval for two-by-two tables:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 fem <- read.table("fem.dat", header = TRUE)
 attach(fem)
 fisher.test(SEX, LIFE)
 ```
 
+&nbsp;
+
 The results of the `fisher.test()` function may also be saved for later use: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 ft <- fisher.test(SEX, LIFE)
 ft
 ```
 
+&nbsp;
+
 The `fisher.test()` function returns an object of the class `htest`: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 class(ft)
 ```
 
+&nbsp;
+
 which is a list containing the output of the `fisher.test()` function. Each item of output is stored as a different named item in the list:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 names(ft)
@@ -32,9 +46,13 @@ str(ft)
 names(ft)
 str(ft)
 ```
+
+&nbsp;
 
 Each of these items can be referred to by name:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 ft$estimate
 ft$conf.int
@@ -45,21 +63,33 @@ ft$estimate
 ft$conf.int
 ```
 
+&nbsp;
+
 When you display the output of the `fisher.test()` function either by calling the function directly: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 fisher.test(SEX, LIFE)
 ```
 
+&nbsp;
+
 or by typing the name of an object created using the `fisher.test()` function: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 ft
 ```
 
+&nbsp;
+
 The `print()` function takes over and formatted output is produced. The `print()` function knows about `htest` class objects and produces output of the correct format for that class of object. This means that any function that produces an `htest` object (or any other standard `R` object) does not need to include `R` commands to produce formatted output.
 
 All hypothesis testing functions supplied with `R` produce objects of the htest class and use the `print()` function to produce formatted output. For example:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 tt <- t.test(WT ~ LIFE)
@@ -73,21 +103,33 @@ class(tt)
 tt
 ```
 
+&nbsp;
+
 You can use this feature of `R` in your own functions. We will explore this by writing a function to test the null hypothesis that the *variance to mean ratio* of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.
 
 Create a new function using the `function()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 v2m.test <- function(data) {}
 ```
 
+&nbsp;
+
 And start the function editor:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(v2m.test)
 ```
 
+\newpage
+
 Now edit this function to make it do something useful:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(data) {
@@ -113,7 +155,7 @@ function(data) {
 }
 ```
 
-```{r, eval = TRUE}
+```{r, echo = FALSE, eval = TRUE}
 v2m.test <- function(data) {
   nsu <- length(data)
   obs <- sum(data)
@@ -137,6 +179,8 @@ v2m.test <- function(data) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
 Before proceeding we should examine the `v2m.test()` function to make sure we understand what is happening:
@@ -154,6 +198,8 @@ Before proceeding we should examine the `v2m.test()` function to make sure we un
 6. The final line ends the function definition.
     
 Note that objects of class htest may contain items with the following names:
+
+&nbsp;
  
 +--------------------+-----------------------------------------------------------------------+
 | **Item**           | **Usage**                                                             |
@@ -179,16 +225,24 @@ Note that objects of class htest may contain items with the following names:
 | **note**           | Text note                                                             |
 +--------------------+-----------------------------------------------------------------------+
 
+&nbsp;
+
 We are now ready to test the `v2m.test()` function. This table: 
+
+&nbsp;
 
 ```
 Number of cases :       0  1  2  3  4  6
 Number of households : 24 29 26 14  5  2
 ```
 
+&nbsp;
+
 shows the number of cases of chronic (stunting) undernutrition found in a random sample of 100 households. 
 
 We can reproduce the data behind this table using a combination of the `c()` and `rep()` functions:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 stunt <- c(rep(0,24), rep(1,29), rep(2,26), rep(3,14), rep(4,5),
@@ -196,23 +250,37 @@ stunt <- c(rep(0,24), rep(1,29), rep(2,26), rep(3,14), rep(4,5),
 table(stunt)
 ```
 
+&nbsp;
+
 And use it to test our new `v2m.test()` function: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 v2m.test(stunt)
 ```
 
+&nbsp;
+
 Which should produce the following output:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 v2m.test(stunt)
 ```
 
+&nbsp;
+
 If your `vm2.test()` function does not produce this output then use the `fix()` function: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(v2m.test)
 ```
+
+&nbsp;
 
 to check and edit the `vm2.test()` function and try again.
 
@@ -222,16 +290,24 @@ More importantly, it also means that we can write functions that return values w
 
 Our `v2m.test()` function can produce values for later use: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 vm <- v2m.test(stunt)
 vm$p.value
 ```
 
+&nbsp;
+
 or produce formatted output:
+
+&nbsp;
 
 ```{r, eval = TRUE}
 v2m.test(stunt)
 ```
+
+&nbsp;
 
 This way of working is not limited to using standard `R` classes and functions.
 
@@ -246,17 +322,27 @@ We need to create two functions:
 
 Create a new function using the `function()` function:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 rr22 <- function(exposure, outcome) {}
 ```
 
+&nbsp;
+
 And start the function editor:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(rr22)
 ```
 
+&nbsp;
+
 Now edit this function to make it do something useful:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(exposure, outcome) {
@@ -292,11 +378,15 @@ rr22 <- function(exposure, outcome) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, save the file and quit the editor.
 
 The `rr22()` function is similar to the `tab2by2()` function that you created in the second exercise of this
 tutorial except that the function now returns a list of values instead of formatted output:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 fem <- read.table("fem.dat", header = TRUE)
 attach(fem)
@@ -319,13 +409,21 @@ rr22.test$conf.int[1]
 rr22.test$conf.int[2]
 ```
 
+&nbsp;
+
 The function returns a list of class `rr22`: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 class(rr22.test)
 ```
 
+&nbsp;
+
 The displayed output from the `rr22()` function is, however, not pretty: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 print(rr22.test)
@@ -337,19 +435,31 @@ print(rr22.test)
 rr22(SEX, LIFE)
 ```
 
+&nbsp;
+
 This can be fixed by creating a new function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 print.rr22 <- function(x) {}
 ```
 
+&nbsp;
+
 And start the function editor:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(print.rr22)
 ```
 
+&nbsp;
+
 Now edit this function to make it do something useful:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(x) {
@@ -365,9 +475,13 @@ print.rr22 <- function(x) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
 The function name `print.rr22()` indicates that this function contains the print method for objects of class `rr22`. All objects of class `rr22` will use the function `print.rr22()` instead of the standard `R` `print()` function to produce formatted output:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 rr22(SEX, LIFE)
@@ -383,19 +497,29 @@ rr22.test
 print(rr22.test)
 ```
 
+&nbsp;
+
 Note that we can still extract returned values from an `rr22` class object: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 rr22.test$estimate
 ```
 
+&nbsp;
+
 The `print.rr22()` function only controls the way an entire `rr22` object is displayed.
 
 You might like to use the `save()` function to save the `v2m.test()`, `rr22()`, and `print.rr22()` functions before quitting `R`. We can now quit `R`:
 
+&nbsp;
+
 ```{r, eval = FALSE}
 q()
 ```
+
+&nbsp;
 
 For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 

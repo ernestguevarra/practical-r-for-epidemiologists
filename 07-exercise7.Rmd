@@ -3,25 +3,36 @@
 `R` provides a pretty full set of graphical functions for plotting data as well as `plot()` methods for a wide variety of statistical functions. There will be times, however, when you will need to write you own graphical functions to present and analyse data in a specific way. In this exercise we will create a function that produces a plot that may be used for assessing agreement between two methods of clinical measurement as described in:
 
 ```
-Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods of Clinical Measurement. Lancet. 1986;1: 307–310. 
+Bland JM, Altman DG. Statistical Methods for Assessing Agreement Between Two Methods 
+    of Clinical Measurement. The Lancet. 1986;1: 307–310. 
 ```
 
 Which involves plotting the difference of two measurements against the mean of the two measurements and calculating and displaying limits of agreement.
 
 Start `R` and retrieve and attach the sample dataset:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 ba <- read.table("ba.dat", header = TRUE)
 attach(ba)
 ```
 
+&nbsp;
+
 The `ba` data.frame contains measurements (in litres per minute) taken with a *Wright peak flow meter* and a *Mini-Wright peak flow meter*. This is the same data that is presented in the referenced Lancet article:
+
+&nbsp;
 
 ```{r, echo = FALSE, eval = TRUE}
 ba
 ```
 
+&nbsp;
+
 You can examine the `ba` data.frame using the `print()` and `summary()` functions:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 print(ba)
@@ -35,21 +46,33 @@ ba
 summary(ba)
 ```
 
+&nbsp;
+
 The `function()` function allows us to create new functions in `R`: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 ba.plot <- function(a, b) {}
 ```
 
+&nbsp;
+
 This creates an empty function called `ba.plot()` that expects two parameters called `a` and `b`. We could type the whole function in at the `R` command prompt but it is easier to use a text editor:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(ba.plot)
 ```
 
+&nbsp;
+
 We will start be writing a basic function which we will gradually improve throughout this exercise.
 
 Edit the `ba.plot()` function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(a, b) {
@@ -67,22 +90,34 @@ ba.plot <- function(a, b) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
 The function calculates the mean and the difference of the two measures and then plots the results. Lets try the
 `ba.plot()` function with the test data: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 ba.plot(Wright, Mini)
 ```
 
+&nbsp;
+
 The resulting plot is rather plain and lacks meaningful titles and axis labels. Use the `fix()` function to edit the `ba.plot()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(ba.plot)
 ```
 
+&nbsp;
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(a, b, title = "Bland and Altman Plot") {
@@ -107,6 +142,8 @@ ba.plot <- function(a, b, title = "Bland and Altman Plot") {
   plot(mean.two, diff.two, xlab = x.lab, ylab = y.lab, main = title)
 }
 ```
+
+&nbsp;
 
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
@@ -114,23 +151,37 @@ We have added a new parameter (`title`) to the function and given this a default
 
 Lets try the `ba.plot()` function with the test data: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 ba.plot(Wright, Mini)
 ```
 
+&nbsp;
+
 We may also specify a title for the plot using the title parameter:
+
+&nbsp;
 
 ```{r, eval = TRUE}   
 ba.plot(Wright, Mini, title = "PEFR data")
 ```
 
+&nbsp;
+
 We can now edit the function to calculate and plot mean, difference, and the limits of agreement. Use the `fix()` function to edit the `ba.plot()` function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(ba.plot)
 ```
 
+&nbsp;
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(a, b, title = "Bland and Altman Plot") {
@@ -169,6 +220,8 @@ ba.plot <- function(a, b, title = "Bland and Altman Plot") {
   lines(x = range(mean.two), y = c(lower, lower), lty = 3)
 }
 ```
+
+&nbsp;
 
 Once you have made the changes shown above, check your work, save the file and quit the editor.
 
@@ -181,27 +234,41 @@ The parameter `lty = 3` used with the `lines()` function specifies dotted lines.
 `R` provided a great number of graphical parameters that can be used to customise plots. You can see a list of
 these parameters using:
 
+&nbsp;
+
 ```{r, eval = TRUE}
 help(par)
 ```
+
+&nbsp;
 
 These parameters can be specified for almost all graphical functions.
 
 Lets try the `ba.plot()` function with the test data:
 
+&nbsp;
+
 ```{r, eval = TRUE}
-ba.plot(Wright, Mini, title =  "Difference vs. mean for PEFR data")
+ba.plot(Wright, Mini, title = "Difference vs. mean for PEFR data")
 ```
+
+&nbsp;
 
 The function is almost complete. All that remains to do is to label the lines with the values of the mean difference and the limits of agreement.
 
 Use the `fix()` function to edit the `ba.plot()` function: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 fix(ba.plot)
 ```
 
+&nbsp;
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(a, b, title = "Bland and Altman Plot") {
@@ -253,14 +320,20 @@ ba.plot <- function(a, b, title = "Bland and Altman Plot") {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 We have used the `round()` function to limit the display of the mean difference and the limits of agreement to one decimal place and used the `text()` function to display these (rounded) values. The `adj` parameter to the `text()` function controls the position and justification of text.
 
 Let's try the `ba.plot()` function with the test data: 
 
+&nbsp;
+
 ```{r, eval = TRUE}
 ba.plot(Wright, Mini, title = "PEFR data")
 ```
+
+&nbsp;
 
 The graphical function is now complete.
 
@@ -272,11 +345,17 @@ We could also specify a class for the returned list and create a class specific 
 
 Use the `fix()` function to edit the `ba.plot()` function: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 fix(ba.plot)
 ```
 
+&nbsp;
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(a, b, title = "Bland and Altman Plot") {
@@ -334,21 +413,33 @@ ba.plot <- function(a, b, title = "Bland and Altman Plot") {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, save the file and quit the editor. 
 
 Create a `print()` function for objects of the `ba` class:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 print.ba <- function(x) {}
 ```
 
+&nbsp;
+
 Use the `fix()` function to edit the new function: 
+
+&nbsp;
 
 ```{r, eval = FALSE}
 fix(print.ba)
 ```
 
+&nbsp;
+
 Edit the function to read:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 function(x) {
@@ -366,17 +457,25 @@ print.ba <- function(x) {
 }
 ```
 
+&nbsp;
+
 Once you have made the changes shown above, check your work, save the file, and quit the editor.
 
 Let's try the `ba.plot()` function with the test data: 
+
+&nbsp;
 
 ```{r, eval = TRUE}
 ba.plot(Wright, Mini, title = "PEFR data")
 ```
 
+&nbsp;
+
 The function produces the plot and returns the mean difference and limits of agreement as a list of class `ba` which is formatted and printed by the `print.ba()` function.
 
 We can manipulate the returned values just as we would with any other function:
+
+&nbsp;
 
 ```{r, eval = FALSE}
 ba.test <- ba.plot(Wright, Mini)
@@ -398,13 +497,19 @@ ba.test$limits[1]
 ba.test$limits[2]
 ```
 
+&nbsp;
+
 You might like to use the `save()` function to save the `ba.plot()` and `print.ba()` functions before quitting `R`.
 
 We can now quit `R`: 
 
+&nbsp;
+
 ```{r, eval = FALSE}
 q()
 ```
+
+&nbsp;
 
 For this exercise there is no need to save the workspace image so click the **No** or **Don't Save** button (GUI) or enter `n` when prompted to save the workspace image (terminal).
 
