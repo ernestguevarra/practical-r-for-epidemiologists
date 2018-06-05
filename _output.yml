@@ -11,7 +11,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Practical R for Epidemiologists</a></li>
       after: |
-        <li>&nbsp; &nbsp; @ Mark Myatt and Ernest Guevarra 2018</li>
+        <li>&nbsp; &nbsp; @ Mark Myatt 2018</li>
     download: ["pdf", "epub"]
 bookdown::pdf_book:
   includes:
