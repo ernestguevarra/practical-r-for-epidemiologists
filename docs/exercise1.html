@@ -22,10 +22,10 @@
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists/images/bookcover.jpg" />
 
-<meta name="author" content="Mark Myatt and Ernest Guevarra">
+<meta name="author" content="Mark Myatt">
 
 
-<meta name="date" content="2018-05-14">
+<meta name="date" content="2018-06-05">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -59,24 +59,16 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { display: inline-block; min-height: 1.25em; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
+code.sourceCode { white-space: pre; }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
   { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
     position: absolute; left: -5em; text-align: right; vertical-align: baseline;
@@ -88,39 +80,38 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
+pre, code { background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; color: initial; }
 }
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
+code span.bn { color: #0000cf; } /* BaseN */
 code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
+code span.ch { color: #4e9a06; } /* Char */
 code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.ot { color: #8f5902; } /* Other */
+code span.al { color: #ef2929; } /* Alert */
+code span.fu { color: #000000; } /* Function */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
 code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code span.cn { color: #000000; } /* Constant */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.im { } /* Import */
+code span.va { color: #000000; } /* Variable */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.ex { } /* Extension */
+code span.at { color: #c4a000; } /* Attribute */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -207,19 +198,19 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>In this exercise we will use <code>R</code> to read a dataset and produce some descriptive statistics, produce some charts, and perform some simple statistical inference. The aim of the exercise is for you to become familiar with <code>R</code> and some basic <code>R</code> functions and objects.</p>
 <p>The first thing we will do, after starting <code>R</code>, is issue a command to retrieve an example dataset:</p>
 <p> </p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">fem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <p> </p>
 <p>This command illustrates some key things about the way <code>R</code> works.</p>
 <p>We are instructing <code>R</code> to assign (using the <code>&lt;-</code> operator) the output of the <code>read.table()</code> function to an object
 called <code>fem</code>.</p>
 <p>The <code>fem</code> object will contain the data held in the file <code>fem.dat</code> as an <code>R</code> data.frame object:</p>
 <p> </p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">class</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">class</span>(fem)</a></code></pre>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 
 <p>You can inspect the contents of the <code>fem</code> data.frame (or any other <code>R</code> object) just by typing its name:</p>
 <p> </p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">fem</a></code></pre></div>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">fem</a></code></pre>
 <pre><code>##   ID AGE IQ ANX DEP SLP SEX LIFE    WT
 ## 1  1  39 94   2   2   2   1    1  2.23
 ## 2  2  41 89   2   2   2   1    1  1.00
@@ -230,28 +221,28 @@ called <code>fem</code>.</p>
 <p> </p>
 <p>Note that the <code>fem</code> object is built from other objects. These are the named vectors (columns) in the dataset:</p>
 <p> </p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">names</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">names</span>(fem)</a></code></pre>
 <pre><code>## [1] &quot;ID&quot;   &quot;AGE&quot;  &quot;IQ&quot;   &quot;ANX&quot;  &quot;DEP&quot;  &quot;SLP&quot;  &quot;SEX&quot;  &quot;LIFE&quot; &quot;WT&quot;</code></pre>
 <p> </p>
 <p>The <code>[1]</code> displayed before the column names refers to the numbered position of the first name in the output. These positions are known as indexes and can be used to refer to individual items. For example:</p>
 <p> </p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">1</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">1</span>]</a></code></pre>
 <pre><code>## [1] &quot;ID&quot;</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">8</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb24"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">8</span>]</a></code></pre>
 <pre><code>## [1] &quot;LIFE&quot;</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb26"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">names</span>(fem)[<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre>
 <pre><code>## [1] &quot;AGE&quot; &quot;IQ&quot;  &quot;ANX&quot;</code></pre>
 
 <p>The data consist of 118 records:</p>
 <p> </p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">nrow</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb28"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">nrow</span>(fem)</a></code></pre>
 <pre><code>## [1] 118</code></pre>
 <p> </p>
 <p>each with nine variables:</p>
 <p> </p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">ncol</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb30"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">ncol</span>(fem)</a></code></pre>
 <pre><code>## [1] 9</code></pre>
 <p> </p>
 <p>for female psychiatric patients.</p>
@@ -321,7 +312,7 @@ called <code>fem</code>.</p>
 <p> </p>
 <p>You may check this by asking <code>R</code> to display all columns of the first ten records in the <code>fem</code> data.frame:</p>
 <p> </p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre></div>
+<pre class="sourceCode r" id="cb33"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, ]</a></code></pre>
 <pre><code>##    ID AGE  IQ ANX DEP SLP SEX LIFE    WT
 ## 1   1  39  94   2   2   2   1    1  2.23
 ## 2   2  41  89   2   2   2   1    1  1.00
@@ -336,7 +327,7 @@ called <code>fem</code>.</p>
 
 <p>The space after the comma is optional. You can think of it as a <em>placeholder</em> for where you would specify the indexes for columns you wanted to display. For example:</p>
 <p> </p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb35"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">fem[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">4</span>]</a></code></pre>
 <p> </p>
 <p>displays the first ten rows and the second, third and fourth columns of the <code>fem</code> data.frame:</p>
 <p> </p>
@@ -355,7 +346,7 @@ called <code>fem</code>.</p>
 <p><code>NA</code> is a special value meaning <em>not available</em> or <em>missing</em>.</p>
 <p>You can access the contents of a single column by name:</p>
 <p> </p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre></div>
+<pre class="sourceCode r" id="cb37"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
 <pre><code>##   [1]  94  89  83  99  94  90  94  87 -99  92  92  94  91  86  90 -99  91
 ##  [18]  82  86  88  97  96  95  87 103 -99  91  87  91  89  92  84  94  92
 ##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91 -99  92  92
@@ -364,13 +355,13 @@ called <code>fem</code>.</p>
 ##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">fem<span class="op">$</span>IQ[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb39"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">fem<span class="op">$</span>IQ[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre>
 <pre><code>##  [1]  94  89  83  99  94  90  94  87 -99  92</code></pre>
 
 <p>The <code>$</code> sign is used to separate the name of the data.frame and the name of the column of interest. Note that <code>R</code> is case-sensitive so that <code>IQ</code> and <code>iq</code> are <strong><em>not</em></strong> the same.</p>
 <p>You can also access rows, columns, and individual cells by specifying row and column positions. For example, the <code>IQ</code> column is the third column in the <code>fem</code> data.frame:</p>
 <p> </p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">fem[ ,<span class="dv">3</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb41"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">fem[ ,<span class="dv">3</span>]</a></code></pre>
 <pre><code>##   [1]  94  89  83  99  94  90  94  87 -99  92  92  94  91  86  90 -99  91
 ##  [18]  82  86  88  97  96  95  87 103 -99  91  87  91  89  92  84  94  92
 ##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91 -99  92  92
@@ -379,23 +370,23 @@ called <code>fem</code>.</p>
 ##  [86]  92 106  93  95  95  92  98  92  88  85  92  84  92  91  86  92  89
 ## [103] -99  96  97  92  92  98  91  91  89  94  90  96  87  86  89 -99</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fem[<span class="dv">9</span>, ]</a></code></pre></div>
+<pre class="sourceCode r" id="cb43"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">fem[<span class="dv">9</span>, ]</a></code></pre>
 <pre><code>##   ID AGE  IQ ANX DEP SLP SEX LIFE    WT
 ## 9  9  35 -99   3   2   2   1    1 -0.55</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">fem[<span class="dv">9</span>,<span class="dv">3</span>]</a></code></pre></div>
+<pre class="sourceCode r" id="cb45"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">fem[<span class="dv">9</span>,<span class="dv">3</span>]</a></code></pre>
 <pre><code>## [1] -99</code></pre>
 <p> </p>
 <p>There are missing values in the <code>IQ</code> column which are all coded as <strong>-99</strong>. Before proceeding we must set these to
 the special <code>NA</code> value:</p>
 <p> </p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">fem<span class="op">$</span>IQ[fem<span class="op">$</span>IQ <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<pre class="sourceCode r" id="cb47"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">fem<span class="op">$</span>IQ[fem<span class="op">$</span>IQ <span class="op">==</span><span class="st"> </span><span class="dv">-99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre>
 <p> </p>
 <p>The term inside the square brackets is also an index. This type of index is used to refer to subsets of data held in an object that meet a particular condition. In this case we are instructing <code>R</code> to set the contents of the <code>IQ</code> variable to <code>NA</code> if the contents of the <code>IQ</code> variable is <strong>-99</strong>.</p>
 
 <p>Check that this has worked:</p>
 <p> </p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre></div>
+<pre class="sourceCode r" id="cb48"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">fem<span class="op">$</span>IQ</a></code></pre>
 <pre><code>##   [1]  94  89  83  99  94  90  94  87  NA  92  92  94  91  86  90  NA  91
 ##  [18]  82  86  88  97  96  95  87 103  NA  91  87  91  89  92  84  94  92
 ##  [35]  96  96  86  92 102  82  92  90  92  88  98  93  90  91  NA  92  92
@@ -406,11 +397,11 @@ the special <code>NA</code> value:</p>
 <p> </p>
 <p>We can now compare the groups who have and have not considered suicide. For example:</p>
 <p> </p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">by</span>(fem<span class="op">$</span>IQ, fem<span class="op">$</span>LIFE, summary)</a></code></pre></div>
+<pre class="sourceCode r" id="cb50"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">by</span>(fem<span class="op">$</span>IQ, fem<span class="op">$</span>LIFE, summary)</a></code></pre>
 <p> </p>
 <p>Look at the help for the <code>by()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">help</span>(by)</a></code></pre></div>
+<pre class="sourceCode r" id="cb51"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">help</span>(by)</a></code></pre>
 <p> </p>
 <p>Note that you may use <code>?by</code> as a shortcut for <code>help(by)</code>.</p>
 <p>The <code>by()</code> function applies another function (in this case the <code>summary()</code> function) to a column in a
@@ -418,11 +409,11 @@ data.frame (in this case <code>fem$IQ</code>) split by the value of another vari
 <p>It can be tedious to always have to specify a data.frame each time we want to use a particular variable. We can
 fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">attach</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb52"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">attach</span>(fem)</a></code></pre>
 <p> </p>
 <p>We can now refer to the columns in the <code>fem</code> data.frame without having to specify the name of the data.frame. This time we will produce summary statistics for <code>WT</code> by <code>LIFE</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, summary)</a></code></pre></div>
+<pre class="sourceCode r" id="cb53"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, summary)</a></code></pre>
 <pre><code>## LIFE: 1
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 ## -2.2300 -0.2700  1.0000  0.7867  1.7300  3.7700       4 
@@ -433,44 +424,44 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>We can view the same data as a box and whisker plot:</p>
 <p> </p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb55"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" /></p>
 
 <p>We can add axis labels and a title to the graph:</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE,</a>
+<pre class="sourceCode r" id="cb56"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">boxplot</span>(WT <span class="op">~</span><span class="st"> </span>LIFE,</a>
 <a class="sourceLine" id="cb56-2" data-line-number="2">        <span class="dt">xlab =</span> <span class="st">&quot;Life&quot;</span>,</a>
 <a class="sourceLine" id="cb56-3" data-line-number="3">        <span class="dt">ylab =</span> <span class="st">&quot;Weight&quot;</span>,</a>
-<a class="sourceLine" id="cb56-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Weight BY Life&quot;</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb56-4" data-line-number="4">        <span class="dt">main =</span> <span class="st">&quot;Weight BY Life&quot;</span>)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>A more descriptive title might be “Weight Change BY Considered Suicide”.</p>
 <p>The groups do not seem to differ much in their medians and the distributions appear to be reasonably symmetrical about their medians with a similar spread of values.</p>
 
 <p>We can look at the distribution as histograms:</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb57"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb58"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">hist</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /></p>
 
 <p>and check the assumption of normality using quantile-quantile plots:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb59"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a>
-<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb60"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">qqnorm</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">qqline</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" /></p>
 
 <p>or by using a formal test:</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb61"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">1</span>])</a></code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
 ## data:  WT[LIFE == 1]
 ## W = 0.98038, p-value = 0.4336</code></pre>
 <p> </p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre></div>
+<pre class="sourceCode r" id="cb63"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">shapiro.test</span>(WT[LIFE <span class="op">==</span><span class="st"> </span><span class="dv">2</span>])</a></code></pre>
 <pre><code>## 
 ##  Shapiro-Wilk normality test
 ## 
@@ -479,7 +470,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>Remember that we can use the <code>by()</code> function to apply a function to a data.frame, including statistical functions such as <code>shapiro.test()</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, shapiro.test)</a></code></pre></div>
+<pre class="sourceCode r" id="cb65"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">by</span>(WT, LIFE, shapiro.test)</a></code></pre>
 <pre><code>## LIFE: 1
 ## 
 ##  Shapiro-Wilk normality test
@@ -497,7 +488,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>We can also test whether the variances differ significantly using <em>Bartlett’s test</em> for the homogeneity of variances:</p>
 <p> </p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb67"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT, LIFE)</a></code></pre>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
@@ -507,7 +498,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>There is no significant difference between the two variances.</p>
 <p>Many functions in <code>R</code> have a <em>formula interface</em> that may be used to specify multiple variables and the relations between multiple variables. We could have used the formula interface with the <code>bartlett.test()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb69"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">bartlett.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
@@ -516,7 +507,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>Having checked the normality and homogeneity of variance assumptions we can proceed to carry out a <code>t-test</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb71"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">TRUE</span>)</a></code></pre>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -532,7 +523,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>There is no evidence that the two groups differ in weight change in the previous six months.</p>
 <p>We could still have performed a <code>t-test</code> if the variances were not homogenous by setting the <strong>var.equal</strong> parameter of the <code>t.test()</code> function to <strong>FALSE</strong>:</p>
 <p> </p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb73"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">t.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE, <span class="dt">var.equal =</span> <span class="ot">FALSE</span>)</a></code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -547,7 +538,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>or performed a non-parametric test:</p>
 <p> </p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">wilcox.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb75"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">wilcox.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <pre><code>## 
 ##  Wilcoxon rank sum test with continuity correction
 ## 
@@ -557,7 +548,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>An alternative, and more general, non-parametric test is:</p>
 <p> </p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">kruskal.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb77"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">kruskal.test</span>(WT <span class="op">~</span><span class="st"> </span>LIFE)</a></code></pre>
 <pre><code>## 
 ##  Kruskal-Wallis rank sum test
 ## 
@@ -566,7 +557,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>We can use the <code>table()</code> function to examine the differences in depression between the two groups:</p>
 <p> </p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">table</span>(DEP, LIFE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb79"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">table</span>(DEP, LIFE)</a></code></pre>
 <pre><code>##    LIFE
 ## DEP  1  2
 ##   1  0 26
@@ -575,7 +566,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>The two distributions look very different from each other. We can test this using a chi-square test on the table:</p>
 <p> </p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(DEP, LIFE))</a></code></pre></div>
+<pre class="sourceCode r" id="cb81"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(DEP, LIFE))</a></code></pre>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
@@ -584,8 +575,8 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>Note that we passed the output of the <code>table()</code> function directly to the <code>chisq.test()</code> function. We could have saved the table as an object first and then passed the object to the <code>chisq.test()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(DEP, LIFE)</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">chisq.test</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb83"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(DEP, LIFE)</a>
+<a class="sourceLine" id="cb83-2" data-line-number="2"><span class="kw">chisq.test</span>(tab)</a></code></pre>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
@@ -594,9 +585,9 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>The <code>tab</code> object contains the output of the <code>table()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb85"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">class</span>(tab)</a></code></pre>
 <pre><code>## [1] &quot;table&quot;</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">tab</a></code></pre></div>
+<pre class="sourceCode r" id="cb87"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">tab</a></code></pre>
 <pre><code>##    LIFE
 ## DEP  1  2
 ##   1  0 26
@@ -605,7 +596,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>We can pass this table object to another function. For example:</p>
 <p> </p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb89"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -615,23 +606,23 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>When we are finished with the tab object we can delete it using the <code>rm()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb91"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
 <p> </p>
 <p>You can see a list of available objects using the <code>ls()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb92"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">ls</span>()</a></code></pre>
 <pre><code>## [1] &quot;fem&quot;</code></pre>
 <p> </p>
 <p>This should just show the <code>fem</code> object.</p>
 <p>We can examine the association between loss of interest in sex and considering suicide in the same way:</p>
 <p> </p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(SEX, LIFE)</a>
-<a class="sourceLine" id="cb94-2" data-line-number="2">tab</a></code></pre></div>
+<pre class="sourceCode r" id="cb94"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(SEX, LIFE)</a>
+<a class="sourceLine" id="cb94-2" data-line-number="2">tab</a></code></pre>
 <pre><code>##    LIFE
 ## SEX  1  2
 ##   1 58 38
 ##   2  5 12</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb96"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="kw">fisher.test</span>(tab)</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -646,11 +637,11 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>Note that with a two-by-two table the <code>fisher.test()</code> function produces an estimate of, and confidence intervals for, the odds ratio. Again, we will delete the <code>tab</code> object:</p>
 <p> </p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre></div>
+<pre class="sourceCode r" id="cb98"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">rm</span>(tab)</a></code></pre>
 <p> </p>
 <p>We could have performed the Fisher exact test without creating the tab object by passing the output of the <code>table()</code> function directly to the <code>fisher.test()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(SEX, LIFE))</a></code></pre></div>
+<pre class="sourceCode r" id="cb99"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">fisher.test</span>(<span class="kw">table</span>(SEX, LIFE))</a></code></pre>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -666,17 +657,17 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>Choose whichever method you find easiest but remember that it is easy to save the results of any function for later use.</p>
 <p>We can explore the correlation between two variables using the <code>cor()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">cor</span>(IQ, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb101"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">cor</span>(IQ, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>## [1] -0.2917158</code></pre>
 
 <p>or by using a scatter plot:</p>
 <p> </p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">plot</span>(IQ, WT)</a></code></pre></div>
+<pre class="sourceCode r" id="cb103"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="kw">plot</span>(IQ, WT)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-66-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>and by a formal test:</p>
 <p> </p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">cor.test</span>(IQ, WT)</a></code></pre></div>
+<pre class="sourceCode r" id="cb104"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">cor.test</span>(IQ, WT)</a></code></pre>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -691,8 +682,8 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>With some functions you can pass an entire data.frame rather than a list of variables:</p>
 <p> </p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">cor</span>(fem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
-<a class="sourceLine" id="cb106-2" data-line-number="2"><span class="kw">pairs</span>(fem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb106"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">cor</span>(fem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2"><span class="kw">pairs</span>(fem)</a></code></pre>
 <pre><code>##               ID         AGE            IQ         ANX           DEP
 ## ID    1.00000000  0.03069077  0.0370598672 -0.02941825 -0.0554147209
 ## AGE   0.03069077  1.00000000 -0.4345435680  0.06734300 -0.0387049246
@@ -717,9 +708,9 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p><img src="prfe_files/figure-html/unnamed-chunk-70-1.png" style="display: block; margin: auto;" /></p>
 <p>The output can be a little confusing particularly if it includes categorical or record identifying variables. To avoid this we can create a new object that contains only the columns we are interested in using the column binding <code>cbind()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">newfem &lt;-<span class="st"> </span><span class="kw">cbind</span>(AGE, IQ, WT)</a>
+<pre class="sourceCode r" id="cb108"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">newfem &lt;-<span class="st"> </span><span class="kw">cbind</span>(AGE, IQ, WT)</a>
 <a class="sourceLine" id="cb108-2" data-line-number="2"><span class="kw">cor</span>(newfem, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
-<a class="sourceLine" id="cb108-3" data-line-number="3"><span class="kw">pairs</span>(newfem)</a></code></pre></div>
+<a class="sourceLine" id="cb108-3" data-line-number="3"><span class="kw">pairs</span>(newfem)</a></code></pre>
 <pre><code>##            AGE         IQ         WT
 ## AGE  1.0000000 -0.4345436  0.4157441
 ## IQ  -0.4345436  1.0000000 -0.2917158
@@ -729,12 +720,12 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p> </p>
 <p>When we have finished with the <code>newfem</code> object we can delete it:</p>
 <p> </p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw">rm</span>(newfem)</a></code></pre></div>
+<pre class="sourceCode r" id="cb110"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw">rm</span>(newfem)</a></code></pre>
 <p> </p>
 <p>There was no real need to create the <code>newfem</code> object as we could have fed the output of the <code>cbind()</code> function directly to the <code>cor()</code> or <code>pairs()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">cbind</span>(AGE, IQ, WT), <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
-<a class="sourceLine" id="cb111-2" data-line-number="2"><span class="kw">pairs</span>(<span class="kw">cbind</span>(AGE, IQ, WT))</a></code></pre></div>
+<pre class="sourceCode r" id="cb111"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">cor</span>(<span class="kw">cbind</span>(AGE, IQ, WT), <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a>
+<a class="sourceLine" id="cb111-2" data-line-number="2"><span class="kw">pairs</span>(<span class="kw">cbind</span>(AGE, IQ, WT))</a></code></pre>
 <pre><code>##            AGE         IQ         WT
 ## AGE  1.0000000 -0.4345436  0.4157441
 ## IQ  -0.4345436  1.0000000 -0.2917158
@@ -745,14 +736,14 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>It is, however, easier to work with the <code>newfem</code> object rather than having to retype the <code>cbind()</code> function. This is particularly true if you wanted to continue with an analysis of just the three variables.</p>
 <p>The relationship between <code>AGE</code> and <code>WT</code> can be plotted using the <code>plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a></code></pre></div>
+<pre class="sourceCode r" id="cb113"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-78-1.png" style="display: block; margin: auto;" /></p>
 
 <p>And tested using the <code>cor()</code> and <code>cor.test()</code> functions:</p>
 <p> </p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw">cor</span>(AGE, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb114"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="kw">cor</span>(AGE, WT, <span class="dt">use =</span> <span class="st">&quot;pairwise.complete.obs&quot;</span>)</a></code></pre>
 <pre><code>## [1] 0.4157441</code></pre>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">cor.test</span>(AGE, WT)</a></code></pre></div>
+<pre class="sourceCode r" id="cb116"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">cor.test</span>(AGE, WT)</a></code></pre>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
@@ -767,7 +758,7 @@ fix this problem by ‘attaching’ the data.frame:</p>
 
 <p>Or by using the linear modelling <code>lm()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE))</a></code></pre></div>
+<pre class="sourceCode r" id="cb118"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE))</a></code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = WT ~ AGE)
@@ -791,11 +782,11 @@ fix this problem by ‘attaching’ the data.frame:</p>
 <p>We use the <code>summary()</code> function here to extract summary information from the output of the <code>lm()</code> function.</p>
 <p>It is often more useful to use <code>lm()</code> to create an object:</p>
 <p> </p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a></code></pre></div>
+<pre class="sourceCode r" id="cb120"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">fem.lm &lt;-<span class="st"> </span><span class="kw">lm</span>(WT <span class="op">~</span><span class="st"> </span>AGE)</a></code></pre>
 
 <p>And use the output in other functions:</p>
 <p> </p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">summary</span>(fem.lm)</a></code></pre></div>
+<pre class="sourceCode r" id="cb121"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">summary</span>(fem.lm)</a></code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = WT ~ AGE)
@@ -816,31 +807,31 @@ fix this problem by ‘attaching’ the data.frame:</p>
 ## Multiple R-squared:  0.1728, Adjusted R-squared:  0.165 
 ## F-statistic: 21.94 on 1 and 105 DF,  p-value: 8.457e-06</code></pre>
 
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a>
-<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">abline</span>(fem.lm)</a></code></pre></div>
+<pre class="sourceCode r" id="cb123"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">plot</span>(AGE, WT)</a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">abline</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-83-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>In this case we are passing the intercept and slope information held in the <code>fem.lm</code> object to the <code>abline()</code> function which draws a regression line. The <code>abline()</code> function adds to an existing plot. This means that you need to keep the scatter plot of <code>AGE</code> and <code>WT</code> open before issuing the <code>abline()</code> function call.</p>
 
 <p>A useful function to apply to the <code>fem.lm</code> object is <code>plot()</code> which produces diagnostic plots of the linear model:</p>
 <p> </p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">plot</span>(fem.lm)</a></code></pre></div>
+<pre class="sourceCode r" id="cb124"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">plot</span>(fem.lm)</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-84-1.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-2.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-3.png" style="display: block; margin: auto;" /><img src="prfe_files/figure-html/unnamed-chunk-84-4.png" style="display: block; margin: auto;" /></p>
 
 <p>Objects created by the <code>lm()</code> function (or any of the modelling functions) can use up a lot of memory so we should remove them when we no longer need them:</p>
 <p> </p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">rm</span>(fem.lm)</a></code></pre></div>
+<pre class="sourceCode r" id="cb125"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">rm</span>(fem.lm)</a></code></pre>
 <p> </p>
 <p>It might be interesting to see whether a similar relationship exists between <code>AGE</code> and <code>WT</code> for those who have and have not considered suicide. This can be done using the <code>coplot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE))</a></code></pre></div>
+<pre class="sourceCode r" id="cb126"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE))</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-86-1.png" style="display: block; margin: auto;" /></p>
 <pre><code>## 
 ##  Missing rows: 21, 22, 31, 43, 44, 45, 69, 81, 101, 104, 114, 115</code></pre>
 
 <p>The two plots looks similar. We could also use <code>coplot()</code> to investigate the relationship between <code>AGE</code> and <code>WT</code> for categories of both <code>LIFE</code> and <code>SEX</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE) <span class="op">*</span><span class="st"> </span><span class="kw">as.factor</span>(SEX))</a></code></pre></div>
+<pre class="sourceCode r" id="cb128"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">coplot</span>(WT <span class="op">~</span><span class="st"> </span>AGE <span class="op">|</span><span class="st"> </span><span class="kw">as.factor</span>(LIFE) <span class="op">*</span><span class="st"> </span><span class="kw">as.factor</span>(SEX))</a></code></pre>
 <p><img src="prfe_files/figure-html/unnamed-chunk-87-1.png" style="display: block; margin: auto;" /></p>
 <pre><code>## 
 ##  Missing rows: 12, 17, 21, 22, 31, 43, 44, 45, 66, 69, 81, 101, 104, 105, 114, 115</code></pre>
@@ -850,12 +841,12 @@ fix this problem by ‘attaching’ the data.frame:</p>
 and <code>SEX</code> columns hold categorical data.</p>
 <p>We can check the way variables are stored using the <code>data.class()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">data.class</span>(fem<span class="op">$</span>SEX)</a></code></pre></div>
+<pre class="sourceCode r" id="cb130"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">data.class</span>(fem<span class="op">$</span>SEX)</a></code></pre>
 <pre><code>## [1] &quot;numeric&quot;</code></pre>
 
 <p>We can ‘apply’ this function to all columns in a data.frame using the <code>sapply()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">sapply</span>(fem, data.class)</a></code></pre></div>
+<pre class="sourceCode r" id="cb132"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="kw">sapply</span>(fem, data.class)</a></code></pre>
 <pre><code>##        ID       AGE        IQ       ANX       DEP       SLP       SEX 
 ## &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; &quot;numeric&quot; 
 ##      LIFE        WT 
@@ -899,7 +890,7 @@ and <code>SEX</code> columns hold categorical data.</p>
 <p>Related functions are <code>aggregate()</code> which compute summary statistics for subsets of data, <code>by()</code> which applies a function to a data.frame split by factors, and <code>sweep()</code> which applies a function to an array.</p>
 <p>The parameters of most <code>R</code> functions have default values. These are usually the most used and most useful parameter values for each function. The <code>cor.test()</code> function, for example, calculates <em>Pearson’s product moment correlation coefficient</em> by default. This is an appropriate measure for data from a bivariate normal distribution. The <code>DEP</code> and <code>ANX</code> variables contain ordered data. An appropriate measure of correlation between <code>DEP</code> and <code>ANX</code> is <em>Kendall’s tau</em>. This can be obtained using:</p>
 <p> </p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw">cor.test</span>(DEP, ANX, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb134"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw">cor.test</span>(DEP, ANX, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</a></code></pre>
 <pre><code>## 
 ##  Kendall&#39;s rank correlation tau
 ## 
@@ -912,11 +903,11 @@ and <code>SEX</code> columns hold categorical data.</p>
 <p> </p>
 <p>Before we finish we should save the <code>fem</code> data.frame so that next time we want to use it we will not have to bother with recoding the missing values to the special <code>NA</code> value. This is done with the <code>write.table()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">write.table</span>(fem, <span class="dt">file =</span> <span class="st">&quot;newfem.dat&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<pre class="sourceCode r" id="cb136"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">write.table</span>(fem, <span class="dt">file =</span> <span class="st">&quot;newfem.dat&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)</a></code></pre>
 <p> </p>
 <p>Everything in <code>R</code> is either a function or an object. Even the command to quit <code>R</code> is a function:</p>
 <p> </p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre></div>
+<pre class="sourceCode r" id="cb137"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
 <p> </p>
 <p>When you call the <code>q()</code> function you will be asked if you want to save the workspace image. If you save the workspace image then all of the objects and functions currently available to you will be saved. These will then be automatically restored the next time you start <code>R</code> in the current working directory.</p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
