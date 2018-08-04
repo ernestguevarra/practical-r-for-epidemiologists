@@ -7,3 +7,4 @@ Authors@R: c(
 Depends: R (>= 3.0.1)
 Imports:
     bookdown
+License: AGPL-3
