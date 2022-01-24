@@ -52,8 +52,12 @@ The problem with this plot is that it does not treat the data as a time series. 
 
 &nbsp;
 
-```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+```{r, eval = FALSE, fig.align = "center", fig.pos = "H", fig.retina = 1}
 plot(Time, Cases, type = "l")
+```
+
+```{r, eval = TRUE, fig.align = "center", fig.pos = "H", fig.retina = 1}
+plot(as.factor(Time), Cases, type = "l")
 ```
 
 \newpage

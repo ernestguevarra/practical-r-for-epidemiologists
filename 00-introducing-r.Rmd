@@ -146,7 +146,7 @@ format:
 ## Retrieving data {-}
 
 All of the exercises in this manual assume that the necessary data files are located in the current working directory.
-All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from http://www.brixtonhealth.com/prfe/prfe.zip.
+All of the data files that you require to follow this material are in a ZIP archive that can be downloaded from https://github.com/ernestguevarra/practical-r-for-epidemiologists/raw/master/data/prfe.zip.
 
 A command such as:
 
@@ -216,4 +216,4 @@ read.table("file://~/prfe/fem.dat", header = TRUE)
 
 will retrieve the data stored in the file named `fem.dat` stored in the `prfe` directory under the users home directory on UNIX-based systems.
 
-All of the data files used in this section are stored in the `/prfe` directory Brixton Health’s website. This means, for example, that you can use the `read.table()` function specifying "http://www.brixtonhealth.com/prfe/fem.dat" as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `data/` directory of this guide's GitHub repository.
+All of the data files used in this section are stored in the `/prfe` directory Brixton Health’s website. This means, for example, that you can use the `read.table()` function specifying *"https://github.com/ernestguevarra/practical-r-for-epidemiologists/blob/master/data/fem.dat"* as the `URL` to retrieve the data that is stored in the file named `fem.dat` which is stored in the `data/` directory of this guide's GitHub repository.

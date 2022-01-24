@@ -1,45 +1,48 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Practical R for Epidemiologists</title>
-  <meta name="description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book.">
-  <meta name="generator" content="bookdown 0.7 and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Exercise 4 Analysing some data with R | Practical R for Epidemiologists</title>
+  <meta name="description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Practical R for Epidemiologists" />
+  <meta property="og:title" content="Exercise 4 Analysing some data with R | Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
   <meta property="og:url" content="https://guevarra.io/practical-r-for-epidemiologists/" />
-  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists/images/bookcover.jpg" />
+  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
   <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="github-repo" content="ernestguevarra/practical-r-for-epidemiologists" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Practical R for Epidemiologists" />
+  <meta name="twitter:title" content="Exercise 4 Analysing some data with R | Practical R for Epidemiologists" />
   
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
-  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists/images/bookcover.jpg" />
+  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
 
-<meta name="author" content="Mark Myatt">
+<meta name="author" content="Mark Myatt" />
 
 
-<meta name="date" content="2018-08-04">
+<meta name="date" content="2022-01-24" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="exercise3.html">
-<link rel="next" href="exercise5.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="prev" href="exercise3.html"/>
+<link rel="next" href="exercise5.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -47,6 +50,9 @@
 
 
 
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-118912078-1"></script>
 <script>
@@ -59,20 +65,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; min-height: 1.25em; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; }
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,39 +93,41 @@ pre.numberSource a.sourceLine::before
     color: #aaaaaa;
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-pre, code { background-color: #f8f8f8; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; color: initial; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
 code span.dt { color: #204a87; } /* DataType */
 code span.dv { color: #0000cf; } /* DecVal */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.fl { color: #0000cf; } /* Float */
-code span.ch { color: #4e9a06; } /* Char */
-code span.st { color: #4e9a06; } /* String */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.ot { color: #8f5902; } /* Other */
-code span.al { color: #ef2929; } /* Alert */
-code span.fu { color: #000000; } /* Function */
 code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
-code span.cn { color: #000000; } /* Constant */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.im { } /* Import */
-code span.va { color: #000000; } /* Variable */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
 code span.ex { } /* Extension */
-code span.at { color: #c4a000; } /* Attribute */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
 code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
 </style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -132,32 +147,41 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Welcome</a></li>
 <li class="chapter" data-level="" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="" data-path="introducing-r.html"><a href="introducing-r.html"><i class="fa fa-check"></i>Introducing R</a><ul>
+<li class="chapter" data-level="" data-path="introducing-r.html"><a href="introducing-r.html"><i class="fa fa-check"></i>Introducing R</a>
+<ul>
 <li class="chapter" data-level="" data-path="introducing-r.html"><a href="introducing-r.html#retrieving-data"><i class="fa fa-check"></i>Retrieving data</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>1</b> Getting acquainted with R</a><ul>
+<li class="chapter" data-level="1" data-path="exercise1.html"><a href="exercise1.html"><i class="fa fa-check"></i><b>1</b> Getting acquainted with R</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="exercise1.html"><a href="exercise1.html#summary"><i class="fa fa-check"></i><b>1.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="exercise2.html"><a href="exercise2.html"><i class="fa fa-check"></i><b>2</b> Manipulating objects and creating new functions</a><ul>
+<li class="chapter" data-level="2" data-path="exercise2.html"><a href="exercise2.html"><i class="fa fa-check"></i><b>2</b> Manipulating objects and creating new functions</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="exercise2.html"><a href="exercise2.html#summary-1"><i class="fa fa-check"></i><b>2.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>3</b> Logistic regression and stratified analysis</a><ul>
+<li class="chapter" data-level="3" data-path="exercise3.html"><a href="exercise3.html"><i class="fa fa-check"></i><b>3</b> Logistic regression and stratified analysis</a>
+<ul>
 <li class="chapter" data-level="3.1" data-path="exercise3.html"><a href="exercise3.html#matched-data"><i class="fa fa-check"></i><b>3.1</b> Matched data</a></li>
 <li class="chapter" data-level="3.2" data-path="exercise3.html"><a href="exercise3.html#summary-2"><i class="fa fa-check"></i><b>3.2</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>4</b> Analysing some data with R</a><ul>
+<li class="chapter" data-level="4" data-path="exercise4.html"><a href="exercise4.html"><i class="fa fa-check"></i><b>4</b> Analysing some data with R</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="exercise4.html"><a href="exercise4.html#summary-3"><i class="fa fa-check"></i><b>4.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>5</b> Extending R with packages</a><ul>
+<li class="chapter" data-level="5" data-path="exercise5.html"><a href="exercise5.html"><i class="fa fa-check"></i><b>5</b> Extending R with packages</a>
+<ul>
 <li class="chapter" data-level="5.1" data-path="exercise5.html"><a href="exercise5.html#summary-4"><i class="fa fa-check"></i><b>5.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>6</b> Making your own objects behave like R objects</a><ul>
+<li class="chapter" data-level="6" data-path="exercise6.html"><a href="exercise6.html"><i class="fa fa-check"></i><b>6</b> Making your own objects behave like R objects</a>
+<ul>
 <li class="chapter" data-level="6.1" data-path="exercise6.html"><a href="exercise6.html#summary-5"><i class="fa fa-check"></i><b>6.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>7</b> Writing your own graphical functions</a><ul>
+<li class="chapter" data-level="7" data-path="exercise7.html"><a href="exercise7.html"><i class="fa fa-check"></i><b>7</b> Writing your own graphical functions</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="exercise7.html"><a href="exercise7.html#summary-6"><i class="fa fa-check"></i><b>7.1</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>8</b> More graphical functions</a><ul>
+<li class="chapter" data-level="8" data-path="exercise8.html"><a href="exercise8.html"><i class="fa fa-check"></i><b>8</b> More graphical functions</a>
+<ul>
 <li class="chapter" data-level="8.1" data-path="exercise8.html"><a href="exercise8.html#population-pyramid"><i class="fa fa-check"></i><b>8.1</b> Population pyramid</a></li>
 <li class="chapter" data-level="8.2" data-path="exercise8.html"><a href="exercise8.html#pareto-chart"><i class="fa fa-check"></i><b>8.2</b> Pareto chart</a></li>
 <li class="chapter" data-level="8.3" data-path="exercise8.html"><a href="exercise8.html#adding-confidence-intervals-or-error-bars-on-plots"><i class="fa fa-check"></i><b>8.3</b> Adding confidence intervals or error bars on plots</a></li>
@@ -165,7 +189,8 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
 <li class="chapter" data-level="8.5" data-path="exercise8.html"><a href="exercise8.html#combining-plots"><i class="fa fa-check"></i><b>8.5</b> Combining plots</a></li>
 <li class="chapter" data-level="8.6" data-path="exercise8.html"><a href="exercise8.html#summary-7"><i class="fa fa-check"></i><b>8.6</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>9</b> Computer intensive methods</a><ul>
+<li class="chapter" data-level="9" data-path="exercise9.html"><a href="exercise9.html"><i class="fa fa-check"></i><b>9</b> Computer intensive methods</a>
+<ul>
 <li class="chapter" data-level="9.1" data-path="exercise9.html"><a href="exercise9.html#estimation"><i class="fa fa-check"></i><b>9.1</b> Estimation</a></li>
 <li class="chapter" data-level="9.2" data-path="exercise9.html"><a href="exercise9.html#hypothesis-testing"><i class="fa fa-check"></i><b>9.2</b> Hypothesis testing</a></li>
 <li class="chapter" data-level="9.3" data-path="exercise9.html"><a href="exercise9.html#simulating-processes"><i class="fa fa-check"></i><b>9.3</b> Simulating processes</a></li>
@@ -193,19 +218,25 @@ code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Infor
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="exercise4" class="section level1">
+<div id="exercise4" class="section level1" number="4">
 <h1><span class="header-section-number">Exercise 4</span> Analysing some data with R</h1>
 <p>In this exercise we will use the <code>R</code> functions we have already used and the functions we have added to <code>R</code> to
 analyse a small dataset. First we will start <code>R</code> and retrieve our functions:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb365"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="kw">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</a>
-<a class="sourceLine" id="cb365-2" data-line-number="2"><span class="kw">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</a></code></pre>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="exercise4.html#cb375-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;tab2by2.r&quot;</span>)</span>
+<span id="cb375-2"><a href="exercise4.html#cb375-2" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;lregor.r&quot;</span>)</span></code></pre></div>
 <p> </p>
 <p>And then retrieve and attach the sample dataset:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb366"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1">gudhiv &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;gudhiv.dat&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">na.strings =</span> <span class="st">&quot;X&quot;</span>)</a>
-<a class="sourceLine" id="cb366-2" data-line-number="2"><span class="kw">attach</span>(gudhiv)</a></code></pre>
-
+<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="exercise4.html#cb376-1" aria-hidden="true" tabindex="-1"></a>gudhiv <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;gudhiv.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">na.strings =</span> <span class="st">&quot;X&quot;</span>)</span>
+<span id="cb376-2"><a href="exercise4.html#cb376-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(gudhiv)</span></code></pre></div>
+<pre><code>## The following objects are masked from gudhiv (pos = 11):
+## 
+##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO, TRAVOUT, UTIGC</code></pre>
+<pre><code>## The following objects are masked from gudhiv (pos = 20):
+## 
+##     CIR, GAMBIAN, GUD, HIV, INJ12M, MARRIED, PARTNERS, SEXPRO, TRAVOUT, UTIGC</code></pre>
+<div style="page-break-after: always;"></div>
 <p>This data is from a cross-sectional study of 435 male patients who presented with sexually transmitted infections at an outpatient clinic in The Gambia between August 1988 and June 1990. Several studies have documented an association between genital ulcer disease (GUD) and HIV infection. A study of Gambian prostitutes documented an association between seropositivity for HIV-2 and antibodies against <code>Treponema pallidum</code> (a serological test for syphilis). Prostitutes are not the ideal population for such studies as they may have experienced multiple sexually transmitted infections and it is difficult to quantify the number of times they may have had sex with HIV-2 seropositive customers. A sample of males with sexually transmitted infections is easier to study as they have probably had fewer sexual partners than prostitutes and much less contact with sexually transmitted infection pathogens. In such a sample it is also easier to find subjects and collect data. The variables in the dataset are:</p>
 <p> </p>
 <table>
@@ -261,16 +292,16 @@ analyse a small dataset. First we will start <code>R</code> and retrieve our fun
 <p>We will start our analysis by examining pairwise associations between the binary exposure variables and the
 HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb367"><code class="sourceCode r"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a>
-<a class="sourceLine" id="cb367-2" data-line-number="2"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a>
-<a class="sourceLine" id="cb367-3" data-line-number="3"><span class="kw">tab2by2</span>(GUD, HIV)</a>
-<a class="sourceLine" id="cb367-4" data-line-number="4"><span class="kw">tab2by2</span>(UTIGC, HIV)</a>
-<a class="sourceLine" id="cb367-5" data-line-number="5"><span class="kw">tab2by2</span>(CIR, HIV)</a>
-<a class="sourceLine" id="cb367-6" data-line-number="6"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a>
-<a class="sourceLine" id="cb367-7" data-line-number="7"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a>
-<a class="sourceLine" id="cb367-8" data-line-number="8"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
-
-<pre class="sourceCode r" id="cb368"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="kw">tab2by2</span>(MARRIED, HIV)</a></code></pre>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="exercise4.html#cb379-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(MARRIED, HIV)</span>
+<span id="cb379-2"><a href="exercise4.html#cb379-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(GAMBIAN, HIV)</span>
+<span id="cb379-3"><a href="exercise4.html#cb379-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(GUD, HIV)</span>
+<span id="cb379-4"><a href="exercise4.html#cb379-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(UTIGC, HIV)</span>
+<span id="cb379-5"><a href="exercise4.html#cb379-5" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(CIR, HIV)</span>
+<span id="cb379-6"><a href="exercise4.html#cb379-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(TRAVOUT, HIV)</span>
+<span id="cb379-7"><a href="exercise4.html#cb379-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(SEXPRO, HIV)</span>
+<span id="cb379-8"><a href="exercise4.html#cb379-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(INJ12M, HIV)</span></code></pre></div>
+<div style="page-break-after: always;"></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="exercise4.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(MARRIED, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -285,7 +316,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 2.119801 
 ## 95% CI            : 0.7380371 5.714354</code></pre>
-<pre class="sourceCode r" id="cb370"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">tab2by2</span>(GAMBIAN, HIV)</a></code></pre>
+<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="exercise4.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(GAMBIAN, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -300,8 +331,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 0.9100104 
 ## 95% CI            : 0.2853202 3.826485</code></pre>
-
-<pre class="sourceCode r" id="cb372"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="kw">tab2by2</span>(GUD, HIV)</a></code></pre>
+<div style="page-break-after: always;"></div>
+<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="exercise4.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(GUD, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -316,7 +347,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 3.517408 
 ## 95% CI            : 1.258556 9.491924</code></pre>
-<pre class="sourceCode r" id="cb374"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1"><span class="kw">tab2by2</span>(UTIGC, HIV)</a></code></pre>
+<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="exercise4.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(UTIGC, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -331,8 +362,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 1.295532 
 ## 95% CI            : 0.4703496 3.438842</code></pre>
-
-<pre class="sourceCode r" id="cb376"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="kw">tab2by2</span>(CIR, HIV)</a></code></pre>
+<div style="page-break-after: always;"></div>
+<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="exercise4.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(CIR, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -347,7 +378,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 0.1460183 
 ## 95% CI            : 0.03322189 0.899754</code></pre>
-<pre class="sourceCode r" id="cb378"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="kw">tab2by2</span>(TRAVOUT, HIV)</a></code></pre>
+<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="exercise4.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(TRAVOUT, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -362,8 +393,8 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 5.624226 
 ## 95% CI            : 1.32716 50.45859</code></pre>
-
-<pre class="sourceCode r" id="cb380"><code class="sourceCode r"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="kw">tab2by2</span>(SEXPRO, HIV)</a></code></pre>
+<div style="page-break-after: always;"></div>
+<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="exercise4.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(SEXPRO, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -378,7 +409,7 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 
 ## MLE Odds Ratio    : 1.152912 
 ## 95% CI            : 0.4042323 3.083152</code></pre>
-<pre class="sourceCode r" id="cb382"><code class="sourceCode r"><a class="sourceLine" id="cb382-1" data-line-number="1"><span class="kw">tab2by2</span>(INJ12M, HIV)</a></code></pre>
+<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="exercise4.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(INJ12M, HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   0   1
@@ -395,11 +426,11 @@ HIV variable using the <code>tab2by2()</code> function that we wrote earlier:</p
 ## 95% CI            : 0.4006202 3.263814</code></pre>
 <p> </p>
 <p>Note that our <code>tab2by2()</code> function returns misleading risk ratio estimates and confidence intervals for this dataset. This is because the function expects the <code>exposure</code> and <code>outcome</code> variables to be ordered with exposure-present and outcome-present as the first category (e.g. 1 = present, 2 = absent). This coding is reversed (i.e. 0 = absent, 1 = present) in the <code>gudhiv</code> dataset.</p>
-
+<div style="page-break-after: always;"></div>
 <p>We can produce risk ratio estimates for variables in the <code>gudhiv</code> data using the <code>tab2by2()</code> function and a
 simple transformation of the <code>exposure</code> and <code>outcome</code> variables. For example:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb384"><code class="sourceCode r"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="kw">tab2by2</span>(<span class="dv">2</span> <span class="op">-</span><span class="st"> </span>GUD, <span class="dv">2</span> <span class="op">-</span><span class="st"> </span>HIV)</a></code></pre>
+<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="exercise4.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tab2by2</span>(<span class="dv">2</span> <span class="sc">-</span> GUD, <span class="dv">2</span> <span class="sc">-</span> HIV)</span></code></pre></div>
 <pre><code>## 
 ##         outcome
 ## exposure   1   2
@@ -418,23 +449,23 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p>The odds ratio estimates returned by the <code>tab2by2()</code> function, with or without this transformation, are correct. The <code>GUD</code> and <code>TRAVOUT</code> variables are associated with <code>HIV</code>.</p>
 <p><code>PARTNERS</code> is a continuous variable and we should examine its distribution before doing anything with it:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb386"><code class="sourceCode r"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a>
-<a class="sourceLine" id="cb386-2" data-line-number="2"><span class="kw">hist</span>(PARTNERS)</a></code></pre>
-<pre class="sourceCode r" id="cb387"><code class="sourceCode r"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="kw">table</span>(PARTNERS)</a></code></pre>
+<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="exercise4.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PARTNERS)</span>
+<span id="cb398-2"><a href="exercise4.html#cb398-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(PARTNERS)</span></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="exercise4.html#cb399-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PARTNERS)</span></code></pre></div>
 <pre><code>## PARTNERS
 ##   1   2   3   4   5   6   7   8   9 
 ##  61 129 133  71  25   6   6   2   2</code></pre>
-
+<div style="page-break-after: always;"></div>
 <p><img src="prfe_files/figure-html/unnamed-chunk-236-1.png" width="672" /></p>
 <p> </p>
 <p>The distribution of <code>PARTNERS</code> is severely non-normal. Instead of attempting to transform the variable we will produce summary statistics for each level of the <code>HIV</code> variable and perform a non-parametric test:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb389"><code class="sourceCode r"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="kw">by</span>(PARTNERS, HIV, summary)</a>
-<a class="sourceLine" id="cb389-2" data-line-number="2"><span class="kw">kruskal.test</span>(PARTNERS <span class="op">~</span><span class="st"> </span>HIV)</a></code></pre>
+<div class="sourceCode" id="cb401"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb401-1"><a href="exercise4.html#cb401-1" aria-hidden="true" tabindex="-1"></a><span class="fu">by</span>(PARTNERS, HIV, summary)</span>
+<span id="cb401-2"><a href="exercise4.html#cb401-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(PARTNERS <span class="sc">~</span> HIV)</span></code></pre></div>
 <pre><code>## HIV: 0
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    1.00    2.00    3.00    2.72    3.00    8.00 
-## -------------------------------------------------------- 
+## --------------------------------------------------------------------------------------- 
 ## HIV: 1
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##   1.000   4.000   5.000   5.381   7.000   9.000</code></pre>
@@ -443,10 +474,10 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 ## 
 ## data:  PARTNERS by HIV
 ## Kruskal-Wallis chi-squared = 32.036, df = 1, p-value = 1.514e-08</code></pre>
-
+<div style="page-break-after: always;"></div>
 <p>An alternative way of looking at the data is as a tabulation:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb392"><code class="sourceCode r"><a class="sourceLine" id="cb392-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="exercise4.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PARTNERS, HIV)</span></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS   0   1
 ##        1  60   1
@@ -461,12 +492,12 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>You can use the <code>plot()</code> function to represent this table graphically:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb394"><code class="sourceCode r"><a class="sourceLine" id="cb394-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
+<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="exercise4.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">table</span>(PARTNERS, HIV), <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
 <p><img src="prfe_files/figure-html/unnamed-chunk-240-1.png" width="672" /></p>
-
+<div style="page-break-after: always;"></div>
 <p>There appears to be an association between the number of sexual <code>PARTNERS</code> in the previous twelve months and positive <code>HIV</code> serology. The proportion with positive <code>HIV</code> serology increases as the number of sexual partners increases:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb395"><code class="sourceCode r"><a class="sourceLine" id="cb395-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span></a></code></pre>
+<div class="sourceCode" id="cb407"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb407-1"><a href="exercise4.html#cb407-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span></span></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS           0           1
 ##        1  98.3606557   1.6393443
@@ -481,12 +512,12 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>The <strong>‘1’</strong> instructs the <code>prop.table()</code> function to calculate row proportions. You can also use the <code>plot()</code> function to represent this table graphically:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb397"><code class="sourceCode r"><a class="sourceLine" id="cb397-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">prop.table</span>(<span class="kw">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>, <span class="dt">color =</span> <span class="kw">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</a></code></pre>
+<div class="sourceCode" id="cb409"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb409-1"><a href="exercise4.html#cb409-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(PARTNERS, HIV), <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&quot;lightgreen&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
 <p><img src="prfe_files/figure-html/unnamed-chunk-242-1.png" width="672" /></p>
-
+<div style="page-break-after: always;"></div>
 <p>The <em>chi-square test for trend</em> is an appropriate test to perform on this data. The <code>prop.trend.test()</code> function that performs the <em>chi-square test for trend</em> requires you to specify the <em>number of events</em> and the <em>number of trials</em>. In this table:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb398"><code class="sourceCode r"><a class="sourceLine" id="cb398-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, HIV)</a></code></pre>
+<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="exercise4.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PARTNERS, HIV)</span></code></pre></div>
 <pre><code>##         HIV
 ## PARTNERS   0   1
 ##        1  60   1
@@ -502,20 +533,20 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p>The <em>number of events</em> in each row is in the second column (labelled <strong>1</strong>) and the <em>number of trials</em> is the total number of cases in each row of the table.</p>
 <p>We can extract this data from a table object:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb400"><code class="sourceCode r"><a class="sourceLine" id="cb400-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
-<a class="sourceLine" id="cb400-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb400-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
-<pre class="sourceCode r" id="cb401"><code class="sourceCode r"><a class="sourceLine" id="cb401-1" data-line-number="1">tab &lt;-<span class="st"> </span><span class="kw">table</span>(PARTNERS, HIV)</a>
-<a class="sourceLine" id="cb401-2" data-line-number="2">events &lt;-<span class="st"> </span>tab[ ,<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb401-3" data-line-number="3">trials &lt;-<span class="st"> </span>tab[ ,<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>tab[ ,<span class="dv">2</span>]</a></code></pre>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="exercise4.html#cb412-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(PARTNERS, HIV)</span>
+<span id="cb412-2"><a href="exercise4.html#cb412-2" aria-hidden="true" tabindex="-1"></a>events <span class="ot">&lt;-</span> tab[ ,<span class="dv">2</span>]</span>
+<span id="cb412-3"><a href="exercise4.html#cb412-3" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> tab[ ,<span class="dv">1</span>] <span class="sc">+</span> tab[ ,<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb413-1"><a href="exercise4.html#cb413-1" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(PARTNERS, HIV)</span>
+<span id="cb413-2"><a href="exercise4.html#cb413-2" aria-hidden="true" tabindex="-1"></a>events <span class="ot">&lt;-</span> tab[ ,<span class="dv">2</span>]</span>
+<span id="cb413-3"><a href="exercise4.html#cb413-3" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> tab[ ,<span class="dv">1</span>] <span class="sc">+</span> tab[ ,<span class="dv">2</span>]</span></code></pre></div>
 <p> </p>
 <p>Another way of creating the <code>trials</code> object would be to use the <code>apply()</code> function to sum the rows of the tab object:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb402"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">trials &lt;-<span class="st"> </span><span class="kw">apply</span>(tab, <span class="dv">1</span>, sum)</a></code></pre>
-
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="exercise4.html#cb414-1" aria-hidden="true" tabindex="-1"></a>trials <span class="ot">&lt;-</span> <span class="fu">apply</span>(tab, <span class="dv">1</span>, sum)</span></code></pre></div>
+<div style="page-break-after: always;"></div>
 <p>Pass this data to the <code>prop.trend.test()</code> function:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb403"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1"><span class="kw">prop.trend.test</span>(events, trials)</a></code></pre>
+<div class="sourceCode" id="cb415"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb415-1"><a href="exercise4.html#cb415-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.trend.test</span>(events, trials)</span></code></pre></div>
 <pre><code>## 
 ##  Chi-squared Test for Trend in Proportions
 ## 
@@ -525,9 +556,9 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>With a linear trend such as this we can use <code>PARTNERS</code> in a logistic model without recoding or creating indicator variables. We can now specify and fit the logistic regression model:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb405"><code class="sourceCode r"><a class="sourceLine" id="cb405-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>PARTNERS,</a>
-<a class="sourceLine" id="cb405-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
-<a class="sourceLine" id="cb405-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a></code></pre>
+<div class="sourceCode" id="cb417"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb417-1"><a href="exercise4.html#cb417-1" aria-hidden="true" tabindex="-1"></a>gudhiv.lreg <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> HIV <span class="sc">~</span> GUD <span class="sc">+</span> TRAVOUT <span class="sc">+</span> PARTNERS,</span>
+<span id="cb417-2"><a href="exercise4.html#cb417-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(logit))</span>
+<span id="cb417-3"><a href="exercise4.html#cb417-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gudhiv.lreg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = HIV ~ GUD + TRAVOUT + PARTNERS, family = binomial(logit))
@@ -556,7 +587,7 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>We can use the <code>lreg.or()</code> function that we wrote earlier to calculate and display odds ratios and confidence intervals:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb407"><code class="sourceCode r"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="exercise4.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lreg.or</span>(gudhiv.lreg)</span></code></pre></div>
 <pre><code>##               OR  LCI   UCI
 ## (Intercept) 0.00 0.00  0.00
 ## GUD         4.00 1.25 12.81
@@ -567,11 +598,11 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p>The odds ratio reported for <code>PARTNERS</code> is the odds ratio associated with a unit increase in the number of sexual <code>PARTNERS</code>. A man reporting five sexual partners, for example, was over three times as likely (odds ratio = 3.19) to have a positive HIV-2 serology than a man reporting four sexual partners.</p>
 <p>An alternative approach would be to have created an <em>indicator</em> variables:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb409"><code class="sourceCode r"><a class="sourceLine" id="cb409-1" data-line-number="1">part.gt<span class="fl">.5</span> &lt;-<span class="st"> </span><span class="kw">ifelse</span>(PARTNERS <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a></code></pre>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="exercise4.html#cb421-1" aria-hidden="true" tabindex="-1"></a>part.gt<span class="fl">.5</span> <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(PARTNERS <span class="sc">&gt;</span> <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span></code></pre></div>
 <p> </p>
 <p>This creates a new variable (<code>part.gt.5</code>) that indicates whether or not an individual subject reported having more than five sexual partners in the previous twelve months:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb410"><code class="sourceCode r"><a class="sourceLine" id="cb410-1" data-line-number="1"><span class="kw">table</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="exercise4.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PARTNERS, part.gt<span class="fl">.5</span>)</span></code></pre></div>
 <pre><code>##         part.gt.5
 ## PARTNERS   0   1
 ##        1  61   0
@@ -586,7 +617,7 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>You can also inspect this on a case-by-case basis:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb412"><code class="sourceCode r"><a class="sourceLine" id="cb412-1" data-line-number="1"><span class="kw">cbind</span>(PARTNERS, part.gt<span class="fl">.5</span>)</a></code></pre>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="exercise4.html#cb424-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(PARTNERS, part.gt<span class="fl">.5</span>)</span></code></pre></div>
 <pre><code>##      PARTNERS part.gt.5
 ## [1,]        2         0
 ## [2,]        2         0
@@ -597,10 +628,10 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>We can now specify and fit the logistic regression model using our indicator variable:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb414"><code class="sourceCode r"><a class="sourceLine" id="cb414-1" data-line-number="1">gudhiv.lreg &lt;-<span class="st"> </span><span class="kw">glm</span>(<span class="dt">formula =</span> HIV <span class="op">~</span><span class="st"> </span>GUD <span class="op">+</span><span class="st"> </span>TRAVOUT <span class="op">+</span><span class="st"> </span>part.gt<span class="fl">.5</span>,</a>
-<a class="sourceLine" id="cb414-2" data-line-number="2">                   <span class="dt">family =</span> <span class="kw">binomial</span>(logit))</a>
-<a class="sourceLine" id="cb414-3" data-line-number="3"><span class="kw">summary</span>(gudhiv.lreg)</a>
-<a class="sourceLine" id="cb414-4" data-line-number="4"><span class="kw">lreg.or</span>(gudhiv.lreg)</a></code></pre>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="exercise4.html#cb426-1" aria-hidden="true" tabindex="-1"></a>gudhiv.lreg <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> HIV <span class="sc">~</span> GUD <span class="sc">+</span> TRAVOUT <span class="sc">+</span> part.gt<span class="fl">.5</span>,</span>
+<span id="cb426-2"><a href="exercise4.html#cb426-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(logit))</span>
+<span id="cb426-3"><a href="exercise4.html#cb426-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(gudhiv.lreg)</span>
+<span id="cb426-4"><a href="exercise4.html#cb426-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lreg.or</span>(gudhiv.lreg)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = HIV ~ GUD + TRAVOUT + part.gt.5, family = binomial(logit))
@@ -634,10 +665,10 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
 <p> </p>
 <p>We can now quit R:</p>
 <p> </p>
-<pre class="sourceCode r" id="cb417"><code class="sourceCode r"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="kw">q</span>()</a></code></pre>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="exercise4.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
 <p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
-<div id="summary-3" class="section level2">
+<div id="summary-3" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Summary</h2>
 <ul>
 <li><p>Using built-in functions and our own functions we can use <code>R</code> to analyse epidemiological data.</p></li>
@@ -656,12 +687,13 @@ simple transformation of the <code>exposure</code> and <code>outcome</code> vari
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -669,12 +701,12 @@ gitbook.start({
 "github": false,
 "facebook": true,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
-"instapper": false,
+"instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -685,7 +717,19 @@ gitbook.start({
 "link": null,
 "text": null
 },
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
 "download": ["prfe.pdf", "prfe.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section"
 }
@@ -699,9 +743,10 @@ gitbook.start({
     var script = document.createElement("script");
     script.type = "text/javascript";
     var src = "true";
-    if (src === "" || src === "true") src = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
