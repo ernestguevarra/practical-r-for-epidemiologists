@@ -10,8 +10,8 @@
 
   <meta property="og:title" content="Exercise 7 Writing your own graphical functions | Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://guevarra.io/practical-r-for-epidemiologists/" />
-  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta property="og:url" content="https://practical-r.org" />
+  <meta property="og:image" content="https://practical-r.org/images/bookcover.jpg" />
   <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="github-repo" content="ernestguevarra/practical-r-for-epidemiologists" />
 
@@ -19,12 +19,12 @@
   <meta name="twitter:title" content="Exercise 7 Writing your own graphical functions | Practical R for Epidemiologists" />
   
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
-  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta name="twitter:image" content="https://practical-r.org/images/bookcover.jpg" />
 
 <meta name="author" content="Mark Myatt" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -226,14 +226,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>Which involves plotting the difference of two measurements against the mean of the two measurements and calculating and displaying limits of agreement.</p>
 <p>Start <code>R</code> and retrieve and attach the sample dataset:</p>
 <p> </p>
-<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="exercise7.html#cb521-1" aria-hidden="true" tabindex="-1"></a>ba <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;ba.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb521-2"><a href="exercise7.html#cb521-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ba)</span></code></pre></div>
-<pre><code>## The following objects are masked from ba (pos = 11):
-## 
-##     Mini, Wright</code></pre>
-<pre><code>## The following objects are masked from ba (pos = 19):
-## 
-##     Mini, Wright</code></pre>
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="exercise7.html#cb495-1" aria-hidden="true" tabindex="-1"></a>ba <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;ba.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb495-2"><a href="exercise7.html#cb495-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ba)</span></code></pre></div>
 <p> </p>
 <p>The <code>ba</code> data.frame contains measurements (in litres per minute) taken with a <em>Wright peak flow meter</em> and a <em>Mini-Wright peak flow meter</em>. This is the same data that is presented in the referenced Lancet article:</p>
 <p> </p>
@@ -258,9 +252,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>You can examine the <code>ba</code> data.frame using the <code>print()</code> and <code>summary()</code> functions:</p>
 <p> </p>
-<div class="sourceCode" id="cb525"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb525-1"><a href="exercise7.html#cb525-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ba)</span>
-<span id="cb525-2"><a href="exercise7.html#cb525-2" aria-hidden="true" tabindex="-1"></a>ba</span>
-<span id="cb525-3"><a href="exercise7.html#cb525-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ba)</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="exercise7.html#cb497-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ba)</span>
+<span id="cb497-2"><a href="exercise7.html#cb497-2" aria-hidden="true" tabindex="-1"></a>ba</span>
+<span id="cb497-3"><a href="exercise7.html#cb497-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ba)</span></code></pre></div>
 <pre><code>##    Wright Mini
 ## 1     494  512
 ## 2     395  430
@@ -307,78 +301,78 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>The <code>function()</code> function allows us to create new functions in <code>R</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb529"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb529-1"><a href="exercise7.html#cb529-1" aria-hidden="true" tabindex="-1"></a>ba.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {}</span></code></pre></div>
+<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="exercise7.html#cb501-1" aria-hidden="true" tabindex="-1"></a>ba.plot <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {}</span></code></pre></div>
 <p> </p>
 <p>This creates an empty function called <code>ba.plot()</code> that expects two parameters called <code>a</code> and <code>b</code>. We could type the whole function in at the <code>R</code> command prompt but it is easier to use a text editor:</p>
 <p> </p>
-<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="exercise7.html#cb530-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="exercise7.html#cb502-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
 <p> </p>
 <p>We will start be writing a basic function which we will gradually improve throughout this exercise.</p>
 <p>Edit the <code>ba.plot()</code> function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb531-1"><a href="exercise7.html#cb531-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b) {</span>
-<span id="cb531-2"><a href="exercise7.html#cb531-2" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb531-3"><a href="exercise7.html#cb531-3" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
-<span id="cb531-4"><a href="exercise7.html#cb531-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two)</span>
-<span id="cb531-5"><a href="exercise7.html#cb531-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="exercise7.html#cb503-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b) {</span>
+<span id="cb503-2"><a href="exercise7.html#cb503-2" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb503-3"><a href="exercise7.html#cb503-3" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
+<span id="cb503-4"><a href="exercise7.html#cb503-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two)</span>
+<span id="cb503-5"><a href="exercise7.html#cb503-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>The function calculates the mean and the difference of the two measures and then plots the results. Lets try the
 <code>ba.plot()</code> function with the test data:</p>
 <p> </p>
-<div class="sourceCode" id="cb532"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb532-1"><a href="exercise7.html#cb532-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-317-1.png" width="672" /></p>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="exercise7.html#cb504-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
 <p> </p>
 <p>The resulting plot is rather plain and lacks meaningful titles and axis labels. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb533"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb533-1"><a href="exercise7.html#cb533-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
+<div class="sourceCode" id="cb505"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb505-1"><a href="exercise7.html#cb505-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
 <p> </p>
 <p>Edit the function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb534"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb534-1"><a href="exercise7.html#cb534-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
-<span id="cb534-2"><a href="exercise7.html#cb534-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
-<span id="cb534-3"><a href="exercise7.html#cb534-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
-<span id="cb534-4"><a href="exercise7.html#cb534-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
-<span id="cb534-5"><a href="exercise7.html#cb534-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
-<span id="cb534-6"><a href="exercise7.html#cb534-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb534-7"><a href="exercise7.html#cb534-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
-<span id="cb534-8"><a href="exercise7.html#cb534-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title)</span>
-<span id="cb534-9"><a href="exercise7.html#cb534-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="exercise7.html#cb506-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
+<span id="cb506-2"><a href="exercise7.html#cb506-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
+<span id="cb506-3"><a href="exercise7.html#cb506-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
+<span id="cb506-4"><a href="exercise7.html#cb506-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
+<span id="cb506-5"><a href="exercise7.html#cb506-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
+<span id="cb506-6"><a href="exercise7.html#cb506-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb506-7"><a href="exercise7.html#cb506-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
+<span id="cb506-8"><a href="exercise7.html#cb506-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title)</span>
+<span id="cb506-9"><a href="exercise7.html#cb506-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>We have added a new parameter (<code>title</code>) to the function and given this a default value of <code>Bland and Altman Plot</code>. Adding <code>title</code> as a parameter means that we will be able to specify a title for the plot when we call the function. We have also used the function combination <code>deparse(substitute())</code> to retrieve the names of the vectors passed to parameters <code>a</code> and <code>b</code>. The <code>paste()</code> function pastes pieces of text together. It is used here to create the text for the axis labels used with the <code>plot()</code> function.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
 <p> </p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb535-1"><a href="exercise7.html#cb535-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-321-1.png" width="672" /></p>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="exercise7.html#cb507-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-335-1.png" width="672" /></p>
 <p> </p>
 <p>We may also specify a title for the plot using the title parameter:</p>
 <p> </p>
-<div class="sourceCode" id="cb536"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb536-1"><a href="exercise7.html#cb536-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-322-1.png" width="672" /></p>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="exercise7.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-336-1.png" width="672" /></p>
 <p> </p>
 <p>We can now edit the function to calculate and plot mean, difference, and the limits of agreement. Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb537-1"><a href="exercise7.html#cb537-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="exercise7.html#cb509-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
 <p> </p>
 <p>Edit the function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb538"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb538-1"><a href="exercise7.html#cb538-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
-<span id="cb538-2"><a href="exercise7.html#cb538-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
-<span id="cb538-3"><a href="exercise7.html#cb538-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
-<span id="cb538-4"><a href="exercise7.html#cb538-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
-<span id="cb538-5"><a href="exercise7.html#cb538-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
-<span id="cb538-6"><a href="exercise7.html#cb538-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb538-7"><a href="exercise7.html#cb538-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
-<span id="cb538-8"><a href="exercise7.html#cb538-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
-<span id="cb538-9"><a href="exercise7.html#cb538-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
-<span id="cb538-10"><a href="exercise7.html#cb538-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
-<span id="cb538-11"><a href="exercise7.html#cb538-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb538-12"><a href="exercise7.html#cb538-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb538-13"><a href="exercise7.html#cb538-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
-<span id="cb538-14"><a href="exercise7.html#cb538-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb538-15"><a href="exercise7.html#cb538-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb538-16"><a href="exercise7.html#cb538-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="exercise7.html#cb510-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
+<span id="cb510-2"><a href="exercise7.html#cb510-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
+<span id="cb510-3"><a href="exercise7.html#cb510-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
+<span id="cb510-4"><a href="exercise7.html#cb510-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
+<span id="cb510-5"><a href="exercise7.html#cb510-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
+<span id="cb510-6"><a href="exercise7.html#cb510-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb510-7"><a href="exercise7.html#cb510-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
+<span id="cb510-8"><a href="exercise7.html#cb510-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
+<span id="cb510-9"><a href="exercise7.html#cb510-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
+<span id="cb510-10"><a href="exercise7.html#cb510-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
+<span id="cb510-11"><a href="exercise7.html#cb510-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb510-12"><a href="exercise7.html#cb510-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb510-13"><a href="exercise7.html#cb510-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
+<span id="cb510-14"><a href="exercise7.html#cb510-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb510-15"><a href="exercise7.html#cb510-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb510-16"><a href="exercise7.html#cb510-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file and quit the editor.</p>
 <p>We have used the <code>mean()</code> and <code>sd()</code> functions to calculate the mean and standard deviation of the difference between the two measures and calculated the limits of agreement (<code>upper</code> and <code>lower</code>) assuming that the differences are <em>Normally</em> distributed.</p>
@@ -387,50 +381,50 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p><code>R</code> provided a great number of graphical parameters that can be used to customise plots. You can see a list of
 these parameters using:</p>
 <p> </p>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="exercise7.html#cb539-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(par)</span></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="exercise7.html#cb511-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(par)</span></code></pre></div>
 <p> </p>
 <p>These parameters can be specified for almost all graphical functions.</p>
 <p>Lets try the <code>ba.plot()</code> function with the test data:</p>
 <p> </p>
-<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="exercise7.html#cb540-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;Difference vs. mean for PEFR data&quot;</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-327-1.png" width="672" /></p>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="exercise7.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;Difference vs. mean for PEFR data&quot;</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
 <p> </p>
 <p>The function is almost complete. All that remains to do is to label the lines with the values of the mean difference and the limits of agreement.</p>
 <p>Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb541"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb541-1"><a href="exercise7.html#cb541-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="exercise7.html#cb513-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
 <p> </p>
 <p>Edit the function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb542"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb542-1"><a href="exercise7.html#cb542-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
-<span id="cb542-2"><a href="exercise7.html#cb542-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
-<span id="cb542-3"><a href="exercise7.html#cb542-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
-<span id="cb542-4"><a href="exercise7.html#cb542-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
-<span id="cb542-5"><a href="exercise7.html#cb542-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
-<span id="cb542-6"><a href="exercise7.html#cb542-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb542-7"><a href="exercise7.html#cb542-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
-<span id="cb542-8"><a href="exercise7.html#cb542-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
-<span id="cb542-9"><a href="exercise7.html#cb542-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
-<span id="cb542-10"><a href="exercise7.html#cb542-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
-<span id="cb542-11"><a href="exercise7.html#cb542-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb542-12"><a href="exercise7.html#cb542-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb542-13"><a href="exercise7.html#cb542-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
-<span id="cb542-14"><a href="exercise7.html#cb542-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb542-15"><a href="exercise7.html#cb542-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb542-16"><a href="exercise7.html#cb542-16" aria-hidden="true" tabindex="-1"></a>  m.text <span class="ot">&lt;-</span> <span class="fu">round</span>(mean.diff, <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb542-17"><a href="exercise7.html#cb542-17" aria-hidden="true" tabindex="-1"></a>  u.text <span class="ot">&lt;-</span> <span class="fu">round</span>(upper , <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb542-18"><a href="exercise7.html#cb542-18" aria-hidden="true" tabindex="-1"></a>  l.text <span class="ot">&lt;-</span> <span class="fu">round</span>(lower, <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb542-19"><a href="exercise7.html#cb542-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), mean.diff, m.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
-<span id="cb542-20"><a href="exercise7.html#cb542-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), upper, u.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
-<span id="cb542-21"><a href="exercise7.html#cb542-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), lower, l.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb542-22"><a href="exercise7.html#cb542-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="exercise7.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
+<span id="cb514-2"><a href="exercise7.html#cb514-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
+<span id="cb514-3"><a href="exercise7.html#cb514-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
+<span id="cb514-4"><a href="exercise7.html#cb514-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
+<span id="cb514-5"><a href="exercise7.html#cb514-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
+<span id="cb514-6"><a href="exercise7.html#cb514-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb514-7"><a href="exercise7.html#cb514-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
+<span id="cb514-8"><a href="exercise7.html#cb514-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
+<span id="cb514-9"><a href="exercise7.html#cb514-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
+<span id="cb514-10"><a href="exercise7.html#cb514-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
+<span id="cb514-11"><a href="exercise7.html#cb514-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb514-12"><a href="exercise7.html#cb514-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb514-13"><a href="exercise7.html#cb514-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
+<span id="cb514-14"><a href="exercise7.html#cb514-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb514-15"><a href="exercise7.html#cb514-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb514-16"><a href="exercise7.html#cb514-16" aria-hidden="true" tabindex="-1"></a>  m.text <span class="ot">&lt;-</span> <span class="fu">round</span>(mean.diff, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb514-17"><a href="exercise7.html#cb514-17" aria-hidden="true" tabindex="-1"></a>  u.text <span class="ot">&lt;-</span> <span class="fu">round</span>(upper , <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb514-18"><a href="exercise7.html#cb514-18" aria-hidden="true" tabindex="-1"></a>  l.text <span class="ot">&lt;-</span> <span class="fu">round</span>(lower, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb514-19"><a href="exercise7.html#cb514-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), mean.diff, m.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb514-20"><a href="exercise7.html#cb514-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), upper, u.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb514-21"><a href="exercise7.html#cb514-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), lower, l.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb514-22"><a href="exercise7.html#cb514-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.
 We have used the <code>round()</code> function to limit the display of the mean difference and the limits of agreement to one decimal place and used the <code>text()</code> function to display these (rounded) values. The <code>adj</code> parameter to the <code>text()</code> function controls the position and justification of text.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
 <p> </p>
-<div class="sourceCode" id="cb543"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb543-1"><a href="exercise7.html#cb543-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-331-1.png" width="672" /></p>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="exercise7.html#cb515-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-345-1.png" width="672" /></p>
 <p> </p>
 <p>The graphical function is now complete.</p>
 <p>One improvement that we could make is for the function to produce a chart and return the values of the mean difference and the limits of agreement.</p>
@@ -438,72 +432,72 @@ We have used the <code>round()</code> function to limit the display of the mean 
 <p>We could also specify a class for the returned list and create a class specific <code>print()</code> function (or <em>method</em>) to produce nicely formatted output.</p>
 <p>Use the <code>fix()</code> function to edit the <code>ba.plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb544"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb544-1"><a href="exercise7.html#cb544-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb516-1"><a href="exercise7.html#cb516-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(ba.plot)</span></code></pre></div>
 <p> </p>
 <p>Edit the function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb545"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb545-1"><a href="exercise7.html#cb545-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
-<span id="cb545-2"><a href="exercise7.html#cb545-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
-<span id="cb545-3"><a href="exercise7.html#cb545-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
-<span id="cb545-4"><a href="exercise7.html#cb545-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
-<span id="cb545-5"><a href="exercise7.html#cb545-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
-<span id="cb545-6"><a href="exercise7.html#cb545-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb545-7"><a href="exercise7.html#cb545-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
-<span id="cb545-8"><a href="exercise7.html#cb545-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
-<span id="cb545-9"><a href="exercise7.html#cb545-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
-<span id="cb545-10"><a href="exercise7.html#cb545-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
-<span id="cb545-11"><a href="exercise7.html#cb545-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb545-12"><a href="exercise7.html#cb545-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
-<span id="cb545-13"><a href="exercise7.html#cb545-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
-<span id="cb545-14"><a href="exercise7.html#cb545-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb545-15"><a href="exercise7.html#cb545-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
-<span id="cb545-16"><a href="exercise7.html#cb545-16" aria-hidden="true" tabindex="-1"></a>  m.text <span class="ot">&lt;-</span> <span class="fu">round</span>(mean.diff, <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb545-17"><a href="exercise7.html#cb545-17" aria-hidden="true" tabindex="-1"></a>  u.text <span class="ot">&lt;-</span> <span class="fu">round</span>(upper , <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb545-18"><a href="exercise7.html#cb545-18" aria-hidden="true" tabindex="-1"></a>  l.text <span class="ot">&lt;-</span> <span class="fu">round</span>(lower, <span class="at">digits =</span> <span class="dv">1</span>)</span>
-<span id="cb545-19"><a href="exercise7.html#cb545-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), mean.diff, m.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
-<span id="cb545-20"><a href="exercise7.html#cb545-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), upper, u.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
-<span id="cb545-21"><a href="exercise7.html#cb545-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), lower, l.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb545-22"><a href="exercise7.html#cb545-22" aria-hidden="true" tabindex="-1"></a>  ba <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> mean.diff, <span class="at">limits =</span> <span class="fu">c</span>(lower, upper))</span>
-<span id="cb545-23"><a href="exercise7.html#cb545-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(ba) <span class="ot">&lt;-</span> <span class="st">&quot;ba&quot;</span></span>
-<span id="cb545-24"><a href="exercise7.html#cb545-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(ba)</span>
-<span id="cb545-25"><a href="exercise7.html#cb545-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="exercise7.html#cb517-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(a, b, <span class="at">title =</span> <span class="st">&quot;Bland and Altman Plot&quot;</span>) {</span>
+<span id="cb517-2"><a href="exercise7.html#cb517-2" aria-hidden="true" tabindex="-1"></a>  a.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(a))</span>
+<span id="cb517-3"><a href="exercise7.html#cb517-3" aria-hidden="true" tabindex="-1"></a>  b.txt <span class="ot">&lt;-</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(b))</span>
+<span id="cb517-4"><a href="exercise7.html#cb517-4" aria-hidden="true" tabindex="-1"></a>  x.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;Mean of&quot;</span>, a.txt, <span class="st">&quot;and&quot;</span>, b.txt)</span>
+<span id="cb517-5"><a href="exercise7.html#cb517-5" aria-hidden="true" tabindex="-1"></a>  y.lab <span class="ot">&lt;-</span> <span class="fu">paste</span>(a.txt, <span class="st">&quot;-&quot;</span>, b.txt)</span>
+<span id="cb517-6"><a href="exercise7.html#cb517-6" aria-hidden="true" tabindex="-1"></a>  mean.two <span class="ot">&lt;-</span> (a <span class="sc">+</span> b) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb517-7"><a href="exercise7.html#cb517-7" aria-hidden="true" tabindex="-1"></a>  diff.two <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
+<span id="cb517-8"><a href="exercise7.html#cb517-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(mean.two, diff.two, <span class="at">xlab =</span> x.lab, <span class="at">ylab =</span> y.lab, <span class="at">main =</span> title) </span>
+<span id="cb517-9"><a href="exercise7.html#cb517-9" aria-hidden="true" tabindex="-1"></a>  mean.diff <span class="ot">&lt;-</span> <span class="fu">mean</span>(diff.two)</span>
+<span id="cb517-10"><a href="exercise7.html#cb517-10" aria-hidden="true" tabindex="-1"></a>  sd.diff <span class="ot">&lt;-</span> <span class="fu">sd</span>(diff.two)</span>
+<span id="cb517-11"><a href="exercise7.html#cb517-11" aria-hidden="true" tabindex="-1"></a>  upper <span class="ot">&lt;-</span> mean.diff <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb517-12"><a href="exercise7.html#cb517-12" aria-hidden="true" tabindex="-1"></a>  lower <span class="ot">&lt;-</span> mean.diff <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> sd.diff</span>
+<span id="cb517-13"><a href="exercise7.html#cb517-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(mean.diff, mean.diff), <span class="at">lty =</span> <span class="dv">3</span>) </span>
+<span id="cb517-14"><a href="exercise7.html#cb517-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(upper, upper), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb517-15"><a href="exercise7.html#cb517-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="at">x =</span> <span class="fu">range</span>(mean.two), <span class="at">y =</span> <span class="fu">c</span>(lower, lower), <span class="at">lty =</span> <span class="dv">3</span>)</span>
+<span id="cb517-16"><a href="exercise7.html#cb517-16" aria-hidden="true" tabindex="-1"></a>  m.text <span class="ot">&lt;-</span> <span class="fu">round</span>(mean.diff, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb517-17"><a href="exercise7.html#cb517-17" aria-hidden="true" tabindex="-1"></a>  u.text <span class="ot">&lt;-</span> <span class="fu">round</span>(upper , <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb517-18"><a href="exercise7.html#cb517-18" aria-hidden="true" tabindex="-1"></a>  l.text <span class="ot">&lt;-</span> <span class="fu">round</span>(lower, <span class="at">digits =</span> <span class="dv">1</span>)</span>
+<span id="cb517-19"><a href="exercise7.html#cb517-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), mean.diff, m.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb517-20"><a href="exercise7.html#cb517-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), upper, u.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb517-21"><a href="exercise7.html#cb517-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="fu">max</span>(mean.two), lower, l.text, <span class="at">adj =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb517-22"><a href="exercise7.html#cb517-22" aria-hidden="true" tabindex="-1"></a>  ba <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">mean =</span> mean.diff, <span class="at">limits =</span> <span class="fu">c</span>(lower, upper))</span>
+<span id="cb517-23"><a href="exercise7.html#cb517-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(ba) <span class="ot">&lt;-</span> <span class="st">&quot;ba&quot;</span></span>
+<span id="cb517-24"><a href="exercise7.html#cb517-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(ba)</span>
+<span id="cb517-25"><a href="exercise7.html#cb517-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>Create a <code>print()</code> function for objects of the <code>ba</code> class:</p>
 <p> </p>
-<div class="sourceCode" id="cb546"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb546-1"><a href="exercise7.html#cb546-1" aria-hidden="true" tabindex="-1"></a>print.ba <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {}</span></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="exercise7.html#cb518-1" aria-hidden="true" tabindex="-1"></a>print.ba <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {}</span></code></pre></div>
 <p> </p>
 <p>Use the <code>fix()</code> function to edit the new function:</p>
 <p> </p>
-<div class="sourceCode" id="cb547"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb547-1"><a href="exercise7.html#cb547-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(print.ba)</span></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="exercise7.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(print.ba)</span></code></pre></div>
 <p> </p>
 <p>Edit the function to read:</p>
 <p> </p>
-<div class="sourceCode" id="cb548"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb548-1"><a href="exercise7.html#cb548-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
-<span id="cb548-2"><a href="exercise7.html#cb548-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Mean difference     : &quot;</span>, x<span class="sc">$</span>mean, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb548-3"><a href="exercise7.html#cb548-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Limits of agreement : &quot;</span>, x<span class="sc">$</span>limits[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="sc">$</span>limits[<span class="dv">2</span>], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb548-4"><a href="exercise7.html#cb548-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb548-5"><a href="exercise7.html#cb548-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="exercise7.html#cb520-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
+<span id="cb520-2"><a href="exercise7.html#cb520-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Mean difference     : &quot;</span>, x<span class="sc">$</span>mean, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb520-3"><a href="exercise7.html#cb520-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;Limits of agreement : &quot;</span>, x<span class="sc">$</span>limits[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="sc">$</span>limits[<span class="dv">2</span>], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb520-4"><a href="exercise7.html#cb520-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb520-5"><a href="exercise7.html#cb520-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Let’s try the <code>ba.plot()</code> function with the test data:</p>
 <p> </p>
-<div class="sourceCode" id="cb549"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb549-1"><a href="exercise7.html#cb549-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-339-1.png" width="672" /></p>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="exercise7.html#cb521-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ba.plot</span>(Wright, Mini, <span class="at">title =</span> <span class="st">&quot;PEFR data&quot;</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-353-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <p> </p>
 <p>The function produces the plot and returns the mean difference and limits of agreement as a list of class <code>ba</code> which is formatted and printed by the <code>print.ba()</code> function.</p>
 <p>We can manipulate the returned values just as we would with any other function:</p>
 <p> </p>
-<div class="sourceCode" id="cb551"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb551-1"><a href="exercise7.html#cb551-1" aria-hidden="true" tabindex="-1"></a>ba.test <span class="ot">&lt;-</span> <span class="fu">ba.plot</span>(Wright, Mini)</span>
-<span id="cb551-2"><a href="exercise7.html#cb551-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ba.test)</span>
-<span id="cb551-3"><a href="exercise7.html#cb551-3" aria-hidden="true" tabindex="-1"></a>ba.test</span>
-<span id="cb551-4"><a href="exercise7.html#cb551-4" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>mean</span>
-<span id="cb551-5"><a href="exercise7.html#cb551-5" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits</span>
-<span id="cb551-6"><a href="exercise7.html#cb551-6" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits[<span class="dv">1</span>]</span>
-<span id="cb551-7"><a href="exercise7.html#cb551-7" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits[<span class="dv">2</span>]</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-341-1.png" width="672" /></p>
+<div class="sourceCode" id="cb523"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb523-1"><a href="exercise7.html#cb523-1" aria-hidden="true" tabindex="-1"></a>ba.test <span class="ot">&lt;-</span> <span class="fu">ba.plot</span>(Wright, Mini)</span>
+<span id="cb523-2"><a href="exercise7.html#cb523-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ba.test)</span>
+<span id="cb523-3"><a href="exercise7.html#cb523-3" aria-hidden="true" tabindex="-1"></a>ba.test</span>
+<span id="cb523-4"><a href="exercise7.html#cb523-4" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>mean</span>
+<span id="cb523-5"><a href="exercise7.html#cb523-5" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits</span>
+<span id="cb523-6"><a href="exercise7.html#cb523-6" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits[<span class="dv">1</span>]</span>
+<span id="cb523-7"><a href="exercise7.html#cb523-7" aria-hidden="true" tabindex="-1"></a>ba.test<span class="sc">$</span>limits[<span class="dv">2</span>]</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-355-1.png" width="672" /></p>
 <pre><code>## Mean difference     : -2.117647
 ## Limits of agreement : -78.0973; 73.86201</code></pre>
 <pre><code>## Mean difference     : -2.117647
@@ -516,7 +510,7 @@ We have used the <code>round()</code> function to limit the display of the mean 
 <p>You might like to use the <code>save()</code> function to save the <code>ba.plot()</code> and <code>print.ba()</code> functions before quitting <code>R</code>.</p>
 <p>We can now quit <code>R</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb558"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb558-1"><a href="exercise7.html#cb558-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb530-1"><a href="exercise7.html#cb530-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
 <p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-6" class="section level2" number="7.1">

@@ -26,7 +26,11 @@ The `fem` object will contain the data held in the file `fem.dat` as an `R` data
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+class(fem)
+```
+
+```{r, echo = FALSE, eval = TRUE}
 class(fem)
 ```
 
@@ -50,7 +54,11 @@ Note that the `fem` object is built from other objects. These are the named vect
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+names(fem)
+```
+
+```{r, echo = FALSE, eval = TRUE}
 names(fem)
 ```
 
@@ -60,19 +68,31 @@ The `[1]` displayed before the column names refers to the numbered position of t
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+names(fem)[1]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 names(fem)[1]
 ```
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+names(fem)[8]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 names(fem)[8]
 ```
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+names(fem)[2:4]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 names(fem)[2:4]
 ```
 
@@ -82,7 +102,11 @@ The data consist of 118 records:
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+nrow(fem)
+```
+
+```{r, echo = FALSE, eval = TRUE}
 nrow(fem)
 ```
 
@@ -92,7 +116,11 @@ each with nine variables:
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+ncol(fem)
+```
+
+```{r, echo = FALSE, eval = TRUE}
 ncol(fem)
 ```
 
@@ -142,7 +170,11 @@ You may check this by asking `R` to display all columns of the first ten records
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem[1:10, ]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem[1:10, ]
 ```
 
@@ -174,13 +206,21 @@ You can access the contents of a single column by name:
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem$IQ
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem$IQ
 ```
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem$IQ[1:10]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem$IQ[1:10]
 ```
 
@@ -202,13 +242,21 @@ fem[ ,3]
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem[9, ]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem[9, ]
 ```
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem[9,3]
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem[9,3]
 ```
 
@@ -233,7 +281,11 @@ Check that this has worked:
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+fem$IQ
+```
+
+```{r, echo = FALSE, eval = TRUE}
 fem$IQ
 ```
 
@@ -283,7 +335,11 @@ We can now refer to the columns in the `fem` data.frame without having to specif
 
 &nbsp;
 
-```{r, eval = TRUE}
+```{r, eval = FALSE}
+by(WT, LIFE, summary)
+```
+
+```{r, echo = FALSE, eval = TRUE}
 by(WT, LIFE, summary)
 ```
 

@@ -10,8 +10,8 @@
 
   <meta property="og:title" content="Exercise 5 Extending R with packages | Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://guevarra.io/practical-r-for-epidemiologists/" />
-  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta property="og:url" content="https://practical-r.org" />
+  <meta property="og:image" content="https://practical-r.org/images/bookcover.jpg" />
   <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="github-repo" content="ernestguevarra/practical-r-for-epidemiologists" />
 
@@ -19,12 +19,12 @@
   <meta name="twitter:title" content="Exercise 5 Extending R with packages | Practical R for Epidemiologists" />
   
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
-  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta name="twitter:image" content="https://practical-r.org/images/bookcover.jpg" />
 
 <meta name="author" content="Mark Myatt" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -227,18 +227,12 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p>The <code>survival</code> package adds functions to <code>R</code> that enable it to analyse survival data. This package may be downloaded and installed using <code>install.packages("survival")</code> or from the <code>Packages</code> or <code>Packages &amp; Data</code> menu if you are using a GUI version of <code>R</code>.</p>
 <p>Packages are loaded into <code>R</code> as they are needed using the <code>library()</code> function. Start <code>R</code> and load the <code>survival</code> package:</p>
 <p> </p>
-<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="exercise5.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="exercise5.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div>
 <p> </p>
 <p>Before we go any further we should retrieve a dataset:</p>
 <p> </p>
-<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="exercise5.html#cb431-1" aria-hidden="true" tabindex="-1"></a>ca <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;ca.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb431-2"><a href="exercise5.html#cb431-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ca)</span></code></pre></div>
-<pre><code>## The following objects are masked from ca (pos = 11):
-## 
-##     group, status, time</code></pre>
-<pre><code>## The following objects are masked from ca (pos = 19):
-## 
-##     group, status, time</code></pre>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="exercise5.html#cb419-1" aria-hidden="true" tabindex="-1"></a>ca <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;ca.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb419-2"><a href="exercise5.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(ca)</span></code></pre></div>
 <p> </p>
 <p>The columns in this dataset on the survival of cancer patients in two different treatment groups are as follows:</p>
 <p> </p>
@@ -265,15 +259,15 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p> </p>
 <p>We next need to create a <code>survival</code> object from the <code>time</code> and <code>status</code> variables using the <code>Surv()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="exercise5.html#cb434-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">Surv</span>(time, status)</span></code></pre></div>
+<div class="sourceCode" id="cb420"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb420-1"><a href="exercise5.html#cb420-1" aria-hidden="true" tabindex="-1"></a>response <span class="ot">&lt;-</span> <span class="fu">Surv</span>(time, status)</span></code></pre></div>
 <p> </p>
 <p>We can then specify the model for the survival analysis. In this case we state that survival (<code>response</code>) is dependent upon the treatment <code>group</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="exercise5.html#cb435-1" aria-hidden="true" tabindex="-1"></a>ca.surv <span class="ot">&lt;-</span> <span class="fu">survfit</span>(response <span class="sc">~</span> group)</span></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="exercise5.html#cb421-1" aria-hidden="true" tabindex="-1"></a>ca.surv <span class="ot">&lt;-</span> <span class="fu">survfit</span>(response <span class="sc">~</span> group)</span></code></pre></div>
 <p> </p>
 <p>The <code>summary()</code> function applied to a <code>survfit</code> object lists the survival probabilities at each time point with 95% confidence intervals:</p>
 <p> </p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="exercise5.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ca.surv)</span></code></pre></div>
+<div class="sourceCode" id="cb422"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb422-1"><a href="exercise5.html#cb422-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ca.surv)</span></code></pre></div>
 <pre><code>## Call: survfit(formula = response ~ group)
 ## 
 ##                 group=1 
@@ -317,7 +311,7 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p> </p>
 <p>Printing the <code>ca.surv</code> object provides another view of the results:</p>
 <p> </p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="exercise5.html#cb438-1" aria-hidden="true" tabindex="-1"></a>ca.surv</span></code></pre></div>
+<div class="sourceCode" id="cb424"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb424-1"><a href="exercise5.html#cb424-1" aria-hidden="true" tabindex="-1"></a>ca.surv</span></code></pre></div>
 <pre><code>## Call: survfit(formula = response ~ group)
 ## 
 ##          n events median 0.95LCL 0.95UCL
@@ -326,33 +320,33 @@ available as an add-in package. You can find a list of add-in packages at the <c
 <p> </p>
 <p>The <code>plot()</code> function with a <code>survfit</code> object displays the survival curves:</p>
 <p> </p>
-<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="exercise5.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-263-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb426"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb426-1"><a href="exercise5.html#cb426-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-277-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>We can make it easier to distinguish between the two lines by specifying a width for each line using thelwd
 parameter of the <code>plot()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="exercise5.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>, <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-264-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="exercise5.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">xlab =</span> <span class="st">&quot;Months&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>, <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-278-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>It would also be useful to add a legend:</p>
 <p> </p>
-<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="exercise5.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">125</span>, <span class="dv">1</span>, <span class="fu">names</span>(ca.surv<span class="sc">$</span>strata), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-266-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb428"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb428-1"><a href="exercise5.html#cb428-1" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="dv">125</span>, <span class="dv">1</span>, <span class="fu">names</span>(ca.surv<span class="sc">$</span>strata), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-280-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>If there is only one survival curve to plot then plotting a <code>survfit</code> object will plot the survival curve with 95% confidence limits. You can specify that confidence limits should be plotted when there is more than one survival curve but the results can be disappointing:</p>
 <p> </p>
-<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="exercise5.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-267-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="exercise5.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-281-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>Plots can be improved by specifying different colours for each curve:</p>
 <p> </p>
-<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb444-1"><a href="exercise5.html#cb444-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</span></code></pre></div>
-<p><img src="prfe_files/figure-html/unnamed-chunk-268-1.png" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb430-1"><a href="exercise5.html#cb430-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ca.surv, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;darkgreen&quot;</span>))</span></code></pre></div>
+<p><img src="prfe_files/figure-html/unnamed-chunk-282-1.png" style="display: block; margin: auto;" /></p>
 <p> </p>
 <p>We can perform a formal test of the two survival times using the <code>survdiff()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="exercise5.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(response <span class="sc">~</span> group)</span></code></pre></div>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="exercise5.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">survdiff</span>(response <span class="sc">~</span> group)</span></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = response ~ group)
 ## 
@@ -364,7 +358,7 @@ parameter of the <code>plot()</code> function:</p>
 <p> </p>
 <p>We can now quit <code>R</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="exercise5.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="exercise5.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
 <p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-4" class="section level2" number="5.1">

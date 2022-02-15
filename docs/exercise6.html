@@ -10,8 +10,8 @@
 
   <meta property="og:title" content="Exercise 6 Making your own objects behave like R objects | Practical R for Epidemiologists" />
   <meta property="og:type" content="book" />
-  <meta property="og:url" content="https://guevarra.io/practical-r-for-epidemiologists/" />
-  <meta property="og:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta property="og:url" content="https://practical-r.org" />
+  <meta property="og:image" content="https://practical-r.org/images/bookcover.jpg" />
   <meta property="og:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
   <meta name="github-repo" content="ernestguevarra/practical-r-for-epidemiologists" />
 
@@ -19,12 +19,12 @@
   <meta name="twitter:title" content="Exercise 6 Making your own objects behave like R objects | Practical R for Epidemiologists" />
   
   <meta name="twitter:description" content="This guide is intended as a practical introduction to using the R environment for data analysis and graphics to work with epidemiological data. Topics covered include univariate statistics, simple statistical inference, charting data, two-by-two tables, stratified analysis, chi-square test for trend, logistic regression, survival analysis, computer-intensive methods, and extending R using user-provided functions. You should be able to follow the material if you are reasonably familiar with the mechanics of statistical estimation (e.g. calculation of odds ratios and confidence intervals) and require a system that can perform simple or complex analyses to your exact specifications. If you are interested in a system that is flexible, can be tailored to produce exactly the analysis you want, provides modern analytical facilities, and have a basic understanding of the mechanics of hypothesis testing and estimation then you should consider purchasing this book." />
-  <meta name="twitter:image" content="https://guevarra.io/practical-r-for-epidemiologists//images/bookcover.jpg" />
+  <meta name="twitter:image" content="https://practical-r.org/images/bookcover.jpg" />
 
 <meta name="author" content="Mark Myatt" />
 
 
-<meta name="date" content="2022-01-24" />
+<meta name="date" content="2022-02-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -222,30 +222,12 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Exercise 6</span> Making your own objects behave like R objects</h1>
 <p>In the previous exercises we concentrated on writing functions that take some input data, analyse it, and display the results of the analysis. The standard <code>R</code> functions we have used all do this. The <code>fisher.test()</code> function, for example, takes a <code>table</code> object (or the names of two variables) as input and calculates and displays the p- value for <em>Fisher’s exact test</em> and the odds ratio and associated confidence interval for two-by-two tables:</p>
 <p> </p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="exercise6.html#cb448-1" aria-hidden="true" tabindex="-1"></a>fem <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb448-2"><a href="exercise6.html#cb448-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(fem)</span></code></pre></div>
-<pre><code>## The following objects are masked from fem (pos = 6):
+<div class="sourceCode" id="cb434"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb434-1"><a href="exercise6.html#cb434-1" aria-hidden="true" tabindex="-1"></a>fem <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb434-2"><a href="exercise6.html#cb434-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(fem)</span></code></pre></div>
+<pre><code>## The following objects are masked from fem (pos = 7):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 10):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 11):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 15):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 18):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 19):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 24):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="exercise6.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(SEX, LIFE)</span></code></pre></div>
+<div class="sourceCode" id="cb436"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb436-1"><a href="exercise6.html#cb436-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(SEX, LIFE)</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -260,8 +242,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>The results of the <code>fisher.test()</code> function may also be saved for later use:</p>
 <p> </p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb458-1"><a href="exercise6.html#cb458-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(SEX, LIFE)</span>
-<span id="cb458-2"><a href="exercise6.html#cb458-2" aria-hidden="true" tabindex="-1"></a>ft</span></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb438-1"><a href="exercise6.html#cb438-1" aria-hidden="true" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(SEX, LIFE)</span>
+<span id="cb438-2"><a href="exercise6.html#cb438-2" aria-hidden="true" tabindex="-1"></a>ft</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -276,14 +258,15 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>The <code>fisher.test()</code> function returns an object of the class <code>htest</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb460-1"><a href="exercise6.html#cb460-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ft)</span></code></pre></div>
+<div class="sourceCode" id="cb440"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb440-1"><a href="exercise6.html#cb440-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ft)</span></code></pre></div>
 <pre><code>## [1] &quot;htest&quot;</code></pre>
 <p> </p>
 <p>which is a list containing the output of the <code>fisher.test()</code> function. Each item of output is stored as a different named item in the list:</p>
 <p> </p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="exercise6.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ft)</span>
-<span id="cb462-2"><a href="exercise6.html#cb462-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ft)</span></code></pre></div>
-<pre><code>## [1] &quot;p.value&quot;     &quot;conf.int&quot;    &quot;estimate&quot;    &quot;null.value&quot;  &quot;alternative&quot; &quot;method&quot;      &quot;data.name&quot;</code></pre>
+<div class="sourceCode" id="cb442"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb442-1"><a href="exercise6.html#cb442-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ft)</span>
+<span id="cb442-2"><a href="exercise6.html#cb442-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(ft)</span></code></pre></div>
+<pre><code>## [1] &quot;p.value&quot;     &quot;conf.int&quot;    &quot;estimate&quot;    &quot;null.value&quot;  &quot;alternative&quot;
+## [6] &quot;method&quot;      &quot;data.name&quot;</code></pre>
 <pre><code>## List of 7
 ##  $ p.value    : num 0.0318
 ##  $ conf.int   : num [1:2] 1.08 14.21
@@ -299,8 +282,8 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>Each of these items can be referred to by name:</p>
 <p> </p>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="exercise6.html#cb465-1" aria-hidden="true" tabindex="-1"></a>ft<span class="sc">$</span>estimate</span>
-<span id="cb465-2"><a href="exercise6.html#cb465-2" aria-hidden="true" tabindex="-1"></a>ft<span class="sc">$</span>conf.int</span></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="exercise6.html#cb445-1" aria-hidden="true" tabindex="-1"></a>ft<span class="sc">$</span>estimate</span>
+<span id="cb445-2"><a href="exercise6.html#cb445-2" aria-hidden="true" tabindex="-1"></a>ft<span class="sc">$</span>conf.int</span></code></pre></div>
 <pre><code>## odds ratio 
 ##   3.620646</code></pre>
 <pre><code>## [1]  1.080298 14.214482
@@ -309,7 +292,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>When you display the output of the <code>fisher.test()</code> function either by calling the function directly:</p>
 <p> </p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb468-1"><a href="exercise6.html#cb468-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(SEX, LIFE)</span></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb448-1"><a href="exercise6.html#cb448-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(SEX, LIFE)</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -324,7 +307,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p> </p>
 <p>or by typing the name of an object created using the <code>fisher.test()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="exercise6.html#cb470-1" aria-hidden="true" tabindex="-1"></a>ft</span></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb450-1"><a href="exercise6.html#cb450-1" aria-hidden="true" tabindex="-1"></a>ft</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -340,9 +323,9 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>The <code>print()</code> function takes over and formatted output is produced. The <code>print()</code> function knows about <code>htest</code> class objects and produces output of the correct format for that class of object. This means that any function that produces an <code>htest</code> object (or any other standard <code>R</code> object) does not need to include <code>R</code> commands to produce formatted output.</p>
 <p>All hypothesis testing functions supplied with <code>R</code> produce objects of the htest class and use the <code>print()</code> function to produce formatted output. For example:</p>
 <p> </p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="exercise6.html#cb472-1" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WT <span class="sc">~</span> LIFE)</span>
-<span id="cb472-2"><a href="exercise6.html#cb472-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(tt)</span>
-<span id="cb472-3"><a href="exercise6.html#cb472-3" aria-hidden="true" tabindex="-1"></a>tt</span></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="exercise6.html#cb452-1" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(WT <span class="sc">~</span> LIFE)</span>
+<span id="cb452-2"><a href="exercise6.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(tt)</span>
+<span id="cb452-3"><a href="exercise6.html#cb452-3" aria-hidden="true" tabindex="-1"></a>tt</span></code></pre></div>
 <pre><code>## [1] &quot;htest&quot;</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -359,35 +342,35 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <p>You can use this feature of <code>R</code> in your own functions. We will explore this by writing a function to test the null hypothesis that the <em>variance to mean ratio</em> of a vector of numbers is equal to one. Such a test might be used to investigate the spatial distribution (e.g. over natural sampling units such as households) of cases of a disease.</p>
 <p>Create a new function using the <code>function()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="exercise6.html#cb475-1" aria-hidden="true" tabindex="-1"></a>v2m.test <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {}</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="exercise6.html#cb455-1" aria-hidden="true" tabindex="-1"></a>v2m.test <span class="ot">&lt;-</span> <span class="cf">function</span>(data) {}</span></code></pre></div>
 <p> </p>
 <p>And start the function editor:</p>
 <p> </p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb476-1"><a href="exercise6.html#cb476-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(v2m.test)</span></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb456-1"><a href="exercise6.html#cb456-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(v2m.test)</span></code></pre></div>
 <div style="page-break-after: always;"></div>
 <p>Now edit this function to make it do something useful:</p>
 <p> </p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="exercise6.html#cb477-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(data) {</span>
-<span id="cb477-2"><a href="exercise6.html#cb477-2" aria-hidden="true" tabindex="-1"></a>  nsu <span class="ot">&lt;-</span> <span class="fu">length</span>(data)</span>
-<span id="cb477-3"><a href="exercise6.html#cb477-3" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">sum</span>(data)</span>
-<span id="cb477-4"><a href="exercise6.html#cb477-4" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> obs <span class="sc">/</span> nsu</span>
-<span id="cb477-5"><a href="exercise6.html#cb477-5" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">var</span>(data)</span>
-<span id="cb477-6"><a href="exercise6.html#cb477-6" aria-hidden="true" tabindex="-1"></a>  vmr <span class="ot">&lt;-</span> v <span class="sc">/</span> m</span>
-<span id="cb477-7"><a href="exercise6.html#cb477-7" aria-hidden="true" tabindex="-1"></a>  chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> m</span>
-<span id="cb477-8"><a href="exercise6.html#cb477-8" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> nsu <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb477-9"><a href="exercise6.html#cb477-9" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(chi2, df)</span>
-<span id="cb477-10"><a href="exercise6.html#cb477-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(chi2) <span class="ot">&lt;-</span> <span class="st">&quot;Chi-square&quot;</span></span>
-<span id="cb477-11"><a href="exercise6.html#cb477-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="st">&quot;df&quot;</span></span>
-<span id="cb477-12"><a href="exercise6.html#cb477-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(vmr) <span class="ot">&lt;-</span> <span class="st">&quot;Variance : mean ratio&quot;</span></span>
-<span id="cb477-13"><a href="exercise6.html#cb477-13" aria-hidden="true" tabindex="-1"></a>  v2m <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">method =</span> <span class="st">&quot;Variance to mean test&quot;</span>,</span>
-<span id="cb477-14"><a href="exercise6.html#cb477-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">data.name =</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(data)),</span>
-<span id="cb477-15"><a href="exercise6.html#cb477-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">statistic =</span> chi2,</span>
-<span id="cb477-16"><a href="exercise6.html#cb477-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">parameter =</span> df,</span>
-<span id="cb477-17"><a href="exercise6.html#cb477-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">p.value =</span> p,</span>
-<span id="cb477-18"><a href="exercise6.html#cb477-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">estimate =</span> vmr)</span>
-<span id="cb477-19"><a href="exercise6.html#cb477-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(v2m) <span class="ot">&lt;-</span> <span class="st">&quot;htest&quot;</span></span>
-<span id="cb477-20"><a href="exercise6.html#cb477-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(v2m)</span>
-<span id="cb477-21"><a href="exercise6.html#cb477-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="exercise6.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(data) {</span>
+<span id="cb457-2"><a href="exercise6.html#cb457-2" aria-hidden="true" tabindex="-1"></a>  nsu <span class="ot">&lt;-</span> <span class="fu">length</span>(data)</span>
+<span id="cb457-3"><a href="exercise6.html#cb457-3" aria-hidden="true" tabindex="-1"></a>  obs <span class="ot">&lt;-</span> <span class="fu">sum</span>(data)</span>
+<span id="cb457-4"><a href="exercise6.html#cb457-4" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> obs <span class="sc">/</span> nsu</span>
+<span id="cb457-5"><a href="exercise6.html#cb457-5" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">var</span>(data)</span>
+<span id="cb457-6"><a href="exercise6.html#cb457-6" aria-hidden="true" tabindex="-1"></a>  vmr <span class="ot">&lt;-</span> v <span class="sc">/</span> m</span>
+<span id="cb457-7"><a href="exercise6.html#cb457-7" aria-hidden="true" tabindex="-1"></a>  chi2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data <span class="sc">-</span> m)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> m</span>
+<span id="cb457-8"><a href="exercise6.html#cb457-8" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> nsu <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb457-9"><a href="exercise6.html#cb457-9" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(chi2, df)</span>
+<span id="cb457-10"><a href="exercise6.html#cb457-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(chi2) <span class="ot">&lt;-</span> <span class="st">&quot;Chi-square&quot;</span></span>
+<span id="cb457-11"><a href="exercise6.html#cb457-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df) <span class="ot">&lt;-</span> <span class="st">&quot;df&quot;</span></span>
+<span id="cb457-12"><a href="exercise6.html#cb457-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(vmr) <span class="ot">&lt;-</span> <span class="st">&quot;Variance : mean ratio&quot;</span></span>
+<span id="cb457-13"><a href="exercise6.html#cb457-13" aria-hidden="true" tabindex="-1"></a>  v2m <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">method =</span> <span class="st">&quot;Variance to mean test&quot;</span>,</span>
+<span id="cb457-14"><a href="exercise6.html#cb457-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">data.name =</span> <span class="fu">deparse</span>(<span class="fu">substitute</span>(data)),</span>
+<span id="cb457-15"><a href="exercise6.html#cb457-15" aria-hidden="true" tabindex="-1"></a>              <span class="at">statistic =</span> chi2,</span>
+<span id="cb457-16"><a href="exercise6.html#cb457-16" aria-hidden="true" tabindex="-1"></a>              <span class="at">parameter =</span> df,</span>
+<span id="cb457-17"><a href="exercise6.html#cb457-17" aria-hidden="true" tabindex="-1"></a>              <span class="at">p.value =</span> p,</span>
+<span id="cb457-18"><a href="exercise6.html#cb457-18" aria-hidden="true" tabindex="-1"></a>              <span class="at">estimate =</span> vmr)</span>
+<span id="cb457-19"><a href="exercise6.html#cb457-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(v2m) <span class="ot">&lt;-</span> <span class="st">&quot;htest&quot;</span></span>
+<span id="cb457-20"><a href="exercise6.html#cb457-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(v2m)</span>
+<span id="cb457-21"><a href="exercise6.html#cb457-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>Before proceeding we should examine the <code>v2m.test()</code> function to make sure we understand what is happening:</p>
@@ -464,20 +447,20 @@ Number of households : 24 29 26 14  5  2</code></pre>
 <p>shows the number of cases of chronic (stunting) undernutrition found in a random sample of 100 households.</p>
 <p>We can reproduce the data behind this table using a combination of the <code>c()</code> and <code>rep()</code> functions:</p>
 <p> </p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="exercise6.html#cb479-1" aria-hidden="true" tabindex="-1"></a>stunt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">24</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">29</span>), <span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">26</span>), <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">14</span>), <span class="fu">rep</span>(<span class="dv">4</span>,<span class="dv">5</span>),</span>
-<span id="cb479-2"><a href="exercise6.html#cb479-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">5</span>,<span class="dv">0</span>), <span class="fu">rep</span>(<span class="dv">6</span>,<span class="dv">2</span>))</span>
-<span id="cb479-3"><a href="exercise6.html#cb479-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stunt)</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="exercise6.html#cb459-1" aria-hidden="true" tabindex="-1"></a>stunt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">24</span>), <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">29</span>), <span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">26</span>), <span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">14</span>), <span class="fu">rep</span>(<span class="dv">4</span>,<span class="dv">5</span>),</span>
+<span id="cb459-2"><a href="exercise6.html#cb459-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">rep</span>(<span class="dv">5</span>,<span class="dv">0</span>), <span class="fu">rep</span>(<span class="dv">6</span>,<span class="dv">2</span>))</span>
+<span id="cb459-3"><a href="exercise6.html#cb459-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(stunt)</span></code></pre></div>
 <pre><code>## stunt
 ##  0  1  2  3  4  6 
 ## 24 29 26 14  5  2</code></pre>
 <p> </p>
 <p>And use it to test our new <code>v2m.test()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="exercise6.html#cb481-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="exercise6.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
 <p> </p>
 <p>Which should produce the following output:</p>
 <p> </p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="exercise6.html#cb482-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb462-1"><a href="exercise6.html#cb462-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
 <pre><code>## 
 ##  Variance to mean test
 ## 
@@ -489,20 +472,20 @@ Number of households : 24 29 26 14  5  2</code></pre>
 <p> </p>
 <p>If your <code>vm2.test()</code> function does not produce this output then use the <code>fix()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb484-1"><a href="exercise6.html#cb484-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(v2m.test)</span></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb464-1"><a href="exercise6.html#cb464-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(v2m.test)</span></code></pre></div>
 <p> </p>
 <p>to check and edit the <code>vm2.test()</code> function and try again.</p>
 <p>The important thing to note from this exercise is that <code>R</code> allows us to specify a class for the output of our functions. This means that we can use standard <code>R</code> classes and functions to (e.g.) produce formatted output without us having to write commands to format the output ourselves.</p>
 <p>More importantly, it also means that we can write functions that return values when we need them to return values but can also produce formatted output when we need them to produce formatted output.</p>
 <p>Our <code>v2m.test()</code> function can produce values for later use:</p>
 <p> </p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="exercise6.html#cb485-1" aria-hidden="true" tabindex="-1"></a>vm <span class="ot">&lt;-</span> <span class="fu">v2m.test</span>(stunt)</span>
-<span id="cb485-2"><a href="exercise6.html#cb485-2" aria-hidden="true" tabindex="-1"></a>vm<span class="sc">$</span>p.value</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="exercise6.html#cb465-1" aria-hidden="true" tabindex="-1"></a>vm <span class="ot">&lt;-</span> <span class="fu">v2m.test</span>(stunt)</span>
+<span id="cb465-2"><a href="exercise6.html#cb465-2" aria-hidden="true" tabindex="-1"></a>vm<span class="sc">$</span>p.value</span></code></pre></div>
 <pre><code>## [1] 0.2083442</code></pre>
 <p> </p>
 <p>or produce formatted output:</p>
 <p> </p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="exercise6.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="exercise6.html#cb467-1" aria-hidden="true" tabindex="-1"></a><span class="fu">v2m.test</span>(stunt)</span></code></pre></div>
 <pre><code>## 
 ##  Variance to mean test
 ## 
@@ -522,63 +505,45 @@ with two-by-two tables.</p>
 </ol>
 <p>Create a new function using the <code>function()</code> function:</p>
 <p> </p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="exercise6.html#cb489-1" aria-hidden="true" tabindex="-1"></a>rr22 <span class="ot">&lt;-</span> <span class="cf">function</span>(exposure, outcome) {}</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="exercise6.html#cb469-1" aria-hidden="true" tabindex="-1"></a>rr22 <span class="ot">&lt;-</span> <span class="cf">function</span>(exposure, outcome) {}</span></code></pre></div>
 <p> </p>
 <p>And start the function editor:</p>
 <p> </p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="exercise6.html#cb490-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(rr22)</span></code></pre></div>
+<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb470-1"><a href="exercise6.html#cb470-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(rr22)</span></code></pre></div>
 <p> </p>
 <p>Now edit this function to make it do something useful:</p>
 <p> </p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="exercise6.html#cb491-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(exposure, outcome) {</span>
-<span id="cb491-2"><a href="exercise6.html#cb491-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">table</span>(exposure, outcome)</span>
-<span id="cb491-3"><a href="exercise6.html#cb491-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> tab[<span class="dv">1</span>,<span class="dv">1</span>]</span>
-<span id="cb491-4"><a href="exercise6.html#cb491-4" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> tab[<span class="dv">1</span>,<span class="dv">2</span>]</span>
-<span id="cb491-5"><a href="exercise6.html#cb491-5" aria-hidden="true" tabindex="-1"></a>  c <span class="ot">&lt;-</span> tab[<span class="dv">2</span>,<span class="dv">1</span>]</span>
-<span id="cb491-6"><a href="exercise6.html#cb491-6" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> tab[<span class="dv">2</span>,<span class="dv">2</span>]</span>
-<span id="cb491-7"><a href="exercise6.html#cb491-7" aria-hidden="true" tabindex="-1"></a>  rr <span class="ot">&lt;-</span> (a <span class="sc">/</span> (a <span class="sc">+</span> b)) <span class="sc">/</span> (c <span class="sc">/</span> (c <span class="sc">+</span> d))</span>
-<span id="cb491-8"><a href="exercise6.html#cb491-8" aria-hidden="true" tabindex="-1"></a>  se.log.rr <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((b <span class="sc">/</span> a) <span class="sc">/</span> (a <span class="sc">+</span> b) <span class="sc">+</span> (d <span class="sc">/</span> c) <span class="sc">/</span> (c <span class="sc">+</span> d))</span>
-<span id="cb491-9"><a href="exercise6.html#cb491-9" aria-hidden="true" tabindex="-1"></a>  lci <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(rr) <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se.log.rr)</span>
-<span id="cb491-10"><a href="exercise6.html#cb491-10" aria-hidden="true" tabindex="-1"></a>  uci <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(rr) <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se.log.rr)</span>
-<span id="cb491-11"><a href="exercise6.html#cb491-11" aria-hidden="true" tabindex="-1"></a>  rr22.output <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">estimate =</span> rr, <span class="at">ci =</span> <span class="fu">c</span>(lci, uci))</span>
-<span id="cb491-12"><a href="exercise6.html#cb491-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(rr22.output) <span class="ot">&lt;-</span> <span class="st">&quot;rr22&quot;</span></span>
-<span id="cb491-13"><a href="exercise6.html#cb491-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rr22.output)</span>
-<span id="cb491-14"><a href="exercise6.html#cb491-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="exercise6.html#cb471-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(exposure, outcome) {</span>
+<span id="cb471-2"><a href="exercise6.html#cb471-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">table</span>(exposure, outcome)</span>
+<span id="cb471-3"><a href="exercise6.html#cb471-3" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> tab[<span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb471-4"><a href="exercise6.html#cb471-4" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> tab[<span class="dv">1</span>,<span class="dv">2</span>]</span>
+<span id="cb471-5"><a href="exercise6.html#cb471-5" aria-hidden="true" tabindex="-1"></a>  c <span class="ot">&lt;-</span> tab[<span class="dv">2</span>,<span class="dv">1</span>]</span>
+<span id="cb471-6"><a href="exercise6.html#cb471-6" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> tab[<span class="dv">2</span>,<span class="dv">2</span>]</span>
+<span id="cb471-7"><a href="exercise6.html#cb471-7" aria-hidden="true" tabindex="-1"></a>  rr <span class="ot">&lt;-</span> (a <span class="sc">/</span> (a <span class="sc">+</span> b)) <span class="sc">/</span> (c <span class="sc">/</span> (c <span class="sc">+</span> d))</span>
+<span id="cb471-8"><a href="exercise6.html#cb471-8" aria-hidden="true" tabindex="-1"></a>  se.log.rr <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((b <span class="sc">/</span> a) <span class="sc">/</span> (a <span class="sc">+</span> b) <span class="sc">+</span> (d <span class="sc">/</span> c) <span class="sc">/</span> (c <span class="sc">+</span> d))</span>
+<span id="cb471-9"><a href="exercise6.html#cb471-9" aria-hidden="true" tabindex="-1"></a>  lci <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(rr) <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se.log.rr)</span>
+<span id="cb471-10"><a href="exercise6.html#cb471-10" aria-hidden="true" tabindex="-1"></a>  uci <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">log</span>(rr) <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se.log.rr)</span>
+<span id="cb471-11"><a href="exercise6.html#cb471-11" aria-hidden="true" tabindex="-1"></a>  rr22.output <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">estimate =</span> rr, <span class="at">ci =</span> <span class="fu">c</span>(lci, uci))</span>
+<span id="cb471-12"><a href="exercise6.html#cb471-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>(rr22.output) <span class="ot">&lt;-</span> <span class="st">&quot;rr22&quot;</span></span>
+<span id="cb471-13"><a href="exercise6.html#cb471-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rr22.output)</span>
+<span id="cb471-14"><a href="exercise6.html#cb471-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, save the file and quit the editor.</p>
 <p>The <code>rr22()</code> function is similar to the <code>tab2by2()</code> function that you created in the second exercise of this
 tutorial except that the function now returns a list of values instead of formatted output:</p>
 <p> </p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="exercise6.html#cb492-1" aria-hidden="true" tabindex="-1"></a>fem <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb492-2"><a href="exercise6.html#cb492-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(fem)</span>
-<span id="cb492-3"><a href="exercise6.html#cb492-3" aria-hidden="true" tabindex="-1"></a>rr22.test <span class="ot">&lt;-</span> <span class="fu">rr22</span>(SEX, LIFE)</span>
-<span id="cb492-4"><a href="exercise6.html#cb492-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(rr22.test)</span>
-<span id="cb492-5"><a href="exercise6.html#cb492-5" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>estimate</span>
-<span id="cb492-6"><a href="exercise6.html#cb492-6" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int</span>
-<span id="cb492-7"><a href="exercise6.html#cb492-7" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int[<span class="dv">1</span>]</span>
-<span id="cb492-8"><a href="exercise6.html#cb492-8" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int[<span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb472"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb472-1"><a href="exercise6.html#cb472-1" aria-hidden="true" tabindex="-1"></a>fem <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;fem.dat&quot;</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb472-2"><a href="exercise6.html#cb472-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(fem)</span>
+<span id="cb472-3"><a href="exercise6.html#cb472-3" aria-hidden="true" tabindex="-1"></a>rr22.test <span class="ot">&lt;-</span> <span class="fu">rr22</span>(SEX, LIFE)</span>
+<span id="cb472-4"><a href="exercise6.html#cb472-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(rr22.test)</span>
+<span id="cb472-5"><a href="exercise6.html#cb472-5" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>estimate</span>
+<span id="cb472-6"><a href="exercise6.html#cb472-6" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int</span>
+<span id="cb472-7"><a href="exercise6.html#cb472-7" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int[<span class="dv">1</span>]</span>
+<span id="cb472-8"><a href="exercise6.html#cb472-8" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>conf.int[<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## The following objects are masked from fem (pos = 3):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 7):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 11):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 12):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 16):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 19):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 20):
-## 
-##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
-<pre><code>## The following objects are masked from fem (pos = 25):
+<pre><code>## The following objects are masked from fem (pos = 8):
 ## 
 ##     AGE, ANX, DEP, ID, IQ, LIFE, SEX, SLP, WT</code></pre>
 <pre><code>## [1] &quot;estimate&quot; &quot;ci&quot;</code></pre>
@@ -589,40 +554,52 @@ tutorial except that the function now returns a list of values instead of format
 <p> </p>
 <p>The function returns a list of class <code>rr22</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb506-1"><a href="exercise6.html#cb506-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rr22.test)</span></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb480-1"><a href="exercise6.html#cb480-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(rr22.test)</span></code></pre></div>
 <pre><code>## [1] &quot;rr22&quot;</code></pre>
 <p> </p>
 <p>The displayed output from the <code>rr22()</code> function is, however, not pretty:</p>
 <p> </p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="exercise6.html#cb508-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rr22.test)</span>
-<span id="cb508-2"><a href="exercise6.html#cb508-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rr22</span>(SEX, LIFE)</span></code></pre></div>
-<pre><code>## RR     : 2.054167
-## 95% CI : 0.966417; 4.366232</code></pre>
-<pre><code>## RR     : 2.054167
-## 95% CI : 0.966417; 4.366232</code></pre>
+<div class="sourceCode" id="cb482"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb482-1"><a href="exercise6.html#cb482-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rr22.test)</span>
+<span id="cb482-2"><a href="exercise6.html#cb482-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rr22</span>(SEX, LIFE)</span></code></pre></div>
+<pre><code>## $estimate
+## [1] 2.054167
+## 
+## $ci
+## [1] 0.966417 4.366232
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;rr22&quot;</code></pre>
+<pre><code>## $estimate
+## [1] 2.054167
+## 
+## $ci
+## [1] 0.966417 4.366232
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;rr22&quot;</code></pre>
 <p> </p>
 <p>This can be fixed by creating a new function:</p>
 <p> </p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="exercise6.html#cb511-1" aria-hidden="true" tabindex="-1"></a>print.rr22 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {}</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="exercise6.html#cb485-1" aria-hidden="true" tabindex="-1"></a>print.rr22 <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {}</span></code></pre></div>
 <p> </p>
 <p>And start the function editor:</p>
 <p> </p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="exercise6.html#cb512-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(print.rr22)</span></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="exercise6.html#cb486-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fix</span>(print.rr22)</span></code></pre></div>
 <p> </p>
 <p>Now edit this function to make it do something useful:</p>
 <p> </p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="exercise6.html#cb513-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
-<span id="cb513-2"><a href="exercise6.html#cb513-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;RR     : &quot;</span>, x<span class="sc">$</span>estimate, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb513-3"><a href="exercise6.html#cb513-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;95% CI : &quot;</span>, x<span class="sc">$</span>ci[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="sc">$</span>ci[<span class="dv">2</span>], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb513-4"><a href="exercise6.html#cb513-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="exercise6.html#cb487-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
+<span id="cb487-2"><a href="exercise6.html#cb487-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;RR     : &quot;</span>, x<span class="sc">$</span>estimate, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb487-3"><a href="exercise6.html#cb487-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;95% CI : &quot;</span>, x<span class="sc">$</span>ci[<span class="dv">1</span>], <span class="st">&quot;; &quot;</span>, x<span class="sc">$</span>ci[<span class="dv">2</span>], <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb487-4"><a href="exercise6.html#cb487-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p>Once you have made the changes shown above, check your work, save the file, and quit the editor.</p>
 <p>The function name <code>print.rr22()</code> indicates that this function contains the print method for objects of class <code>rr22</code>. All objects of class <code>rr22</code> will use the function <code>print.rr22()</code> instead of the standard <code>R</code> <code>print()</code> function to produce formatted output:</p>
 <p> </p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb514-1"><a href="exercise6.html#cb514-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rr22</span>(SEX, LIFE)</span>
-<span id="cb514-2"><a href="exercise6.html#cb514-2" aria-hidden="true" tabindex="-1"></a>rr22.test <span class="ot">&lt;-</span> <span class="fu">rr22</span>(SEX, LIFE)</span>
-<span id="cb514-3"><a href="exercise6.html#cb514-3" aria-hidden="true" tabindex="-1"></a>rr22.test</span>
-<span id="cb514-4"><a href="exercise6.html#cb514-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rr22.test)</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="exercise6.html#cb488-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rr22</span>(SEX, LIFE)</span>
+<span id="cb488-2"><a href="exercise6.html#cb488-2" aria-hidden="true" tabindex="-1"></a>rr22.test <span class="ot">&lt;-</span> <span class="fu">rr22</span>(SEX, LIFE)</span>
+<span id="cb488-3"><a href="exercise6.html#cb488-3" aria-hidden="true" tabindex="-1"></a>rr22.test</span>
+<span id="cb488-4"><a href="exercise6.html#cb488-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(rr22.test)</span></code></pre></div>
 <pre><code>## RR     : 2.054167
 ## 95% CI : 0.966417; 4.366232</code></pre>
 <pre><code>## RR     : 2.054167
@@ -632,12 +609,12 @@ tutorial except that the function now returns a list of values instead of format
 <p> </p>
 <p>Note that we can still extract returned values from an <code>rr22</code> class object:</p>
 <p> </p>
-<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="exercise6.html#cb518-1" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>estimate</span></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="exercise6.html#cb492-1" aria-hidden="true" tabindex="-1"></a>rr22.test<span class="sc">$</span>estimate</span></code></pre></div>
 <p> </p>
 <p>The <code>print.rr22()</code> function only controls the way an entire <code>rr22</code> object is displayed.</p>
 <p>You might like to use the <code>save()</code> function to save the <code>v2m.test()</code>, <code>rr22()</code>, and <code>print.rr22()</code> functions before quitting <code>R</code>. We can now quit <code>R</code>:</p>
 <p> </p>
-<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="exercise6.html#cb519-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="exercise6.html#cb493-1" aria-hidden="true" tabindex="-1"></a><span class="fu">q</span>()</span></code></pre></div>
 <p> </p>
 <p>For this exercise there is no need to save the workspace image so click the <strong>No</strong> or <strong>Don’t Save</strong> button (GUI) or enter <code>n</code> when prompted to save the workspace image (terminal).</p>
 <div id="summary-5" class="section level2" number="6.1">
